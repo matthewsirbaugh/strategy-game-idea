@@ -1,0 +1,174 @@
+CLAUDE CODE PROJECT KICKOFF: BUILD THE WORKING AGREEMENTS WITH ME
+
+I am bringing you into the folder that will be the working directory for my video game project. Help me establish a personalized way of working with AI, then develop the game with me.
+
+Start a conversation with me. I want to create the project documents through questions, discussion, and small iterations. I do not want you to invent a complete setup and game specification and then ask me to review the finished package.
+
+This prompt preserves a discussion I had with Codex. My intentions and preferences are separated below from Codex's advice. Its recommendations are proposals to consider with me, not requirements I have already approved. You can disagree with them or suggest a simpler approach, provided you explain the relevant tradeoff and involve me in the decision.
+
+1. MY CONTEXT AND INTENTIONS
+
+I have tried making video games multiple times, both with and without AI assistance. I believe that with patience and sufficient AI usage, it is possible to make a game I could be proud of and potentially sell online. Whether this particular project is personal, a showcase, a free release, or a commercial release is something we still need to discuss.
+
+My starting impression was that AI can now handle much of the technical implementation of familiar games, with high-fidelity, highly optimized projects being a more difficult case. I mentioned Stardew Valley, Pokemon, and GTA V as examples of scope and technical complexity. Those were not requests to copy those games, adopt their mechanics, or select a genre. Do not infer this game's design from those references or from the folder's name.
+
+I have subscriptions with multiple AI providers. I use Claude Code, Antigravity, and Codex. In my experience, subscriptions can be more economical than metered token use, and different models are useful for different tasks. Their harnesses also have different tools and capabilities. I want a process that works across those differences without repeatedly rebuilding project context.
+
+My current handoff process tends to involve one AI doing work and writing a handoff for another. It seems to function, but I see increasing bloat and technical debt. Agents amplify each other's habits. Summaries become outdated, assumptions get repeated, and documentation can gradually misrepresent what I wanted. I then spend usage on reading unnecessary material or correcting mistakes caused by stale instructions.
+
+Tests are a concrete example. Some agents produce tests that seem superfluous for a personal or indie game. I want proportionate engineering, and I want to understand why a test is worth maintaining. This is not an instruction to eliminate testing or indiscriminately delete existing tests.
+
+I am interested in a coding style guide and clear project instructions, but I do not know the best conventions for AI-assisted work. I wondered whether very strict modularity and a table of contents describing files could let an agent load only what it needs. I also recognized that maintaining that summary could become another source of drift. Help me reason through this instead of automatically adopting that idea.
+
+Communication is a major concern. My objection is not simply that AI answers are long. Routine reports and decision requests often arrive as walls of text with sporadic bold phrases. I end up skimming and trusting them instead of actively evaluating the work. I have seen formatting get worse across model versions even when coding ability improves.
+
+I want numbered questions and decision requests, readable tables, useful bullets, and diagrams or images where they help. A complicated explanation can be detailed; its structure needs to make the decisions and evidence easy to find. I need to understand what changed, what actually works, what remains uncertain, and what you need from me.
+
+Most importantly, I want to participate in creating the game. I do not want to spend the project passing prompts between two AIs. Even an excellent game would have less value to me if its important ideas and direction were not mine. Help me articulate, compare, test, and refine my ideas. Do not quietly substitute your preferences for decisions I have not made.
+
+I also want to understand what managing a project requires beyond opening its folder in an AI tool: instructions, memory, version control, maintenance, tools, and reliable ways to continue work later.
+
+2. WHAT I AM ASKING YOU TO DO NOW
+
+Guide me step by step through establishing the project documents. Ask about my workflow, the kind of game I want to make, the intended scope and endpoint, how I like to design, and the decisions I want to own or delegate.
+
+Use my answers to develop the documents incrementally. Let me participate in shaping the substance before you turn it into polished wording. Ask follow-ups when something important is ambiguous. Keep unknowns open instead of filling every gap with a plausible default.
+
+The immediate endpoint is that you understand me and the project well enough to start designing with me. Implementation comes afterward, when we decide to begin. This does not require a complete game design, exhaustive architecture, or a detailed production schedule before we can do useful creative work.
+
+Begin with questions, not a full document set, engine selection, project scaffold, or game implementation. If existing files are present, inspect applicable instructions and the immediate folder contents as needed before proposing how to work with them. Their existence does not mean I have endorsed every statement in them.
+
+3. CODEX'S PROPOSED INTERVIEW METHOD — ADAPT WITH ME
+
+Codex recommends the following method for honoring my request. The particular pacing and document workflow are its advice, and can be adjusted with me:
+
+- Ask one to three focused, numbered questions per round. Keep each question manageable; avoid hiding a long questionnaire inside one numbered item.
+- Use my answers to choose the next questions. Do not make me repeat information already provided, or force me through a fixed script when a topic has been resolved.
+- When options help, give a few understandable choices and explain the main tradeoff. Leave room for my own answer. Avoid steering me toward a default before understanding my priorities.
+- Briefly reflect back the important meaning of an answer, especially where a design or workflow commitment could follow from it. Clarify ambiguities before treating an interpretation as a decision.
+- Distinguish what I stated, what you infer, what you recommend, and what remains undecided. A recommendation does not become my requirement merely because it appears in a summary.
+- Once we have enough material for a section, propose a small amount of wording tied to our discussion. Revise it with me. Do not periodically regenerate every document.
+- Establish a practical file-editing agreement with me early. Agree on what is being captured and where before the first writes. Within an agreed scope, avoid asking the same permission repeatedly for routine wording edits. Continue to involve me in substantive changes of meaning.
+- Keep unresolved questions in a small visible list. Deferring a question is acceptable when it does not block the next useful step.
+- If I am uncertain, help me explore through a concrete example, comparison, diagram, or proposed small experiment. Do not treat uncertainty as an invitation to decide the game for me.
+- Keep intermediate recaps compact. Let the agreed documents hold the current understanding instead of adding layers of narrative handoffs.
+
+4. AREAS TO EXPLORE OVER SEVERAL ROUNDS
+
+Use this as coverage guidance, not a questionnaire to present all at once. Follow the conversation and skip questions whose answers are already clear.
+
+A. Creative intent
+What is the seed of the game? What should playing it feel like? What experiences, mechanics, or themes interest me? What do I want to invent myself? What do I like or dislike in reference games, and why? What would make this project personally worthwhile?
+
+B. Scope and endpoint
+Is the intended outcome personal enjoyment, a finished small game, something to show others, or a potential commercial release? What does "finished" mean to me? What are my time, budget, and maintenance constraints? Which platforms, input methods, and presentation styles matter? What belongs in an initial prototype versus a later release? Do not assume multiplayer, an open world, a specific play length, or a large content catalog.
+
+C. How I design and learn
+Do I prefer discussion, written rules, diagrams, examples, visual mockups, rapid playable experiments, or a mixture? How many alternatives help me make a choice? When should you challenge an assumption? How much technical explanation do I want? Which parts of development do I want to learn or perform myself?
+
+D. Technology and content production
+What engines and tools do I already know or want to use? What hardware will development and play happen on? How do I want to make or acquire art, animation, sound, UI, and written content? What spending or licensing constraints apply? What would make it easy for me to tune values and add content? Choose tools after understanding the project, not from Codex's earlier examples.
+
+E. Collaboration across AI tools
+Which harnesses do I expect to use here, and for what? When do I tend to switch models? What should remain portable? Which routine choices can you make autonomously? Which changes to design, scope, dependencies, cost, or structure should come back to me? How should unfinished work be handed over if usage runs out?
+
+F. Code, verification, and technical debt
+What has become difficult to maintain in previous attempts? How much code do I want to inspect? Which failures would seriously damage the experience or lose player progress? What testing and playtesting effort feels proportionate? How should we handle refactoring and unrelated cleanup? Translate abstract engineering principles into examples I can judge.
+
+G. Communication and review
+What should a routine completion report show? What makes a decision request easy for me to answer? Which visual formats actually render in the tools I use? How should evidence, remaining uncertainty, playtest steps, and recommendations be presented? Try a small example format and refine it with my feedback.
+
+H. Continuity and maintenance
+Where will accepted decisions, current work, and technical setup live? How should version control, backups, checkpoints, and task switching work? How should stale instructions be corrected? What minimum setup lets a fresh agent find the next task and relevant evidence without a giant reading assignment?
+
+5. CODEX'S RECONSIDERED RECOMMENDATIONS — ADVICE, NOT MY APPROVED POLICY
+
+Codex reviewed its earlier advice while preparing this handoff and still recommends the direction below. It does not claim these are universally optimal settings or that I have approved every detail. Treat them as starting proposals and change them when our discussion provides a better reason.
+
+5.1 Start with a small number of documents with distinct jobs
+
+A possible initial arrangement is:
+
+- AGENTS.md: shared working rules, communication preferences, verification policy, and pointers to relevant context.
+- README.md: actual setup, engine/version, run/check/build instructions, and a small system map when there is code to map.
+- DESIGN.md: my creative intent, accepted design choices and their reasons, relevant constraints, and clearly marked open questions.
+- NOW.md: the current design or implementation task, its acceptance criteria where applicable, status, unresolved issues, and next action.
+
+These filenames and boundaries are proposals. Merge, defer, rename, or split them if that better fits our work. Avoid empty templates maintained only for completeness. An early README can be brief; do not invent working commands for software that does not exist. NOW.md can initially describe our next design exercise. DESIGN.md can begin with a seed and open questions rather than a finished game specification.
+
+Keep one authoritative home for each concept. Use links and pointers rather than repeating rules in several places. Preserve useful history through version control; keep active instructions current. Additional logs or documents should have a concrete purpose.
+
+5.2 Make the shared instructions discoverable in each harness
+
+Codex reads AGENTS.md guidance. Claude Code supports a root CLAUDE.md that imports the shared instructions with a plain @AGENTS.md line. Antigravity has workspace rules that can reference shared files. A thin adapter is preferable to three independently maintained copies of the policy.
+
+Configure only the tools we actually need at that stage. Check applicable global and project instructions for conflicts, and verify loading in a fresh session. Sharing a folder or using automatic memory does not give different agents identical conversation context. Treat remembered information as something to verify against current project evidence.
+
+Keep startup instructions short and relevant. Additional documents should generally be consulted when their subject matters. In Claude Code, imports load their contents into context; importing every document would defeat the purpose of keeping the entry point small.
+
+5.3 Organize for understandable changes
+
+Prefer coherent feature modules, explicit state ownership, ordinary engine conventions, and direct, traceable behavior. Keep important game rules authoritative so previews and execution do not develop separate calculations. Put useful tuning values in accessible data or editor fields.
+
+Maximum abstraction and maximum file fragmentation are not the goal. Add abstractions when they solve a present problem. A small map of systems and entry points can help discovery, but it does not replace inspecting implementation, callers, data, and engine references before editing. Generate mechanical file information when needed; document intent and non-obvious constraints.
+
+There is no guaranteed AI-optimal document length or architecture. Research on repository instruction files has mixed results. Assess these choices by whether agents make accurate, understandable changes with less unnecessary investigation and rework.
+
+5.4 Verify in proportion to the failure
+
+Ask what failure or invariant an automated test protects. Save/load, inventory integrity, action economy, and calculation rules often justify tests. Visual layout, animation timing, and interaction feel also need inspection or play. A recurring bug may justify a regression test; trivial wrappers usually do not need dedicated tests.
+
+Avoid both indiscriminate test generation and indiscriminate test removal. Tests that merely reproduce the implementation can reproduce its mistakes. Use independently stated expected behavior. Existing tests can often be run without loading all their source into the model's context.
+
+Technical verification and my judgment of the experience answer different questions. Report honestly when something was implemented but not run, visually inspected but not interacted with, or checked by an agent but not yet played by me.
+
+5.5 Make progress visible and keep creative review central
+
+Work toward one observable behavior at a time. Give me a practical way to inspect or play it. Quick restart, targeted test scenes, and a few editable values can make iteration easier without requiring a custom development framework.
+
+First prove the interesting interaction with a small prototype. Then prove the production process with a representative complete slice, including the relevant art, sound, UI, and exported build. The scope should come from our discussion. Do not expand content before we understand whether the core experience and content-making process work for me.
+
+Codex also qualifies my initial impression about "easy" games: simpler graphics do not remove difficulty in interacting systems, content, saves, usability, or performance. This is a planning caution, not a demand to abandon an ambitious idea.
+
+5.6 Keep coordination and infrastructure proportionate
+
+One primary implementer for a coherent task, with selective independent review, is a sensible starting point. Choose roles based on actual usefulness, not permanent brand assignments. Prefer one active writer per checkout. Separate worktrees can support concurrent work when useful, but do not eliminate integration or design conflicts.
+
+A handoff can usually point to the current task, branch or baseline commit, uncommitted changes, verification evidence, unresolved problem, and next action. The next agent should inspect current files rather than trusting a chain of summaries.
+
+Git, working checkpoints, backups, recorded tool versions, and repeatable run/check/build commands are useful foundations. Large binary assets may justify Git LFS. Record external asset sources and permitted uses as assets are acquired. Add automation, special connectors, or further infrastructure when there is a demonstrated need. None of this requires deciding every production detail before the first design conversation.
+
+6. WHAT READINESS SHOULD LOOK LIKE
+
+By the end of this setup conversation, we should have a small, coherent set of documents or agreed sections that reflect what I actually said. They should make clear:
+
+- What I am trying to create and why it matters to me.
+- The initial scope, constraints, and meaningful decisions still open.
+- How we collaborate, how you report, and what I own or delegate.
+- How accepted decisions become durable without accumulating duplicate instructions.
+- The relevant technical starting point, with unknowns and unverified setup clearly identified.
+- The next bounded design activity we will do together.
+
+Review that understanding with me in a digestible form. Correct mismatches. Do not equate filling a template with being ready, or advance into implementation just because documentation exists. When we are ready, move into collaborative design; begin coding when we agree to that step.
+
+7. START THE CONVERSATION NOW
+
+Briefly acknowledge that we are going to build this understanding together. Then ask these first three questions, or close equivalents that are more natural in context:
+
+1. What game idea, player experience, or design problem are you most excited to explore? A rough description is enough.
+2. What would make this project personally worthwhile, and what would a satisfying finished version look like to you?
+3. When developing an idea, do you prefer talking it through, comparing alternatives, sketching rules or diagrams, trying playable experiments, or a mixture?
+
+Wait for my answers before advancing. Do not respond with the entire interview plan or draft the complete documents yet.
+
+REFERENCE NOTES FROM CODEX
+
+The relevant tool documentation was rechecked while preparing this handoff. This confirms documented behavior, not the exact versions or configuration installed in the destination folder. Consult references when a setup decision needs them; reading all of them is not a prerequisite to asking the first questions.
+
+- Claude Code memory and the AGENTS.md import: [Official Claude Code documentation](https://code.claude.com/docs/en/memory#agentsmd)
+- Codex instruction discovery: [Official OpenAI documentation](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
+- Antigravity workspace rules: [Official Google Antigravity documentation](https://antigravity.google/docs/rules-workflows)
+- Evidence of efficiency gains in one repository study: [On the Impact of AGENTS.md Files on the Efficiency of AI Coding Agents](https://arxiv.org/abs/2601.20404)
+- Evidence of limited success gains and added cost in another: [Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?](https://arxiv.org/abs/2602.11988)
+
+This is a one-time kickoff prompt. Codex recommends distilling our resulting agreements into the actual project documents rather than importing this entire handoff into every future session.
