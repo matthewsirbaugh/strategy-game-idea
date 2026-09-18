@@ -48,10 +48,30 @@ expects that plan to change as ideas surface while playing.
 | DESIGN.md | The game: intent, touchstones, constraints, decisions, open questions |
 | AGENTS.md | This file: how we work |
 | CLAUDE.md | One line pointing Claude Code at this file |
+| EXPLORATIONS.md | The board: every open topic, its status and its next action |
+| explorations/*.md | One file per research or design thread |
+| .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
 
-NOW.md (current task, status, next step) and README.md (setup and run instructions) get
-created when there is work to hand off or code to run. Project knowledge lives in these files,
-not in a tool's private memory, which the other tools can't see.
+README.md (setup and run instructions) gets created when there is code to run. There is no
+NOW.md — the board covers what is current. Project knowledge lives in these files, not in a
+tool's private memory, which the other tools can't see.
+
+## Explorations
+
+Research and design tangents run as separate threads, so they don't derail the work in
+progress and don't get lost. One topic, one chat, one file.
+
+- EXPLORATIONS.md is the board: every open topic, its status and its next action. It is the
+  only place that says what is current.
+- `explorations/<topic>.md` is the thread itself: the question, inherited constraints,
+  candidates, dated findings, open questions, and the decision once it lands.
+- Only conclusions graduate. A decision moves into DESIGN.md, or AGENTS.md if it is a working
+  rule, as a line or two with a link back. The reasoning stays in the exploration file, so the
+  design docs never become a research dump.
+- A new tangent gets a row on the board, not a detour in the current chat.
+- Starting cold in any tool: read AGENTS.md, EXPLORATIONS.md and the one exploration file.
+  Nothing else should be needed. In Claude Code, `/exploration` does this.
+- Bryson makes the call at the end of an exploration. Agents gather, compare and recommend.
 
 ## Editing these files, and git
 
