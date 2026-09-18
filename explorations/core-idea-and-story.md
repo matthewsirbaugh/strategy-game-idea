@@ -39,13 +39,41 @@ technical complexity only. Bryson explicitly ruled them out as design references
 
 ## Findings
 
-Dated, and each says where it came from.
+### 2026-09-17 — What "busywork" actually means (Bryson, this thread)
+
+Removing busywork does not mean removing repetition. Bryson has put 100+ hours into Animal
+Crossing, 120+ into No Man's Sky and 50 into Stardew Valley, and the daily maintenance loop is
+why. Those games burn out for him because there is no point and no end goal, not because the
+loop is repetitive.
+
+What he does rule out:
+
+- Random battles. "Absolutely horrendous, hate them."
+- Grinding for levels. Progression that is only a bigger number feels like wasted time.
+
+Progression he prefers, in order: a new ability, a new character, or getting more skilled at
+playing. Flat power upgrades are not banned, but they must not be the only kind.
+
+### 2026-09-17 — The masterpiece he wants to exist (Bryson, this thread)
+
+"No Man's Sky's exploration plus Factorio style machinery/automation/resource extraction, and
+then combine that with a real story and characters." Stated as a hypothetical about other
+games, not yet claimed as this project's direction.
+
+### 2026-09-17 — BotW encounters are hand-tuned, just not at the stat block (Bryson, this thread)
+
+Correction to an agent's framing. BotW's enemies are "just bodies that do damage with some
+intelligence," but creature placement, objects, environment design, and weapon and treasure
+placement are all deliberate, often to set up the "I'm a genius" moment through an
+environmental puzzle. The world does the authoring, not the enemy. Bryson: "a subtle
+distinction, but I think it matters."
 
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
    (DESIGN.md open question 4, unanswered.)
-2. Solo traveller or a party that grows?
+2. Solo traveller or a party that grows? **Deferred by Bryson on 2026-09-17** until the shape
+   of the game is clearer. Do not assume either.
 3. What is the seed — a world, a character, a feeling, or a mechanic?
 
 ## Decision
