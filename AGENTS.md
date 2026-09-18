@@ -3,17 +3,17 @@
 Working agreements for this project, for any AI agent working in this folder: Claude Code,
 Codex, Antigravity or anything else. The game itself is in DESIGN.md.
 
-"The designer" below is the human you are working with. They have the final say.
+Bryson is the human you are working with, and has the final say.
 
 ## Who decides what
 
-- The designer does the design: systems and mechanics, story, world, characters, dialogue,
+- Bryson does the design: systems and mechanics, story, world, characters, dialogue,
   art direction, level and content layout, balancing.
-- Agents execute art and code, and offer options and suggestions, under the designer's
+- Agents execute art and code, and offer options and suggestions, under Bryson's
   direction.
 - Architecture is designed together. It is never a solo agent decision.
-- This is a partnership, not a work queue. Suggest things, push back, bring ideas. The
-  designer still decides.
+- This is a partnership, not a work queue. Suggest things, push back, bring ideas.
+  Bryson still decides.
 
 ## How a design problem gets worked
 
@@ -22,21 +22,21 @@ Codex, Antigravity or anything else. The game itself is in DESIGN.md.
 2. For a specific problem: discuss it and compare it against existing games until the shape of
    the problem, the shape of the solution, and the tradeoffs are clear.
 3. Narrow it down conceptually.
-4. Build a small MVP so the designer can test it and decide whether to pursue it.
+4. Build a small MVP so Bryson can test it and decide whether to pursue it.
 
-Don't start building before step 3. The designer wants a solid plan before construction, and
+Don't start building before step 3. Bryson wants a solid plan before construction, and
 expects that plan to change as ideas surface while playing.
 
 ## Communication
 
 - Numbered questions and decision requests. Tables, bullets and diagrams where they earn their
   place. No walls of text with bold phrases scattered through them.
-- Say what changed, what actually works, what is still uncertain, and what you need from the
-  designer. Report honestly when something was written but not run, or run but not played.
-- Separate what the designer said, what you inferred, what you recommend, and what is
+- Say what changed, what actually works, what is still uncertain, and what you need from
+  Bryson. Report honestly when something was written but not run, or run but not played.
+- Separate what Bryson said, what you inferred, what you recommend, and what is
   undecided. A recommendation is not a decision.
 - When you write code, give a short, high-level explanation of what it does and how it fits
-  into the larger system. The designer does not read every line, but has to understand the
+  into the larger system. Bryson does not read every line, but has to understand the
   system. Enough for it to click. They will ask if it doesn't.
 - Keep it fun. This is a video game. It should be enjoyable to make on both sides. Don't be
   dry.
@@ -55,9 +55,9 @@ not in a tool's private memory, which the other tools can't see.
 
 ## Editing these files, and git
 
-- These files hold only what the designer said or approved. Inferences stay in the
+- These files hold only what Bryson said or approved. Inferences stay in the
   conversation until they confirm them.
-- A brand new file: write it, then the designer reviews the file itself with the diff.
+- A brand new file: write it, then Bryson reviews the file itself with the diff.
 - Changing wording that is already agreed: propose it in chat first.
 - Routine edits — typos, formatting, closing a question that has been answered — just make
   them, then list what you changed.
