@@ -2,7 +2,7 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: Bryson answers the three questions in "Open questions" below
+- Next action: Bryson answers the open questions below
 
 ## The question
 
@@ -33,6 +33,9 @@ The full list, in Bryson's words, is in DESIGN.md under "Touchstones". Short for
 | DK Bananza, Mario Odyssey, Korok seeds | Known count per area, scattered everywhere, each one small creative problem solving |
 | DBZ: Legacy of Goku II, Buu's Fury | Story and characters. Zelda's aesthetic and story too |
 | Not unpacked | Adventure, building a team over time, strategy generally. Pokémon Emerald, Fire Emblem: Three Houses, South Park: Stick of Truth / Fractured But Whole |
+
+More touchstones surfaced in this thread and are not in DESIGN.md yet. See Findings,
+2026-09-17, "Space, systems, and the missing story".
 
 Stardew Valley, Pokémon and GTA V appear in the kickoff prompt as examples of scope and
 technical complexity only. Bryson explicitly ruled them out as design references.
@@ -68,13 +71,57 @@ placement are all deliberate, often to set up the "I'm a genius" moment through 
 environmental puzzle. The world does the authoring, not the enemy. Bryson: "a subtle
 distinction, but I think it matters."
 
+### 2026-09-17 — Space, systems, and the missing story (Bryson, this thread)
+
+The No Man's Sky + Factorio + story combination is a critique of No Man's Sky. Bryson doesn't
+know yet whether it is a seed.
+
+- He loves space games: going to planets to see what's there, travelling between star
+  systems for different resources. What No Man's Sky lacked was "an additional reason to
+  explore beyond exploration's sake."
+- Its resource extraction and processing is "the first couple tiers of a technology tree from
+  a really fun space industrialist game." The full, automated version isn't there.
+- More touchstones: FTL. Eve Online, conceptually: too much of a time sink to play, but he
+  has watched hours of its player conflicts and events, and loves the concept of space
+  trucking and role playing. Space Engineers. Star Trek. Star Wars.
+- His question: sandbox space games "don't really lean into story at all, and I feel like
+  there must be a reason."
+
+### 2026-09-17 — Why sandboxes rarely carry a story (Claude research, not yet discussed)
+
+Reasons:
+
+- Freedom vs. authorship. A story controls order, pacing and stakes; a sandbox hands all
+  three to the player. Often called the narrative paradox.
+- Generated places can't be about anything, because nobody decided what they're about.
+- Urgency breaks the loop. The story says hurry, the sandbox says take your time.
+- Story is played once, a loop is played forever. Long sandboxes get a short story spread
+  thin.
+- Multiplayer sandboxes (Eve, Space Engineers) have no room for a protagonist.
+
+Games that got story and systems to coexist, and how:
+
+| Game | How |
+|---|---|
+| Outer Wilds | Story already happened, so discovery order doesn't matter. No upgrades; progression is knowledge. Small, handmade solar system |
+| Subnautica | Handmade world. Crafting builds the keys, story sits behind depth |
+| FTL | Urgency is a system (the rebel fleet), not a cutscene. Story is small and emergent |
+| Sunless Skies | Systemic ship and trade loop, every port authored. Hauling that only pays for the next story turns into a toll |
+| Eve Online | Tells no story; produces them through players |
+| Starfield | Counterexample. Procedural planets, outposts with no purpose, a main story disconnected from both |
+
+The depth half exists without story too: Dyson Sphere Program is Factorio across a star
+cluster, and has almost none.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
    (DESIGN.md open question 4, unanswered.)
 2. Solo traveller or a party that grows? **Deferred by Bryson on 2026-09-17** until the shape
    of the game is clearer. Do not assume either.
-3. What is the seed — a world, a character, a feeling, or a mechanic?
+3. What is the seed — a world, a character, a feeling, or a mechanic? As of 2026-09-17,
+   space keeps coming up, but Bryson hasn't called it a seed.
+4. Star Trek and Star Wars: is it the setting he loves, or the shape of the stories?
 
 ## Decision
 

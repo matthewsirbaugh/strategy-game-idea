@@ -6,7 +6,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 | Topic | Status | Next action | File |
 |---|---|---|---|
 | Art pipeline: 2D or 3D, and how assets get made | open | Gather candidate pipelines with their costs and example output | [art-pipeline.md](explorations/art-pipeline.md) |
-| The core idea and story | open | Bryson answers the three questions in the thread | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
+| The core idea and story | open | Bryson answers the open questions in the thread | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |
 
 Status values: **open** (ready to pick up), **blocked** (waiting on something outside this
