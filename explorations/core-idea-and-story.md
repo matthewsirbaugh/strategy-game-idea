@@ -113,6 +113,20 @@ Games that got story and systems to coexist, and how:
 The depth half exists without story too: Dyson Sphere Program is Factorio across a star
 cluster, and has almost none.
 
+### 2026-09-19 — What he loves in Star Trek and Star Wars (Bryson, this thread)
+
+Star Trek, the setting: a post-scarcity future where things like international conflict never
+go hot, and humanity is in communion with great, noble alien races. Alongside them are races
+that seem to have gone the way pessimists believe we may go: destroying their planet for
+resources, leaning into their baser instincts, waging war instead of diplomacy.
+
+Star Wars, the lore, especially the novels. Darth Bane gave him a new appreciation for the
+dark side: the Sith gain power, but "in their quest for individual power, they give up the
+power of the collective." The Jedi aren't all right either. Their hubris led to the fall of
+the Republic: the Order had been in control so long it couldn't imagine falling, and actively
+ignored warning signs. Of Yoda: "His wisdom let him sense it, but his ego refused to
+acknowledge it."
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -120,8 +134,10 @@ cluster, and has almost none.
 2. Solo traveller or a party that grows? **Deferred by Bryson on 2026-09-17** until the shape
    of the game is clearer. Do not assume either.
 3. What is the seed — a world, a character, a feeling, or a mechanic? As of 2026-09-17,
-   space keeps coming up, but Bryson hasn't called it a seed.
-4. Star Trek and Star Wars: is it the setting he loves, or the shape of the stories?
+   space keeps coming up, but Bryson hasn't called it a seed. On 2026-09-19 he answered the
+   Star Trek and Star Wars question with a theme; whether that theme is the seed is open.
+4. Star Trek and Star Wars: the setting or the shape? Answered 2026-09-19, see Findings.
+5. What scale does the theme play out at: civilizations, factions, or one person?
 
 ## Decision
 
