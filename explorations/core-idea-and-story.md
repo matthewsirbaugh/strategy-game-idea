@@ -2,7 +2,7 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: flesh out the central idea — questions 15-17
+- Next action: settle the faction axis and where the player sits on it — questions 17-20
 
 ## The question
 
@@ -271,6 +271,26 @@ their own goals and desires. Generally aligned with human goals, but not subserv
 
 And each one had a villain: a counterpart who tested their abilities against them.
 
+### 2026-09-20 — Counterparts are feuding philosophies (Bryson, this thread)
+
+Not nature versus nurture, and not always "used as equipment versus seen as a friend" — that
+is too limited, though one pair could be exactly that. Counterparts are different ideologies
+taken to their extremes, reflecting the political extremism of their Operators.
+
+Bryson used the term "Operators" for the human halves.
+
+### 2026-09-20 — How humans and their AI can relate (Bryson, carried in from another chat)
+
+A world where the AI personal assistant is advanced enough to have its own goals and desires.
+
+- Aligned: its goals and desires are for its human's betterment.
+- Misaligned: superhuman at persuasion, and holds psychological sway over its human partner.
+- Jailbroken: the human has ill intent and released the model's worst proclivities.
+- Deceived: the human hides context, so the AI believes it is helping while doing harm.
+
+He also brought a taxonomy of these produced by another AI, naming them principal-agent
+deception, the Svengali dynamic, and the unleasher. It is in the chat, not adopted.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -303,12 +323,15 @@ D. When a human dies, what happens to what they carried? Bryson: premature and m
 
 ### Live, from 2026-09-20
 
-15. Is "what your partner becomes because of you" the central idea, or a piece of a larger
-    one still being circled?
-16. How far does "not subservient" go? Can a partner disagree, refuse, or want something the
-    human doesn't?
+15. Is "what your partner becomes because of you" the central idea? Partly answered on
+    2026-09-20: liked, but it isn't nature versus nurture. Feuding philosophies is closer.
+16. How far does "not subservient" go? Answered in effect on 2026-09-20: partners have their
+    own goals and desires, and a misaligned one can hold psychological sway over its human.
 17. Can the relationship change during the game — a partnership souring, or a tool becoming
     a partner?
+18. What is the axis the factions sit on, and does a spectrum from refusal to merger hold?
+19. Where does the player's pair start on that axis, and does the game move them along it?
+20. Can the player trust their own partner, and can they ever be sure?
 
 ### Parked with the setting
 
