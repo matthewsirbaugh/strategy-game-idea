@@ -2,7 +2,7 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: Bryson answers the open questions below
+- Next action: Bryson decides whether to develop the worst-true-utopia setting or compare rivals first (question 10)
 
 ## The question
 
@@ -164,6 +164,52 @@ Two sacrifice moments he named: Ender's Game, where the fleet is spent to put on
 where it needs to be; and a Fire Emblem: Three Houses level that is deliberately harder than
 it should be, where people have to be sacrificed to get through.
 
+### 2026-09-19 — The theme holds, plus a present-day mirror (Bryson, this thread)
+
+Theme confirmed: concentrated power is devastating and brittle, distributed power is weaker
+per node and very hard to kill.
+
+Bryson sees the same dynamic between frontier LLMs and open source models, and wants real AI
+knowledge to change how the game is traditionally played. His example: you use an LLM to
+hack, and each layer is harder to hack because the LLM's context is filling up.
+
+### 2026-09-19 — Setting sketch: the worst true utopia (Bryson, an idea, not committed)
+
+His words, condensed. He explicitly is not committing to it.
+
+Post-scarcity and social unrest can coexist. Basic needs are met; the best of everything is
+not. Access to healthcare is not access to the best healthcare. An average person lives a
+full life while the rich live centuries. A poor person doesn't need food or water, but there
+is no avenue for upward mobility beyond maybe the arts — and even today, the people who get
+discovered need connections to the industry or capital, not necessarily talent.
+
+Not a dystopia where everyone is dying in the streets. "The worst true utopia": human life is
+preserved, and some amount of human dignity, but human flourishing is limited to those with
+capital.
+
+Largely because people are isolated. When AI takes care of everything, nobody needs to live
+physically close to anyone else, so society splits into distinct groups, each provided for by
+the AI. Access to the AI itself is held by a small number of those groups, acting like
+pseudo-corporations. The AI provides the necessities, so human connection and data are the
+frontier.
+
+### 2026-09-19 — What "makes the player feel considered" meant (Bryson, this thread)
+
+His correction: not that the player feels considered, but that the player senses care and
+craftsmanship — that the developer thought through the mechanics and the loop and tried
+something fresh, instead of recycling old mechanics with hardly a fresh coat of paint.
+
+It should produce emergent moments, like the Fire Emblem level where you can brute-force a
+perfect run or make sacrifices and reach the goal in what feels like an unintended way.
+
+Something has to be fundamentally different. Two kinds he named:
+
+- A different perspective that forces a different kind of thinking: 2D chess versus 3D chess,
+  or playing the boss monster instead of the player character.
+- A different application of an old mechanic: the Portal edition of Bridge Builder borrowed
+  one mechanic from Portal and reset the entire strategy space, without copying Portal,
+  because the project had its own DNA at the root.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -177,9 +223,13 @@ it should be, where people have to be sacrificed to get through.
 5. What scale does the theme play out at: civilizations, factions, or one person? The shape
    named on 2026-09-19 is a small squad, which narrows the camera but doesn't settle this.
 6. Which sci-fi: Star Trek's post-scarcity optimism, cyberpunk's owned infrastructure, or a
-   collision of the two?
-7. What does "makes the player feel considered" mean, precisely? It is a north star and
-   shouldn't be guessed at.
+   collision of the two? Answered 2026-09-19: both at once, see the setting sketch.
+7. What does "makes the player feel considered" mean? Answered 2026-09-19, see Findings.
+8. In the worst true utopia, what is worth fighting over, and why is it violent rather than
+   legal or economic?
+9. Where does the player stand: with concentrated power, with the distributed many, or is
+   choosing between them the game?
+10. Develop this setting, or generate two or three rivals and compare first?
 
 ## Decision
 
