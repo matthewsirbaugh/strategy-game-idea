@@ -127,17 +127,59 @@ the Republic: the Order had been in control so long it couldn't imagine falling,
 ignored warning signs. Of Yoda: "His wisdom let him sense it, but his ego refused to
 acknowledge it."
 
+### 2026-09-19 — The theme, corrected (Bryson, this thread)
+
+Not "can they see their own fall coming." The point is structural. The Sith's lust for power
+at the individual level made them weaker as a whole. Their solution was to concentrate all
+the power into a small number of individuals, and all that power in one place makes it more
+fragile, "like a microcosm of the death star itself." Vader and Sidious were each strong
+enough to take down armies alone, and once they were killed the Empire crumbled around them.
+Taking down the Jedi, even a slightly corrupt and blinded Jedi, was a plan hundreds of years
+in the making that took generations of Sith lords, and they never actually finished the job.
+
+Bryson on the Star Wars material: a seed of an idea, or a piece of a larger puzzle of what
+this game should say and be. Not a game that copies Star Wars.
+
+### 2026-09-19 — The shape he keeps coming back to (Bryson, this thread)
+
+On process: "I think we're approaching a specific game too quickly. I've decided the best way
+to do this is to have a setting or a theme or both, and then figure out the game from there."
+
+The shape, which he calls his bread and butter:
+
+- Tactics, but smaller than Fire Emblem. 4-6 units a side, not 6+ against 10+. A skirmish.
+- Permadeath, multiple characters, and each battle starting fresh with the army you've made.
+- RPG-style progression and an actually good story. Every Fire Emblem-style game he has
+  played except Triangle Strategy had either a trash story or trash gameplay.
+- An approachable shape that doesn't follow every genre convention, that brings up uncommon
+  strategies and makes the player feel considered.
+- Dynamic arenas, and movement with lots of potential.
+- Mario + Rabbids Kingdom Battle: boosted movement off other characters, and the cover
+  system. Both good, both improvable.
+- Infinity, the tabletop skirmish game: hacking, and the movement and reaction system. Its
+  cyberpunk/sci-fi setting he enjoys more than fantasy.
+- Copying a tabletop game outright is "straddling the fence."
+
+Two sacrifice moments he named: Ender's Game, where the fleet is spent to put one weapon
+where it needs to be; and a Fire Emblem: Three Houses level that is deliberately harder than
+it should be, where people have to be sacrificed to get through.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
    (DESIGN.md open question 4, unanswered.)
-2. Solo traveller or a party that grows? **Deferred by Bryson on 2026-09-17** until the shape
-   of the game is clearer. Do not assume either.
+2. Solo traveller or a party that grows? Deferred on 2026-09-17, then answered in passing on
+   2026-09-19: multiple characters, 4-6 units a side.
 3. What is the seed — a world, a character, a feeling, or a mechanic? As of 2026-09-17,
    space keeps coming up, but Bryson hasn't called it a seed. On 2026-09-19 he answered the
    Star Trek and Star Wars question with a theme; whether that theme is the seed is open.
 4. Star Trek and Star Wars: the setting or the shape? Answered 2026-09-19, see Findings.
-5. What scale does the theme play out at: civilizations, factions, or one person?
+5. What scale does the theme play out at: civilizations, factions, or one person? The shape
+   named on 2026-09-19 is a small squad, which narrows the camera but doesn't settle this.
+6. Which sci-fi: Star Trek's post-scarcity optimism, cyberpunk's owned infrastructure, or a
+   collision of the two?
+7. What does "makes the player feel considered" mean, precisely? It is a north star and
+   shouldn't be guessed at.
 
 ## Decision
 
