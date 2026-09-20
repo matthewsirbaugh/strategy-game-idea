@@ -2,7 +2,7 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: settle the faction axis and where the player sits on it — questions 17-20
+- Next action: work the four relationships into abilities — questions 19-21
 
 ## The question
 
@@ -218,6 +218,8 @@ abandoned the real world for the digital one, so the digital world carries the m
 - Data is the commodity. It trains bigger and better AI, which makes bigger and better
   discoveries for the rich and powerful.
 - AI needs authentic data, not synthetic data, to improve. People's data is heavily guarded.
+  (2026-09-20: Bryson says the authentic-versus-synthetic point was the first thing that
+  popped into his head, not a pillar. Do not build on it.)
 - Everyone runs an LLM defensively, as a personal agent protecting their data.
 - People enter the digital world through VR headsets and combine their forces with the AI.
 - The image: the user is the main character in an anime and the LLM is a chibi partner
@@ -291,6 +293,31 @@ A world where the AI personal assistant is advanced enough to have its own goals
 He also brought a taxonomy of these produced by another AI, naming them principal-agent
 deception, the Svengali dynamic, and the unleasher. It is in the chat, not adopted.
 
+### 2026-09-20 — The four relationships (Bryson, this thread)
+
+These are meant to be specific so they can be gamified into abilities and mechanics.
+
+1. Partnership. Equality.
+2. The human tricks an aligned AI, building a translation layer between it and the real
+   world.
+3. The AI tricks the human through social engineering and manipulation. The human
+   essentially becomes the agent of the AI.
+4. The human freely gives up autonomy to the AI. Like 3 in that the AI is in control, but
+   here the human is aware of and desires the imbalance. At that point the alignment of the
+   AI determines the alignment of the human instead of the other way around. Generally
+   cultish in nature.
+
+There may be more that fit this paradigm.
+
+### 2026-09-20 — On synthesis (Bryson, this thread)
+
+Stop trying to make all the ideas mesh together, especially passing ones. When Bryson says an
+idea is good, the job is to agree with explanation or push back with explanation — not to
+automatically fold everything said so far into a single structure.
+
+Recorded here. If he wants it standing, it can go to AGENTS.md alongside the comparison
+amendment.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -329,9 +356,12 @@ D. When a human dies, what happens to what they carried? Bryson: premature and m
     own goals and desires, and a misaligned one can hold psychological sway over its human.
 17. Can the relationship change during the game — a partnership souring, or a tool becoming
     a partner?
-18. What is the axis the factions sit on, and does a spectrum from refusal to merger hold?
-19. Where does the player's pair start on that axis, and does the game move them along it?
-20. Can the player trust their own partner, and can they ever be sure?
+18. A five-position spectrum from refusal to merger was proposed on 2026-09-20 and rejected
+    as over-extrapolation. The four relationships above are the structure. Not adopted.
+19. Which of the four relationships is the player's pair, and is it fixed?
+20. Can the player trust their own partner, and can they ever be sure? Relationship 3 seen
+    from the inside.
+21. Does "cultish" mean one AI to several humans, rather than one to one?
 
 ### Parked with the setting
 
