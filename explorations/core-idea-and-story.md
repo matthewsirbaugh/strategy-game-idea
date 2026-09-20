@@ -2,7 +2,7 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: Bryson decides whether to develop the worst-true-utopia setting or compare rivals first (question 10)
+- Next action: Bryson answers questions 11-13 — the cost of losing, who the crew is, and the authenticity paradox
 
 ## The question
 
@@ -210,6 +210,25 @@ Something has to be fundamentally different. Two kinds he named:
   one mechanic from Portal and reset the entire strategy space, without copying Portal,
   because the project had its own DNA at the root.
 
+### 2026-09-19 — The world, first pass (Bryson, this thread)
+
+Closer to Ready Player One than to the previous sketch, and less dystopian. People have
+abandoned the real world for the digital one, so the digital world carries the meaning.
+
+- Data is the commodity. It trains bigger and better AI, which makes bigger and better
+  discoveries for the rich and powerful.
+- AI needs authentic data, not synthetic data, to improve. People's data is heavily guarded.
+- Everyone runs an LLM defensively, as a personal agent protecting their data.
+- People enter the digital world through VR headsets and combine their forces with the AI.
+- The image: the user is the main character in an anime and the LLM is a chibi partner
+  floating beside them. NetNavis in Mega Man Battle Network. The LLMs can take other forms,
+  almost like Sym-Bionic Titan.
+- Falls out of this: hacking, and an agent/player split for each player.
+- The best data belongs to scientists, researchers and corporate executives — people holding
+  massive amounts of many other people's data, hoarded like wealth is today. They are the
+  targets, and they are protected by multiple frontier-level AI, so the humans and their
+  agents have to be strategic and clever.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -225,11 +244,20 @@ Something has to be fundamentally different. Two kinds he named:
 6. Which sci-fi: Star Trek's post-scarcity optimism, cyberpunk's owned infrastructure, or a
    collision of the two? Answered 2026-09-19: both at once, see the setting sketch.
 7. What does "makes the player feel considered" mean? Answered 2026-09-19, see Findings.
-8. In the worst true utopia, what is worth fighting over, and why is it violent rather than
-   legal or economic?
+8. What is worth fighting over, and why is it violent? Answered in effect on 2026-09-19:
+   the fight is over data, and it happens inside the digital world.
 9. Where does the player stand: with concentrated power, with the distributed many, or is
-   choosing between them the game?
-10. Develop this setting, or generate two or three rivals and compare first?
+   choosing between them the game? Partly answered on 2026-09-19 — the player raids the
+   hoarders — but what they do with what they take is open.
+10. Develop this setting or compare rivals first? Answered on 2026-09-19 by developing it.
+11. What does losing cost? In a VR raid, what actually dies: the agent, the human, or
+    something else? This sets how dark the world is and gives permadeath its teeth.
+12. Who is the crew, and what happens to the data they take — liberated, sold, or hoarded in
+    turn?
+13. If everyone has abandoned the real world for the digital one, is their data still
+    authentic? Left alone this is a hole; decided on purpose it may be the story's engine.
+14. Scope watch, for later: this world implies both a real world and a digital one. How much
+    of each actually gets simulated is a scope decision, deferred per DESIGN.md.
 
 ## Decision
 
