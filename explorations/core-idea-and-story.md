@@ -2,7 +2,7 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: Bryson answers questions 11-13 — the cost of losing, who the crew is, and the authenticity paradox
+- Next action: Bryson decides the four rules that define the core (A-D under Open questions)
 
 ## The question
 
@@ -229,6 +229,14 @@ abandoned the real world for the digital one, so the digital world carries the m
   targets, and they are protected by multiple frontier-level AI, so the humans and their
   agents have to be strategic and clever.
 
+### 2026-09-20 — Narrowed to the core (Bryson, this thread)
+
+The dystopian setting is parked, not discarded. It stays in this file above.
+
+The core to focus on: a skirmish-scale SRPG where humans fight alongside chibi characters
+that bestow abilities. Reference point: FusionFall, the Cartoon Network game, where you
+collect small chibi companions that grant powers.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -250,6 +258,15 @@ abandoned the real world for the digital one, so the digital world carries the m
    choosing between them the game? Partly answered on 2026-09-19 — the player raids the
    hoarders — but what they do with what they take is open.
 10. Develop this setting or compare rivals first? Answered on 2026-09-19 by developing it.
+### The four rules that define the core (raised 2026-09-20, undecided)
+
+A. Is a chibi its own actor on the board, or a loadout attached to its human?
+B. How many chibis can one human hold?
+C. Can chibis change hands, and if so, when — never, between missions, or mid-fight?
+D. When a human dies, what happens to the chibis they were carrying?
+
+### Parked with the setting
+
 11. What does losing cost? In a VR raid, what actually dies: the agent, the human, or
     something else? This sets how dark the world is and gives permadeath its teeth.
 12. Who is the crew, and what happens to the data they take — liberated, sold, or hoarded in
