@@ -6,7 +6,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 | Topic | Status | Next action | File |
 |---|---|---|---|
 | Art pipeline: 2D or 3D, and how assets get made | open | Gather candidate pipelines with their costs and example output | [art-pipeline.md](explorations/art-pipeline.md) |
-| The core idea and story | open | Decide the four rules that define the chibi core | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
+| The core idea and story | open | Flesh out the central idea: the partner bond and its counterpart | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |
 | Permadeath alongside an authored story | parked | Waiting on the core idea | not started |
 | Skirmish shape: 4-6 units, reactions, dynamic arenas | parked | Waiting on the setting and theme | not started |

@@ -2,7 +2,7 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: Bryson decides the four rules that define the core (A-D under Open questions)
+- Next action: flesh out the central idea — questions 15-17
 
 ## The question
 
@@ -237,6 +237,40 @@ The core to focus on: a skirmish-scale SRPG where humans fight alongside chibi c
 that bestow abilities. Reference point: FusionFall, the Cartoon Network game, where you
 collect small chibi companions that grant powers.
 
+### 2026-09-20 — On comparison (Bryson, this thread)
+
+"Comparison is the thief of originality." Stop measuring ideas against what other games have
+done, except to avoid repeating their mistakes. Every fantasy writer could have given up and
+said they were just rewriting Lord of the Rings; instead we got Eragon, fundamentally
+different despite matching on paper. Games more so: 3D collectathons owe Mario 64,
+Metroidvania is a genre named after two games, and one sentence covers Hollow Knight, Dead
+Cells and Ori. What separates them is execution, vision, taste and judgement.
+
+Proposed as an amendment to AGENTS.md step 2. Not yet applied.
+
+### 2026-09-20 — The partners, and their counterparts (Bryson, this thread)
+
+One chibi per human, matched to that human, the way NetNavis mimic the personality and
+aesthetic of their partner.
+
+- In lore, most people who see their AI as a partner talk with it for weeks before it builds
+  its own chibi body, so the AI chooses its own form.
+- People who see AI as a simple tool choose for it, and give it basic or utilitarian bodies.
+- Or the AI chooses something completely different and strange.
+- The form partly determines its abilities, how they manifest, and what it is good at.
+
+Chibis never change hands. They can be upgraded and given new abilities, maybe as weapons.
+
+The digital world and the chibis might manifest as something unexpected — fantasy characters
+rather than robots or science fiction.
+
+On aesthetic: what he loved about FusionFall was that the characters shared a style while
+being completely different. Even characters he didn't like were great to see. Not coats of
+paint on one chibi — as unique as the abilities they bestowed, with developed personalities,
+their own goals and desires. Generally aligned with human goals, but not subservient.
+
+And each one had a villain: a counterpart who tested their abilities against them.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -258,12 +292,23 @@ collect small chibi companions that grant powers.
    choosing between them the game? Partly answered on 2026-09-19 — the player raids the
    hoarders — but what they do with what they take is open.
 10. Develop this setting or compare rivals first? Answered on 2026-09-19 by developing it.
-### The four rules that define the core (raised 2026-09-20, undecided)
+### The four rules that were raised on 2026-09-20
 
-A. Is a chibi its own actor on the board, or a loadout attached to its human?
-B. How many chibis can one human hold?
-C. Can chibis change hands, and if so, when — never, between missions, or mid-fight?
-D. When a human dies, what happens to the chibis they were carrying?
+A. Is a chibi its own actor on the board, or a loadout attached to its human? Undecided.
+B. How many chibis per human? Answered: one, matched to that human. See Findings.
+C. Can chibis change hands? Answered: never. They upgrade instead.
+D. When a human dies, what happens to what they carried? Bryson: premature and mechanical.
+   Parked, along with the prototype step. The SRPG genre itself is still in flux; he is
+   still fleshing out the central idea to build the game around.
+
+### Live, from 2026-09-20
+
+15. Is "what your partner becomes because of you" the central idea, or a piece of a larger
+    one still being circled?
+16. How far does "not subservient" go? Can a partner disagree, refuse, or want something the
+    human doesn't?
+17. Can the relationship change during the game — a partnership souring, or a tool becoming
+    a partner?
 
 ### Parked with the setting
 
