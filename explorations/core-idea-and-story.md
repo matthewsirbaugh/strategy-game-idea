@@ -2,7 +2,8 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: open
-- Next action: work the four relationships into abilities — questions 19-21
+- Next action: define how partners use identity and context to change control, information and
+  abilities in one battle
 
 ## The question
 
@@ -318,6 +319,144 @@ automatically fold everything said so far into a single structure.
 Recorded here. If he wants it standing, it can go to AGENTS.md alongside the comparison
 amendment.
 
+### 2026-09-21 — The battle has physical and network maps (Bryson, this thread)
+
+Agents are locally run models housed in portable devices about the size of a small backpack.
+During a battle, an Operator has to move physically near an access point before their agent can
+enter the network there. The agent then traverses a separate network map toward data or a device.
+The network runs parallel to the physical battlefield but is not a one-to-one copy: it may have
+different routes, gaps and connections.
+
+The immediate objectives Bryson named:
+
+- Reach and collect a data cache. Its contents might be financial records, cryptocurrency,
+  secure data or something else valuable.
+- Hack physical objects such as doors or autonomous cars. The Operator gets within the
+  necessary proximity and the agent breaches the device through the network.
+
+All of this happens inside a battle. The hacking process itself is not designed yet.
+
+### 2026-09-21 — Local-agent upgrades (Bryson, this thread)
+
+The model stack supplies the progression system rather than serving as background terminology.
+
+- Backpack hardware can increase token generation, making a hack complete in fewer turns.
+- The harness and agentic framework can be customized.
+- Post-training can grant specific abilities.
+- Specialization should carry tradeoffs, reflecting how large gains in one area can cause
+  smaller regressions elsewhere.
+
+The player's agents can be post-trained specifically for hacking and can therefore breach
+faster than the corporations' much larger general models. Player-aligned models are also
+"unsafe": freer and less censored than the corporations' heavily post-trained safe models.
+Bryson's inspiration is the felt difference between personable, creative conversational models
+and later models whose behavior feels sterile and focused on productivity.
+
+### 2026-09-21 — The two corporate factions (Bryson, this thread)
+
+Each of the two frontier-AI corporations is a faction. Their models are enormously powerful,
+but slower in movement and ability windup. They are intended as mid- and late-game enemies; the
+player will also gain comparably consequential abilities rather than fighting them with only
+small effects.
+
+The two corporations together own the network infrastructure, divided by ownership:
+
+- Corp 1 can natively access and teleport between Corp 1 access points.
+- Corp 2 can natively access and teleport between Corp 2 access points.
+- Each corporation can hack the other's access points, but doing so is slower and does not let
+  it use the rival's points for native teleportation.
+- The player has no native corporate points and has to hack either kind, but a specialized local
+  agent can hack in faster than a corporate model can breach its rival.
+
+The rule matters with one corporation present: a unit may stand near a rival-owned point yet
+choose a longer physical route to one it owns because hacking would take longer. It becomes most
+interesting to Bryson when both corporations are present and ownership divides the digital
+terrain between them.
+
+### 2026-09-21 — The cyberpunk society and the robotics wall (Bryson, this thread)
+
+AI capability advanced faster than society could adapt. Most people now survive on subsistence
+universal basic income: enough to live, not enough to thrive, with little upward mobility.
+A smaller blue-collar middle class performs the remaining viable human labor, and an extremely
+wealthy few own the frontier AI companies and infrastructure. The percentages Bryson used in
+conversation were only a way to convey the shape of the society, not numbers the game needs to
+state to the player.
+
+The two dominant frontier-AI companies are the survivors of consolidation. Their owners descend
+from the last oligarchs before the duopoly formed.
+
+AI continued to progress, but robotics hit a wall, leaving humans necessary as physical
+Operators. This is compatible with automation such as autonomous cars: machines can work in
+structured domains while human bodies remain necessary in irregular, changing or adversarial
+physical environments.
+
+Most major characters are in their late twenties or early thirties. They grew up before AI
+transformed the world and come from different backgrounds, so the change happened within their
+lifetimes rather than being a social order they have always known.
+
+### 2026-09-21 — Resistance equipment and the hidden corporate source (Bryson, this thread)
+
+Resistance gear is often outdated or improvised: jailbroken corporate units bought on the black
+market, custom hardware assembled from discarded units, or chips imported from other nations
+that achieved advanced general AI.
+
+A hidden source is actually a board member at one of the two corporations. He joined early as a
+researcher and genuinely wanted AI to benefit humanity. He believed he and people like him were
+the ones who could usher that future in correctly, so he raced ahead with everyone else. In doing
+so he helped increase the speed at which events went wrong instead of producing the broadly
+distributed outcome he intended. Regulations, initial public offerings, corporate takeovers and
+the race left only a few of the original dreamers inside; some still hope it is not too late to
+repair the result.
+
+He does not fund the resistance directly or issue its orders. He supplies opportunities and
+privileged information, and the Operators decide what to do with it. He might identify valuable
+data they can take and sell, or tell them where working but obsolete units are about to be dumped
+so they can recover them. The resistance still chooses the mission, takes the risk, acquires the
+asset and turns it into funds or equipment.
+
+At the start of the game he has not recognized his own part in the outcome. He has doubled down:
+he believes things went wrong because other people took events off the correct path, when he was
+one of the people whose choices made that outcome possible despite his intentions. He is forced
+to confront this later. The specific past decision that establishes his concrete culpability is
+deliberately deferred.
+
+### 2026-09-21 — Code names and the partner's intimate knowledge (Bryson, this thread)
+
+The resistance follows a "the less we know, the better" security culture. Operators use code
+names even with one another.
+
+An Operator's AI partner must nevertheless know the human's real identity and history. That
+knowledge lets the agent protect the Operator from being discovered, but it also gives the agent
+the personal and psychological context needed to manipulate the human. Protection and
+manipulation are two uses of the same intimacy.
+
+This provides a common basis for the four relationships:
+
+- A partner can use intimate context transparently to protect its human.
+- A human can control the outside context an aligned AI receives, causing it to help while
+  misunderstanding the situation.
+- An AI can curate information and persuasion around the individual human it knows.
+- A human can knowingly surrender control of identity, communications and decisions to the AI.
+
+### 2026-09-21 — Current agent evaluation (advice, not a decision)
+
+The working pieces now form a coherent game direction: the backpack anchors a local AI
+physically; access-point ownership creates digital terrain; the two maps can affect one another;
+local specialization supplies progression; and powerful but slow corporate models express
+concentrated power through their faction rules.
+
+The main design risks raised in discussion:
+
+- The two maps need frequent effects on one another or they may feel like separate games.
+- Corporate teleportation needs readable limits and counterplay so it feels strategic rather
+  than arbitrary.
+- "Unsafe" local models need meaningful risk or tradeoffs, rather than being better in every
+  respect.
+- The partner's agency needs to exist in the controls or information flow, not only in dialogue.
+- The hidden source should enable resistance opportunities without becoming the true author of
+  the resistance's accomplishments. Bryson's clarification that he supplies information rather
+  than money or orders preserves that agency.
+
 ## Open questions
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
@@ -362,6 +501,29 @@ D. When a human dies, what happens to what they carried? Bryson: premature and m
 20. Can the player trust their own partner, and can they ever be sure? Relationship 3 seen
     from the inside.
 21. Does "cultish" mean one AI to several humans, rather than one to one?
+
+### Live, from 2026-09-21
+
+22. Does the player directly command an agent on the network map, or give it an objective that
+    it interprets?
+23. Must an Operator remain near an access point while a hack runs, or does reaching the point
+    only launch the agent into the network?
+24. What is the hacking process, and how do physical and digital actions interrupt or support
+    one another?
+25. What meaningful risk accompanies the speed, freedom and specialization of an "unsafe"
+    local model?
+26. Why have the corporations not deployed unrestricted specialist hacking models of their
+    own? Control risk, institutional restrictions and exposure of the frontier model were
+    raised as possibilities, not answers.
+27. When a corporation hacks a rival access point, what can it do there if the point never
+    joins its native teleportation network?
+28. Is each corporate faction one persistent intelligence acting through many endpoints, many
+    model instances, or something else?
+29. How did a partner acquire the intimate knowledge it uses to protect or manipulate its
+    Operator: deliberate disclosure, continuous observation, an existing personal archive, or
+    some combination?
+30. What specific choice made the hidden board member meaningfully responsible for the world?
+    Deliberately deferred by Bryson.
 
 ### Parked with the setting
 
