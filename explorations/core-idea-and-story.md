@@ -11,6 +11,35 @@ What this game actually is: the seed idea, the world, and the story it carries. 
 else — mechanics, look, scope, plot, dialogue — grows out of this. It is the first design
 activity on the project and nothing has been decided.
 
+## Topic index
+
+This exploration remains open. Bryson asked to save the working ideas on September 21; that
+checkpoint is recorded in commit `d3a1f33`. The dated findings below preserve the discussion,
+including earlier directions and corrections. Use this index to read by topic; use
+[EXPLORATIONS.md](../EXPLORATIONS.md) for what to work on next.
+
+| Topic | Source entries |
+|---|---|
+| Creative intent and touchstones | [DESIGN.md](../DESIGN.md); [early findings](#findings) |
+| Concentrated and distributed power | [Theme](#power-theme) |
+| Chibi identity, appearance and permanent pairing | [Partners and counterparts](#partners) |
+| Ideological opposition | [Feuding philosophies](#philosophies) |
+| Four human–AI relationships | [Relationship structure](#relationships) |
+| Physical Operators and network traversal | [Two-map battles](#battle-maps) |
+| Hardware, harnesses and post-training | [Local-agent upgrades](#upgrades) |
+| Corporate strength and access-point ownership | [Two corporate factions](#corporations) |
+| Subsistence, concentrated wealth and human labor | [Society and robotics](#society) |
+| Improvised equipment and the board-member source | [Resistance and insider](#resistance) |
+| Code names, privacy and manipulation | [Partner knowledge](#identity) |
+| Agent recommendations | [Prior evaluation](#agent-evaluation), explicitly advice |
+| Outstanding choices | [Question guide](#question-guide) |
+
+The early space-industrialist idea was never selected. The September 19 virtual-world sketch
+and September 20 setting pause are historical context; September 21 records renewed setting
+work and battles involving physical Operators. The authentic-versus-synthetic-data claim was
+explicitly demoted and should not be treated as a design requirement. The five-position
+relationship spectrum was rejected. These entries remain below so the changes can be traced.
+
 ## Constraints this inherits
 
 - The project is worth doing if it feels like artistic expression. Bryson is a systems
@@ -165,6 +194,8 @@ Two sacrifice moments he named: Ender's Game, where the fleet is spent to put on
 where it needs to be; and a Fire Emblem: Three Houses level that is deliberately harder than
 it should be, where people have to be sacrificed to get through.
 
+<a id="power-theme"></a>
+
 ### 2026-09-19 — The theme holds, plus a present-day mirror (Bryson, this thread)
 
 Theme confirmed: concentrated power is devastating and brittle, distributed power is weaker
@@ -251,6 +282,8 @@ Cells and Ori. What separates them is execution, vision, taste and judgement.
 
 Proposed as an amendment to AGENTS.md step 2. Not yet applied.
 
+<a id="partners"></a>
+
 ### 2026-09-20 — The partners, and their counterparts (Bryson, this thread)
 
 One chibi per human, matched to that human, the way NetNavis mimic the personality and
@@ -274,6 +307,8 @@ their own goals and desires. Generally aligned with human goals, but not subserv
 
 And each one had a villain: a counterpart who tested their abilities against them.
 
+<a id="philosophies"></a>
+
 ### 2026-09-20 — Counterparts are feuding philosophies (Bryson, this thread)
 
 Not nature versus nurture, and not always "used as equipment versus seen as a friend" — that
@@ -293,6 +328,8 @@ A world where the AI personal assistant is advanced enough to have its own goals
 
 He also brought a taxonomy of these produced by another AI, naming them principal-agent
 deception, the Svengali dynamic, and the unleasher. It is in the chat, not adopted.
+
+<a id="relationships"></a>
 
 ### 2026-09-20 — The four relationships (Bryson, this thread)
 
@@ -319,6 +356,8 @@ automatically fold everything said so far into a single structure.
 Recorded here. If he wants it standing, it can go to AGENTS.md alongside the comparison
 amendment.
 
+<a id="battle-maps"></a>
+
 ### 2026-09-21 — The battle has physical and network maps (Bryson, this thread)
 
 Agents are locally run models housed in portable devices about the size of a small backpack.
@@ -336,6 +375,8 @@ The immediate objectives Bryson named:
 
 All of this happens inside a battle. The hacking process itself is not designed yet.
 
+<a id="upgrades"></a>
+
 ### 2026-09-21 — Local-agent upgrades (Bryson, this thread)
 
 The model stack supplies the progression system rather than serving as background terminology.
@@ -351,6 +392,8 @@ faster than the corporations' much larger general models. Player-aligned models 
 "unsafe": freer and less censored than the corporations' heavily post-trained safe models.
 Bryson's inspiration is the felt difference between personable, creative conversational models
 and later models whose behavior feels sterile and focused on productivity.
+
+<a id="corporations"></a>
 
 ### 2026-09-21 — The two corporate factions (Bryson, this thread)
 
@@ -373,6 +416,8 @@ choose a longer physical route to one it owns because hacking would take longer.
 interesting to Bryson when both corporations are present and ownership divides the digital
 terrain between them.
 
+<a id="society"></a>
+
 ### 2026-09-21 — The cyberpunk society and the robotics wall (Bryson, this thread)
 
 AI capability advanced faster than society could adapt. Most people now survive on subsistence
@@ -393,6 +438,8 @@ physical environments.
 Most major characters are in their late twenties or early thirties. They grew up before AI
 transformed the world and come from different backgrounds, so the change happened within their
 lifetimes rather than being a social order they have always known.
+
+<a id="resistance"></a>
 
 ### 2026-09-21 — Resistance equipment and the hidden corporate source (Bryson, this thread)
 
@@ -420,6 +467,8 @@ one of the people whose choices made that outcome possible despite his intention
 to confront this later. The specific past decision that establishes his concrete culpability is
 deliberately deferred.
 
+<a id="identity"></a>
+
 ### 2026-09-21 — Code names and the partner's intimate knowledge (Bryson, this thread)
 
 The resistance follows a "the less we know, the better" security culture. Operators use code
@@ -437,6 +486,8 @@ This provides a common basis for the four relationships:
   misunderstanding the situation.
 - An AI can curate information and persuasion around the individual human it knows.
 - A human can knowingly surrender control of identity, communications and decisions to the AI.
+
+<a id="agent-evaluation"></a>
 
 ### 2026-09-21 — Current agent evaluation (advice, not a decision)
 
@@ -458,6 +509,29 @@ The main design risks raised in discussion:
   than money or orders preserves that agency.
 
 ## Open questions
+
+### Question guide
+
+The numbered record below includes answered, deferred and rejected questions as well as open
+ones. Original numbers are retained for references. This guide groups the unresolved subjects
+without making the whole historical list a work queue.
+
+| Subject | Questions in the record |
+|---|---|
+| Player relationship, trust and change | 17, 19, 20, 21 |
+| Agent control, connection and hacking process | 22, 23, 24 |
+| Specialization and corporate restrictions | 25, 26 |
+| Rival access and corporate model structure | 27, 28 |
+| How partners learn their human's identity | 29 |
+| Insider's concrete culpability | 30; expressly deferred by Bryson |
+| Scope, exploration, loss and permadeath | DESIGN.md questions 1–3 and the parked board topics |
+
+Older question A predates the network-map proposal: agents now traverse a digital map, while
+the player's control of them remains open in question 22. Questions 8 and 11–14 refer to the
+earlier virtual-world setting and require that historical context. Their original wording does
+not establish that the current physical/network battle happens wholly in virtual reality.
+
+### Earlier questions and recorded answers
 
 1. Are the touchstones ingredients this has to use, or inspiration it can leave behind?
    (DESIGN.md open question 4, unanswered.)

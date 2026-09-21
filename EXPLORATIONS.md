@@ -14,3 +14,12 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 Status values: **open** (ready to pick up), **blocked** (waiting on something outside this
 thread), **parked** (deliberately on hold), **decided** (conclusion has graduated to DESIGN.md
 or AGENTS.md, and the file keeps the reasoning).
+
+## Reading routes
+
+- For the working concept, use the core exploration's [topic index](explorations/core-idea-and-story.md#topic-index).
+- For unresolved choices, use its [question guide](explorations/core-idea-and-story.md#question-guide).
+- For earlier ideas and corrections, read its dated findings. Dates matter: the September 21
+  physical/network battle and cyberpunk society follow the earlier virtual-world setting.
+- The art-pipeline exploration has no findings yet. The parked topics above have no separate
+  files yet.

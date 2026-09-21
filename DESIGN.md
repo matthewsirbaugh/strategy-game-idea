@@ -81,4 +81,6 @@ Emblem: Three Houses, South Park: The Stick of Truth and The Fractured But Whole
    creative ways.
 4. Whether the touchstones above are ingredients the brainstorm has to use, or inspiration it
    is free to leave behind.
-5. The core idea and story. Not started. This is the next design activity.
+5. The core idea and story. In progress in
+   [the exploration](explorations/core-idea-and-story.md#topic-index); no final conclusion has
+   graduated here. See [the board](EXPLORATIONS.md) for the next action.
