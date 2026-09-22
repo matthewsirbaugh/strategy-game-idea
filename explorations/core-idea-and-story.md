@@ -1,9 +1,9 @@
 # The core idea and story
 
 - Feeds: DESIGN.md open questions 1, 4, 5
-- Status: open
-- Next action: define how partners use identity and context to change control, information and
-  abilities in one battle
+- Status: parked; further character and plot development is on the back burner.
+- Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Hacking mechanics now have their own
+  [exploration](hacking-gameplay.md).
 
 ## The question
 
@@ -13,13 +13,15 @@ activity on the project and nothing has been decided.
 
 ## Topic index
 
-This exploration remains open. Bryson asked to save the working ideas on September 21; that
-checkpoint is recorded in commit `d3a1f33`. The dated findings below preserve the discussion,
-including earlier directions and corrections. Use this index to read by topic; use
+This exploration has not reached a final conclusion. Bryson asked to save the working ideas
+on September 21; that checkpoint is recorded in commit `d3a1f33`. The dated findings below
+preserve the discussion, including earlier directions and corrections. Use this index to read by topic; use
 [EXPLORATIONS.md](../EXPLORATIONS.md) for what to work on next.
 
 | Topic | Source entries |
 |---|---|
+| Latest corrections and scope | [September 22 clarifications](#september-22-clarifications) |
+| Hacking attempts, candidate games and research | [Hacking gameplay exploration](hacking-gameplay.md) |
 | Creative intent and touchstones | [DESIGN.md](../DESIGN.md); [early findings](#findings) |
 | Concentrated and distributed power | [Theme](#power-theme) |
 | Chibi identity, appearance and permanent pairing | [Partners and counterparts](#partners) |
@@ -496,7 +498,8 @@ physically; access-point ownership creates digital terrain; the two maps can aff
 local specialization supplies progression; and powerful but slow corporate models express
 concentrated power through their faction rules.
 
-The main design risks raised in discussion:
+The main design risks raised in discussion (with later qualifications recorded in the
+[September 22 clarification](#september-22-clarifications)):
 
 - The two maps need frequent effects on one another or they may feel like separate games.
 - Corporate teleportation needs readable limits and counterplay so it feels strategic rather
@@ -507,6 +510,42 @@ The main design risks raised in discussion:
 - The hidden source should enable resistance opportunities without becoming the true author of
   the resistance's accomplishments. Bryson's clarification that he supplies information rather
   than money or orders preserves that agency.
+
+<a id="september-22-clarifications"></a>
+
+### 2026-09-22 — Checkpoint: clarifications since the previous save
+
+The following records Bryson's corrections in this conversation, after the navigation review
+saved as `37fdb39`. The date is this recording checkpoint, not a claim that every statement
+was first made today.
+
+- The world and basic premise are enough to work on gameplay. A protagonist, personal mission
+  motive and further plot development are not prerequisites now; put them on the back burner.
+- The different relationships to humans already provide the chibis' characterization foundation.
+  Do not require a separate character exercise before exploring mechanics.
+- The digital-world activity can evolve substantially. Refine the network-map proposal if it
+  seems promising, or try a different style of gameplay for the agents. The second traversable
+  map is not a fixed requirement.
+- The story takes place in near-future America. The wealthy can be today's younger technology
+  owners still alive, or children of older wealthy families that invested well in AI. This is
+  not a claim that several generations passed after the transformation. Earlier references to
+  other nations with advanced AI remain compatible with this setting; do not assume the two
+  companies are the only AI powers worldwide.
+- Themes provide a frame of reference for mechanics. Bryson agreed that nuance can matter but
+  deferred efforts to settle the story's argument while the gameplay is being developed.
+
+Codex also corrected its earlier advice; these are qualifications, not new design commitments:
+
+- Fictional agent autonomy does not require indirect player control or independent move choice.
+  Direct control, objective assignment and curated information remain design options.
+- "Unsafe" local models do not require an additional betrayal mechanic or moral penalty.
+  Existing limits and specialization may supply enough tradeoffs; evaluate rather than assume.
+- Nothing requires real language models to run inside the finished game. Runtime technology
+  remains a later architecture decision.
+
+The new [hacking-gameplay exploration](hacking-gameplay.md) owns the confirmed attempt/reset/
+carryover structure, illustrative upgrades, three candidate games, source-backed research,
+evaluation criteria and the exact unanswered comparison question. No candidate is selected.
 
 ## Open questions
 
@@ -520,14 +559,16 @@ without making the whole historical list a work queue.
 |---|---|
 | Player relationship, trust and change | 17, 19, 20, 21 |
 | Agent control, connection and hacking process | 22, 23, 24 |
+| Hacking attempts and minigame candidates | [Hacking gameplay](hacking-gameplay.md); this now holds the developing answer to question 24 |
 | Specialization and corporate restrictions | 25, 26 |
 | Rival access and corporate model structure | 27, 28 |
 | How partners learn their human's identity | 29 |
 | Insider's concrete culpability | 30; expressly deferred by Bryson |
 | Scope, exploration, loss and permadeath | DESIGN.md questions 1–3 and the parked board topics |
 
-Older question A predates the network-map proposal: agents now traverse a digital map, while
-the player's control of them remains open in question 22. Questions 8 and 11–14 refer to the
+Older question A predates the September 21 network-map proposal. The September 22 clarification
+leaves the digital activity and map structure open; see the hacking exploration for later work.
+The player's control of agents remains open in question 22. Questions 8 and 11–14 refer to the
 earlier virtual-world setting and require that historical context. Their original wording does
 not establish that the current physical/network battle happens wholly in virtual reality.
 
@@ -584,6 +625,9 @@ D. When a human dies, what happens to what they carried? Bryson: premature and m
     only launch the agent into the network?
 24. What is the hacking process, and how do physical and digital actions interrupt or support
     one another?
+    Follow-up: the attempt/reset/carryover rules are now recorded in
+    [hacking-gameplay.md](hacking-gameplay.md#brysons-working-rules). Specific activity and
+    integration remain open there.
 25. What meaningful risk accompanies the speed, freedom and specialization of an "unsafe"
     local model?
 26. Why have the corporations not deployed unrestricted specialist hacking models of their
