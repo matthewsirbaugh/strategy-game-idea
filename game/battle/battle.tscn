@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://battle/battle.gd" id="1"]
+[ext_resource type="Script" path="res://battle/grid_view.gd" id="2"]
+[ext_resource type="Script" path="res://battle/camera_rig.gd" id="3"]
+[ext_resource type="Resource" path="res://content/maps/mvp.tres" id="4"]
+[ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="5"]
+
+[sub_resource type="Environment" id="Env"]
+background_mode = 1
+background_color = Color(0.07, 0.08, 0.1, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.6, 0.65, 0.75, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
+
+[sub_resource type="PlaneMesh" id="HoverMesh"]
+size = Vector2(0.94, 0.94)
+
+[sub_resource type="StandardMaterial3D" id="HoverMat"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.3, 0.9, 1, 0.45)
+
+[node name="Battle" type="Node3D"]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8192, 0, -0.5736, -0.4698, 0.5736, -0.671, 0.329, 0.8192, 0.4698, 0, 10, 0)
+shadow_enabled = true
+
+[node name="GridView" type="Node3D" parent="."]
+script = ExtResource("2")
+map = ExtResource("4")
+
+[node name="HoverHighlight" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("HoverMesh")
+material_override = SubResource("HoverMat")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("3")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+current = true
+fov = 30.0
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="CellLabel" type="Label" parent="Hud"]
+unique_name_in_owner = true
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 300.0
+offset_bottom = 46.0
+
+[node name="Controls" type="Label" parent="Hud"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -46.0
+offset_right = 800.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6, 0.66, 0.74, 1)
+text = "WASD / arrows pan   ·   Q / E rotate   ·   Wheel zoom   ·   Esc pause"
+
+[node name="PauseMenu" parent="." instance=ExtResource("5")]
