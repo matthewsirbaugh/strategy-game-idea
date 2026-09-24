@@ -6,6 +6,7 @@ signal undo_pressed
 signal hack_pressed
 signal compact_pressed
 signal door_pressed
+signal network_toggled(shown: bool)
 
 const PLAYER_COLOR := Color(0.22, 0.5, 0.85)
 const ENEMY_COLOR := Color(0.8, 0.28, 0.25)
@@ -24,6 +25,7 @@ const FULL_CONTEXT_COLOR := Color(1.0, 0.45, 0.4)
 @onready var _compact: Button = %Compact
 @onready var _door: Button = %Door
 @onready var _end_turn: Button = %EndTurn
+@onready var _network_toggle: Button = %NetworkToggle
 @onready var _log: VBoxContainer = %Log
 @onready var _result: Control = %Result
 @onready var _result_label: Label = %ResultLabel
@@ -37,6 +39,7 @@ func _ready() -> void:
 	_compact.pressed.connect(compact_pressed.emit)
 	_door.pressed.connect(door_pressed.emit)
 	_end_turn.pressed.connect(end_turn_pressed.emit)
+	_network_toggle.toggled.connect(network_toggled.emit)
 	_restart.pressed.connect(SceneRouter.goto_battle)
 	_quit.pressed.connect(SceneRouter.goto_title)
 
@@ -83,6 +86,10 @@ func show_active(state: BattleState) -> void:
 	_compact.text = "Compact to %d" % state.compacted(unit.context)
 	_door.text = "Close door" if state.is_door_open(unit.agent_node) else "Open door"
 	_end_turn.text = "End turn"
+
+
+func set_network_shown(shown: bool) -> void:
+	_network_toggle.set_pressed_no_signal(shown)
 
 
 func set_hover(text: String) -> void:

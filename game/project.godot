@@ -71,6 +71,10 @@ undo_move={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,"button_index":2,"pressed":true)]
 }
+toggle_network={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":78)]
+}
 
 [rendering]
 

@@ -74,6 +74,12 @@ Placeholder fog rules Claude chose while building (2026-09-24), each easy to cha
 opens with pre-mission intel, so every guard starts as a last-known marker at its post; a hidden
 enemy in the way stops a move one tile short; and a move that reveals an enemy can't be undone.
 
+**Network view** (Bryson, 2026-09-24). The network layer isn't visible at all times. It appears
+automatically during the AI phase, is hidden during the human phase, and can be shown with a button
+(N). While it's up it must read as clearly separate from the map, so the map behind it is blurred and
+washed in light blue. Claude's reading, easy to change: during the human phase N still lets you peek
+at the network, and clicks on the map are ignored while peeking.
+
 **Signature abilities.** One per character, with placeholder names:
 
 | Ability | Effect | Uses |

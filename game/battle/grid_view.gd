@@ -8,8 +8,6 @@ const EXTRACTION_Y := 0.005
 const ACCESS_Y := 0.007
 const FOG_Y := 0.009
 const OVERLAY_Y := 0.012
-# The network floats above the walls, like a subway map over the city.
-const LINK_Y := 1.45
 
 const NODE_COLORS := {
 	"access": Color(0.2, 0.85, 1.0),
@@ -18,17 +16,9 @@ const NODE_COLORS := {
 	"turret": Color(0.95, 0.55, 0.2),
 	"cache": Color(0.95, 0.3, 0.8),
 }
-const NODE_LABELS := {
-	"access": "ACCESS",
-	"camera": "CAMERA",
-	"door": "DOOR",
-	"turret": "TURRET",
-	"cache": "DATA CACHE",
-}
 const BREACHED_COLOR := Color(0.35, 1.0, 0.6)
 const EXTRACTION_COLOR := Color(0.3, 1.0, 0.5, 0.3)
 const ACCESS_ZONE_COLOR := Color(0.2, 0.85, 1.0, 0.12)
-const LINK_COLOR := Color(0.2, 0.85, 1.0, 0.45)
 
 var map: MapData
 var _overlay_mesh := PlaneMesh.new()
@@ -58,33 +48,24 @@ func build(state: BattleState, tether_range: int) -> void:
 	for cell in map.extraction():
 		_add_mesh(_overlay_mesh, extraction, cell_to_world(cell) + Vector3(0, EXTRACTION_Y, 0))
 	for id in map.node_ids():
-		if NODE_LABELS.has(map.node_kind(id)):
-			_build_node(id)
-	_build_links()
+		_build_node(id)
 	_build_access_zones(tether_range)
 	update_nodes(state)
 
 
+# The physical side of a breach: a door opens, a hacked camera or cache turns the player's color.
 func update_nodes(state: BattleState) -> void:
 	for id in _nodes:
 		var part: Dictionary = _nodes[id]
-		var kind := map.node_kind(id)
-		var def := state.node_def(id)
-		var label: Label3D = part["label"]
-		label.text = NODE_LABELS[kind]
 		if state.breached.has(id):
-			label.text += "  ·  " + _breached_text(kind, state.is_door_open(id))
-			label.modulate = BREACHED_COLOR
 			var material: StandardMaterial3D = part["material"]
 			material.albedo_color = BREACHED_COLOR
 			material.emission = BREACHED_COLOR * 0.35
-		elif def and def.goal > 0:
-			label.text += "  %d/%d" % [state.breach.get(id, 0), def.goal]
-		if kind == "door":
+		if map.node_kind(id) == "door":
 			part["shape"].visible = not state.is_door_open(id)
 
 
-func node_position(id: String, height := LINK_Y) -> Vector3:
+func node_position(id: String, height := 0.0) -> Vector3:
 	return cell_to_world(map.node_cell(id)) + Vector3(0, height, 0)
 
 
@@ -142,6 +123,8 @@ static func place_beam(beam: MeshInstance3D, from: Vector3, to: Vector3) -> void
 
 func _build_node(id: String) -> void:
 	var kind := map.node_kind(id)
+	if kind == "turret":
+		return
 	var cell := map.node_cell(id)
 	var root := Node3D.new()
 	root.position = cell_to_world(cell)
@@ -162,19 +145,7 @@ func _build_node(id: String) -> void:
 			shape = _add_box(root, Vector3(1.0, 1.0, 0.2) if spans_x else Vector3(0.2, 1.0, 1.0), 0.5, material)
 		"cache":
 			shape = _add_box(root, Vector3(0.7, 1.3, 0.7), 0.65, material)
-	# The turret's body is its unit view, so its label sits above the unit's own.
-	var label := UnitView.make_label(32, 2.15 if kind == "turret" else 1.7)
-	label.modulate = color
-	root.add_child(label)
-	_nodes[id] = {"label": label, "material": material, "shape": shape}
-
-
-func _build_links() -> void:
-	for link in map.links:
-		var ends := link.split("-")
-		var beam := make_beam(0.04, LINK_COLOR)
-		add_child(beam)
-		place_beam(beam, node_position(ends[0]), node_position(ends[1]))
+	_nodes[id] = {"material": material, "shape": shape}
 
 
 func _build_access_zones(tether_range: int) -> void:
@@ -189,19 +160,6 @@ func _build_access_zones(tether_range: int) -> void:
 				if map.in_bounds(cell) and not map.is_wall(cell) and Grid.distance(cell, center_cell) <= tether_range and not zone.has(cell):
 					zone.append(cell)
 	set_overlay("access", zone, ACCESS_ZONE_COLOR, ACCESS_Y)
-
-
-func _breached_text(kind: String, door_open: bool) -> String:
-	match kind:
-		"door":
-			return "OPEN" if door_open else "LOCKED"
-		"camera":
-			return "YOURS"
-		"turret":
-			return "OFFLINE"
-		"cache":
-			return "SECURED"
-	return ""
 
 
 func _add_box(parent: Node3D, size: Vector3, center_y: float, material: Material) -> MeshInstance3D:

@@ -2,14 +2,10 @@ extends Node3D
 
 const MOVE_COLOR := Color(0.3, 0.6, 1.0, 0.35)
 const ATTACK_COLOR := Color(1.0, 0.3, 0.3, 0.5)
-const NETWORK_COLOR := Color(0.2, 0.85, 1.0, 0.5)
-const AGENT_NODE_COLOR := Color(1.0, 1.0, 1.0, 0.45)
 const FOG_COLOR := Color(0.02, 0.02, 0.06, 0.68)
 const GHOST_ALPHA := 0.3
 const ENEMY_TURN_PAUSE := 0.35
-const HOP_SECONDS := 0.15
-const AGENT_Y := 1.9
-const CHOICE_LAYERS: Array[String] = ["move", "attack", "network", "agent"]
+const CHOICE_LAYERS: Array[String] = ["move", "attack"]
 
 @export var map: MapData
 @export var operators: Array[UnitDef] = []
@@ -20,11 +16,11 @@ const CHOICE_LAYERS: Array[String] = ["move", "attack", "network", "agent"]
 var state: BattleState
 var _views := {}
 var _ghosts := {}
-var _agents := {}
 var _tethers := {}
 var _busy := true
 
 @onready var _grid: GridView = $GridView
+@onready var _network: NetworkView = $NetworkView
 @onready var _camera_rig: CameraRig = $CameraRig
 @onready var _hover: MeshInstance3D = $HoverHighlight
 @onready var _active_ring: MeshInstance3D = $ActiveRing
@@ -34,13 +30,13 @@ var _busy := true
 func _ready() -> void:
 	state = BattleState.new(map, operators, guard, turret, node_defs)
 	_grid.build(state, operators[0].tether_range)
+	_network.build(state, _grid)
 	for unit in state.units:
 		var view := UnitView.new()
 		add_child(view)
 		view.setup(unit, _grid.cell_to_world(unit.cell))
 		_views[unit.id] = view
 		if unit.is_player():
-			_agents[unit.id] = _make_agent(unit)
 			_tethers[unit.id] = GridView.make_beam(0.03, Color(unit.def.color, 0.8))
 			add_child(_tethers[unit.id])
 		else:
@@ -51,6 +47,7 @@ func _ready() -> void:
 	_hud.hack_pressed.connect(_hack)
 	_hud.compact_pressed.connect(_compact)
 	_hud.door_pressed.connect(_toggle_door)
+	_hud.network_toggled.connect(_set_network)
 	_refresh_fog()
 	_next_turn()
 
@@ -71,6 +68,9 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_network"):
+		_set_network(not _network.visible)
+		return
 	if _busy:
 		return
 	if event.is_action_pressed("end_turn"):
@@ -88,6 +88,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _next_turn() -> void:
 	_busy = true
 	_clear_choices()
+	_set_network(false)
 	var unit := state.begin_next_turn()
 	_hud.show_turn(state)
 	if unit == null:
@@ -111,10 +112,9 @@ func _show_options() -> void:
 	var unit := state.active
 	_clear_choices()
 	if state.phase == BattleState.Phase.AGENT:
-		var nodes := state.agent_destinations(unit).map(func(id: String) -> Vector2i: return state.map.node_cell(id))
-		_grid.set_overlay("network", nodes, NETWORK_COLOR)
-		_grid.set_overlay("agent", [state.map.node_cell(unit.agent_node)], AGENT_NODE_COLOR)
+		_network.highlight(state.agent_destinations(unit), unit.agent_node)
 	else:
+		_network.highlight([], "")
 		var moves := state.destinations(unit)
 		moves.erase(unit.cell)
 		_grid.set_overlay("move", moves, MOVE_COLOR)
@@ -135,6 +135,8 @@ func _click(cell: Vector2i) -> void:
 		elif id != "" and state.agent_destinations(unit).has(id):
 			_agent_action(state.agent_move(unit, id))
 		return
+	if _network.visible:
+		return
 	var target := state.unit_at(cell)
 	if target and state.player_sees(target) and state.can_attack(unit, target, unit.cell):
 		_busy = true
@@ -154,6 +156,8 @@ func _finish_human_phase() -> void:
 	_clear_choices()
 	await _play(state.end_human_phase(state.active))
 	if state.phase == BattleState.Phase.AGENT:
+		_set_network(true)
+		_camera_rig.keep_in_view(_network.node_position(state.active.agent_node))
 		_show_options()
 		_busy = false
 	else:
@@ -175,7 +179,7 @@ func _undo_move() -> void:
 		return
 	state.undo_move(unit)
 	_views[unit.id].position = _grid.cell_to_world(unit.cell)
-	_refresh_agents()
+	_network.refresh()
 	_refresh_fog()
 	_show_options()
 
@@ -233,16 +237,17 @@ func _play(events: Array[Dictionary]) -> void:
 				if state.player_sees(unit):
 					_hud.log_line("%s lost track" % unit.display_name)
 			"connect":
-				_refresh_agents()
+				_network.refresh()
 				_hud.log_line("%s's AI connects" % unit.display_name)
 			"disconnect":
-				_refresh_agents()
+				_network.refresh()
 				_hud.log_line("%s left the access point's range. The AI was pulled out" % unit.display_name)
 			"agent_move":
-				await _move_agent(unit, event["path"])
+				await _network.move_agent(unit, event["path"])
 			"hack":
 				var node: String = event["node"]
-				_float_text(_grid.node_position(node, 1.8), "+%d" % event["points"], GridView.NODE_COLORS["access"])
+				_float_text(_network.node_position(node) + Vector3(0, 1.0, 0), "+%d" % event["points"], Color.WHITE)
+				_network.refresh()
 				_hud.log_line("%s's AI hacks the %s: +%d" % [unit.display_name, state.node_def(node).display_name.to_lower(), event["points"]])
 				_grid.update_nodes(state)
 				await get_tree().create_timer(0.35, false).timeout
@@ -255,7 +260,7 @@ func _play(events: Array[Dictionary]) -> void:
 	for unit_view: UnitView in _views.values():
 		unit_view.refresh()
 	_grid.update_nodes(state)
-	_refresh_agents()
+	_network.refresh()
 	_refresh_fog()
 	_hud.show_turn(state)
 
@@ -273,14 +278,6 @@ func _walk(unit: Unit, path: Array) -> void:
 		await view.walk(points, shown)
 	elif not points.is_empty():
 		view.position = points.back()
-
-
-func _move_agent(unit: Unit, path: Array) -> void:
-	var orb: MeshInstance3D = _agents[unit.id]
-	var tween := create_tween()
-	for id in path:
-		tween.tween_property(orb, "position", _agent_position(unit, id), HOP_SECONDS)
-	await tween.finished
 
 
 func _any_seen(events: Array[Dictionary]) -> bool:
@@ -312,35 +309,13 @@ func _refresh_fog() -> void:
 			ghost.position = _grid.cell_to_world(state.known[id])
 
 
-func _refresh_agents() -> void:
-	for id in _agents:
-		var unit: Unit = state.units[id]
-		var orb: MeshInstance3D = _agents[id]
-		orb.visible = unit.agent_node != ""
-		if orb.visible:
-			orb.position = _agent_position(unit, unit.agent_node)
-
-
-# Side by side, so several AIs on one node stay readable.
-func _agent_position(unit: Unit, node: String) -> Vector3:
-	return _grid.node_position(node, AGENT_Y) + Vector3((unit.id - 1) * 0.3, 0, 0)
-
-
-func _make_agent(unit: Unit) -> MeshInstance3D:
-	var sphere := SphereMesh.new()
-	sphere.radius = 0.17
-	sphere.height = 0.34
-	var material := StandardMaterial3D.new()
-	material.albedo_color = unit.def.color
-	material.emission_enabled = true
-	material.emission = unit.def.color
-	material.emission_energy_multiplier = 1.5
-	var orb := MeshInstance3D.new()
-	orb.mesh = sphere
-	orb.material_override = material
-	orb.visible = false
-	add_child(orb)
-	return orb
+# The network layer covers the map, so the hover highlight has to draw above it while it's up.
+func _set_network(shown: bool) -> void:
+	_network.visible = shown
+	_hud.set_network_shown(shown)
+	var hover: StandardMaterial3D = _hover.material_override
+	hover.no_depth_test = shown
+	hover.render_priority = NetworkView.Order.RING if shown else 0
 
 
 func _make_ghost(unit: Unit) -> Node3D:
@@ -373,6 +348,8 @@ func _clear_choices() -> void:
 
 func _float_text(at: Vector3, text: String, color: Color) -> void:
 	var label := UnitView.make_label(56, 0.0)
+	label.render_priority = NetworkView.Order.LABEL + 2
+	label.outline_render_priority = NetworkView.Order.LABEL + 1
 	label.text = text
 	label.modulate = color
 	label.position = at
@@ -399,7 +376,10 @@ func _update_hover() -> void:
 		_hud.set_hover("")
 		return
 	_hover.position = _grid.cell_to_world(cell) + Vector3(0, 0.02, 0)
-	_hud.set_hover(_describe(cell))
+	var text := _describe(cell)
+	if _network.visible and state.phase == BattleState.Phase.HUMAN:
+		text += "    ·    Network view: press N to return to the map"
+	_hud.set_hover(text)
 
 
 func _describe(cell: Vector2i) -> String:

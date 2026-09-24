@@ -38,6 +38,22 @@ mouse_filter = 2
 theme_override_constants/separation = 6
 alignment = 1
 
+[node name="NetworkToggle" type="Button" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 16.0
+offset_right = -20.0
+offset_bottom = 58.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+text = "Network view  (N)"
+
 [node name="HoverLabel" type="Label" parent="Root"]
 unique_name_in_owner = true
 layout_mode = 1
@@ -163,7 +179,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.6, 0.66, 0.74, 1)
 theme_override_font_sizes/font_size = 16
-text = "Human: click a tile to move, an enemy on red to attack   ·   AI: click a node to move or hack   ·   Space: next phase   ·   Right-click: undo   ·   WASD / Q E / wheel: camera   ·   Esc: pause"
+text = "Human: click a tile to move, an enemy on red to attack   ·   AI: click a node to move or hack   ·   Space: next phase   ·   N: network view   ·   Right-click: undo   ·   WASD / Q E / wheel: camera   ·   Esc: pause"
 
 [node name="Result" type="CenterContainer" parent="Root"]
 unique_name_in_owner = true

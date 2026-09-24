@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://battle/battle.gd" id="1"]
 [ext_resource type="Script" path="res://battle/grid_view.gd" id="2"]
@@ -18,6 +18,7 @@
 [ext_resource type="Resource" path="res://content/nodes/camera.tres" id="16"]
 [ext_resource type="Resource" path="res://content/nodes/turret.tres" id="17"]
 [ext_resource type="Resource" path="res://content/nodes/cache.tres" id="18"]
+[ext_resource type="Script" path="res://battle/network_view.gd" id="19"]
 
 [sub_resource type="Environment" id="Env"]
 background_mode = 1
@@ -60,6 +61,9 @@ shadow_enabled = true
 
 [node name="GridView" type="Node3D" parent="."]
 script = ExtResource("2")
+
+[node name="NetworkView" type="Node3D" parent="."]
+script = ExtResource("19")
 
 [node name="HoverHighlight" type="MeshInstance3D" parent="."]
 visible = false
