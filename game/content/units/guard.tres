@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/unit_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Guard"
+team = 1
+kind = 1
+max_hp = 8
+move = 4
+damage = 3
+attack_range = 3
+speed = 5
+color = Color(0.9, 0.35, 0.3, 1)

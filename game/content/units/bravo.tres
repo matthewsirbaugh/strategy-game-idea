@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/unit_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Bravo"
+max_hp = 12
+move = 4
+damage = 4
+attack_range = 4
+speed = 6
+color = Color(0.35, 0.6, 1, 1)

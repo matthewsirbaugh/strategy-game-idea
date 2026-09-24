@@ -4,4 +4,27 @@
 
 [resource]
 script = ExtResource("1")
-size = Vector2i(12, 12)
+layout = "X X . . . . . . # . . .
+X X . . c . . f # . z .
+. . . . . . 2 . # . . .
+# # # d # # . . # # # #
+. . . . . . . . . t . .
+. e . . # . b . . . 3 .
+. . 1 . . . . . # . . .
+. . . . . . . . . . . .
+# # . # # . . # # . # #
+. . . # . 4 . . # . . .
+. 5 . # . . a . # P P .
+. . . . . . . . . . P ."
+node_kinds = {
+"a": "access",
+"b": "access",
+"c": "access",
+"d": "door",
+"e": "camera",
+"f": "camera",
+"t": "turret",
+"z": "cache"
+}
+links = PackedStringArray("a-e", "a-d", "e-t", "t-b", "b-z", "d-f", "f-c", "c-z")
+patrols = PackedStringArray("7,7 7,4 2,4", "2,2 2,0 6,0", "11,7 7,7", "7,11 4,11", "2,7 0,4")

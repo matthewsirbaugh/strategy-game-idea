@@ -5,9 +5,9 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 
 | Topic | Status | Next action | File |
 |---|---|---|---|
-| Battle MVP: first playable in Godot | open | Bryson plays milestone 1 (menus, camera, grid); then build milestone 2: humans, guards, movement, attacks, turn queue | [battle-mvp.md](explorations/battle-mvp.md) |
+| Battle MVP: first playable in Godot | open | Bryson plays milestone 2; then build milestone 3: fog of war, last-known positions, guard memory | [battle-mvp.md](explorations/battle-mvp.md) |
 | Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
-| Art pipeline: 2D or 3D, and how assets get made | open | Gather candidate pipelines with their costs and example output | [art-pipeline.md](explorations/art-pipeline.md) |
+| Art pipeline: how 3D assets get made | open | Gather candidate pipelines with their costs and example output | [art-pipeline.md](explorations/art-pipeline.md) |
 | The core idea and story | parked | World and premise are sufficient for gameplay exploration; resume character and plot development when Bryson returns to it | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |
 | Between battles: the town | parked | Waiting on the story the town needs to tell; starts as one neighborhood | not started |
@@ -19,7 +19,8 @@ or AGENTS.md, and the file keeps the reasoning).
 
 ## Reading routes
 
-- Resume the current discussion with [battle-core.md](explorations/battle-core.md): what hacking is for, the working models for battle structure, hack resolution and stat axes, and the open questions. The minigame candidates are shelved at the bottom of that file. Nothing has been built.
+- The build in progress is [battle-mvp.md](explorations/battle-mvp.md): the MVP spec, the placeholder map and stats, and the milestones. The game is in `game/`; README.md says how to run it.
+- The design behind it is [battle-core.md](explorations/battle-core.md): what hacking is for, the working models for battle structure, hack resolution and stat axes, and the open questions. The minigame candidates are shelved at the bottom of that file.
 - The 2026-09-23 decisions are in [DESIGN.md](DESIGN.md#decisions). The old "Skirmish shape" row was absorbed into the battle core on the same date.
 - For the working concept, use the core exploration's [topic index](explorations/core-idea-and-story.md#topic-index).
 - Read the core exploration's [latest clarifications](explorations/core-idea-and-story.md#september-22-clarifications) before treating older setting or digital-map language as current.

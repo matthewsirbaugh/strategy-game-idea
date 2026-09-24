@@ -1,4 +1,4 @@
-# Art pipeline: 2D or 3D, and how assets get made
+# Art pipeline: how 3D assets get made
 
 - Feeds: DESIGN.md open question 2
 - Status: open
@@ -6,10 +6,13 @@
 
 ## The question
 
-Which art pipeline this project uses, and whether the game is 2D or 3D. Bryson wants to
-understand the available pipelines, what they cost in money and in his time, and see examples
-of what each one actually produces before committing to anything. Talk of 3D models so far is
-a working assumption, not a decision.
+Which art pipeline this project uses. Bryson wants to understand the available pipelines, what
+they cost in money and in his time, and see examples of what each one actually produces before
+committing to anything.
+
+2026-09-24: the game is 3D, and Bryson wants it to be good looking (DESIGN.md). He plans to
+start on art with the Blender MCP as soon as the battle MVP playtest validates the game. The
+MVP's 3D scene is built so that models can replace its greybox shapes directly.
 
 ## Constraints this inherits
 

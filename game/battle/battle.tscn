@@ -1,10 +1,17 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://battle/battle.gd" id="1"]
 [ext_resource type="Script" path="res://battle/grid_view.gd" id="2"]
 [ext_resource type="Script" path="res://battle/camera_rig.gd" id="3"]
 [ext_resource type="Resource" path="res://content/maps/mvp.tres" id="4"]
 [ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://battle/hud.tscn" id="6"]
+[ext_resource type="Script" path="res://rules/unit_def.gd" id="7"]
+[ext_resource type="Resource" path="res://content/units/alpha.tres" id="8"]
+[ext_resource type="Resource" path="res://content/units/bravo.tres" id="9"]
+[ext_resource type="Resource" path="res://content/units/charlie.tres" id="10"]
+[ext_resource type="Resource" path="res://content/units/guard.tres" id="11"]
+[ext_resource type="Resource" path="res://content/units/turret.tres" id="12"]
 
 [sub_resource type="Environment" id="Env"]
 background_mode = 1
@@ -22,8 +29,20 @@ transparency = 1
 shading_mode = 0
 albedo_color = Color(0.3, 0.9, 1, 0.45)
 
+[sub_resource type="TorusMesh" id="RingMesh"]
+inner_radius = 0.34
+outer_radius = 0.44
+
+[sub_resource type="StandardMaterial3D" id="RingMat"]
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 1)
+
 [node name="Battle" type="Node3D"]
 script = ExtResource("1")
+map = ExtResource("4")
+operators = Array[ExtResource("7")]([ExtResource("8"), ExtResource("9"), ExtResource("10")])
+guard = ExtResource("11")
+turret = ExtResource("12")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Env")
@@ -34,12 +53,16 @@ shadow_enabled = true
 
 [node name="GridView" type="Node3D" parent="."]
 script = ExtResource("2")
-map = ExtResource("4")
 
 [node name="HoverHighlight" type="MeshInstance3D" parent="."]
 visible = false
 mesh = SubResource("HoverMesh")
 material_override = SubResource("HoverMat")
+
+[node name="ActiveRing" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("RingMesh")
+material_override = SubResource("RingMat")
 
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("3")
@@ -48,25 +71,6 @@ script = ExtResource("3")
 current = true
 fov = 30.0
 
-[node name="Hud" type="CanvasLayer" parent="."]
-
-[node name="CellLabel" type="Label" parent="Hud"]
-unique_name_in_owner = true
-offset_left = 20.0
-offset_top = 16.0
-offset_right = 300.0
-offset_bottom = 46.0
-
-[node name="Controls" type="Label" parent="Hud"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -46.0
-offset_right = 800.0
-offset_bottom = -16.0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.6, 0.66, 0.74, 1)
-text = "WASD / arrows pan   ·   Q / E rotate   ·   Wheel zoom   ·   Esc pause"
+[node name="Hud" parent="." instance=ExtResource("6")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("5")]

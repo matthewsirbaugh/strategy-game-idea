@@ -63,6 +63,14 @@ camera_zoom_out={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,"button_index":5,"pressed":true)]
 }
+end_turn={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":32)]
+}
+undo_move={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"button_index":2,"pressed":true)]
+}
 
 [rendering]
 

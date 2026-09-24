@@ -83,7 +83,8 @@ Emblem: Three Houses, South Park: The Stick of Truth and The Fractured But Whole
 
 ## Decisions
 
-Decided 2026-09-23. The reasoning, and the working models that are not locked yet, are in
+Decided 2026-09-23 unless dated otherwise. The reasoning, and the working models that are not
+locked yet, are in
 [the battle core exploration](explorations/battle-core.md).
 
 - Hacking is how the team uses the environment, completes objectives and gathers battlefield
@@ -96,6 +97,8 @@ Decided 2026-09-23. The reasoning, and the working models that are not locked ye
   different ways, developed through hardware, harness and post-training upgrades. It is broad
   enough that no two players play alike. Builds change tactics, not just numbers.
 - No permadeath.
+- The game is 3D, and it should be good looking. The MVP uses basic greybox shapes; art comes
+  once the playtest validates it. (2026-09-24)
 - Between battles there is a town, like Persona: walk around, talk to people, investigate, and
   buy and install upgrades. It starts small, and it gets built to explore the story I need to
   tell rather than the story being made to fit the game.
@@ -104,7 +107,7 @@ Decided 2026-09-23. The reasoning, and the working models that are not locked ye
 
 1. Scope. How big this is follows from the idea we land on, so it gets decided after the
    brainstorm.
-2. 2D or 3D, and the art style. Talk of 3D models is a working assumption, not a decision.
+2. The art style. 3D is decided (see Decisions); the look within 3D is open.
 3. How exploring connects to turn-based fights, including taking enemies on indirectly or in
    creative ways.
 4. Whether the touchstones above are ingredients the brainstorm has to use, or inspiration it

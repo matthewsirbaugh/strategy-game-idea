@@ -81,6 +81,69 @@ or investigate a last-known position. They never cheat past the fog.
 **Win and lose.** Win: breach the data cache, then get every standing Operator to the
 extraction zone. Lose: all three Operators downed.
 
+## Map sketch
+
+Claude's placeholder, drawn 2026-09-24 at Bryson's request. Level layout is Bryson's call, so
+mark it up freely. The live copy is `game/content/maps/mvp.tres`; editing its layout changes
+the game directly.
+
+```
+      0 1 2 3 4 5 6 7 8 9 10 11
+  0   X X . . . . . . # . .  .
+  1   X X . . c . . f # . z  .
+  2   . . . . . . 2 . # . .  .
+  3   # # # d # # . . # # #  #
+  4   . . . . . . . . . t .  .
+  5   . e . . # . b . . . 3  .
+  6   . . 1 . . . . . # . .  .
+  7   . . . . . . . . . . .  .
+  8   # # . # # . . # # . #  #
+  9   . . . # . 4 . . # . .  .
+ 10   . 5 . # . . a . # P P  .
+ 11   . . . . . . . . . . P  .
+```
+
+`.` floor, `#` wall, `X` extraction, `P` Operator start, `1`–`5` guard start. Letters are
+network nodes:
+
+| Node | Kind | Role |
+|---|---|---|
+| a | Access point | Near the start and fairly safe. Reaches the atrium camera and the door |
+| b | Access point | In the atrium, in the turret's line of fire. One hop from the cache |
+| c | Access point | By the exit, on the north patrol's route. One hop from the cache |
+| d | Door | Shortcut from the atrium to the exit corridor |
+| e | Camera | Watches the atrium |
+| f | Camera | Watches the exit corridor |
+| t | Turret | Covers the atrium |
+| z | Data cache | In a sealed server room; reachable only through the network |
+
+Network links: a–e, a–d, e–t, t–b, b–z, d–f, f–c, c–z. The cache is 4 hops from the safe
+access point and 1 hop from the two exposed ones. That's the intended tension: safe and slow, or
+exposed and fast.
+
+Guard patrols loop through these waypoints after their start tile: guard 1 (7,7) (7,4) (2,4);
+guard 2 (2,2) (2,0) (6,0); guard 3 (11,7) (7,7); guard 4 (7,11) (4,11); guard 5 (2,7) (0,4).
+
+With the default camera, the start (bottom right of the sketch) is at the bottom of the screen
+and the exit (top left) is at the top.
+
+## Placeholder stats
+
+Placeholders for tuning (Bryson, 2026-09-24: "placeholder numbers are fine"). Distances are in
+tiles with no diagonals. Attacks beyond 1 tile need line of sight, and damage is deterministic.
+
+| Unit | HP | Move | Damage | Range | Speed | Sight |
+|---|---|---|---|---|---|---|
+| Alpha (Probe) | 10 | 5 | 3 | 3 | 7 | 5 |
+| Bravo (Locate) | 12 | 4 | 4 | 4 | 6 | 5 |
+| Charlie (Cloak) | 12 | 4 | 6 | 1 | 4 | 5 |
+| Guard (×5) | 8 | 4 | 3 | 3 | 5 | 5 |
+| Turret | 10 | 0 | 4 | 5 | 3 | 5 |
+
+Alpha, Bravo and Charlie are placeholder code names. A human moves, then acts; attacking ends
+the turn, and a move can be undone until then. A guard that spots an Operator while patrolling
+is alerted and acts on its next turn rather than shooting immediately.
+
 ## Menus
 
 - Title: New game, Settings, Quit.
@@ -120,4 +183,12 @@ Each one runs, gets played, and is committed.
 
 ## Findings
 
-None yet.
+### 2026-09-24 — Milestone 2 build notes (Claude, scripted run; not yet played by Bryson)
+
+- A scripted run with real clicks: Alpha and Bravo move, the turn queue follows speed, Guard 4
+  patrols into view of the loading dock in round 1, closes in and shoots in round 2, and Alpha
+  and Bravo focus fire to down it in round 3.
+- On this map the first fight happens right at access point a, the "safe" one. Worth deciding
+  whether that's the right opening.
+- Enemy turns currently pan the camera to guards anywhere on the map. Fog of war in milestone 3
+  should limit the camera to guards the player can see.

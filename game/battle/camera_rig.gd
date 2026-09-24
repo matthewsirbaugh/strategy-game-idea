@@ -13,6 +13,7 @@ var _bounds_max := Vector3.ZERO
 var _distance := 34.0
 var _yaw_steps := 0
 var _rotate_tween: Tween
+var _focus_tween: Tween
 
 @onready var _camera: Camera3D = $Camera3D
 
@@ -22,6 +23,20 @@ func setup(center: Vector3, extent: Vector3) -> void:
 	_bounds_max = extent
 	rotation.y = _yaw()
 	_update_camera()
+
+
+# Moves only when the target is near the screen edge, so the view doesn't swing every turn.
+func keep_in_view(target: Vector3) -> void:
+	var screen := _camera.get_viewport().get_visible_rect()
+	if not screen.grow(-screen.size.y * 0.2).has_point(_camera.unproject_position(target)):
+		focus(target)
+
+
+func focus(target: Vector3) -> void:
+	if _focus_tween:
+		_focus_tween.kill()
+	_focus_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_focus_tween.tween_property(self, "position", target.clamp(_bounds_min, _bounds_max), 0.35)
 
 
 func _process(delta: float) -> void:
