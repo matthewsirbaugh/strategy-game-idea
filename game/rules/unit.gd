@@ -17,6 +17,14 @@ var alerted := false
 var searching := false
 var has_lead := false
 var lead: Vector2i
+var disabled := false
+# The AI half. agent_node is where it sits in the network ("" when disconnected), entry is the
+# access point it plugged in through, which the human has to stay near.
+var agent_node := ""
+var entry := ""
+var context := 0
+var agent_origin := ""
+var entry_origin := ""
 
 
 func _init(p_id: int, p_def: UnitDef, p_name: String, p_cell: Vector2i) -> void:

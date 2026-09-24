@@ -3,10 +3,14 @@ extends CanvasLayer
 
 signal end_turn_pressed
 signal undo_pressed
+signal hack_pressed
+signal compact_pressed
+signal door_pressed
 
 const PLAYER_COLOR := Color(0.22, 0.5, 0.85)
 const ENEMY_COLOR := Color(0.8, 0.28, 0.25)
 const LOG_LINES := 7
+const FULL_CONTEXT_COLOR := Color(1.0, 0.45, 0.4)
 
 @onready var _round: Label = %RoundLabel
 @onready var _order: HBoxContainer = %Order
@@ -14,7 +18,11 @@ const LOG_LINES := 7
 @onready var _active_panel: Control = %ActivePanel
 @onready var _active_name: Label = %ActiveName
 @onready var _active_stats: Label = %ActiveStats
+@onready var _context: ProgressBar = %ContextBar
 @onready var _undo: Button = %Undo
+@onready var _hack: Button = %Hack
+@onready var _compact: Button = %Compact
+@onready var _door: Button = %Door
 @onready var _end_turn: Button = %EndTurn
 @onready var _log: VBoxContainer = %Log
 @onready var _result: Control = %Result
@@ -25,6 +33,9 @@ const LOG_LINES := 7
 
 func _ready() -> void:
 	_undo.pressed.connect(undo_pressed.emit)
+	_hack.pressed.connect(hack_pressed.emit)
+	_compact.pressed.connect(compact_pressed.emit)
+	_door.pressed.connect(door_pressed.emit)
 	_end_turn.pressed.connect(end_turn_pressed.emit)
 	_restart.pressed.connect(SceneRouter.goto_battle)
 	_quit.pressed.connect(SceneRouter.goto_title)
@@ -45,11 +56,33 @@ func show_turn(state: BattleState) -> void:
 
 func show_active(state: BattleState) -> void:
 	var unit := state.active
-	_active_name.text = unit.display_name
-	_active_stats.text = "HP %d/%d    Move %d    Damage %d    Range %d" % [
-		unit.hp, unit.def.max_hp, unit.def.move, unit.def.damage, unit.def.attack_range
-	]
+	var agent_phase := state.phase == BattleState.Phase.AGENT
+	_context.value = unit.context
+	_context.modulate = FULL_CONTEXT_COLOR if unit.context >= BattleState.CONTEXT_MAX else Color.WHITE
+	_undo.visible = not agent_phase
 	_undo.disabled = not state.can_undo(unit)
+	_hack.visible = agent_phase
+	_compact.visible = agent_phase
+	_door.visible = agent_phase and state.can_toggle_door(unit)
+	if not agent_phase:
+		_active_name.text = unit.display_name
+		_active_stats.text = "HP %d/%d    Move %d    Damage %d    Range %d    Context %d" % [
+			unit.hp, unit.def.max_hp, unit.def.move, unit.def.damage, unit.def.attack_range, unit.context
+		]
+		_end_turn.text = "AI phase" if state.can_connect(unit) else "End turn"
+		return
+	var node := state.node_def(unit.agent_node)
+	var progress := ""
+	if node.goal > 0:
+		progress = "  (breached)" if state.breached.has(unit.agent_node) else "  %d/%d" % [state.breach.get(unit.agent_node, 0), node.goal]
+	_active_name.text = "%s  ·  AI" % unit.display_name
+	_active_stats.text = "On: %s%s    Context %d/%d" % [node.display_name, progress, unit.context, BattleState.CONTEXT_MAX]
+	_hack.disabled = not state.can_hack(unit)
+	_hack.text = "Hack +%d" % state.hack_yield(unit)
+	_compact.disabled = unit.context == 0
+	_compact.text = "Compact to %d" % state.compacted(unit.context)
+	_door.text = "Close door" if state.is_door_open(unit.agent_node) else "Open door"
+	_end_turn.text = "End turn"
 
 
 func set_hover(text: String) -> void:

@@ -6,6 +6,8 @@ class_name EnemyAI
 
 
 static func take_turn(state: BattleState, unit: Unit) -> Array[Dictionary]:
+	if unit.disabled:
+		return []
 	var seen := state.seen_enemies(unit)
 	if not seen.is_empty():
 		return _engage(state, unit, seen)

@@ -34,7 +34,12 @@ func setup(p_unit: Unit, at: Vector3) -> void:
 
 
 func refresh() -> void:
-	var status := "down" if unit.is_down() else "%d/%d" % [unit.hp, unit.def.max_hp]
+	var status := "%d/%d" % [unit.hp, unit.def.max_hp]
+	if unit.is_down():
+		status = "down"
+	elif unit.disabled:
+		status = "offline"
+		_material.albedo_color = DOWNED_COLOR
 	_label.text = "%s\n%s" % [unit.display_name, status]
 	_alert.text = "!" if unit.alerted else "?"
 	_alert.visible = (unit.alerted or unit.searching) and not unit.is_down()

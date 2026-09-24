@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://battle/battle.gd" id="1"]
 [ext_resource type="Script" path="res://battle/grid_view.gd" id="2"]
@@ -12,6 +12,12 @@
 [ext_resource type="Resource" path="res://content/units/charlie.tres" id="10"]
 [ext_resource type="Resource" path="res://content/units/guard.tres" id="11"]
 [ext_resource type="Resource" path="res://content/units/turret.tres" id="12"]
+[ext_resource type="Script" path="res://rules/node_def.gd" id="13"]
+[ext_resource type="Resource" path="res://content/nodes/access.tres" id="14"]
+[ext_resource type="Resource" path="res://content/nodes/door.tres" id="15"]
+[ext_resource type="Resource" path="res://content/nodes/camera.tres" id="16"]
+[ext_resource type="Resource" path="res://content/nodes/turret.tres" id="17"]
+[ext_resource type="Resource" path="res://content/nodes/cache.tres" id="18"]
 
 [sub_resource type="Environment" id="Env"]
 background_mode = 1
@@ -43,6 +49,7 @@ map = ExtResource("4")
 operators = Array[ExtResource("7")]([ExtResource("8"), ExtResource("9"), ExtResource("10")])
 guard = ExtResource("11")
 turret = ExtResource("12")
+node_defs = Array[ExtResource("13")]([ExtResource("14"), ExtResource("15"), ExtResource("16"), ExtResource("17"), ExtResource("18")])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Env")

@@ -14,3 +14,8 @@ enum Kind { OPERATOR, GUARD, TURRET }
 @export var speed := 5
 @export var sight := 5
 @export var color := Color.WHITE
+
+@export_group("Agent")
+@export var hack_power := 10
+@export var network_range := 3
+@export var tether_range := 2

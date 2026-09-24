@@ -5,30 +5,38 @@ const TILE_HEIGHT := 0.2
 const TILE_GAP := 0.06
 const WALL_HEIGHT := 1.2
 const EXTRACTION_Y := 0.005
+const ACCESS_Y := 0.007
 const FOG_Y := 0.009
 const OVERLAY_Y := 0.012
+# The network floats above the walls, like a subway map over the city.
+const LINK_Y := 1.45
 
 const NODE_COLORS := {
 	"access": Color(0.2, 0.85, 1.0),
 	"camera": Color(1.0, 0.82, 0.3),
 	"door": Color(0.85, 0.55, 0.2),
+	"turret": Color(0.95, 0.55, 0.2),
 	"cache": Color(0.95, 0.3, 0.8),
 }
 const NODE_LABELS := {
 	"access": "ACCESS",
 	"camera": "CAMERA",
 	"door": "DOOR",
+	"turret": "TURRET",
 	"cache": "DATA CACHE",
 }
+const BREACHED_COLOR := Color(0.35, 1.0, 0.6)
 const EXTRACTION_COLOR := Color(0.3, 1.0, 0.5, 0.3)
+const ACCESS_ZONE_COLOR := Color(0.2, 0.85, 1.0, 0.12)
+const LINK_COLOR := Color(0.2, 0.85, 1.0, 0.45)
 
 var map: MapData
 var _overlay_mesh := PlaneMesh.new()
 var _overlays := {}
-var _node_views := {}
+var _nodes := {}
 
 
-func build(state: BattleState) -> void:
+func build(state: BattleState, tether_range: int) -> void:
 	map = state.map
 	_overlay_mesh.size = Vector2(1.0 - TILE_GAP, 1.0 - TILE_GAP)
 	var floor_mesh := BoxMesh.new()
@@ -50,8 +58,34 @@ func build(state: BattleState) -> void:
 	for cell in map.extraction():
 		_add_mesh(_overlay_mesh, extraction, cell_to_world(cell) + Vector3(0, EXTRACTION_Y, 0))
 	for id in map.node_ids():
-		if NODE_COLORS.has(map.node_kind(id)):
+		if NODE_LABELS.has(map.node_kind(id)):
 			_build_node(id)
+	_build_links()
+	_build_access_zones(tether_range)
+	update_nodes(state)
+
+
+func update_nodes(state: BattleState) -> void:
+	for id in _nodes:
+		var part: Dictionary = _nodes[id]
+		var kind := map.node_kind(id)
+		var def := state.node_def(id)
+		var label: Label3D = part["label"]
+		label.text = NODE_LABELS[kind]
+		if state.breached.has(id):
+			label.text += "  ·  " + _breached_text(kind, state.is_door_open(id))
+			label.modulate = BREACHED_COLOR
+			var material: StandardMaterial3D = part["material"]
+			material.albedo_color = BREACHED_COLOR
+			material.emission = BREACHED_COLOR * 0.35
+		elif def and def.goal > 0:
+			label.text += "  %d/%d" % [state.breach.get(id, 0), def.goal]
+		if kind == "door":
+			part["shape"].visible = not state.is_door_open(id)
+
+
+func node_position(id: String, height := LINK_Y) -> Vector3:
+	return cell_to_world(map.node_cell(id)) + Vector3(0, height, 0)
 
 
 func set_overlay(layer: String, cells: Array, color: Color, height := OVERLAY_Y) -> void:
@@ -67,11 +101,6 @@ func clear_overlay(layer: String) -> void:
 	for mesh in _overlays.get(layer, []):
 		mesh.queue_free()
 	_overlays.erase(layer)
-
-
-func clear_overlays() -> void:
-	for layer in _overlays.keys():
-		clear_overlay(layer)
 
 
 func cell_to_world(cell: Vector2i) -> Vector3:
@@ -90,6 +119,27 @@ func extent() -> Vector3:
 	return Vector3(map.size.x, 0.0, map.size.y)
 
 
+static func make_beam(thickness: float, color: Color) -> MeshInstance3D:
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(thickness, thickness, 1.0)
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.albedo_color = color
+	var beam := MeshInstance3D.new()
+	beam.mesh = mesh
+	beam.material_override = material
+	return beam
+
+
+static func place_beam(beam: MeshInstance3D, from: Vector3, to: Vector3) -> void:
+	var length := from.distance_to(to)
+	beam.visible = length > 0.01
+	if beam.visible:
+		var basis := Basis.looking_at(to - from, Vector3.UP) * Basis.from_scale(Vector3(1, 1, length))
+		beam.transform = Transform3D(basis, (from + to) / 2.0)
+
+
 func _build_node(id: String) -> void:
 	var kind := map.node_kind(id)
 	var cell := map.node_cell(id)
@@ -100,25 +150,61 @@ func _build_node(id: String) -> void:
 	var material := _material(color)
 	material.emission_enabled = true
 	material.emission = color * 0.35
+	var shape: MeshInstance3D = null
 	match kind:
 		"access":
-			_add_box(root, Vector3(0.45, 0.8, 0.45), 0.4, material)
+			shape = _add_box(root, Vector3(0.45, 0.8, 0.45), 0.4, material)
 		"camera":
 			_add_box(root, Vector3(0.08, 1.0, 0.08), 0.5, material)
-			_add_box(root, Vector3(0.4, 0.25, 0.25), 1.05, material)
+			shape = _add_box(root, Vector3(0.4, 0.25, 0.25), 1.05, material)
 		"door":
 			var spans_x := map.is_wall(cell + Vector2i(1, 0)) or map.is_wall(cell + Vector2i(-1, 0))
-			_add_box(root, Vector3(1.0, 1.0, 0.2) if spans_x else Vector3(0.2, 1.0, 1.0), 0.5, material)
+			shape = _add_box(root, Vector3(1.0, 1.0, 0.2) if spans_x else Vector3(0.2, 1.0, 1.0), 0.5, material)
 		"cache":
-			_add_box(root, Vector3(0.7, 1.3, 0.7), 0.65, material)
-	var label := UnitView.make_label(32, 1.55)
-	label.text = NODE_LABELS[kind]
+			shape = _add_box(root, Vector3(0.7, 1.3, 0.7), 0.65, material)
+	# The turret's body is its unit view, so its label sits above the unit's own.
+	var label := UnitView.make_label(32, 2.15 if kind == "turret" else 1.7)
 	label.modulate = color
 	root.add_child(label)
-	_node_views[id] = root
+	_nodes[id] = {"label": label, "material": material, "shape": shape}
 
 
-func _add_box(parent: Node3D, size: Vector3, center_y: float, material: Material) -> void:
+func _build_links() -> void:
+	for link in map.links:
+		var ends := link.split("-")
+		var beam := make_beam(0.04, LINK_COLOR)
+		add_child(beam)
+		place_beam(beam, node_position(ends[0]), node_position(ends[1]))
+
+
+func _build_access_zones(tether_range: int) -> void:
+	var zone: Array[Vector2i] = []
+	for id in map.node_ids():
+		if map.node_kind(id) != "access":
+			continue
+		var center_cell := map.node_cell(id)
+		for x in range(center_cell.x - tether_range, center_cell.x + tether_range + 1):
+			for y in range(center_cell.y - tether_range, center_cell.y + tether_range + 1):
+				var cell := Vector2i(x, y)
+				if map.in_bounds(cell) and not map.is_wall(cell) and Grid.distance(cell, center_cell) <= tether_range and not zone.has(cell):
+					zone.append(cell)
+	set_overlay("access", zone, ACCESS_ZONE_COLOR, ACCESS_Y)
+
+
+func _breached_text(kind: String, door_open: bool) -> String:
+	match kind:
+		"door":
+			return "OPEN" if door_open else "LOCKED"
+		"camera":
+			return "YOURS"
+		"turret":
+			return "OFFLINE"
+		"cache":
+			return "SECURED"
+	return ""
+
+
+func _add_box(parent: Node3D, size: Vector3, center_y: float, material: Material) -> MeshInstance3D:
 	var mesh := BoxMesh.new()
 	mesh.size = size
 	var instance := MeshInstance3D.new()
@@ -126,6 +212,7 @@ func _add_box(parent: Node3D, size: Vector3, center_y: float, material: Material
 	instance.material_override = material
 	instance.position.y = center_y
 	parent.add_child(instance)
+	return instance
 
 
 func _add_mesh(mesh: Mesh, material: Material, at: Vector3) -> MeshInstance3D:

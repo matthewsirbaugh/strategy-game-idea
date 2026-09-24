@@ -5,21 +5,39 @@ extends RefCounted
 # order without the rules knowing anything about the view.
 
 enum Winner { NONE, PLAYER, ENEMY }
+# An Operator's turn is split: the human acts, then their AI does.
+enum Phase { HUMAN, AGENT }
+
+const CONTEXT_MAX := 100
+const FULL_CONTEXT_YIELD := 0.5
+const COMPACT_KEEPS := 0.25
 
 var map: MapData
 var units: Array[Unit] = []
 var round_number := 0
 var active: Unit
+var phase := Phase.HUMAN
 # The player's side of the fog: tiles in live vision, and where each enemy was last seen.
 var visible_cells := {}
 var known := {}
 var vision_sources: Array[Dictionary] = []
+var breach := {}
+var breached := {}
+var cache_breached := false
+var _node_defs := {}
+var _links := {}
 var _queue: Array[Unit] = []
 var _open_doors := {}
 
 
-func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: UnitDef) -> void:
+func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: UnitDef, node_defs: Array[NodeDef]) -> void:
 	map = p_map
+	for def in node_defs:
+		_node_defs[def.kind] = def
+	for link in map.links:
+		var ends := link.split("-")
+		_links.get_or_add(ends[0], []).append(ends[1])
+		_links.get_or_add(ends[1], []).append(ends[0])
 	var starts := map.player_starts()
 	for i in mini(starts.size(), operators.size()):
 		_add(operators[i], operators[i].display_name, starts[i])
@@ -49,10 +67,13 @@ func begin_next_turn() -> Unit:
 		var next: Unit = _queue.pop_front()
 		if not next.is_down():
 			active = next
+	phase = Phase.HUMAN
 	active.moved = false
 	active.acted = false
 	active.revealed = false
 	active.move_origin = active.cell
+	active.agent_origin = active.agent_node
+	active.entry_origin = active.entry
 	return active
 
 
@@ -200,16 +221,21 @@ func move(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
 	var events: Array[Dictionary] = [{"type": "move", "unit": unit, "path": walked}]
 	if blocker:
 		events.append({"type": "blocked", "unit": unit, "by": blocker})
+	if unit.agent_node != "" and Grid.distance(unit.cell, map.node_cell(unit.entry)) > unit.def.tether_range:
+		_disconnect(unit)
+		events.append({"type": "disconnect", "unit": unit})
 	return events
 
 
 func can_undo(unit: Unit) -> bool:
-	return unit.moved and not unit.acted and not unit.revealed
+	return phase == Phase.HUMAN and unit.moved and not unit.acted and not unit.revealed
 
 
 func undo_move(unit: Unit) -> void:
 	unit.cell = unit.move_origin
 	unit.moved = false
+	unit.agent_node = unit.agent_origin
+	unit.entry = unit.entry_origin
 	refresh_vision()
 
 
@@ -220,9 +246,153 @@ func attack(unit: Unit, target: Unit) -> Array[Dictionary]:
 		{"type": "attack", "unit": unit, "target": target, "damage": unit.def.damage}
 	]
 	if target.is_down():
+		_disconnect(target)
 		events.append({"type": "downed", "unit": target})
 		refresh_vision()
 	return events
+
+
+func node_def(id: String) -> NodeDef:
+	return _node_defs.get(map.node_kind(id))
+
+
+func is_door_open(id: String) -> bool:
+	return _open_doors.has(id)
+
+
+func network_path(from: String, to: String) -> Array[String]:
+	var came_from := {from: from}
+	var frontier: Array[String] = [from]
+	while not frontier.is_empty():
+		var current: String = frontier.pop_front()
+		for next in _links.get(current, []):
+			if not came_from.has(next):
+				came_from[next] = current
+				frontier.append(next)
+	var path: Array[String] = []
+	if not came_from.has(to):
+		return path
+	var step := to
+	while step != from:
+		path.push_front(step)
+		step = came_from[step]
+	return path
+
+
+func agent_destinations(unit: Unit) -> Array[String]:
+	var result: Array[String] = []
+	if unit.agent_node == "":
+		return result
+	for id in map.node_ids():
+		var hops := network_path(unit.agent_node, id).size()
+		if hops > 0 and hops <= unit.def.network_range:
+			result.append(id)
+	return result
+
+
+func access_point_in_reach(unit: Unit) -> String:
+	var best := ""
+	var best_distance := 0
+	for id in map.node_ids():
+		var distance := Grid.distance(unit.cell, map.node_cell(id))
+		if map.node_kind(id) == "access" and distance <= unit.def.tether_range and (best == "" or distance < best_distance):
+			best = id
+			best_distance = distance
+	return best
+
+
+func can_connect(unit: Unit) -> bool:
+	return unit.agent_node != "" or access_point_in_reach(unit) != ""
+
+
+# The AI plugs in when the human's part of the turn ends near an access point.
+func end_human_phase(unit: Unit) -> Array[Dictionary]:
+	var events: Array[Dictionary] = []
+	if unit.agent_node == "":
+		var access := access_point_in_reach(unit)
+		if access != "":
+			unit.agent_node = access
+			unit.entry = access
+			events.append({"type": "connect", "unit": unit, "node": access})
+	if unit.agent_node != "":
+		phase = Phase.AGENT
+	return events
+
+
+func agent_move(unit: Unit, id: String) -> Array[Dictionary]:
+	var path := network_path(unit.agent_node, id)
+	unit.agent_node = id
+	return [{"type": "agent_move", "unit": unit, "path": path}]
+
+
+func can_hack(unit: Unit) -> bool:
+	var def := node_def(unit.agent_node)
+	return def != null and def.goal > 0 and not breached.has(unit.agent_node)
+
+
+func hack_yield(unit: Unit) -> int:
+	if unit.context >= CONTEXT_MAX:
+		return int(unit.def.hack_power * FULL_CONTEXT_YIELD)
+	return unit.def.hack_power
+
+
+func hack(unit: Unit) -> Array[Dictionary]:
+	var id := unit.agent_node
+	var def := node_def(id)
+	var points := hack_yield(unit)
+	breach[id] = breach.get(id, 0) + points
+	unit.context = mini(CONTEXT_MAX, unit.context + def.context_cost)
+	var events: Array[Dictionary] = [{"type": "hack", "unit": unit, "node": id, "points": points}]
+	if breach[id] >= def.goal:
+		events.append(_breach(unit, id))
+	return events
+
+
+func compacted(context: int) -> int:
+	return roundi(context * COMPACT_KEEPS)
+
+
+func compact(unit: Unit) -> Array[Dictionary]:
+	var before := unit.context
+	unit.context = compacted(before)
+	return [{"type": "compact", "unit": unit, "before": before}]
+
+
+func can_toggle_door(unit: Unit) -> bool:
+	var id := unit.agent_node
+	return breached.has(id) and map.node_kind(id) == "door" and unit_at(map.node_cell(id)) == null
+
+
+func toggle_door(unit: Unit) -> Array[Dictionary]:
+	var id := unit.agent_node
+	if _open_doors.has(id):
+		_open_doors.erase(id)
+	else:
+		_open_doors[id] = true
+	refresh_vision()
+	return [{"type": "door", "unit": unit, "node": id, "open": _open_doors.has(id)}]
+
+
+func _breach(unit: Unit, id: String) -> Dictionary:
+	breached[id] = true
+	match map.node_kind(id):
+		"door":
+			_open_doors[id] = true
+		"camera":
+			vision_sources.append({"cell": map.node_cell(id), "radius": node_def(id).vision_radius})
+		"turret":
+			var turret := unit_at(map.node_cell(id))
+			if turret:
+				turret.disabled = true
+		"cache":
+			cache_breached = true
+	refresh_vision()
+	return {"type": "breach", "unit": unit, "node": id}
+
+
+func _disconnect(unit: Unit) -> void:
+	unit.agent_node = ""
+	unit.entry = ""
 
 
 func winner() -> Winner:

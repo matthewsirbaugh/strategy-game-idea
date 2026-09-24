@@ -196,3 +196,13 @@ Each one runs, gets played, and is committed.
   whether that's the right opening.
 - Enemy turns currently pan the camera to guards anywhere on the map. Fog of war in milestone 3
   should limit the camera to guards the player can see.
+
+### 2026-09-24 — Milestones 3 and 4 build notes (Claude, scripted runs; not yet played by Bryson)
+
+- Fog: unseen guards now act instantly, so enemy turns take about a quarter of the time.
+- Network: in a scripted run, Alpha's AI connects at access point a, hops to the atrium camera and
+  breaches it in two hacks; the team's vision goes from 35 to 61 tiles and a guard in the fog
+  shows up live.
+- Choices made while building, easy to change: the AI connects automatically when its human ends
+  their part of the turn in range; being pulled out keeps the AI's context (it is still running
+  in the backpack); and a breached door can be toggled open or locked by an AI sitting on it.
