@@ -70,6 +70,10 @@ last-known position.
 **Guards.** They patrol set routes. They act only on what they can see or last saw: chase, attack,
 or investigate a last-known position. They never cheat past the fog.
 
+Placeholder fog rules Claude chose while building (2026-09-24), each easy to change: the battle
+opens with pre-mission intel, so every guard starts as a last-known marker at its post; a hidden
+enemy in the way stops a move one tile short; and a move that reveals an enemy can't be undone.
+
 **Signature abilities.** One per character, with placeholder names:
 
 | Ability | Effect | Uses |

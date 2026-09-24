@@ -10,6 +10,10 @@ var map: MapData
 var units: Array[Unit] = []
 var round_number := 0
 var active: Unit
+# The player's side of the fog: tiles in live vision, and where each enemy was last seen.
+var visible_cells := {}
+var known := {}
+var vision_sources: Array[Dictionary] = []
 var _queue: Array[Unit] = []
 var _open_doors := {}
 
@@ -26,6 +30,11 @@ func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: Un
 	for id in map.node_ids():
 		if map.node_kind(id) == "turret":
 			_add(turret, turret.display_name, map.node_cell(id))
+	# Pre-mission intel: the player starts knowing where every enemy was posted.
+	for unit in units:
+		if not unit.is_player():
+			known[unit.id] = unit.cell
+	refresh_vision()
 
 
 func begin_next_turn() -> Unit:
@@ -42,6 +51,7 @@ func begin_next_turn() -> Unit:
 			active = next
 	active.moved = false
 	active.acted = false
+	active.revealed = false
 	active.move_origin = active.cell
 	return active
 
@@ -101,12 +111,36 @@ func seen_enemies(viewer: Unit) -> Array[Unit]:
 	return result
 
 
-# Units can pass through allies but not enemies.
+# Structures like the turret are always on the map; everything else needs live vision.
+func player_sees(unit: Unit) -> bool:
+	return unit.is_player() or unit.def.move == 0 or visible_cells.has(unit.cell)
+
+
+func refresh_vision() -> void:
+	visible_cells.clear()
+	for unit in living():
+		if unit.is_player():
+			_add_vision(unit.cell, unit.def.sight)
+	for source in vision_sources:
+		_add_vision(source["cell"], source["radius"])
+	for unit in living():
+		if unit.is_player():
+			continue
+		if player_sees(unit):
+			known[unit.id] = unit.cell
+		elif known.has(unit.id) and visible_cells.has(known[unit.id]):
+			known.erase(unit.id)
+
+
+# Players plan around what they can see: hidden enemies don't block their plans, they
+# interrupt the move when walked into.
 func can_pass(unit: Unit, cell: Vector2i) -> bool:
 	if blocks_movement(cell):
 		return false
 	var other := unit_at(cell)
-	return other == null or not other.is_enemy_of(unit)
+	if other == null or not other.is_enemy_of(unit):
+		return true
+	return unit.is_player() and not player_sees(other)
 
 
 func reach(unit: Unit, max_cost: int) -> Reach:
@@ -119,7 +153,8 @@ func destinations(unit: Unit) -> Array[Vector2i]:
 	if unit.moved:
 		return result
 	for cell in reach(unit, unit.def.move).cost:
-		if cell == unit.cell or unit_at(cell) == null:
+		var other := unit_at(cell)
+		if other == null or other == unit or (unit.is_player() and other.is_enemy_of(unit) and not player_sees(other)):
 			result.append(cell)
 	return result
 
@@ -134,21 +169,48 @@ func can_attack(unit: Unit, target: Unit, from: Vector2i) -> bool:
 func attack_targets(unit: Unit, from: Vector2i) -> Array[Unit]:
 	var result: Array[Unit] = []
 	for target in units:
-		if can_attack(unit, target, from):
+		if can_attack(unit, target, from) and (not unit.is_player() or player_sees(target)):
 			result.append(target)
 	return result
 
 
 func move(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
-	var path := reach(unit, unit.def.move).path_to(cell)
-	unit.cell = cell
+	var start := unit.cell
+	var walked: Array[Vector2i] = []
+	var blocker: Unit = null
+	for step in reach(unit, unit.def.move).path_to(cell):
+		var other := unit_at(step)
+		if other and other.is_enemy_of(unit):
+			blocker = other
+			break
+		walked.append(step)
+	while not walked.is_empty() and unit_at(walked.back()) != null:
+		walked.pop_back()
+	if not walked.is_empty():
+		unit.cell = walked.back()
 	unit.moved = true
-	return [{"type": "move", "unit": unit, "path": path}]
+	if not unit.is_player():
+		_track(unit, [start] + walked)
+	var seen_before := _seen_enemy_ids()
+	refresh_vision()
+	unit.revealed = blocker != null
+	for id in _seen_enemy_ids():
+		if not seen_before.has(id):
+			unit.revealed = true
+	var events: Array[Dictionary] = [{"type": "move", "unit": unit, "path": walked}]
+	if blocker:
+		events.append({"type": "blocked", "unit": unit, "by": blocker})
+	return events
+
+
+func can_undo(unit: Unit) -> bool:
+	return unit.moved and not unit.acted and not unit.revealed
 
 
 func undo_move(unit: Unit) -> void:
 	unit.cell = unit.move_origin
 	unit.moved = false
+	refresh_vision()
 
 
 func attack(unit: Unit, target: Unit) -> Array[Dictionary]:
@@ -159,6 +221,7 @@ func attack(unit: Unit, target: Unit) -> Array[Dictionary]:
 	]
 	if target.is_down():
 		events.append({"type": "downed", "unit": target})
+		refresh_vision()
 	return events
 
 
@@ -181,6 +244,34 @@ func _add(def: UnitDef, unit_name: String, cell: Vector2i) -> Unit:
 	var unit := Unit.new(units.size(), def, unit_name, cell)
 	units.append(unit)
 	return unit
+
+
+func _add_vision(from: Vector2i, radius: int) -> void:
+	for x in range(from.x - radius, from.x + radius + 1):
+		for y in range(from.y - radius, from.y + radius + 1):
+			var cell := Vector2i(x, y)
+			if map.in_bounds(cell) and Grid.distance(from, cell) <= radius and has_line_of_sight(from, cell):
+				visible_cells[cell] = true
+
+
+func _seen_enemy_ids() -> Dictionary:
+	var ids := {}
+	for unit in living():
+		if not unit.is_player() and player_sees(unit):
+			ids[unit.id] = true
+	return ids
+
+
+# The tile where the player watched an enemy vanish into the fog becomes its last known position.
+func _track(unit: Unit, steps: Array) -> void:
+	var in_view := false
+	for step in steps:
+		if visible_cells.has(step):
+			known[unit.id] = step
+			in_view = true
+		elif in_view:
+			known[unit.id] = step
+			in_view = false
 
 
 func _acts_before(a: Unit, b: Unit) -> bool:

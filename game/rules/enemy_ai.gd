@@ -1,23 +1,32 @@
 class_name EnemyAI
 
-# Enemies act only on what they can see right now. A patrolling guard that spots an Operator is
-# alerted and acts on its next turn, so walking into view is dangerous but not instantly punished.
+# Enemies act only on what they can see right now, plus a memory of where they last saw an
+# Operator. A patrolling guard that spots someone is alerted and acts on its next turn, so walking
+# into view is dangerous but not instantly punished.
 
 
 static func take_turn(state: BattleState, unit: Unit) -> Array[Dictionary]:
-	if state.seen_enemies(unit).is_empty():
+	var seen := state.seen_enemies(unit)
+	if not seen.is_empty():
+		return _engage(state, unit, seen)
+	if unit.def.move == 0:
 		unit.alerted = false
-		var patrol_events := _patrol(state, unit)
-		if not state.seen_enemies(unit).is_empty():
-			unit.alerted = true
-			patrol_events.append({"type": "alert", "unit": unit})
-		return patrol_events
-	unit.alerted = true
+		return []
+	if unit.has_lead:
+		return _investigate(state, unit)
+	unit.alerted = false
+	var events := _patrol(state, unit)
+	_notice(state, unit, events)
+	return events
+
+
+static func _engage(state: BattleState, unit: Unit, seen: Array[Unit]) -> Array[Dictionary]:
+	_remember(unit, seen)
 	var events: Array[Dictionary] = []
 	if state.attack_targets(unit, unit.cell).is_empty() and unit.def.move > 0:
 		var destination := _attack_position(state, unit)
 		if destination == unit.cell:
-			destination = _toward(state, unit, _nearest(unit, state.seen_enemies(unit)).cell)
+			destination = _toward(state, unit, unit.lead)
 		if destination != unit.cell:
 			events.append_array(state.move(unit, destination))
 	var in_range := state.attack_targets(unit, unit.cell)
@@ -26,8 +35,41 @@ static func take_turn(state: BattleState, unit: Unit) -> Array[Dictionary]:
 	return events
 
 
+# Heads for where it last saw an Operator, and gives up once there with nobody in sight.
+static func _investigate(state: BattleState, unit: Unit) -> Array[Dictionary]:
+	unit.alerted = false
+	unit.searching = true
+	var events: Array[Dictionary] = []
+	var destination := _toward(state, unit, unit.lead)
+	if destination != unit.cell:
+		events.append_array(state.move(unit, destination))
+	if _notice(state, unit, events):
+		return events
+	if unit.cell == unit.lead or destination == unit.cell:
+		unit.has_lead = false
+		unit.searching = false
+		events.append({"type": "lost", "unit": unit})
+	return events
+
+
+static func _notice(state: BattleState, unit: Unit, events: Array[Dictionary]) -> bool:
+	var seen := state.seen_enemies(unit)
+	if seen.is_empty():
+		return false
+	_remember(unit, seen)
+	events.append({"type": "alert", "unit": unit})
+	return true
+
+
+static func _remember(unit: Unit, seen: Array[Unit]) -> void:
+	unit.alerted = true
+	unit.searching = false
+	unit.has_lead = true
+	unit.lead = _nearest(unit, seen).cell
+
+
 static func _patrol(state: BattleState, unit: Unit) -> Array[Dictionary]:
-	if unit.route.size() < 2 or unit.def.move == 0:
+	if unit.route.size() < 2:
 		return []
 	if unit.cell == unit.route[unit.route_index]:
 		unit.route_index = (unit.route_index + 1) % unit.route.size()

@@ -40,15 +40,16 @@ func show_turn(state: BattleState) -> void:
 	var active := state.active
 	_active_panel.visible = active != null and active.is_player()
 	if _active_panel.visible:
-		show_active(active)
+		show_active(state)
 
 
-func show_active(unit: Unit) -> void:
+func show_active(state: BattleState) -> void:
+	var unit := state.active
 	_active_name.text = unit.display_name
 	_active_stats.text = "HP %d/%d    Move %d    Damage %d    Range %d" % [
 		unit.hp, unit.def.max_hp, unit.def.move, unit.def.damage, unit.def.attack_range
 	]
-	_undo.disabled = not unit.moved or unit.acted
+	_undo.disabled = not state.can_undo(unit)
 
 
 func set_hover(text: String) -> void:

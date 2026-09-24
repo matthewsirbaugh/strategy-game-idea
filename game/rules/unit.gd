@@ -9,9 +9,14 @@ var hp: int
 var moved := false
 var acted := false
 var move_origin: Vector2i
+# This turn's move uncovered an enemy, so undoing it would un-learn information.
+var revealed := false
 var route: Array[Vector2i] = []
 var route_index := 0
 var alerted := false
+var searching := false
+var has_lead := false
+var lead: Vector2i
 
 
 func _init(p_id: int, p_def: UnitDef, p_name: String, p_cell: Vector2i) -> void:

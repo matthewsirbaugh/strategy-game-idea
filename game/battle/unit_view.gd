@@ -36,15 +36,24 @@ func setup(p_unit: Unit, at: Vector3) -> void:
 func refresh() -> void:
 	var status := "down" if unit.is_down() else "%d/%d" % [unit.hp, unit.def.max_hp]
 	_label.text = "%s\n%s" % [unit.display_name, status]
-	_alert.visible = unit.alerted and not unit.is_down()
+	_alert.text = "!" if unit.alerted else "?"
+	_alert.visible = (unit.alerted or unit.searching) and not unit.is_down()
 
 
-func walk(points: Array[Vector3]) -> void:
+# shown[i] says whether the player can see the unit on points[i]; walking in the fog is instant.
+func walk(points: Array[Vector3], shown: Array[bool] = []) -> void:
 	if points.is_empty():
 		return
 	var tween := create_tween()
-	for point in points:
-		tween.tween_property(self, "position", point, STEP_SECONDS)
+	var was_shown := visible
+	for i in points.size():
+		var is_shown: bool = shown.is_empty() or shown[i]
+		if is_shown:
+			tween.tween_callback(set_visible.bind(true))
+		tween.tween_property(self, "position", points[i], STEP_SECONDS if is_shown or was_shown else 0.0)
+		if not is_shown:
+			tween.tween_callback(set_visible.bind(false))
+		was_shown = is_shown
 	await tween.finished
 
 

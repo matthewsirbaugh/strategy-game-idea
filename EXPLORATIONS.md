@@ -5,7 +5,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 
 | Topic | Status | Next action | File |
 |---|---|---|---|
-| Battle MVP: first playable in Godot | open | Bryson plays milestone 2; then build milestone 3: fog of war, last-known positions, guard memory | [battle-mvp.md](explorations/battle-mvp.md) |
+| Battle MVP: first playable in Godot | open | Build milestone 4: network nodes, the tether, hacking, context and compaction | [battle-mvp.md](explorations/battle-mvp.md) |
 | Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
 | Art pipeline: how 3D assets get made | open | Gather candidate pipelines with their costs and example output | [art-pipeline.md](explorations/art-pipeline.md) |
 | The core idea and story | parked | World and premise are sufficient for gameplay exploration; resume character and plot development when Bryson returns to it | [core-idea-and-story.md](explorations/core-idea-and-story.md) |

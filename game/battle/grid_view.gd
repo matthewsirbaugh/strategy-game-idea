@@ -5,6 +5,7 @@ const TILE_HEIGHT := 0.2
 const TILE_GAP := 0.06
 const WALL_HEIGHT := 1.2
 const EXTRACTION_Y := 0.005
+const FOG_Y := 0.009
 const OVERLAY_Y := 0.012
 
 const NODE_COLORS := {
@@ -34,9 +35,9 @@ func build(state: BattleState) -> void:
 	floor_mesh.size = Vector3(1.0 - TILE_GAP, TILE_HEIGHT, 1.0 - TILE_GAP)
 	var wall_mesh := BoxMesh.new()
 	wall_mesh.size = Vector3(1.0, WALL_HEIGHT, 1.0)
-	var light := _material(Color(0.3, 0.33, 0.38))
-	var dark := _material(Color(0.25, 0.28, 0.33))
-	var wall := _material(Color(0.5, 0.53, 0.6))
+	var light := _material(Color(0.38, 0.41, 0.47))
+	var dark := _material(Color(0.33, 0.36, 0.42))
+	var wall := _material(Color(0.56, 0.59, 0.66))
 	for y in map.size.y:
 		for x in map.size.x:
 			var cell := Vector2i(x, y)
@@ -53,12 +54,12 @@ func build(state: BattleState) -> void:
 			_build_node(id)
 
 
-func set_overlay(layer: String, cells: Array, color: Color) -> void:
+func set_overlay(layer: String, cells: Array, color: Color, height := OVERLAY_Y) -> void:
 	clear_overlay(layer)
 	var material := _material(color, true)
 	var meshes: Array[MeshInstance3D] = []
 	for cell in cells:
-		meshes.append(_add_mesh(_overlay_mesh, material, cell_to_world(cell) + Vector3(0, OVERLAY_Y, 0)))
+		meshes.append(_add_mesh(_overlay_mesh, material, cell_to_world(cell) + Vector3(0, height, 0)))
 	_overlays[layer] = meshes
 
 
