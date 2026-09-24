@@ -5,7 +5,8 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 
 | Topic | Status | Next action | File |
 |---|---|---|---|
-| Battle core: turns, fog, network and hacking | open | Work through the open questions (agents after the Operator leaves, enemy hacking, enemy intentions, compaction), then narrow toward a small battle MVP | [battle-core.md](explorations/battle-core.md) |
+| Battle MVP: first playable in Godot | open | Build milestone 1: menus, settings, battle scene with camera and grid | [battle-mvp.md](explorations/battle-mvp.md) |
+| Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
 | Art pipeline: 2D or 3D, and how assets get made | open | Gather candidate pipelines with their costs and example output | [art-pipeline.md](explorations/art-pipeline.md) |
 | The core idea and story | parked | World and premise are sufficient for gameplay exploration; resume character and plot development when Bryson returns to it | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |

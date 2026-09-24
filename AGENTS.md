@@ -95,7 +95,21 @@ progress and don't get lost. One topic, one chat, one file.
   tooling keeps improving.
 - Services like Meshy are options for generating 3D assets.
 
+## Code and tests
+
+The project is at the prototype stage. Code gets thrown away and rewritten, so keep it lean.
+Every comment and test is paid for in tokens twice: once to write, and again each time an agent
+reads it later.
+
+- Comment only when the reason behind the code isn't obvious from the code itself. No comments
+  that restate what a line does.
+- Write a test only when it earns its keep: rules math that's easy to get subtly wrong, or a bug
+  that has already come back once. Never for coverage, and never "just because".
+- Verify by running and playing the build. Report which of the two actually happened.
+- Revisit this when the project moves from prototype toward a finished product.
+
 ## Not agreed yet
 
-Engine and tech stack, art pipeline, testing and verification policy, target platforms. Don't
-assume any of these. Ask.
+Engine: Godot 4 with GDScript, decided 2026-09-23. Project structure is recorded in
+[the battle MVP exploration](explorations/battle-mvp.md). Still open: art pipeline, target
+platforms. Don't assume these. Ask.

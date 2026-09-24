@@ -100,13 +100,28 @@ without locking it in.
   agents move between nodes they own and have to breach the rest.
 - The town starts as a single neighborhood. Its final size is decided later.
 
+## 2026-09-23 — Answers for the MVP (Bryson)
+
+1. The tether. The agent runs locally in the backpack, so hacking requires the Operator to stay
+   close to the access point. The AI does not "live in" the node. There is a little room to
+   move while connected, and the range can be upgraded, but it works as a tether: go too far
+   and the agent is pulled out.
+2. Compaction uses the AI's action for the turn. Like real compaction, it clears most of the
+   context, not all of it.
+3. Enemy intentions are hidden. Seeing them could come later as an upgrade, something like
+   access to a state-of-the-art prediction algorithm.
+4. No enemy hacking in the MVP. In the game, AI-equipped enemies are rare early: a group might
+   be 3 humans and 1 AI, and not every human enemy has one. Until the first big boss fight the
+   player's AI has the node network almost to itself, so players learn to control it with low
+   pressure. After the first boss, most enemies have an AI. The training wheels come off and
+   the design can get more creative, because the player has a frame of reference.
+
+The MVP itself is specified in [battle-mvp.md](battle-mvp.md).
+
 ## Open questions
 
-1. Does an agent stay in the network after its Operator walks away from the port, or does it
-   get pulled out? (Core question 23.)
-2. Do enemies hack the player's team, and is spoofing the defense against exactly that?
-3. Can the player see what enemies intend to do next turn, or is uncovering that itself a hack?
-4. How does context compaction work, and what does it cost: a turn, an action, something else?
+Questions 1–4 from the first list were answered above.
+
 5. Does the context window reset between battles, or carry over within a mission?
 6. Beyond how full the context is, does a node's difficulty also reduce the share of points
    that count, as the legal-document example suggests? (Claude's reading, not confirmed.)
