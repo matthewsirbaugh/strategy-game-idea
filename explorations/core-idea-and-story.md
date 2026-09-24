@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: parked; further character and plot development is on the back burner.
-- Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Hacking mechanics now have their own
-  [exploration](hacking-gameplay.md).
+- Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
+  [exploration](battle-core.md).
 
 ## The question
 
@@ -21,7 +21,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | Topic | Source entries |
 |---|---|
 | Latest corrections and scope | [September 22 clarifications](#september-22-clarifications) |
-| Hacking attempts, candidate games and research | [Hacking gameplay exploration](hacking-gameplay.md) |
+| Battle structure, fog, hack resolution; shelved minigame research | [Battle core exploration](battle-core.md) |
 | Creative intent and touchstones | [DESIGN.md](../DESIGN.md); [early findings](#findings) |
 | Concentrated and distributed power | [Theme](#power-theme) |
 | Chibi identity, appearance and permanent pairing | [Partners and counterparts](#partners) |
@@ -543,7 +543,7 @@ Codex also corrected its earlier advice; these are qualifications, not new desig
 - Nothing requires real language models to run inside the finished game. Runtime technology
   remains a later architecture decision.
 
-The new [hacking-gameplay exploration](hacking-gameplay.md) owns the confirmed attempt/reset/
+The new hacking-gameplay exploration (renamed [battle core](battle-core.md) on 2026-09-23) owns the confirmed attempt/reset/
 carryover structure, illustrative upgrades, three candidate games, source-backed research,
 evaluation criteria and the exact unanswered comparison question. No candidate is selected.
 
@@ -559,7 +559,7 @@ without making the whole historical list a work queue.
 |---|---|
 | Player relationship, trust and change | 17, 19, 20, 21 |
 | Agent control, connection and hacking process | 22, 23, 24 |
-| Hacking attempts and minigame candidates | [Hacking gameplay](hacking-gameplay.md); this now holds the developing answer to question 24 |
+| Hacking resolution, battle structure and the shelved minigame | [Battle core](battle-core.md); this now holds the developing answer to question 24 |
 | Specialization and corporate restrictions | 25, 26 |
 | Rival access and corporate model structure | 27, 28 |
 | How partners learn their human's identity | 29 |
@@ -626,7 +626,7 @@ D. When a human dies, what happens to what they carried? Bryson: premature and m
 24. What is the hacking process, and how do physical and digital actions interrupt or support
     one another?
     Follow-up: the attempt/reset/carryover rules are now recorded in
-    [hacking-gameplay.md](hacking-gameplay.md#brysons-working-rules). Specific activity and
+    [battle-core.md](battle-core.md#brysons-working-rules). Specific activity and
     integration remain open there.
 25. What meaningful risk accompanies the speed, freedom and specialization of an "unsafe"
     local model?

@@ -1,8 +1,9 @@
 # Design
 
-Status: early. Nothing here is a design decision yet. This file records what I want from the
-project, what I'm drawing on, and what is still open. It is written in my voice — "I" is the
-designer. How we work is in AGENTS.md.
+Status: early. The first design decisions are under Decisions; everything else here is still
+open. This file records what I want from the project, what I'm drawing on, what I've decided,
+and what is still open. It is written in my voice — "I" is the designer. How we work is in
+AGENTS.md.
 
 ## Why this project matters
 
@@ -61,6 +62,14 @@ creative problem solving. Korok seeds work the same way in Breath of the Wild.
 Dragon Ball Z: The Legacy of Goku II and Buu's Fury are favorites because of the story and the
 characters. Zelda's aesthetic and story matter to me too.
 
+### Small, stable teams with real power
+
+Triangle Strategy is maybe one of my favorite SRPGs. Where it fell short: the story still felt
+like generic fantasy, everything outside battle was cookie cutter when it could have been
+incredible, and it didn't go far enough in making the player and enemies feel genuinely
+powerful, with many strategic options and specializations. I also stop liking these games when
+the roster gets so big that I have to use characters I don't like to stay competitive.
+
 ### Not unpacked yet
 
 Adventure, building up a team over time, and strategy games in general. Pokémon Emerald, Fire
@@ -71,6 +80,25 @@ Emblem: Three Houses, South Park: The Stick of Truth and The Fractured But Whole
 - About 10 hours a week, sometimes a bit more.
 - No budget beyond the AI subscriptions I already have.
 - I direct everything. Art and code are executed by AI. See AGENTS.md for who does what.
+
+## Decisions
+
+Decided 2026-09-23. The reasoning, and the working models that are not locked yet, are in
+[the battle core exploration](explorations/battle-core.md).
+
+- Hacking is how the team uses the environment, completes objectives and gathers battlefield
+  information, such as enemy weaknesses and locations. It resolves through stats, not a
+  minigame, and is as deterministic as possible.
+- Hidden information. Fog of war like StarCraft: the whole map is visible, but only what you
+  have vision on is live. Hacks can reveal, hide and spoof information.
+- Three playable characters, with a stable roster through the game, like Persona.
+- Each character has one bespoke ability theme with many abilities in it that synergize in
+  different ways, developed through hardware, harness and post-training upgrades. It is broad
+  enough that no two players play alike. Builds change tactics, not just numbers.
+- No permadeath.
+- Between battles there is a town, like Persona: walk around, talk to people, investigate, and
+  buy and install upgrades. It starts small, and it gets built to explore the story I need to
+  tell rather than the story being made to fit the game.
 
 ## Open questions
 

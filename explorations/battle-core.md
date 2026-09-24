@@ -1,13 +1,128 @@
-# Hacking gameplay: repeatable escalating attempts
+# Battle core: turns, fog, network and hacking
 
-- Feeds: the core idea and story, particularly questions 22–25 about agent control and hacking.
-- Status: open; no candidate selected.
-- Record date: 2026-09-22. Captures the conversation since the previous saved review.
+- Feeds: [DESIGN.md decisions](../DESIGN.md#decisions); core idea questions 22–25.
+- Status: open. Several conclusions graduated to DESIGN.md on 2026-09-23. The battle structure,
+  hack resolution and stat axes below are working models, not locked.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md), which owns the current next action.
+- Renamed on 2026-09-23 from "Hacking gameplay: repeatable escalating attempts". The minigame
+  work this thread started with is [shelved](#shelved-the-hacking-minigame) and kept below for
+  its reasoning and research.
+
+## Read this first
+
+On 2026-09-23 Bryson stepped back from a hacking minigame. Hacking exists so the team can use
+the environment, complete objectives and gather battlefield information, and it resolves
+through stats rather than a minigame. This file now covers the battle as a whole: turn order,
+the split human/AI turn, the node network, fog of war and how hacks resolve.
+
+For a cold start, read AGENTS.md, EXPLORATIONS.md, the DESIGN.md decisions, and this file down
+to [Open questions](#open-questions). Everything after that is the shelved 2026-09-22 record.
+Nothing has been built.
+
+## 2026-09-23 — Stepping back (Bryson, Claude Code chat)
+
+- What hacking is for: the AI hacks so the team can use the environment, capture data and
+  complete objectives, and get information on the rest of the battlefield, such as enemy
+  weaknesses and locations.
+- Hidden information, StarCraft style: the whole map is visible, but only what you have vision
+  on is live. Hacks can uncover information, which works thematically.
+- Three playable characters with a stable roster, like Persona. The only way to make the player
+  care about the story is through the characters, and a small cast means effort goes into fewer
+  character models, which suits a solo project.
+- Permadeath is off.
+- Builds must change tactics. Each character's abilities, gained through the LLM-themed upgrade
+  pipelines, are bespoke to that character: one ability theme, many abilities within it that
+  synergize in different ways, broad enough that no two players end up with the same playstyle.
+- The minigame is out: "There's not room, and I'm not going to replicate a Tetris level
+  experience in this, otherwise I would just ship that."
+- Between battles, a town or world like Persona: walk around, talk to people, investigate, and
+  buy and install upgrades. Start small. Figure out the story that needs telling and build the
+  town to explore it, rather than crafting a story to fit a game.
+
+The commitments graduated to [DESIGN.md](../DESIGN.md#decisions). Triangle Strategy, and
+Bryson's critique of it, went into the DESIGN.md touchstones.
+
+## Working model: battle structure
+
+Bryson's first ideas, not locked.
+
+- Normal battles might be 3 against 5.
+- Every player and enemy unit has a speed stat that orders a turn queue, as in Triangle
+  Strategy.
+- The turn splits. A character's human moves, then that character's AI acts. The AI works
+  differently from the human movement and environment system but interacts with the physical
+  world, acting roughly like half a character.
+- The AI map is a network of nodes mapped to network ports on the physical map. The AI moves
+  from node to connected node, unconstrained by physical distance. AI turns stay quick; the
+  humans carry the traditional SRPG.
+- First fog-of-war ability ideas: drop a stationary probe that gives vision of an area; uncover
+  an enemy's location; hide your own location; and, as a rare character-specific defense, make
+  an enemy that successfully hacks you believe you are somewhere else.
+
+## Working model: hack resolution
+
+Bryson's model, not locked.
+
+- As deterministic as possible, most of the time. Early hacks, and hacks that are easy relative
+  to the AI character's level, are basically guaranteed.
+- Each hack adds hack points toward the node's goal number. Progress accumulates across turns
+  (this carries over rules 4, 6 and 7 from the [shelved record](#brysons-working-rules)).
+- Each successful hack fills the agent's context window by some amount.
+- When the context window is full, hacks get harder. The chance of success does not drop;
+  instead, a smaller percentage of the agent's hack points counts toward the node's goal.
+- Context compaction exists as a way to recover. How it works and what it costs are open.
+- The grounding: real LLMs pushed to their limits fail more. Hallucination rates rise on
+  long-horizon tasks with many steps, when a context window fills, and when parsing something
+  particularly difficult, like a legal document.
+
+## Working model: stat axes
+
+Claude's suggestion. Bryson asked to keep it as the working model for how stats will function,
+without locking it in.
+
+| Pipeline | Varies |
+|---|---|
+| Hardware | How much: range, actions, breach speed |
+| Harness | How: new verbs and tools |
+| Post-training | Specialization, with regressions elsewhere |
+
+## Agent recommendations Bryson agreed with
+
+2026-09-23. Bryson agreed with these; they are recorded as agreed direction, not as locked rules.
+
+- Enemy AI plays by the fog rules and acts only on what it knows. Otherwise hiding and spoofing
+  do nothing.
+- The network displays as an overlay on the physical map, like a subway map over a city, rather
+  than a separate screen.
+- Nodes such as cameras are a source of physical vision, which is where the fog and the
+  network meet.
+- The corporate teleport rule from 2026-09-21 maps directly onto the node network: corporate
+  agents move between nodes they own and have to breach the rest.
+- The town starts as a single neighborhood. Its final size is decided later.
+
+## Open questions
+
+1. Does an agent stay in the network after its Operator walks away from the port, or does it
+   get pulled out? (Core question 23.)
+2. Do enemies hack the player's team, and is spoofing the defense against exactly that?
+3. Can the player see what enemies intend to do next turn, or is uncovering that itself a hack?
+4. How does context compaction work, and what does it cost: a turn, an action, something else?
+5. Does the context window reset between battles, or carry over within a mission?
+6. Beyond how full the context is, does a node's difficulty also reduce the share of points
+   that count, as the legal-document example suggests? (Claude's reading, not confirmed.)
+
+<a id="shelved-the-hacking-minigame"></a>
+
+## Shelved: the hacking minigame
+
+Everything from here to the end of the file is the 2026-09-22 record, unchanged except for this
+note. Bryson shelved the minigame on 2026-09-23. Rules 4, 6 and 7 below carry into the
+hack-resolution model; the other rules described the minigame.
+
 - Provenance: Bryson's clarifications, Codex's proposals and web research in the project task
   "Review project status and ideas" (`01a0c148-6d45-7c20-95d2-eea44332b86d`).
 
-## Read this first
+### What the minigame thread said first
 
 Bryson wants hacking to be an enjoyable repeatable activity inside a mostly turn-based
 strategy role-playing game (SRPG). A tactical turn offers a fresh attempt at a challenge
@@ -370,6 +485,8 @@ papers offer limited empirical evidence. None validates our unbuilt candidates.
 
 ## Decision
 
-The attempt/reset/carryover structure records Bryson's explicit working rules. No specific
-hacking game, numerical balance, upgrade set or implementation has been selected. The
-exploration remains open; its conclusion has not graduated to DESIGN.md.
+2026-09-23: the minigame is shelved. Hacking is resolved through stats, and its role (use the
+environment, complete objectives, gather information) graduated to
+[DESIGN.md](../DESIGN.md#decisions) along with fog of war, three characters, no permadeath and
+the town. The battle structure, hack resolution and stat axes remain working models. The
+exploration stays open.
