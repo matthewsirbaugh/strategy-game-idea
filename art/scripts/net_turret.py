@@ -1,0 +1,32 @@
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from common import *
+
+start('net_turret')
+cylinder('Base',(0,0,.075),.35,.15,'graphite',32,bevel=.02)
+cylinder('White pedestal',(0,0,.23),.28,.20,'white',32,bevel=.018)
+ring('Lower rotation bearing',(0,0,.34),.257,.016,'steel',major=32)
+before=set(bpy.context.collection.objects)
+sphere('Appliance dome',(0,0,.605),(.36,.33,.285),'white',28,16)
+box('Horizontal optic slit',(0,-.285,.595),(.50,.14,.108),'glass',.05,4)
+ring('Crown ownership ring',(0,0,.883),.106,.009,status(),major=32)
+cylinder('Crown hub',(0,0,.89),.064,.018,'graphite',24,bevel=.002)
+head=list(set(bpy.context.collection.objects)-before)
+before=set(bpy.context.collection.objects)
+box('Emitter body',(.115,-.383,.598),(.13,.25,.11),'graphite',.025,3)
+box('Emitter aperture',(.115,-.512,.598),(.08,.015,.056),'steel',.009,2)
+box('Emitter dark center',(.115,-.521,.598),(.048,.006,.028),'glass',.004,1)
+emitter=pivot('emitter_slide',(0,0,0),list(set(bpy.context.collection.objects)-before))
+head.append(emitter)
+cylinder('Sensor optic',(-.12,-.366,.60),.037,.018,mat('lens_optics','#304551',metal=.5,rough=.15),24,rot=(math.pi/2,0,0))
+head.append(bpy.context.object)
+swivel=pivot('head_pitch',(0,0,.45),head)
+action(swivel,'active',[(1,(0,0,0)),(2,(0,0,0))],'rotation_euler')
+action(swivel,'offline',[(1,(0,0,0)),(18,(math.radians(14),0,0))],'rotation_euler')
+swivel.rotation_euler=(0,0,0)
+home=tuple(emitter.location)
+action(emitter,'active',[(1,home),(2,home)])
+action(emitter,'offline',[(1,home),(18,(home[0],home[1]+.20,home[2]))])
+emitter.location=home
+finish('net_turret','network','No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline.',front_pitch=26)
