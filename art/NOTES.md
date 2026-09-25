@@ -26,3 +26,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `net_door` | 1,616 | 1.000 × 0.452 × 2.540 | open | No textures. Clear opening 2.4 m; lintel reaches 2.54 m. open slides 0.82 m into the adjacent wall; recolor status_ring in game. |
 | `net_turret` | 3,576 | 0.720 × 0.874 × 0.899 | offline | No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline. |
 | `net_probe_spore` | 1,200 | 0.059 × 0.059 × 0.080 | static | No textures. Actual 8 cm sensor spore; nearly invisible at default zoom, so gameplay needs a marker. |
+| `prop_backpack_rig` | 5,910 | 0.610 × 0.448 × 0.562 | static | No textures. 42 cm frame, ~55 cm with two 30×22 cm solar flaps spread side by side. Positive Y straps face wearer; status_heart is independent. |
