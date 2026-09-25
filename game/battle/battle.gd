@@ -462,12 +462,13 @@ func _tracer(from: Vector3, to: Vector3) -> void:
 
 func _update_hover() -> void:
 	var mouse := get_viewport().get_mouse_position()
-	var cell: Variant = _cell_at(mouse)
-	if not _network_shown:
+	var over_ui := _hud.is_menu_open() or get_viewport().gui_get_hovered_control() != null
+	var cell: Variant = null if over_ui else _cell_at(mouse)
+	if cell != null and not _network_shown:
 		var picked := _unit_at_screen(mouse)
 		if picked:
 			cell = picked.cell
-	_hover.visible = cell != null
+	_hover.visible = cell != null and _is_choice(cell)
 	if cell == null:
 		_hud.set_hover("")
 		return
@@ -476,6 +477,26 @@ func _update_hover() -> void:
 	if _network_shown and state.phase == BattleState.Phase.HUMAN:
 		text += "    ·    Network view: press N to return to the map"
 	_hud.set_hover(text)
+
+
+# The hover highlight only marks tiles a click would act on right now.
+func _is_choice(cell: Vector2i) -> bool:
+	var unit := state.active
+	if _busy or _network_moving or unit == null or not unit.is_player():
+		return false
+	match _mode:
+		Mode.IDLE:
+			if state.phase == BattleState.Phase.AGENT:
+				return state.map.node_at(cell) == unit.agent_node
+			return not _network_shown and cell == unit.cell
+		Mode.MOVE:
+			return cell != unit.cell and state.destinations(unit).has(cell)
+		Mode.TARGET:
+			var target := state.unit_at(cell)
+			return target != null and state.player_sees(target) and state.can_attack(unit, target, unit.cell)
+		Mode.NODE:
+			return state.agent_destinations(unit).has(state.map.node_at(cell))
+	return false
 
 
 func _describe(cell: Vector2i) -> String:

@@ -203,6 +203,17 @@ Each one runs, gets played, and is committed.
 
 ## Findings
 
+### 2026-09-24 — Bryson's first playtests
+
+- Camera: "great".
+- Asked for an action menu instead of turns starting in movement, and for the overhead transition
+  into the network view. Both built the same day (see Rules).
+- After the transition: the network layer finally feels like a real mechanic.
+- Fix requested: tiles lit up under the cursor even over the menu. Indicators must only show when
+  intended; Bryson considers this necessary for reviewing builds, not polish. Now the hover
+  highlight only marks tiles a click would act on (the active unit, valid move tiles, attackable
+  enemies, reachable nodes) and never while the cursor is over the menu or a panel.
+
 ### 2026-09-24 — Milestone 2 build notes (Claude, scripted run; not yet played by Bryson)
 
 - A scripted run with real clicks: Alpha and Bravo move, the turn queue follows speed, Guard 4

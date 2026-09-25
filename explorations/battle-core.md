@@ -42,6 +42,15 @@ Nothing has been built.
 The commitments graduated to [DESIGN.md](../DESIGN.md#decisions). Triangle Strategy, and
 Bryson's critique of it, went into the DESIGN.md touchstones.
 
+## 2026-09-24 — The vision sharpens (Bryson, after playing the MVP build)
+
+- "This is actually the first time I've felt genuinely confident this might be a good game." The
+  overhead transition added the juice that makes the network layer feel like a real mechanic.
+- What the game wants to be: a stealth/cover-shooter-style SRPG, with the network layer allowing
+  Watch Dogs-style environmental controls.
+- Bryson's caveat: that is far off and contingent on execution. It sharpens the vision; it isn't a
+  scope commitment.
+
 ## Working model: battle structure
 
 Bryson's first ideas, not locked.
