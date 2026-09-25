@@ -15,6 +15,7 @@ const SCREEN_MARGIN := 12.0
 @onready var _round: Label = %RoundLabel
 @onready var _order: HBoxContainer = %Order
 @onready var _hover: Label = %HoverLabel
+@onready var _objective: Label = %ObjectiveLabel
 @onready var _active_panel: Control = %ActivePanel
 @onready var _active_name: Label = %ActiveName
 @onready var _active_stats: Label = %ActiveStats
@@ -77,24 +78,33 @@ func show_active(state: BattleState) -> void:
 	_hint.text = "Click %s's AI for actions" % unit.display_name
 
 
-# actions: dictionaries with "id" and "text". The menu opens beside the given screen point.
+# actions: dictionaries with "id", "text" and optionally "enabled". The menu opens beside the
+# given screen point.
 func open_menu(at: Vector2, actions: Array) -> void:
 	for child in _action_list.get_children():
 		_action_list.remove_child(child)
 		child.queue_free()
+	var first: Button = null
 	for action in actions:
 		var button := Button.new()
 		button.text = action["text"]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.disabled = not action.get("enabled", true)
 		button.pressed.connect(_choose.bind(action["id"]))
 		_action_list.add_child(button)
+		if first == null and not button.disabled:
+			first = button
 	_action_menu.show()
 	_action_menu.reset_size()
 	var limit := get_viewport().get_visible_rect().size - _action_menu.size - Vector2.ONE * SCREEN_MARGIN
 	var corner := at + MENU_OFFSET - Vector2(0, _action_menu.size.y / 2.0)
 	_action_menu.position = corner.clamp(Vector2.ONE * SCREEN_MARGIN, limit)
-	if _action_list.get_child_count() > 0:
-		_action_list.get_child(0).grab_focus()
+	if first:
+		first.grab_focus()
+
+
+func set_objective(text: String) -> void:
+	_objective.text = text
 
 
 func set_hint(text: String) -> void:

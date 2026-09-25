@@ -203,6 +203,17 @@ Each one runs, gets played, and is committed.
 
 ## Findings
 
+### 2026-09-24 — Milestone 5 build notes (Claude; scripted and bot runs, not yet played by Bryson)
+
+- Probe, Locate and Cloak work as AI actions from the menu. Locate opens a second menu listing
+  the guards you can't currently see.
+- The objective now drives the win: breach the cache, then every Operator still standing on the
+  exit tiles. An objective line tracks it at the top left.
+- A simple bot (fight what's in range, send the AIs to the cache, then run for the exit) won in
+  round 13: cache breached in round 5, then Alpha and Charlie went down on the way out and Bravo
+  extracted alone. Two things for Bryson to weigh: with three AIs stacking hacks the cache falls
+  fast, and the win currently allows leaving downed teammates behind.
+
 ### 2026-09-24 — Bryson's first playtests
 
 - Camera: "great".

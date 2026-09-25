@@ -99,6 +99,8 @@ func _next_turn() -> void:
 	_clear_choices()
 	await _set_network(false)
 	var unit := state.begin_next_turn()
+	_refresh_units()
+	_refresh_fog()
 	_hud.show_turn(state)
 	if unit == null:
 		_hud.show_result(state.winner() == BattleState.Winner.PLAYER)
@@ -150,6 +152,9 @@ func _click(screen_position: Vector2) -> void:
 				_busy = true
 				_clear_choices()
 				await _play(state.move(unit, cell))
+				if state.winner() != BattleState.Winner.NONE:
+					_next_turn()
+					return
 				_busy = false
 				_open_menu()
 		Mode.TARGET:
@@ -199,8 +204,21 @@ func _agent_actions(unit: Unit) -> Array:
 		actions.append({"id": "compact", "text": "Compact  (%d to %d)" % [unit.context, state.compacted(unit.context)]})
 	if state.can_toggle_door(unit):
 		actions.append({"id": "door", "text": "Close door" if state.is_door_open(unit.agent_node) else "Open door"})
+	if unit.def.ability != UnitDef.Ability.NONE:
+		actions.append({"id": "ability", "text": _ability_label(unit), "enabled": state.can_use_ability(unit)})
 	actions.append({"id": "end", "text": "End turn"})
 	return actions
+
+
+func _ability_label(unit: Unit) -> String:
+	var label := state.ability_name(unit)
+	if unit.ability_uses_left == 0:
+		return label + "  (used up)"
+	if state.round_number < unit.ability_ready_round:
+		return label + "  (ready in %d)" % (unit.ability_ready_round - state.round_number)
+	if unit.ability_uses_left > 0:
+		return label + "  (%d left)" % unit.ability_uses_left
+	return label
 
 
 func _on_action(id: String) -> void:
@@ -225,12 +243,32 @@ func _on_action(id: String) -> void:
 			_mode = Mode.NODE
 			_network.highlight(state.agent_destinations(unit), unit.agent_node)
 			_hud.set_hint("Choose a ringed node    ·    Right-click: back")
+		"ability":
+			if unit.def.ability == UnitDef.Ability.LOCATE:
+				_choose_locate_target()
+			else:
+				_agent_action(state.use_ability(unit))
+		"back":
+			_open_menu()
 		"hack":
 			_agent_action(state.hack(unit))
 		"compact":
 			_agent_action(state.compact(unit))
 		"door":
 			_agent_action(state.toggle_door(unit))
+		_ when id.begins_with("locate:"):
+			_agent_action(state.use_ability(unit, state.units[id.trim_prefix("locate:").to_int()]))
+
+
+# Locate asks which unseen enemy to pin, as a second menu in the same place.
+func _choose_locate_target() -> void:
+	var actions := []
+	for target in state.locate_targets():
+		actions.append({"id": "locate:%d" % target.id, "text": target.display_name})
+	actions.append({"id": "back", "text": "Back"})
+	var at := get_viewport().get_camera_3d().unproject_position(_network.agent_position(state.active))
+	_mode = Mode.MENU
+	_hud.open_menu(at, actions)
 
 
 func _on_menu_cancelled() -> void:
@@ -353,16 +391,50 @@ func _play(events: Array[Dictionary]) -> void:
 				await get_tree().create_timer(0.35, false).timeout
 			"breach":
 				_hud.log_line("%s breached" % state.node_def(event["node"]).display_name)
+				if state.map.node_kind(event["node"]) == "cache":
+					_hud.log_line("Data secured. Get everyone to the exit!")
 			"compact":
 				_hud.log_line("%s's AI compacts its context: %d to %d" % [unit.display_name, event["before"], unit.context])
 			"door":
 				_hud.log_line("Door %s" % ("opened" if event["open"] else "locked"))
-	for unit_view: UnitView in _views.values():
-		unit_view.refresh()
+			"ability":
+				_play_ability(event)
+	_refresh_units()
 	_grid.update_nodes(state)
 	_network.refresh()
 	_refresh_fog()
 	_hud.show_turn(state)
+
+
+func _play_ability(event: Dictionary) -> void:
+	var unit: Unit = event["unit"]
+	match unit.def.ability:
+		UnitDef.Ability.PROBE:
+			_grid.add_probe(state.map.node_cell(event["node"]))
+			_hud.log_line("%s's AI drops a probe on the %s" % [unit.display_name, state.node_def(event["node"]).display_name.to_lower()])
+		UnitDef.Ability.LOCATE:
+			_hud.log_line("%s's AI locates %s for %d rounds" % [unit.display_name, event["target"].display_name, unit.def.ability_duration])
+		UnitDef.Ability.CLOAK:
+			_hud.log_line("%s is cloaked for %d rounds" % [unit.display_name, unit.def.ability_duration])
+
+
+func _refresh_units() -> void:
+	for id in _views:
+		var unit: Unit = state.units[id]
+		var view: UnitView = _views[id]
+		view.refresh()
+		if unit.is_player():
+			view.set_cloaked(state.is_cloaked(unit))
+	_update_objective()
+
+
+func _update_objective() -> void:
+	if not state.cache_breached:
+		var goal := state.node_def("z").goal if state.node_def("z") else 0
+		_hud.set_objective("Objective: breach the data cache  (%d/%d)" % [state.breach.get("z", 0), goal])
+		return
+	var standing := state.living().filter(func(unit: Unit) -> bool: return unit.is_player()).size()
+	_hud.set_objective("Objective: get everyone to the exit  (%d/%d there)" % [state.extracted(), standing])
 
 
 func _walk(unit: Unit, path: Array) -> void:
@@ -371,7 +443,7 @@ func _walk(unit: Unit, path: Array) -> void:
 	var shown: Array[bool] = []
 	for cell in path:
 		points.append(_grid.cell_to_world(cell))
-		shown.append(unit.is_player() or state.visible_cells.has(cell))
+		shown.append(unit.is_player() or state.visible_cells.has(cell) or state.is_located(unit))
 	if view.visible or shown.has(true):
 		if _ghosts.has(unit.id):
 			_ghosts[unit.id].hide()

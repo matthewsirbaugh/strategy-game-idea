@@ -25,6 +25,10 @@ var entry := ""
 var context := 0
 var agent_origin := ""
 var entry_origin := ""
+var ability_uses_left := -1
+var ability_ready_round := 0
+var cloaked_until := -1
+var located_until := -1
 
 
 func _init(p_id: int, p_def: UnitDef, p_name: String, p_cell: Vector2i) -> void:
@@ -33,6 +37,7 @@ func _init(p_id: int, p_def: UnitDef, p_name: String, p_cell: Vector2i) -> void:
 	display_name = p_name
 	cell = p_cell
 	hp = p_def.max_hp
+	ability_uses_left = p_def.ability_uses
 
 
 func is_player() -> bool:

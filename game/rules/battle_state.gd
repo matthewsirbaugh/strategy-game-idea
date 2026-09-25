@@ -11,6 +11,7 @@ enum Phase { HUMAN, AGENT }
 const CONTEXT_MAX := 100
 const FULL_CONTEXT_YIELD := 0.5
 const COMPACT_KEEPS := 0.25
+const ABILITY_NAMES := ["", "Probe", "Locate", "Cloak"]
 
 var map: MapData
 var units: Array[Unit] = []
@@ -127,14 +128,22 @@ func sees(viewer: Unit, cell: Vector2i) -> bool:
 func seen_enemies(viewer: Unit) -> Array[Unit]:
 	var result: Array[Unit] = []
 	for unit in units:
-		if not unit.is_down() and unit.is_enemy_of(viewer) and sees(viewer, unit.cell):
+		if not unit.is_down() and unit.is_enemy_of(viewer) and sees(viewer, unit.cell) and not _cloaked_from(viewer.cell, unit):
 			result.append(unit)
 	return result
 
 
-# Structures like the turret are always on the map; everything else needs live vision.
+# Structures like the turret are always on the map; everything else needs live vision, or Locate.
 func player_sees(unit: Unit) -> bool:
-	return unit.is_player() or unit.def.move == 0 or visible_cells.has(unit.cell)
+	return unit.is_player() or unit.def.move == 0 or visible_cells.has(unit.cell) or is_located(unit)
+
+
+func is_cloaked(unit: Unit) -> bool:
+	return unit.cloaked_until >= round_number
+
+
+func is_located(unit: Unit) -> bool:
+	return unit.located_until >= round_number
 
 
 func refresh_vision() -> void:
@@ -190,8 +199,13 @@ func can_attack(unit: Unit, target: Unit, from: Vector2i) -> bool:
 func attack_targets(unit: Unit, from: Vector2i) -> Array[Unit]:
 	var result: Array[Unit] = []
 	for target in units:
-		if can_attack(unit, target, from) and (not unit.is_player() or player_sees(target)):
-			result.append(target)
+		if not can_attack(unit, target, from):
+			continue
+		if unit.is_player() and not player_sees(target):
+			continue
+		if not unit.is_player() and _cloaked_from(from, target):
+			continue
+		result.append(target)
 	return result
 
 
@@ -395,19 +409,66 @@ func _disconnect(unit: Unit) -> void:
 	unit.entry = ""
 
 
+# Win: breach the cache, then get every Operator still standing onto the extraction tiles.
 func winner() -> Winner:
-	var players := false
-	var enemies := false
+	var standing := 0
 	for unit in living():
 		if unit.is_player():
-			players = true
-		else:
-			enemies = true
-	if not players:
+			standing += 1
+	if standing == 0:
 		return Winner.ENEMY
-	if not enemies:
+	if cache_breached and extracted() == standing:
 		return Winner.PLAYER
 	return Winner.NONE
+
+
+func extracted() -> int:
+	var count := 0
+	for unit in living():
+		if unit.is_player() and map.extraction().has(unit.cell):
+			count += 1
+	return count
+
+
+func ability_name(unit: Unit) -> String:
+	return ABILITY_NAMES[unit.def.ability]
+
+
+func can_use_ability(unit: Unit) -> bool:
+	if unit.def.ability == UnitDef.Ability.NONE or unit.agent_node == "":
+		return false
+	if unit.ability_uses_left == 0 or round_number < unit.ability_ready_round:
+		return false
+	return unit.def.ability != UnitDef.Ability.LOCATE or not locate_targets().is_empty()
+
+
+func locate_targets() -> Array[Unit]:
+	var result: Array[Unit] = []
+	for unit in living():
+		if not unit.is_player() and not player_sees(unit):
+			result.append(unit)
+	return result
+
+
+func use_ability(unit: Unit, target: Unit = null) -> Array[Dictionary]:
+	var def := unit.def
+	if unit.ability_uses_left > 0:
+		unit.ability_uses_left -= 1
+	unit.ability_ready_round = round_number + def.ability_cooldown
+	match def.ability:
+		UnitDef.Ability.PROBE:
+			vision_sources.append({"cell": map.node_cell(unit.agent_node), "radius": def.ability_radius})
+		UnitDef.Ability.LOCATE:
+			target.located_until = round_number + def.ability_duration
+		UnitDef.Ability.CLOAK:
+			unit.cloaked_until = round_number + def.ability_duration
+	refresh_vision()
+	return [{"type": "ability", "unit": unit, "node": unit.agent_node, "target": target}]
+
+
+# A cloaked Operator can't be seen or targeted by enemies unless they're right next to it.
+func _cloaked_from(from: Vector2i, target: Unit) -> bool:
+	return is_cloaked(target) and Grid.distance(from, target.cell) > 1
 
 
 func _add(def: UnitDef, unit_name: String, cell: Vector2i) -> Unit:

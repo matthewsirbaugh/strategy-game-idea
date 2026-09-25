@@ -65,6 +65,17 @@ func update_nodes(state: BattleState) -> void:
 			part["shape"].visible = not state.is_door_open(id)
 
 
+# A dropped probe: a small glowing marker floating over the node it watches from.
+func add_probe(cell: Vector2i) -> void:
+	var mesh := SphereMesh.new()
+	mesh.radius = 0.14
+	mesh.height = 0.28
+	var material := _material(Color(0.45, 1.0, 0.95))
+	material.emission_enabled = true
+	material.emission = Color(0.45, 1.0, 0.95)
+	_add_mesh(mesh, material, cell_to_world(cell) + Vector3(0, 1.55, 0))
+
+
 func node_position(id: String, height := 0.0) -> Vector3:
 	return cell_to_world(map.node_cell(id)) + Vector3(0, height, 0)
 

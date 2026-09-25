@@ -11,3 +11,6 @@ damage = 4
 attack_range = 4
 speed = 6
 color = Color(0.35, 0.6, 1, 1)
+ability = 2
+ability_cooldown = 3
+ability_duration = 2

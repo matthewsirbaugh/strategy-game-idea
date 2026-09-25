@@ -3,6 +3,7 @@ extends Resource
 
 enum Team { PLAYER, ENEMY }
 enum Kind { OPERATOR, GUARD, TURRET }
+enum Ability { NONE, PROBE, LOCATE, CLOAK }
 
 @export var display_name := ""
 @export var team := Team.PLAYER
@@ -19,3 +20,13 @@ enum Kind { OPERATOR, GUARD, TURRET }
 @export var hack_power := 10
 @export var network_range := 3
 @export var tether_range := 2
+
+@export_group("Ability")
+@export var ability := Ability.NONE
+# Uses per battle, or -1 for unlimited.
+@export var ability_uses := -1
+# Rounds before it can be used again.
+@export var ability_cooldown := 0
+# Rounds it lasts, for effects that wear off.
+@export var ability_duration := 0
+@export var ability_radius := 0

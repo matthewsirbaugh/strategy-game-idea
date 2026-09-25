@@ -45,6 +45,11 @@ func refresh() -> void:
 	_alert.visible = (unit.alerted or unit.searching) and not unit.is_down()
 
 
+func set_cloaked(cloaked: bool) -> void:
+	_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA if cloaked else BaseMaterial3D.TRANSPARENCY_DISABLED
+	_material.albedo_color.a = 0.3 if cloaked else 1.0
+
+
 # shown[i] says whether the player can see the unit on points[i]; walking in the fog is instant.
 func walk(points: Array[Vector3], shown: Array[bool] = []) -> void:
 	if points.is_empty():

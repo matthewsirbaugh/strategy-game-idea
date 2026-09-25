@@ -17,7 +17,7 @@ the split human/AI turn, the node network, fog of war and how hacks resolve.
 
 For a cold start, read AGENTS.md, EXPLORATIONS.md, the DESIGN.md decisions, and this file down
 to [Open questions](#open-questions). Everything after that is the shelved 2026-09-22 record.
-Nothing has been built.
+The playable MVP is tracked in [battle-mvp.md](battle-mvp.md).
 
 ## 2026-09-23 — Stepping back (Bryson, Claude Code chat)
 
