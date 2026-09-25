@@ -2,6 +2,17 @@
 
 Prototype interpretations of `astra-brief.md`; creative approval remains with Bryson. Models are exported for review, not installed into battle visuals.
 
+## Handoff — 2026-09-25
+
+- All 24 Priority 1 assets/variants have scripts, Blender sources, GLBs and both previews; individual model commits are on `main`. Stop before Priority 2, per the brief.
+- Blender builds/renders completed. Key close and tactics views were inspected. Godot imported the set successfully, but the final Operator revision was built afterward. Native visual/animation validation and Bryson's review remain.
+- Next: reimport, inspect the models in Godot, exercise the Moth's five clips and door/turret states, and pose-check the Operator's weights. Human animation clips are deliberately deferred; Moth `scan` supplies the pose, while its moving light sweep still needs a game shader.
+- Operator: 32,520 triangles including backpack (5,910) and rivet driver (1,520); 1.69 m including bandana. Last pass smoothed garment edges, closed trouser cuffs and limited weights to four influences. Clothes and weights still need pose review.
+- Moth exports 76 skinned mesh objects: merge compatible parts before integration. Hatch is 805 triangles and slightly exceeds its 2 m footprint; cargo bike is 2.01 m long. Measured dimensions are below.
+- No gameplay integration or native playtest. The CC0 human base is committed; normal builds need no MPFB installation. License and optional base regeneration details are in `LICENSES.md`.
+
+## Asset measurements
+
 Rebuild one asset from the project root: `blender --background --python art/scripts/<asset>.py`. The asset collection exports; `PREVIEW_ONLY` contains the excluded studio and scale reference. Blender front is −Y; the standard glTF conversion makes that Godot +Z. All dimensions below are Blender X × Y × Z, in metres. Floor slabs end at Z=0.
 
 | Asset | Exported triangles | Dimensions | Animation clips | Choices and limits |

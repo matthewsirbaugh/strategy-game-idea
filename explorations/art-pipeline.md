@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Astra makes a first pass from [the art brief](../art/astra-brief.md) (Priority 1
-  only); Bryson reviews the previews
+- Next action: finish native validation and review the 24 Priority 1 assets with Bryson;
+  checkpoint and remaining work are in [art/NOTES.md](../art/NOTES.md).
 
 ## The question
 
