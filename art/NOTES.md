@@ -16,3 +16,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `kit_cover_planter` | 556 | 0.900 × 0.900 × 0.850 | static | No textures. 1×1 tile; timber box is 0.65 m and foliage reaches 0.9 m. |
 | `kit_cover_planter_wide` | 748 | 1.900 × 0.900 × 0.870 | static | No textures. 2×1 tile version shares the narrow planter construction. |
 | `net_access_point` | 2,304 | 0.441 × 0.562 × 1.088 | static | No textures. Ownership ring, port halo and top cap share status_ring; unambiguous top beacon. |
+| `net_camera` | 2,352 | 0.400 × 0.726 × 2.204 | static | No textures. Pole variant first; lens halo is repeated on top for tactics readability. |
