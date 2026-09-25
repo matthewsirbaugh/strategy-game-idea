@@ -48,4 +48,4 @@ def build():
 if __name__ == '__main__':
     start('prop_backpack_rig')
     build()
-    finish('prop_backpack_rig','props','No textures. 42 cm frame, ~55 cm with two 30×22 cm solar flaps spread side by side. Positive Y straps face wearer; status_heart is independent.',front_pitch=25)
+    finish('prop_backpack_rig','props','No textures. 42 cm frame, ~55 cm with two 30×22 cm solar flaps spread side by side. Positive Y straps face wearer; status_heart is independent.',front_pitch=48)
