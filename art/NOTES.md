@@ -22,3 +22,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `net_turret` | 3,576 | 0.720 × 0.874 × 0.899 | offline | No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline. |
 | `kit_exit_hatch` | 805 | 2.000 × 2.009 × 2.458 | static | No textures. 2×2 extraction vignette: six roofward steps, open hatch and hand-painted arrow. Layout is a proposal for review. |
 | `prop_server_rack` | 1,816 | 0.720 × 0.705 × 2.000 | static | No textures. Warm activity LEDs only; deliberately no ownership ring because this rack is not interactive. |
+| `prop_cable_tray` | 1,104 | 0.325 × 1.000 × 0.124 | static | No textures. One-metre segment; local Z=0 is its mounting surface. Rotate the parent to hang overhead. |
