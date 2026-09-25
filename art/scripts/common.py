@@ -297,6 +297,7 @@ def finish(name, category, choice, front_yaw=35, front_pitch=18, front_target=No
     bpy.ops.export_scene.gltf(filepath=str(path),export_format='GLB',use_selection=True,
         export_apply=True,export_yup=True,export_extras=True,export_animations=True,
         export_animation_mode='NLA_TRACKS',export_force_sampling=True,
+        export_optimize_animation_keep_anim_object=True,
         export_cameras=False,export_lights=False)
     raw = path.read_bytes()
     json_size = struct.unpack_from('<I',raw,12)[0]

@@ -23,9 +23,9 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `prop_cable_tray` | 1,104 | 0.325 × 1.000 × 0.124 | static | No textures. One-metre segment; local Z=0 is its mounting surface. Rotate the parent to hang overhead. |
 | `prop_salvage_crate` | 1,600 | 0.835 × 0.749 × 0.590 | static | No textures. Open crate of salvaged battery, conduit and cloth-wrapped cable. |
 | `prop_cargo_bike` | 4,056 | 0.640 × 2.010 × 1.073 | static | No textures. Front-facing −Y; working cargo-bike proportions, boxed solar-install supplies, and a parked kickstand. |
-| `net_door` | 1,616 | 1.000 × 0.452 × 2.540 | open | No textures. Clear opening 2.4 m; lintel reaches 2.54 m. open slides 0.82 m into the adjacent wall; recolor status_ring in game. |
 | `net_turret` | 3,576 | 0.720 × 0.874 × 0.899 | offline | No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline. |
 | `net_probe_spore` | 1,200 | 0.059 × 0.059 × 0.080 | static | No textures. Actual 8 cm sensor spore; nearly invisible at default zoom, so gameplay needs a marker. |
 | `prop_backpack_rig` | 5,910 | 0.610 × 0.448 × 0.562 | static | No textures. 42 cm frame, ~55 cm with two 30×22 cm solar flaps spread side by side. Positive Y straps face wearer; status_heart is independent. |
 | `prop_rivet_driver` | 1,520 | 0.100 × 0.289 × 0.186 | static | No textures. 28 cm solar-install rivet tool with tape-wrapped nozzle and removable battery; muzzle faces −Y. |
 | `ai_moth` | 2,944 | 0.452 × 0.285 × 0.079 | hover_idle, fly, scan, deploy_probe, strain | One 1024×1024 RGBA wing atlas. Eight-bone rig, five clips. scan opens the wings; the travelling cell-light sweep remains a game shader hook. Place root ~1.82 m high for a 1.9 m hover center. |
+| `net_door` | 1,616 | 1.000 × 0.452 × 2.540 | closed, open | No textures. Clear opening 2.4 m; lintel reaches 2.54 m. open slides 0.82 m into the adjacent wall; recolor status_ring in game. |
