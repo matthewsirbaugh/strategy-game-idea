@@ -18,10 +18,10 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `net_access_point` | 2,304 | 0.441 × 0.562 × 1.088 | static | No textures. Ownership ring, port halo and top cap share status_ring; unambiguous top beacon. |
 | `net_camera` | 2,352 | 0.400 × 0.726 × 2.204 | static | No textures. Pole variant first; lens halo is repeated on top for tactics readability. |
 | `net_data_cache` | 3,560 | 0.700 × 0.540 × 2.011 | static | No textures. Frosted faces are opaque for reliable sorting. Recolor status_ring green when secured; pulse in game. |
-| `net_door` | 1,616 | 1.000 × 0.452 × 2.540 | open | No textures. Clear opening 2.4 m; lintel reaches 2.54 m. open slides 0.82 m into the adjacent wall; recolor status_ring in game. |
 | `net_turret` | 3,576 | 0.720 × 0.874 × 0.899 | offline | No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline. |
 | `kit_exit_hatch` | 805 | 2.000 × 2.009 × 2.458 | static | No textures. 2×2 extraction vignette: six roofward steps, open hatch and hand-painted arrow. Layout is a proposal for review. |
 | `prop_server_rack` | 1,816 | 0.720 × 0.705 × 2.000 | static | No textures. Warm activity LEDs only; deliberately no ownership ring because this rack is not interactive. |
 | `prop_cable_tray` | 1,104 | 0.325 × 1.000 × 0.124 | static | No textures. One-metre segment; local Z=0 is its mounting surface. Rotate the parent to hang overhead. |
 | `prop_salvage_crate` | 1,600 | 0.835 × 0.749 × 0.590 | static | No textures. Open crate of salvaged battery, conduit and cloth-wrapped cable. |
 | `prop_cargo_bike` | 4,056 | 0.640 × 2.010 × 1.073 | static | No textures. Front-facing −Y; working cargo-bike proportions, boxed solar-install supplies, and a parked kickstand. |
+| `net_door` | 1,616 | 1.000 × 0.452 × 2.540 | open | No textures. Clear opening 2.4 m; lintel reaches 2.54 m. open slides 0.82 m into the adjacent wall; recolor status_ring in game. |

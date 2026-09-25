@@ -214,7 +214,8 @@ def pivot(name, loc, objects):
 
 
 def action(obj, name, keys, path='location'):
-    obj.animation_data_clear()
+    obj.animation_data_create()
+    obj.animation_data.action = None
     for frame, value in keys:
         setattr(obj, path, value)
         obj.keyframe_insert(data_path=path, frame=frame)
@@ -268,16 +269,19 @@ def finish(name, category, choice, front_yaw=35, front_pitch=18, front_target=No
             apply(o)
     bpy.context.view_layer.update()
     # Merge static parts for tile instancing; preserve articulated pieces and armatures.
-    static = [o for o in objects if o.type in {'MESH','CURVE'} and o.parent is None
+    static = [o for o in objects if o.type in {'MESH','CURVE'} and o.parent_type != 'BONE'
         and not o.animation_data and not any(m.type == 'ARMATURE' for m in o.modifiers)]
-    if static:
+    groups = {}
+    for o in static:
+        groups.setdefault(o.parent, []).append(o)
+    for parent, siblings in groups.items():
         bpy.ops.object.select_all(action='DESELECT')
-        for o in static:
+        for o in siblings:
             o.select_set(True)
-        bpy.context.view_layer.objects.active = static[0]
+        bpy.context.view_layer.objects.active = siblings[0]
         bpy.ops.object.convert(target='MESH')
         bpy.ops.object.join()
-        bpy.context.object.name = name+'_mesh'
+        bpy.context.object.name = (parent.name if parent else name)+'_mesh'
     objects = list(ASSET.objects)
     root = pivot(name, (0,0,0), [o for o in objects if o.parent is None])
     root['front'] = 'Blender -Y; glTF +Z'
