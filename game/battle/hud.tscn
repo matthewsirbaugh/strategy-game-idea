@@ -72,7 +72,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = -236.0
+offset_top = -196.0
 offset_right = 580.0
 offset_bottom = -60.0
 grow_vertical = 0
@@ -104,49 +104,11 @@ custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 show_percentage = false
 
-[node name="Buttons" type="HBoxContainer" parent="Root/ActivePanel/Margin/Rows"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Undo" type="Button" parent="Root/ActivePanel/Margin/Rows/Buttons"]
+[node name="Hint" type="Label" parent="Root/ActivePanel/Margin/Rows"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
+theme_override_colors/font_color = Color(0.6, 0.72, 0.85, 1)
 theme_override_font_sizes/font_size = 18
-text = "Undo move"
-
-[node name="Hack" type="Button" parent="Root/ActivePanel/Margin/Rows/Buttons"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 18
-text = "Hack"
-
-[node name="Compact" type="Button" parent="Root/ActivePanel/Margin/Rows/Buttons"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 18
-text = "Compact"
-
-[node name="Door" type="Button" parent="Root/ActivePanel/Margin/Rows/Buttons"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 18
-text = "Open door"
-
-[node name="EndTurn" type="Button" parent="Root/ActivePanel/Margin/Rows/Buttons"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-theme_override_font_sizes/font_size = 18
-text = "End turn"
 
 [node name="Log" type="VBoxContainer" parent="Root"]
 unique_name_in_owner = true
@@ -179,7 +141,28 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.6, 0.66, 0.74, 1)
 theme_override_font_sizes/font_size = 16
-text = "Human: click a tile to move, an enemy on red to attack   ·   AI: click a node to move or hack   ·   Space: next phase   ·   N: network view   ·   Right-click: undo   ·   WASD / Q E / wheel: camera   ·   Esc: pause"
+text = "Click the highlighted unit for actions   ·   Right-click: back   ·   Space: end turn   ·   N: network view   ·   WASD / Q E / wheel: camera   ·   Esc: pause"
+
+[node name="ActionMenu" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 220.0
+offset_bottom = 60.0
+mouse_filter = 0
+
+[node name="Margin" type="MarginContainer" parent="Root/ActionMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ActionList" type="VBoxContainer" parent="Root/ActionMenu/Margin"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="Result" type="CenterContainer" parent="Root"]
 unique_name_in_owner = true

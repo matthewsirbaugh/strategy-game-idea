@@ -80,6 +80,16 @@ automatically during the AI phase, is hidden during the human phase, and can be 
 washed in light blue. Claude's reading, easy to change: during the human phase N still lets you peek
 at the network, and clicks on the map are ignored while peeking.
 
+Showing the network is a transition (Bryson, 2026-09-24): the camera tilts to look straight down on
+the field, the network fades in over the map so the player sees it line up, and then the map fades
+behind it. Hiding runs the same steps in reverse.
+
+**Action menu** (Bryson, 2026-09-24). A turn doesn't start in movement. The active unit is
+highlighted, and clicking it opens a menu of what it can do: move, attack (only when an enemy is in
+range), end the turn and so on. The AI phase works the same way through the AI's token on the
+network. Claude's additions: the menu reopens after a move, right-click steps back, and Undo move
+lives in the menu.
+
 **Signature abilities.** One per character, with placeholder names:
 
 | Ability | Effect | Uses |

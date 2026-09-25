@@ -1,10 +1,17 @@
 extends Node3D
 
+# A turn starts with only the active unit highlighted. Clicking it (or its AI, in the network phase)
+# opens the action menu; Move, Attack and network moves then ask for a target, and right-click steps
+# back to the menu.
+enum Mode { IDLE, MENU, MOVE, TARGET, NODE }
+
 const MOVE_COLOR := Color(0.3, 0.6, 1.0, 0.35)
 const ATTACK_COLOR := Color(1.0, 0.3, 0.3, 0.5)
 const FOG_COLOR := Color(0.02, 0.02, 0.06, 0.68)
 const GHOST_ALPHA := 0.3
 const ENEMY_TURN_PAUSE := 0.35
+const UNIT_HEIGHT := 1.1
+const PICK_RADIUS := 0.4
 const CHOICE_LAYERS: Array[String] = ["move", "attack"]
 
 @export var map: MapData
@@ -18,6 +25,9 @@ var _views := {}
 var _ghosts := {}
 var _tethers := {}
 var _busy := true
+var _mode := Mode.IDLE
+var _network_shown := false
+var _network_moving := false
 
 @onready var _grid: GridView = $GridView
 @onready var _network: NetworkView = $NetworkView
@@ -42,21 +52,19 @@ func _ready() -> void:
 		else:
 			_ghosts[unit.id] = _make_ghost(unit)
 	_camera_rig.setup(_grid.center(), _grid.extent())
-	_hud.end_turn_pressed.connect(_end_player_turn)
-	_hud.undo_pressed.connect(_undo_move)
-	_hud.hack_pressed.connect(_hack)
-	_hud.compact_pressed.connect(_compact)
-	_hud.door_pressed.connect(_toggle_door)
-	_hud.network_toggled.connect(_set_network)
+	_hud.action_chosen.connect(_on_action)
+	_hud.menu_cancelled.connect(_on_menu_cancelled)
+	_hud.network_toggled.connect(_on_network_toggled)
 	_refresh_fog()
 	_next_turn()
 
 
 func _process(_delta: float) -> void:
 	var active := state.active
-	_active_ring.visible = active != null and _views[active.id].visible
-	if active:
+	_active_ring.visible = active != null and _views[active.id].visible and state.phase == BattleState.Phase.HUMAN
+	if _active_ring.visible:
 		_active_ring.position = _views[active.id].position + Vector3(0, 0.02, 0)
+		_active_ring.scale = Vector3.ONE * (1.0 + 0.08 * sin(Time.get_ticks_msec() / 160.0))
 	for id in _tethers:
 		var unit: Unit = state.units[id]
 		var tether: MeshInstance3D = _tethers[id]
@@ -69,26 +77,27 @@ func _process(_delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_network"):
-		_set_network(not _network.visible)
+		_on_network_toggled(not _network_shown)
 		return
-	if _busy:
+	if _busy or _network_moving:
 		return
 	if event.is_action_pressed("end_turn"):
 		_end_player_turn()
-	elif event.is_action_pressed("undo_move"):
-		_undo_move()
+	elif event.is_action_pressed("cancel"):
+		if _mode in [Mode.MOVE, Mode.TARGET, Mode.NODE]:
+			_open_menu()
 	else:
 		var click := event as InputEventMouseButton
 		if click and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
-			var cell: Variant = _cell_at(click.position)
-			if cell != null:
-				_click(cell)
+			_click(click.position)
 
 
 func _next_turn() -> void:
 	_busy = true
+	_mode = Mode.IDLE
+	_hud.close_menu()
 	_clear_choices()
-	_set_network(false)
+	await _set_network(false)
 	var unit := state.begin_next_turn()
 	_hud.show_turn(state)
 	if unit == null:
@@ -96,8 +105,7 @@ func _next_turn() -> void:
 		return
 	if unit.is_player():
 		_camera_rig.keep_in_view(_views[unit.id].position)
-		_show_options()
-		_busy = false
+		_begin_control()
 		return
 	var was_seen := state.player_sees(unit)
 	var events := EnemyAI.take_turn(state, unit)
@@ -108,58 +116,136 @@ func _next_turn() -> void:
 	_next_turn()
 
 
-func _show_options() -> void:
-	var unit := state.active
+func _begin_control() -> void:
+	_mode = Mode.IDLE
 	_clear_choices()
-	if state.phase == BattleState.Phase.AGENT:
-		_network.highlight(state.agent_destinations(unit), unit.agent_node)
-	else:
-		_network.highlight([], "")
-		var moves := state.destinations(unit)
-		moves.erase(unit.cell)
-		_grid.set_overlay("move", moves, MOVE_COLOR)
-		var targets := state.attack_targets(unit, unit.cell).map(func(target: Unit) -> Vector2i: return target.cell)
-		_grid.set_overlay("attack", targets, ATTACK_COLOR)
+	var unit := state.active
+	_network.highlight([], unit.agent_node if state.phase == BattleState.Phase.AGENT else "")
+	_hud.show_active(state)
+	_busy = false
+
+
+func _click(screen_position: Vector2) -> void:
+	if _hud.is_menu_open():
+		_hud.close_menu()
+		_mode = Mode.IDLE
+		return
+	var unit := state.active
+	var agent_phase := state.phase == BattleState.Phase.AGENT
+	var cell: Variant = _cell_at(screen_position)
+	if not agent_phase:
+		var picked := _unit_at_screen(screen_position)
+		if picked:
+			cell = picked.cell
+	if cell == null:
+		return
+	match _mode:
+		Mode.IDLE:
+			if agent_phase and state.map.node_at(cell) == unit.agent_node:
+				_open_menu()
+			elif not agent_phase and not _network_shown and cell == unit.cell:
+				_open_menu()
+		Mode.MOVE:
+			if cell != unit.cell and state.destinations(unit).has(cell):
+				_busy = true
+				_clear_choices()
+				await _play(state.move(unit, cell))
+				_busy = false
+				_open_menu()
+		Mode.TARGET:
+			var target := state.unit_at(cell)
+			if target and state.player_sees(target) and state.can_attack(unit, target, unit.cell):
+				_busy = true
+				_clear_choices()
+				await _play(state.attack(unit, target))
+				_finish_human_phase()
+		Mode.NODE:
+			var id := state.map.node_at(cell)
+			if state.agent_destinations(unit).has(id):
+				_agent_action(state.agent_move(unit, id))
+
+
+func _open_menu() -> void:
+	var unit := state.active
+	var agent_phase := state.phase == BattleState.Phase.AGENT
+	_clear_choices()
+	_network.highlight([], unit.agent_node if agent_phase else "")
+	_mode = Mode.MENU
+	var anchor: Vector3 = _network.agent_position(unit) if agent_phase else _views[unit.id].position + Vector3(0, UNIT_HEIGHT, 0)
+	var at := get_viewport().get_camera_3d().unproject_position(anchor)
+	_hud.open_menu(at, _agent_actions(unit) if agent_phase else _human_actions(unit))
 	_hud.show_active(state)
 
 
-func _click(cell: Vector2i) -> void:
+func _human_actions(unit: Unit) -> Array:
+	var actions := []
+	if not unit.moved:
+		actions.append({"id": "move", "text": "Move"})
+	if not state.attack_targets(unit, unit.cell).is_empty():
+		actions.append({"id": "attack", "text": "Attack"})
+	if state.can_undo(unit):
+		actions.append({"id": "undo", "text": "Undo move"})
+	actions.append({"id": "end", "text": "AI phase" if state.can_connect(unit) else "End turn"})
+	return actions
+
+
+func _agent_actions(unit: Unit) -> Array:
+	var actions := []
+	if not state.agent_destinations(unit).is_empty():
+		actions.append({"id": "network_move", "text": "Move"})
+	if state.can_hack(unit):
+		actions.append({"id": "hack", "text": "Hack  +%d" % state.hack_yield(unit)})
+	if unit.context > 0:
+		actions.append({"id": "compact", "text": "Compact  (%d to %d)" % [unit.context, state.compacted(unit.context)]})
+	if state.can_toggle_door(unit):
+		actions.append({"id": "door", "text": "Close door" if state.is_door_open(unit.agent_node) else "Open door"})
+	actions.append({"id": "end", "text": "End turn"})
+	return actions
+
+
+func _on_action(id: String) -> void:
 	var unit := state.active
-	if state.phase == BattleState.Phase.AGENT:
-		var id := state.map.node_at(cell)
-		if id == unit.agent_node:
-			if state.can_hack(unit):
-				_hack()
-			elif state.can_toggle_door(unit):
-				_toggle_door()
-		elif id != "" and state.agent_destinations(unit).has(id):
-			_agent_action(state.agent_move(unit, id))
-		return
-	if _network.visible:
-		return
-	var target := state.unit_at(cell)
-	if target and state.player_sees(target) and state.can_attack(unit, target, unit.cell):
-		_busy = true
-		_clear_choices()
-		await _play(state.attack(unit, target))
-		_finish_human_phase()
-	elif cell != unit.cell and state.destinations(unit).has(cell):
-		_busy = true
-		_clear_choices()
-		await _play(state.move(unit, cell))
-		_show_options()
-		_busy = false
+	match id:
+		"move":
+			_mode = Mode.MOVE
+			var moves := state.destinations(unit)
+			moves.erase(unit.cell)
+			_grid.set_overlay("move", moves, MOVE_COLOR)
+			_hud.set_hint("Choose a blue tile    ·    Right-click: back")
+		"attack":
+			_mode = Mode.TARGET
+			var targets := state.attack_targets(unit, unit.cell).map(func(target: Unit) -> Vector2i: return target.cell)
+			_grid.set_overlay("attack", targets, ATTACK_COLOR)
+			_hud.set_hint("Choose an enemy on red    ·    Right-click: back")
+		"undo":
+			_undo_move()
+		"end":
+			_end_player_turn()
+		"network_move":
+			_mode = Mode.NODE
+			_network.highlight(state.agent_destinations(unit), unit.agent_node)
+			_hud.set_hint("Choose a ringed node    ·    Right-click: back")
+		"hack":
+			_agent_action(state.hack(unit))
+		"compact":
+			_agent_action(state.compact(unit))
+		"door":
+			_agent_action(state.toggle_door(unit))
+
+
+func _on_menu_cancelled() -> void:
+	_mode = Mode.IDLE
 
 
 func _finish_human_phase() -> void:
 	_busy = true
+	_mode = Mode.IDLE
+	_hud.close_menu()
 	_clear_choices()
 	await _play(state.end_human_phase(state.active))
 	if state.phase == BattleState.Phase.AGENT:
-		_set_network(true)
-		_camera_rig.keep_in_view(_network.node_position(state.active.agent_node))
-		_show_options()
-		_busy = false
+		await _set_network(true)
+		_begin_control()
 	else:
 		_next_turn()
 
@@ -167,6 +253,7 @@ func _finish_human_phase() -> void:
 func _end_player_turn() -> void:
 	if _busy:
 		return
+	_hud.close_menu()
 	if state.phase == BattleState.Phase.HUMAN:
 		_finish_human_phase()
 	else:
@@ -175,39 +262,53 @@ func _end_player_turn() -> void:
 
 func _undo_move() -> void:
 	var unit := state.active
-	if _busy or not state.can_undo(unit):
+	if not state.can_undo(unit):
 		return
 	state.undo_move(unit)
 	_views[unit.id].position = _grid.cell_to_world(unit.cell)
 	_network.refresh()
 	_refresh_fog()
-	_show_options()
-
-
-func _hack() -> void:
-	if _agent_ready() and state.can_hack(state.active):
-		_agent_action(state.hack(state.active))
-
-
-func _compact() -> void:
-	if _agent_ready() and state.active.context > 0:
-		_agent_action(state.compact(state.active))
-
-
-func _toggle_door() -> void:
-	if _agent_ready() and state.can_toggle_door(state.active):
-		_agent_action(state.toggle_door(state.active))
-
-
-func _agent_ready() -> bool:
-	return not _busy and state.phase == BattleState.Phase.AGENT
+	_open_menu()
 
 
 func _agent_action(events: Array[Dictionary]) -> void:
 	_busy = true
+	_mode = Mode.IDLE
 	_clear_choices()
 	await _play(events)
 	_next_turn()
+
+
+func _on_network_toggled(shown: bool) -> void:
+	if _busy or _network_moving or state.active == null:
+		_hud.set_network_shown(_network_shown)
+		return
+	_hud.close_menu()
+	_clear_choices()
+	_mode = Mode.IDLE
+	_set_network(shown)
+
+
+# The camera tilts to look straight down, the network fades in over the map, and then the map blurs
+# away behind it. Hiding runs the same steps backwards.
+func _set_network(shown: bool) -> void:
+	while _network_moving:
+		await get_tree().process_frame
+	if shown == _network_shown:
+		return
+	_network_moving = true
+	_network_shown = shown
+	_hud.set_network_shown(shown)
+	var hover: StandardMaterial3D = _hover.material_override
+	hover.no_depth_test = shown
+	hover.render_priority = NetworkView.Order.RING if shown else 0
+	if shown:
+		await _camera_rig.overhead(_grid.center())
+		await _network.fade_in()
+	else:
+		await _network.fade_out()
+		await _camera_rig.restore_view()
+	_network_moving = false
 
 
 func _play(events: Array[Dictionary]) -> void:
@@ -247,9 +348,8 @@ func _play(events: Array[Dictionary]) -> void:
 			"hack":
 				var node: String = event["node"]
 				_float_text(_network.node_position(node) + Vector3(0, 1.0, 0), "+%d" % event["points"], Color.WHITE)
-				_network.refresh()
 				_hud.log_line("%s's AI hacks the %s: +%d" % [unit.display_name, state.node_def(node).display_name.to_lower(), event["points"]])
-				_grid.update_nodes(state)
+				_network.refresh()
 				await get_tree().create_timer(0.35, false).timeout
 			"breach":
 				_hud.log_line("%s breached" % state.node_def(event["node"]).display_name)
@@ -309,15 +409,6 @@ func _refresh_fog() -> void:
 			ghost.position = _grid.cell_to_world(state.known[id])
 
 
-# The network layer covers the map, so the hover highlight has to draw above it while it's up.
-func _set_network(shown: bool) -> void:
-	_network.visible = shown
-	_hud.set_network_shown(shown)
-	var hover: StandardMaterial3D = _hover.material_override
-	hover.no_depth_test = shown
-	hover.render_priority = NetworkView.Order.RING if shown else 0
-
-
 func _make_ghost(unit: Unit) -> Node3D:
 	var capsule := CapsuleMesh.new()
 	capsule.radius = 0.26
@@ -370,14 +461,19 @@ func _tracer(from: Vector3, to: Vector3) -> void:
 
 
 func _update_hover() -> void:
-	var cell: Variant = _cell_at(get_viewport().get_mouse_position())
+	var mouse := get_viewport().get_mouse_position()
+	var cell: Variant = _cell_at(mouse)
+	if not _network_shown:
+		var picked := _unit_at_screen(mouse)
+		if picked:
+			cell = picked.cell
 	_hover.visible = cell != null
 	if cell == null:
 		_hud.set_hover("")
 		return
 	_hover.position = _grid.cell_to_world(cell) + Vector3(0, 0.02, 0)
 	var text := _describe(cell)
-	if _network.visible and state.phase == BattleState.Phase.HUMAN:
+	if _network_shown and state.phase == BattleState.Phase.HUMAN:
 		text += "    ·    Network view: press N to return to the map"
 	_hud.set_hover(text)
 
@@ -388,7 +484,7 @@ func _describe(cell: Vector2i) -> String:
 	if unit and state.player_sees(unit):
 		text += "    %s  HP %d/%d" % [unit.display_name, unit.hp, unit.def.max_hp]
 		var active := state.active
-		if not _busy and active and active.is_player() and state.can_attack(active, unit, active.cell):
+		if _mode == Mode.TARGET and state.can_attack(active, unit, active.cell):
 			text += "    Attack: -%d" % active.def.damage
 	else:
 		for id in state.known:
@@ -406,6 +502,25 @@ func _describe(cell: Vector2i) -> String:
 	if not state.visible_cells.has(cell):
 		text += "    (no vision)"
 	return text
+
+
+# Clicking a unit's body counts, not just its floor tile, since tall units hide the tiles behind them.
+func _unit_at_screen(screen_position: Vector2) -> Unit:
+	var camera := get_viewport().get_camera_3d()
+	var from := camera.project_ray_origin(screen_position)
+	var to := from + camera.project_ray_normal(screen_position) * 500.0
+	var best: Unit = null
+	var best_depth := INF
+	for unit in state.living():
+		if not state.player_sees(unit):
+			continue
+		var base: Vector3 = _views[unit.id].position
+		var points := Geometry3D.get_closest_points_between_segments(from, to, base, base + Vector3(0, UNIT_HEIGHT, 0))
+		var depth := from.distance_to(points[0])
+		if points[0].distance_to(points[1]) < PICK_RADIUS and depth < best_depth:
+			best = unit
+			best_depth = depth
+	return best
 
 
 func _cell_at(screen_position: Vector2) -> Variant:

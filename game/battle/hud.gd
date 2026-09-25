@@ -1,17 +1,16 @@
 class_name Hud
 extends CanvasLayer
 
-signal end_turn_pressed
-signal undo_pressed
-signal hack_pressed
-signal compact_pressed
-signal door_pressed
+signal action_chosen(id: String)
+signal menu_cancelled
 signal network_toggled(shown: bool)
 
 const PLAYER_COLOR := Color(0.22, 0.5, 0.85)
 const ENEMY_COLOR := Color(0.8, 0.28, 0.25)
 const LOG_LINES := 7
 const FULL_CONTEXT_COLOR := Color(1.0, 0.45, 0.4)
+const MENU_OFFSET := Vector2(40, 0)
+const SCREEN_MARGIN := 12.0
 
 @onready var _round: Label = %RoundLabel
 @onready var _order: HBoxContainer = %Order
@@ -20,11 +19,9 @@ const FULL_CONTEXT_COLOR := Color(1.0, 0.45, 0.4)
 @onready var _active_name: Label = %ActiveName
 @onready var _active_stats: Label = %ActiveStats
 @onready var _context: ProgressBar = %ContextBar
-@onready var _undo: Button = %Undo
-@onready var _hack: Button = %Hack
-@onready var _compact: Button = %Compact
-@onready var _door: Button = %Door
-@onready var _end_turn: Button = %EndTurn
+@onready var _hint: Label = %Hint
+@onready var _action_menu: Control = %ActionMenu
+@onready var _action_list: VBoxContainer = %ActionList
 @onready var _network_toggle: Button = %NetworkToggle
 @onready var _log: VBoxContainer = %Log
 @onready var _result: Control = %Result
@@ -34,14 +31,17 @@ const FULL_CONTEXT_COLOR := Color(1.0, 0.45, 0.4)
 
 
 func _ready() -> void:
-	_undo.pressed.connect(undo_pressed.emit)
-	_hack.pressed.connect(hack_pressed.emit)
-	_compact.pressed.connect(compact_pressed.emit)
-	_door.pressed.connect(door_pressed.emit)
-	_end_turn.pressed.connect(end_turn_pressed.emit)
 	_network_toggle.toggled.connect(network_toggled.emit)
 	_restart.pressed.connect(SceneRouter.goto_battle)
 	_quit.pressed.connect(SceneRouter.goto_title)
+
+
+# The menu has to close before the pause menu sees Esc, so this runs in _input.
+func _input(event: InputEvent) -> void:
+	if _action_menu.visible and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("cancel")):
+		get_viewport().set_input_as_handled()
+		close_menu()
+		menu_cancelled.emit()
 
 
 func show_turn(state: BattleState) -> void:
@@ -59,20 +59,14 @@ func show_turn(state: BattleState) -> void:
 
 func show_active(state: BattleState) -> void:
 	var unit := state.active
-	var agent_phase := state.phase == BattleState.Phase.AGENT
 	_context.value = unit.context
 	_context.modulate = FULL_CONTEXT_COLOR if unit.context >= BattleState.CONTEXT_MAX else Color.WHITE
-	_undo.visible = not agent_phase
-	_undo.disabled = not state.can_undo(unit)
-	_hack.visible = agent_phase
-	_compact.visible = agent_phase
-	_door.visible = agent_phase and state.can_toggle_door(unit)
-	if not agent_phase:
+	if state.phase == BattleState.Phase.HUMAN:
 		_active_name.text = unit.display_name
 		_active_stats.text = "HP %d/%d    Move %d    Damage %d    Range %d    Context %d" % [
 			unit.hp, unit.def.max_hp, unit.def.move, unit.def.damage, unit.def.attack_range, unit.context
 		]
-		_end_turn.text = "AI phase" if state.can_connect(unit) else "End turn"
+		_hint.text = "Click %s for actions" % unit.display_name
 		return
 	var node := state.node_def(unit.agent_node)
 	var progress := ""
@@ -80,12 +74,39 @@ func show_active(state: BattleState) -> void:
 		progress = "  (breached)" if state.breached.has(unit.agent_node) else "  %d/%d" % [state.breach.get(unit.agent_node, 0), node.goal]
 	_active_name.text = "%s  ·  AI" % unit.display_name
 	_active_stats.text = "On: %s%s    Context %d/%d" % [node.display_name, progress, unit.context, BattleState.CONTEXT_MAX]
-	_hack.disabled = not state.can_hack(unit)
-	_hack.text = "Hack +%d" % state.hack_yield(unit)
-	_compact.disabled = unit.context == 0
-	_compact.text = "Compact to %d" % state.compacted(unit.context)
-	_door.text = "Close door" if state.is_door_open(unit.agent_node) else "Open door"
-	_end_turn.text = "End turn"
+	_hint.text = "Click %s's AI for actions" % unit.display_name
+
+
+# actions: dictionaries with "id" and "text". The menu opens beside the given screen point.
+func open_menu(at: Vector2, actions: Array) -> void:
+	for child in _action_list.get_children():
+		_action_list.remove_child(child)
+		child.queue_free()
+	for action in actions:
+		var button := Button.new()
+		button.text = action["text"]
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.pressed.connect(_choose.bind(action["id"]))
+		_action_list.add_child(button)
+	_action_menu.show()
+	_action_menu.reset_size()
+	var limit := get_viewport().get_visible_rect().size - _action_menu.size - Vector2.ONE * SCREEN_MARGIN
+	var corner := at + MENU_OFFSET - Vector2(0, _action_menu.size.y / 2.0)
+	_action_menu.position = corner.clamp(Vector2.ONE * SCREEN_MARGIN, limit)
+	if _action_list.get_child_count() > 0:
+		_action_list.get_child(0).grab_focus()
+
+
+func set_hint(text: String) -> void:
+	_hint.text = text
+
+
+func close_menu() -> void:
+	_action_menu.hide()
+
+
+func is_menu_open() -> bool:
+	return _action_menu.visible
 
 
 func set_network_shown(shown: bool) -> void:
@@ -112,9 +133,15 @@ func log_line(text: String) -> void:
 
 func show_result(won: bool) -> void:
 	_active_panel.hide()
+	close_menu()
 	_result_label.text = "Victory" if won else "Defeat"
 	_result.show()
 	_restart.grab_focus()
+
+
+func _choose(id: String) -> void:
+	close_menu()
+	action_chosen.emit(id)
 
 
 func _chip(unit: Unit, is_active: bool) -> Control:
