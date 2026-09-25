@@ -99,6 +99,9 @@ locked yet, are in
 - No permadeath.
 - The game is 3D, and it should be good looking. The MVP uses basic greybox shapes; art comes
   once the playtest validates it. (2026-09-24)
+- Art direction: stylized but realistic, in a world that is solarpunk meets a corporate AI future
+  full of advertisements. The first brief built on it is [art/astra-brief.md](art/astra-brief.md).
+  (2026-09-24)
 - Between battles there is a town, like Persona: walk around, talk to people, investigate, and
   buy and install upgrades. It starts small, and it gets built to explore the story I need to
   tell rather than the story being made to fit the game.
@@ -107,7 +110,8 @@ locked yet, are in
 
 1. Scope. How big this is follows from the idea we land on, so it gets decided after the
    brainstorm.
-2. The art style. 3D is decided (see Decisions); the look within 3D is open.
+2. How the art gets made. The direction is set (see Decisions); the pipeline is being worked out
+   in [the art-pipeline exploration](explorations/art-pipeline.md).
 3. How exploring connects to turn-based fights, including taking enemies on indirectly or in
    creative ways.
 4. Whether the touchstones above are ingredients the brainstorm has to use, or inspiration it

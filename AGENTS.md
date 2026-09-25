@@ -50,6 +50,7 @@ expects that plan to change as ideas surface while playing.
 | CLAUDE.md | One line pointing Claude Code at this file |
 | EXPLORATIONS.md | The board: every open topic, its status and its next action |
 | explorations/*.md | One file per research or design thread |
+| art/ | Art briefs, Blender build scripts, source files and previews; exported models go in game/art/ |
 | .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
 
 README.md (setup and run instructions) gets created when there is code to run. There is no

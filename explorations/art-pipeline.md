@@ -2,7 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: gather candidate pipelines with their costs and example output
+- Next action: Astra makes a first pass from [the art brief](../art/astra-brief.md) (Priority 1
+  only); Bryson reviews the previews
 
 ## The question
 
@@ -25,14 +26,27 @@ MVP's 3D scene is built so that models can replace its greybox shapes directly.
 
 ## Candidates
 
-Not gathered yet. Known names to look at: Astra for prototypes, Meshy, and the Blender
-integration available in Claude Code (drives Blender directly, pulls PolyHaven and Sketchfab
-assets, text-to-3D through Hyper3D or Hunyuan3D). Whether that integration is actually
-connected and keyed up has not been checked.
+The full list, with what each is for and its license caveats, is in section 7 of
+[the art brief](../art/astra-brief.md#7-how-to-make-it-a-free-pipeline-that-ai-can-drive). In
+short: headless Blender driven by Python build scripts for hard-surface work; MPFB2 or an
+image-to-3D generator (TRELLIS, Hunyuan3D, Hyper3D Rodin) for organic shapes; Rigify, Mixamo and
+Quaternius's CC0 animation library for rigging and motion; Poly Haven and ambientCG for textures.
 
 ## Findings
 
-None yet. Each entry gets a date and says which tool produced it.
+### 2026-09-24 — Bryson's art direction, and what this Mac can do (Claude)
+
+- Bryson: "stylized but realistic," and "a sort of solar punk meets corporate AI future with
+  advertisements." He asked Claude to design one Operator and AI pair plus set pieces as a brief
+  for Astra's first Blender pass, with advice on free, AI-driven ways to make 3D models. The brief
+  is [art/astra-brief.md](../art/astra-brief.md).
+- Checked on Bryson's Mac: Blender 5.2 LTS runs headless Python build scripts and exports glTF, so
+  an agent can build, render and export assets without the UI. The brief's preview-camera code
+  was run there, and a 1.7 m figure comes out about 55 pixels tall from the battle camera at
+  default zoom.
+- The Blender MCP server is configured and its addon is installed, but it only responds while
+  Blender is open and connected, so which generators it has enabled (Hyper3D, Hunyuan3D, Poly
+  Haven, Sketchfab) is still unchecked. MPFB2 (MakeHuman for Blender) is not installed.
 
 ## Questions to answer
 
