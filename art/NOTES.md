@@ -28,3 +28,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `net_probe_spore` | 1,200 | 0.059 × 0.059 × 0.080 | static | No textures. Actual 8 cm sensor spore; nearly invisible at default zoom, so gameplay needs a marker. |
 | `prop_backpack_rig` | 5,910 | 0.610 × 0.448 × 0.562 | static | No textures. 42 cm frame, ~55 cm with two 30×22 cm solar flaps spread side by side. Positive Y straps face wearer; status_heart is independent. |
 | `prop_rivet_driver` | 1,520 | 0.100 × 0.289 × 0.186 | static | No textures. 28 cm solar-install rivet tool with tape-wrapped nozzle and removable battery; muzzle faces −Y. |
+| `ai_moth` | 2,944 | 0.452 × 0.285 × 0.079 | hover_idle, fly, scan, deploy_probe, strain | One 1024×1024 RGBA wing atlas. Eight-bone rig, five clips. scan opens the wings; the travelling cell-light sweep remains a game shader hook. Place root ~1.82 m high for a 1.9 m hover center. |
