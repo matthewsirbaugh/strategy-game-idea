@@ -11,3 +11,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `kit_floor_commons` | 600 | 1.000 × 1.000 × 0.207 | static | No textures. Twelve salvaged pavers with sparse moss; whole-tile footprint. |
 | `kit_wall_company` | 308 | 1.000 × 1.000 × 2.400 | static | No textures. Solid capped 1 m wall block; fixed cyan seam is architectural. |
 | `kit_wall_commons` | 508 | 1.000 × 1.000 × 2.401 | static | No textures. Nine quiet earth strata under a timber cap. |
+| `kit_wall_commons_moss` | 584 | 1.000 × 1.000 × 2.510 | static | No textures. Wall structure is 2.4 m; sparse cap growth reaches 2.51 m. |
