@@ -2,3 +2,4 @@
 game/.godot/
 game/export/
 *.blend1
+__pycache__/
