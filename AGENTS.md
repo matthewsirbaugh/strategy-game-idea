@@ -106,6 +106,9 @@ reads it later.
 - Write a test only when it earns its keep: rules math that's easy to get subtly wrong, or a bug
   that has already come back once. Never for coverage, and never "just because".
 - Verify by running and playing the build. Report which of the two actually happened.
+- After committing a change to the game, restart it so Bryson can play the new build: close any
+  running copy with `pkill -f "^godot --path"`, then start it with `godot --path game` from the
+  project root.
 - Revisit this when the project moves from prototype toward a finished product.
 
 ## Not agreed yet
