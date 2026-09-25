@@ -24,3 +24,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `prop_server_rack` | 1,816 | 0.720 × 0.705 × 2.000 | static | No textures. Warm activity LEDs only; deliberately no ownership ring because this rack is not interactive. |
 | `prop_cable_tray` | 1,104 | 0.325 × 1.000 × 0.124 | static | No textures. One-metre segment; local Z=0 is its mounting surface. Rotate the parent to hang overhead. |
 | `prop_salvage_crate` | 1,600 | 0.835 × 0.749 × 0.590 | static | No textures. Open crate of salvaged battery, conduit and cloth-wrapped cable. |
+| `prop_cargo_bike` | 4,056 | 0.640 × 2.010 × 1.073 | static | No textures. Front-facing −Y; working cargo-bike proportions, boxed solar-install supplies, and a parked kickstand. |
