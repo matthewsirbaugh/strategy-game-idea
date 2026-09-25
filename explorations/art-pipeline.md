@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: finish native validation and review the 24 Priority 1 assets with Bryson;
-  checkpoint and remaining work are in [art/NOTES.md](../art/NOTES.md).
+- Next action: Claude's second pass on the Priority 1 set, per the 2026-09-24 review below;
+  then Bryson reviews the previews. Checkpoint is in [art/NOTES.md](../art/NOTES.md).
 
 ## The question
 
@@ -47,6 +47,41 @@ Quaternius's CC0 animation library for rigging and motion; Poly Haven and ambien
 - The Blender MCP server is configured and its addon is installed, but it only responds while
   Blender is open and connected, so which generators it has enabled (Hyper3D, Hunyuan3D, Poly
   Haven, Sketchfab) is still unchecked. MPFB2 (MakeHuman for Blender) is not installed.
+
+### 2026-09-24 — Review of Astra's first pass against the sharpened direction (Claude)
+
+Bryson: "attractive, cool, stylized models. For the humans, realistic, like Watch Dogs meets
+Cyberpunk. For the AI, something more cute/chibi as a contrast for now." He also asked for
+terrain models, and for Claude to judge each asset against that direction, then improve what fits
+and rebuild what doesn't.
+
+What Astra delivered is technically sound: every asset rebuilds from a script, exports cleanly,
+and is measured in [art/NOTES.md](../art/NOTES.md), and the CC0 human base is licensed
+correctly. The look is the problem.
+
+| Assets | Fits? | Verdict |
+|---|---|---|
+| `char_installer` | No | Reads as a clay mannequin: clothes painted onto the body, a bandana that reads as a swim cap, slab shoes, flat colors. Nothing of Watch Dogs or Cyberpunk. Rebuild |
+| `ai_moth` | No | A realistic moth rather than chibi, and a 15-pixel speck at default zoom. Exports as 76 separate skinned objects. Rebuild |
+| `prop_backpack_rig`, `prop_rivet_driver` | No | Toy-like. The two solar flaps spread flat read as a plank balanced on her head. Rebuild with the Installer |
+| `kit_exit_hatch` | No | Reads as a diorama of stairs up to a teal board, not a roof hatch. Rebuild |
+| Floors, walls, planters | Yes, but plain | Right vocabulary and scale. Flat pastel colors and blank faces make them read as toy blocks. The rammed-earth wall reads as stacked planks |
+| Network hardware | Yes | The status-ring language works from above. The turret is a white ball with a handle, and the data cache is not yet the most beautiful Company object |
+| Other props | Yes | Server rack, cable tray, crate, cargo bike and spore are sound; they share the flat-material problem |
+| Terrain | Missing | Nothing outdoors yet: ground surfaces, height changes, stairs, curbs, trees |
+
+Causes, in order of impact:
+
+1. Every material is one flat color: no ambient occlusion, edge wear, grain, grime or normal
+   detail. This, more than the shapes, is what makes the set look like toys.
+2. Pastel, low-contrast colors.
+3. Clothes are skin-tight offsets of the body, so they read as paint.
+4. The game-view previews are 95% empty grey, which makes them hard to review.
+5. Each full rebuild adds about 60 MB of PNG previews to git.
+
+Plan for this pass, one commit per stage: shared pipeline upgrade (baked stylized materials,
+readable previews) and a rebuild of the environment; the chibi AI; the Installer and her gear;
+fixes to the weak environment pieces; a terrain kit; notes and an import check in Godot.
 
 ## Questions to answer
 

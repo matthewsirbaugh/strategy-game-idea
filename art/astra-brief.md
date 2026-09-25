@@ -2,6 +2,9 @@
 
 For Astra. Written by Claude on 2026-09-24 at Bryson's request.
 
+> Later the same day Bryson sharpened the direction for characters: realistic humans, like Watch
+> Dogs meets Cyberpunk, and cute chibi AI partners (DESIGN.md). Where section 4 disagrees, that wins.
+
 Bryson directs the art. His direction for this pass: **stylized but realistic**, and **solarpunk meets
 a corporate AI future full of advertisements**. Everything more specific below (the characters,
 the set pieces, the palette, the placeholder brands and ad copy) is Claude's proposal for him to

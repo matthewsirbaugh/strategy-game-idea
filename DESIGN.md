@@ -102,6 +102,10 @@ locked yet, are in
 - Art direction: stylized but realistic, in a world that is solarpunk meets a corporate AI future
   full of advertisements. The first brief built on it is [art/astra-brief.md](art/astra-brief.md).
   (2026-09-24)
+- Models should be attractive, cool and stylized. Humans are realistic, like Watch Dogs meets
+  Cyberpunk. AI partners are cute and chibi, as a contrast, for now. The game needs terrain
+  models too. The review this came with is in
+  [the art-pipeline exploration](explorations/art-pipeline.md). (2026-09-24)
 - Between battles there is a town, like Persona: walk around, talk to people, investigate, and
   buy and install upgrades. It starts small, and it gets built to explore the story I need to
   tell rather than the story being made to fit the game.
