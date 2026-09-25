@@ -14,3 +14,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `kit_wall_commons_moss` | 584 | 1.000 × 1.000 × 2.510 | static | No textures. Wall structure is 2.4 m; sparse cap growth reaches 2.51 m. |
 | `kit_wall_greenwash` | 696 | 1.000 × 1.039 × 2.400 | static | No textures. Company composite behind a shallow timber trellis; leaves stay inside the tile. |
 | `kit_cover_planter` | 556 | 0.900 × 0.900 × 0.850 | static | No textures. 1×1 tile; timber box is 0.65 m and foliage reaches 0.9 m. |
+| `kit_cover_planter_wide` | 748 | 1.900 × 0.900 × 0.870 | static | No textures. 2×1 tile version shares the narrow planter construction. |
