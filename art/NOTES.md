@@ -18,3 +18,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `net_access_point` | 2,304 | 0.441 × 0.562 × 1.088 | static | No textures. Ownership ring, port halo and top cap share status_ring; unambiguous top beacon. |
 | `net_camera` | 2,352 | 0.400 × 0.726 × 2.204 | static | No textures. Pole variant first; lens halo is repeated on top for tactics readability. |
 | `net_data_cache` | 3,560 | 0.700 × 0.540 × 2.011 | static | No textures. Frosted faces are opaque for reliable sorting. Recolor status_ring green when secured; pulse in game. |
+| `net_door` | 1,616 | 1.000 × 0.452 × 2.540 | open | No textures. Clear opening 2.4 m; lintel reaches 2.54 m. open slides 0.82 m into the adjacent wall; recolor status_ring in game. |
