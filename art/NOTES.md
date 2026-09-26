@@ -2,6 +2,15 @@
 
 Prototype interpretations of `astra-brief.md`; creative approval remains with Bryson. Models are exported for review, not installed into battle visuals.
 
+## Installer refinement checkpoint — 2026-09-26
+
+- Scope: `char_installer` only, at Bryson's request. Six geometry review iterations rebuilt the open canvas jacket, rolled sleeves, raised collar, pockets, trouser cuffs and approach shoes; refined the face and tied headwrap; and folded the worn backpack's solar panels vertically. The standalone backpack and rivet-driver assets were not revised.
+- Delivery: 31,946 triangles including worn equipment (previously 32,520), one skinned mesh, three materials, 53 bones, up to four normalized weights per vertex, and three embedded 2048×2048 PNG maps: base color, tangent normals, and packed roughness/metallic. Blender dimensions: 1.010 × 0.593 × 1.693 m; crown at 1.694 m. `glass` and `status_heart` remain separate for game shading.
+- Rebuild: `blender --background --python art/scripts/char_installer.py`. Add `-- --draft` for geometry/material review in `/tmp/installer-review` without overwriting the delivered source or export. `char_installer_review.py` is character-specific baking/review code; this delivery was also built with the committed version of `common.py`, so it does not require the unfinished shared material pass.
+- Review: `previews/char_installer_front.jpg`, `_back.jpg`, `_detail.jpg`, `_pose.jpg`, `_game.jpg`, and `_godot.jpg`. The tactics sheet shows the 34 m default view enlarged 3× on the left and the 12 m closest view on the right; both include a 1.7 m reference. The pose image uses the existing skeleton with lowered upper arms and slightly bent elbows; the exported asset remains in its A-pose, with no animation clips.
+- Verified: rebuilt, baked and exported in Blender; inspected the final close, back, face, tactics and lowered-arm renders; imported and rendered the actual GLB in Godot 4.7.2 with Metal/Forward+; checked one mesh, three surfaces and 53 skin binds. Embedded texture sizes and normalized four-weight skinning passed inspection. Godot import/render reported no errors.
+- Limit: still prototype character art awaiting Bryson's visual review. Walking, crouching, aiming and extreme joint bends have not been validated. The battle still uses its existing placeholders; this model was not integrated into gameplay or human-playtested. Other uncommitted art work is outside this checkpoint.
+
 ## Handoff — 2026-09-25
 
 - All 24 Priority 1 assets/variants have scripts, Blender sources, GLBs and both previews; individual model commits are on `main`. Stop before Priority 2, per the brief.
@@ -40,4 +49,4 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `net_door` | 1,616 | 1.000 × 0.452 × 2.540 | closed, open | No textures. Clear opening 2.4 m; lintel reaches 2.54 m. open slides 0.82 m into the adjacent wall; recolor status_ring in game. |
 | `net_turret` | 3,576 | 0.720 × 0.874 × 0.899 | active, offline | No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline. |
 | `prop_backpack_rig` | 5,910 | 0.610 × 0.448 × 0.562 | static | No textures. 42 cm frame, ~55 cm with two 30×22 cm solar flaps spread side by side. Positive Y straps face wearer; status_heart is independent. |
-| `char_installer` | 32,520 | 1.010 × 0.587 × 1.691 | static | CC0 MakeHuman base and game skeleton; fitted procedural clothes and all gear, no image textures. Weighted A-pose only: human motion clips are deferred by the brief. Counts include the 5.9k backpack and 1.5k rivet driver. Bandana brings height to 1.69 m. |
+| `char_installer` | 31,946 | 1.010 × 0.593 × 1.693 | static | Three 2048 px baked maps; one mesh, three materials, 53 bones. Rebuilt clothing, face/headwrap, approach shoes and compact worn solar rig. A-pose export; lowered-arm review pose only. See the 2026-09-26 checkpoint above. |
