@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byvuqcqn7wkrm"
-path="res://.godot/imported/char_installer_char_installer_normal.png-558e1f6ea9200950134d915a82614fd2.ctex"
+uid="uid://d1ofas4s5ipx7"
+path="res://.godot/imported/char_installer_eyelashes01.png-0ad5c18a2a8831e4bbdc8bf91ea4d29f.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "c27688769d04078553f907a48d90a602"
+"md5": "050add4f6a49b84709d4e478963163c9"
 }
 
 [deps]
 
-source_file="res://art/characters/char_installer_char_installer_normal.png"
-dest_files=["res://.godot/imported/char_installer_char_installer_normal.png-558e1f6ea9200950134d915a82614fd2.ctex"]
+source_file="res://art/characters/char_installer_eyelashes01.png"
+dest_files=["res://.godot/imported/char_installer_eyelashes01.png-0ad5c18a2a8831e4bbdc8bf91ea4d29f.ctex"]
 
 [params]
 

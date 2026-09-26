@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b478ima7haxho"
-path="res://.godot/imported/char_installer_char_installer_orm.png-d2516b91a9a5a1df4867b8c4b25ce673.ctex"
+uid="uid://6kmds2ridgf8"
+path="res://.godot/imported/char_installer_char_installer_decals.png-0f1043583e415c44fddfcc6e2277362d.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "71b64396e077056de67916f96e3100c5"
+"md5": "83b1522506f26e3d04d590c51a651beb"
 }
 
 [deps]
 
-source_file="res://art/characters/char_installer_char_installer_orm.png"
-dest_files=["res://.godot/imported/char_installer_char_installer_orm.png-d2516b91a9a5a1df4867b8c4b25ce673.ctex"]
+source_file="res://art/characters/char_installer_char_installer_decals.png"
+dest_files=["res://.godot/imported/char_installer_char_installer_decals.png-0f1043583e415c44fddfcc6e2277362d.ctex"]
 
 [params]
 

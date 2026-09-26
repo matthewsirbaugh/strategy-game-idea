@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yc0didts1voi"
-path="res://.godot/imported/char_installer_char_installer_albedo.png-afabd6367744ff87c0a43af6e5b90b8a.ctex"
+uid="uid://eus5cvvfuokh"
+path="res://.godot/imported/char_installer_char_installer_skin_color.png-9873eea5ae589f0ec195e8642b0e9ed5.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "7c851e820cc8e28d73bc238bedf2b349"
+"md5": "d4c8f1ca26b0926068b0106889f3fed2"
 }
 
 [deps]
 
-source_file="res://art/characters/char_installer_char_installer_albedo.png"
-dest_files=["res://.godot/imported/char_installer_char_installer_albedo.png-afabd6367744ff87c0a43af6e5b90b8a.ctex"]
+source_file="res://art/characters/char_installer_char_installer_skin_color.png"
+dest_files=["res://.godot/imported/char_installer_char_installer_skin_color.png-9873eea5ae589f0ec195e8642b0e9ed5.ctex"]
 
 [params]
 
