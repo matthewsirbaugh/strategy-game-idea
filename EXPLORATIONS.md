@@ -7,7 +7,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 |---|---|---|---|
 | Battle MVP: first playable in Godot | open | All five milestones built. Bryson plays the full MVP and answers the playtest questions | [battle-mvp.md](explorations/battle-mvp.md) |
 | Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
-| Art pipeline: how 3D assets get made | open | Claude's second pass on Priority 1 (realistic humans, chibi AI, materials, terrain), then Bryson reviews the previews; checkpoint in [art/NOTES.md](art/NOTES.md) | [art-pipeline.md](explorations/art-pipeline.md) |
+| Art pipeline: how 3D assets get made | open | Bryson reviews the hand-built Installer; the next human characters use the kit in [art/human-pipeline.md](art/human-pipeline.md). Checkpoint in [art/NOTES.md](art/NOTES.md) | [art-pipeline.md](explorations/art-pipeline.md) |
 | The core idea and story | parked | World and premise are sufficient for gameplay exploration; resume character and plot development when Bryson returns to it | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |
 | Between battles: the town | parked | Waiting on the story the town needs to tell; starts as one neighborhood | not started |

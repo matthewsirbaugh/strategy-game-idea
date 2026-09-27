@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Claude's second pass on the Priority 1 set, per the 2026-09-24 review below;
-  then Bryson reviews the previews. Checkpoint is in [art/NOTES.md](../art/NOTES.md).
+- Next action: Bryson reviews the hand-built Installer; the next human characters use the kit in
+  [art/human-pipeline.md](../art/human-pipeline.md). Checkpoint is in [art/NOTES.md](../art/NOTES.md).
 
 ## The question
 
