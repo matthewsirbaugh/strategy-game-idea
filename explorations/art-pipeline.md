@@ -163,6 +163,29 @@ The shared base (greys and cream) with one accent per Operator should read well 
 Yellow is Cyberpunk 2077's signature color; blue and sage are softer than that game's cyan and
 red, which is worth keeping in mind when the city palette gets picked (Claude).
 
+### 2026-09-27 — What Meshy can do for us (Claude)
+
+Bryson installed the Meshy MCP server (key in the macOS Keychain, launcher `~/.local/bin/meshy-mcp`)
+and asked what it offers, especially rigging and animation. From Meshy's docs and the server's
+own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,100 credits.
+
+| Step | Tool | Credits | Notes |
+|---|---|---|---|
+| Model from front and back views | `meshy_multi_image_to_3d` | 30 textured | Ask for a T-pose when it will be rigged |
+| Lower the polycount | `meshy_remesh` | 5 | Rigging needs 300k faces or fewer |
+| Rig | `meshy_rig` | 5 | Humanoid only, textured, facing +Z. Walk and run included |
+| Each extra animation | `meshy_animate` | 3 | Library of 590+ clips: idles, crouch walks, shooting, reloads, hit reactions, deaths, climbing, vaulting |
+
+- Paid plans own their output outright; the free tier is CC BY 4.0.
+- Limits: non-humanoids (a bot or a drone partner) can't be auto-rigged. Clips are generic motion
+  capture, so anything specific to the game, such as hacking at a terminal, may not exist.
+  Every rigged character shares Meshy's skeleton, so clips carry across all three Operators.
+- For our look: Meshy makes the shape and a base-color texture; the ink outlines and cel shading
+  would come from a toon shader in Godot. How well its texture reads as flat Ghibli color is
+  untested.
+- The front views in `art/reference/` put the camera bot on the wrong shoulder. Meshy would build
+  what it sees, so those images need correcting before generating.
+
 ## Questions to answer
 
 1. How much does this depend on what the game turns out to be?
