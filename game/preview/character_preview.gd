@@ -1,0 +1,105 @@
+extends Node3D
+## Look-dev stage for character models: the toon shader on a Meshy character, its clips, and the
+## battle camera's view. Run with `godot --path game res://preview/character_preview.tscn`.
+
+const MODEL := "res://art/characters/main_character/main_character.glb"
+const EXTRA_CLIPS := {"Walk": "res://art/characters/main_character/walk.glb", "Run": "res://art/characters/main_character/run.glb"}
+const FIRST_CLIPS := ["Walk", "Idle"]
+const TOON := preload("res://art/shaders/toon.gdshader")
+const INK := preload("res://art/shaders/ink_outline.gdshader")
+const CLOSE := {"distance": 4.0, "pitch": 12.0, "height": 1.0, "fov": 40.0}
+const BATTLE := {"distance": 34.0, "pitch": 50.0, "height": 0.9, "fov": 40.0}
+
+var _player: AnimationPlayer
+var _clips: Array[String] = []
+var _clip := 0
+var _toon := true
+var _view := CLOSE
+var _yaw := 0.0
+var _original: Array[Material] = []
+var _toon_materials: Array[Material] = []
+var _mesh: MeshInstance3D
+
+@onready var _camera: Camera3D = $Camera3D
+@onready var _label: Label = $Label
+
+
+func _ready() -> void:
+	var character: Node3D = load(MODEL).instantiate()
+	add_child(character)
+	_player = character.find_child("AnimationPlayer", true, false)
+	for clip_name in EXTRA_CLIPS:
+		var source: Node = load(EXTRA_CLIPS[clip_name]).instantiate()
+		var source_player: AnimationPlayer = source.find_child("AnimationPlayer", true, false)
+		_player.get_animation_library("").add_animation(clip_name, source_player.get_animation(source_player.get_animation_list()[0]))
+		source.free()
+	for clip_name in _player.get_animation_list():
+		var clip := _player.get_animation(clip_name)
+		clip.loop_mode = Animation.LOOP_LINEAR
+		_keep_in_place(clip)
+		_clips.append(clip_name)
+	_clips.sort()
+	for clip_name in FIRST_CLIPS:
+		_clips.erase(clip_name)
+		_clips.push_front(clip_name)
+	_mesh = _find_mesh(character)
+	for surface in _mesh.mesh.get_surface_count():
+		var original := _mesh.get_active_material(surface)
+		_original.append(original)
+		var toon := ShaderMaterial.new()
+		toon.shader = TOON
+		toon.set_shader_parameter("albedo_texture", (original as BaseMaterial3D).albedo_texture)
+		var ink := ShaderMaterial.new()
+		ink.shader = INK
+		toon.next_pass = ink
+		_toon_materials.append(toon)
+	_apply()
+
+
+# Meshy clips walk the hips forward; a tactics unit moves by code, so the clips play in place.
+func _keep_in_place(clip: Animation) -> void:
+	for track in clip.get_track_count():
+		if clip.track_get_type(track) != Animation.TYPE_POSITION_3D or not str(clip.track_get_path(track)).ends_with(":Hips"):
+			continue
+		var start: Vector3 = clip.track_get_key_value(track, 0)
+		for key in clip.track_get_key_count(track):
+			var value: Vector3 = clip.track_get_key_value(track, key)
+			clip.track_set_key_value(track, key, Vector3(start.x, value.y, start.z))
+
+
+func _find_mesh(node: Node) -> MeshInstance3D:
+	for child in node.get_children():
+		if child is MeshInstance3D:
+			return child
+		var found := _find_mesh(child)
+		if found:
+			return found
+	return null
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.pressed or event.echo:
+		return
+	match event.keycode:
+		KEY_RIGHT: _clip = (_clip + 1) % _clips.size()
+		KEY_LEFT: _clip = (_clip - 1 + _clips.size()) % _clips.size()
+		KEY_T: _toon = not _toon
+		KEY_V: _view = BATTLE if _view == CLOSE else CLOSE
+		KEY_Q: _yaw -= 45.0
+		KEY_E: _yaw += 45.0
+		KEY_ESCAPE: get_tree().quit()
+	_apply()
+
+
+func _apply() -> void:
+	_player.play(_clips[_clip])
+	for surface in _original.size():
+		_mesh.set_surface_override_material(surface, _toon_materials[surface] if _toon else _original[surface])
+	var pitch := deg_to_rad(_view.pitch as float)
+	var yaw := deg_to_rad(_yaw)
+	var target := Vector3(0, _view.height, 0)
+	var offset := Vector3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * cos(pitch)) * (_view.distance as float)
+	_camera.fov = _view.fov
+	_camera.look_at_from_position(target + offset, target)
+	_label.text = "%s   (%d/%d)\n←/→ clip   T toon %s   V view: %s   Q/E rotate   Esc quit" % [
+		_clips[_clip], _clip + 1, _clips.size(), "on" if _toon else "off", "battle camera" if _view == BATTLE else "close"]

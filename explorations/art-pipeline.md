@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: build one small cel-shaded test in Godot, starting with the main character from
-  [the references](../art/reference/), for Bryson to judge.
+- Next action: Bryson judges the first Meshy character in the preview scene
+  (`godot --path game res://preview/character_preview.tscn`) and decides whether Meshy is the route.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -150,10 +150,10 @@ apart). What they show, for tools that can't read images:
 |---|---|---|---|
 | Accent color | Yellow | Blue | Sage green |
 | Head | Messy dark-brown hair, round black glasses, easy smile | Curly dark hair in a high puff, blue twisted headband, clear rectangular glasses with a dark AR module on the temple | Short tousled dark hair, clear glasses with a dark AR module on the temple |
-| Top | Cream bomber-style zip jacket, sleeves pushed up, grey ribbed cuffs and hem, yellow zip trim and pulls; grey inner hood; black tee | Grey cropped vest with a stand collar, open; cream long-sleeve top, sleeves pushed up; black watch | Cream zip jacket with sage zip pockets on the chest and sleeve; sage hood and tee; black watch |
+| Top | Cream bomber-style zip jacket, grey ribbed cuffs and hem, yellow zip trim and pulls; grey inner hood; yellow tee | Grey cropped vest with a stand collar, open; cream long-sleeve top, sleeves pushed up; black watch | Cream zip jacket with sage zip pockets on the chest and sleeve; sage hood and tee; black watch |
 | Trousers | Loose charcoal straight trousers, yellow zip pulls | Loose charcoal joggers with elastic cuffs | Grey cargo joggers with cuffs and side cargo pockets |
 | Shoes | Grey and cream trail sneakers, yellow accents | Grey and cream trail sneakers, blue accents | Grey and cream trail sneakers, sage accents |
-| Backpack | Light-grey pack, yellow tab, bottle in a side pocket | Grey pack with a blue front pocket and a lens on the back panel | Cream and sage pack with a lens, a bottle in a side pocket and a chest strap |
+| Backpack | Cream hard-shell pack with a solar panel on the back, a vent and yellow clips | Grey pack with a blue front pocket and a lens on the back panel | Cream and sage pack with a lens, a bottle in a side pocket and a chest strap |
 
 All three carry a small camera bot on a short mast. Bryson, 2026-09-27: it sits over the
 character's **left** shoulder. The image generator put it over the right shoulder in every front
@@ -185,6 +185,26 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   untested.
 - The front views in `art/reference/` put the camera bot on the wrong shoulder. Meshy would build
   what it sees, so those images need correcting before generating.
+
+### 2026-09-27 — First Meshy test: the main character (Claude; rendered and inspected, not yet seen by Bryson)
+
+- Bryson supplied a T-pose front and back sheet, now `art/reference/main-character.webp`. It
+  changes the outfit from the first reference: a yellow tee instead of black, and a hard-shell
+  pack with a solar panel instead of the soft pack and bottle. Both views put the camera bot on
+  his right shoulder, so Claude mirrored both halves for Meshy's input (`art/meshy/main-character/`),
+  which puts it on the left as Bryson decided.
+- Spent 50 credits (3,050 left): model 30, rig 5, five clips 15. Every step succeeded on the first
+  try and took one to two minutes.
+- Result: 31k triangles, one 24-bone skeleton, one texture. In the game at
+  `game/art/characters/main_character/` with seven clips: Idle, Walk, Run, Cautious Crouch Walk
+  Forward, Cowboy Quick Draw Shooting, Hit Reaction and Knock Down.
+- A flat two-tone toon shader with screen-space ink outlines (`game/art/shaders/`) and a preview
+  scene (`game/preview/`) to judge it. Clips play in place, since the game moves units itself.
+- Honest read: the outfit, colors and silhouette follow the reference well, and at the battle
+  camera's default distance he is about 55 pixels tall and reads by his cream jacket and yellow
+  tee. Up close the face is Meshy's weak spot, soft and generic. Meshy also paints soft shading
+  into the texture, so the result reads more like a 3D anime game than flat Ghibli cels. Several
+  clips are generic motion capture: the shooting clip has no gun, and the idle is stiff.
 
 ## Questions to answer
 
