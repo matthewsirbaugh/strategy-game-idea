@@ -83,8 +83,9 @@ progress and don't get lost. One topic, one chat, one file.
 - Changing wording that is already agreed: propose it in chat first.
 - Routine edits — typos, formatting, closing a question that has been answered — just make
   them, then list what you changed.
-- Local git, branch `main`. Commit after each agreed change with a short message, so any
-  single change can be undone on its own.
+- Git, branch `main`, with GitHub as the shared remote. Commit after each agreed change with a
+  short message, so any single change can be undone on its own. Push `main` to GitHub after
+  every milestone or larger task, so local and cloud agents start from the same project state.
 
 ## Tools, models and spending
 
