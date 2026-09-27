@@ -10,6 +10,7 @@ enum Order { BACKDROP = 1, LINK, RIM, DISC, RING, AGENT_RIM, AGENT, LABEL_OUTLIN
 const BACKDROP_SHADER := preload("res://battle/network_backdrop.gdshader")
 const FLOOR_Y := 0.08
 const AGENT_Y := 0.3
+const TOKEN_RADIUS := 0.38
 const HOP_SECONDS := 0.15
 const INK := Color(0.07, 0.13, 0.3)
 const REACHABLE := Color(0.1, 0.45, 1.0)
@@ -100,12 +101,33 @@ func refresh() -> void:
 			agent.position = _agent_position(unit, unit.agent_node)
 
 
+# The current ring circles the active AI's own token, so it stays readable when AIs share a node.
 func highlight(reachable: Array, current: String) -> void:
 	for id in _nodes:
 		var ring: MeshInstance3D = _nodes[id]["ring"]
 		ring.visible = id == current or reachable.has(id)
+		ring.position = node_position(id)
+		if id == current and _state.active and _state.active.agent_node == id:
+			ring.position = agent_position(_state.active) - Vector3(0, AGENT_Y, 0)
 		var material: StandardMaterial3D = ring.material_override
 		material.albedo_color = Color(CURRENT if id == current else REACHABLE, material.albedo_color.a)
+
+
+# Hit-tests tokens where they're drawn: side by side on a shared node, they spill onto the
+# neighboring tiles.
+func agent_at(ray_origin: Vector3, ray_normal: Vector3) -> Unit:
+	var best: Unit = null
+	var best_depth := INF
+	for id in _agents:
+		var agent: Node3D = _agents[id]
+		if not agent.is_visible_in_tree():
+			continue
+		var depth := (agent.global_position - ray_origin).dot(ray_normal)
+		var miss := agent.global_position.distance_to(ray_origin + ray_normal * depth)
+		if miss <= TOKEN_RADIUS and depth < best_depth:
+			best = _state.units[id]
+			best_depth = depth
+	return best
 
 
 func move_agent(unit: Unit, path: Array) -> void:
@@ -152,7 +174,7 @@ func _build_node(id: String) -> void:
 # A token that covers the node it sits on, marked with its Operator's initial.
 func _build_agent(unit: Unit) -> Node3D:
 	var agent := Node3D.new()
-	agent.add_child(_sphere(0.38, Color.WHITE, Order.AGENT_RIM))
+	agent.add_child(_sphere(TOKEN_RADIUS, Color.WHITE, Order.AGENT_RIM))
 	agent.add_child(_sphere(0.31, unit.def.color, Order.AGENT))
 	var initial := Label3D.new()
 	initial.text = unit.display_name.left(1)

@@ -132,42 +132,30 @@ func _click(screen_position: Vector2) -> void:
 		_hud.close_menu()
 		_mode = Mode.IDLE
 		return
-	var unit := state.active
-	var agent_phase := state.phase == BattleState.Phase.AGENT
-	var cell: Variant = _cell_at(screen_position)
-	if not agent_phase:
-		var picked := _unit_at_screen(screen_position)
-		if picked:
-			cell = picked.cell
-	if cell == null:
+	var token := _token_at(screen_position)
+	var cell: Variant = _pointed_cell(screen_position, token)
+	if cell == null or not _is_choice(cell, token):
 		return
+	var unit := state.active
 	match _mode:
 		Mode.IDLE:
-			if agent_phase and state.map.node_at(cell) == unit.agent_node:
-				_open_menu()
-			elif not agent_phase and not _network_shown and cell == unit.cell:
-				_open_menu()
+			_open_menu()
 		Mode.MOVE:
-			if cell != unit.cell and state.destinations(unit).has(cell):
-				_busy = true
-				_clear_choices()
-				await _play(state.move(unit, cell))
-				if state.winner() != BattleState.Winner.NONE:
-					_next_turn()
-					return
-				_busy = false
-				_open_menu()
+			_busy = true
+			_clear_choices()
+			await _play(state.move(unit, cell))
+			if state.winner() != BattleState.Winner.NONE:
+				_next_turn()
+				return
+			_busy = false
+			_open_menu()
 		Mode.TARGET:
-			var target := state.unit_at(cell)
-			if target and state.player_sees(target) and state.can_attack(unit, target, unit.cell):
-				_busy = true
-				_clear_choices()
-				await _play(state.attack(unit, target))
-				_finish_human_phase()
+			_busy = true
+			_clear_choices()
+			await _play(state.attack(unit, state.unit_at(cell)))
+			_finish_human_phase()
 		Mode.NODE:
-			var id := state.map.node_at(cell)
-			if state.agent_destinations(unit).has(id):
-				_agent_action(state.agent_move(unit, id))
+			_agent_action(state.agent_move(unit, state.map.node_at(cell)))
 
 
 func _open_menu() -> void:
@@ -535,31 +523,31 @@ func _tracer(from: Vector3, to: Vector3) -> void:
 func _update_hover() -> void:
 	var mouse := get_viewport().get_mouse_position()
 	var over_ui := _hud.is_menu_open() or get_viewport().gui_get_hovered_control() != null
-	var cell: Variant = null if over_ui else _cell_at(mouse)
-	if cell != null and not _network_shown:
-		var picked := _unit_at_screen(mouse)
-		if picked:
-			cell = picked.cell
-	_hover.visible = cell != null and _is_choice(cell)
+	var token: Unit = null if over_ui else _token_at(mouse)
+	var cell: Variant = null if over_ui else _pointed_cell(mouse, token)
+	_hover.visible = cell != null and _is_choice(cell, token)
 	if cell == null:
 		_hud.set_hover("")
 		return
 	_hover.position = _grid.cell_to_world(cell) + Vector3(0, 0.02, 0)
 	var text := _describe(cell)
+	if token:
+		_hover.position = _network.agent_position(token) * Vector3(1, 0, 1) + Vector3(0, 0.02, 0)
+		text = "%s's AI    %s" % [token.display_name, text]
 	if _network_shown and state.phase == BattleState.Phase.HUMAN:
 		text += "    ·    Network view: press N to return to the map"
 	_hud.set_hover(text)
 
 
-# The hover highlight only marks tiles a click would act on right now.
-func _is_choice(cell: Vector2i) -> bool:
+# The hover highlight only marks what a click would act on right now, and clicks act only there.
+func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 	var unit := state.active
 	if _busy or _network_moving or unit == null or not unit.is_player():
 		return false
 	match _mode:
 		Mode.IDLE:
 			if state.phase == BattleState.Phase.AGENT:
-				return state.map.node_at(cell) == unit.agent_node
+				return token == unit if token else state.map.node_at(cell) == unit.agent_node
 			return not _network_shown and cell == unit.cell
 		Mode.MOVE:
 			return cell != unit.cell and state.destinations(unit).has(cell)
@@ -597,7 +585,26 @@ func _describe(cell: Vector2i) -> String:
 	return text
 
 
-# Clicking a unit's body counts, not just its floor tile, since tall units hide the tiles behind them.
+# What the cursor points at. An AI token stands for the node its AI is on, and a unit's body for its
+# tile, since tall units hide the tiles behind them.
+func _pointed_cell(screen_position: Vector2, token: Unit) -> Variant:
+	if token:
+		return state.map.node_cell(token.agent_node)
+	var cell: Variant = _cell_at(screen_position)
+	if cell != null and not _network_shown:
+		var picked := _unit_at_screen(screen_position)
+		if picked:
+			cell = picked.cell
+	return cell
+
+
+func _token_at(screen_position: Vector2) -> Unit:
+	if not _network_shown:
+		return null
+	var camera := get_viewport().get_camera_3d()
+	return _network.agent_at(camera.project_ray_origin(screen_position), camera.project_ray_normal(screen_position))
+
+
 func _unit_at_screen(screen_position: Vector2) -> Unit:
 	var camera := get_viewport().get_camera_3d()
 	var from := camera.project_ray_origin(screen_position)
