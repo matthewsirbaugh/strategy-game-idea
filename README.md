@@ -10,6 +10,7 @@ Needs Godot 4.7 (`brew install --cask godot`).
 - Play: `godot --path game`
 - Edit: open `game/project.godot` in the Godot editor, then press F5 to run.
 - Test the hacking math: `godot --headless --path game -s tests/test_hacking.gd`
+- Test the rules (fog fairness, illegal actions, map checks): `godot --headless --path game -s tests/test_rules.gd`
 
 ## How `game/` is organized
 
