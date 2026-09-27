@@ -24,9 +24,10 @@ var map: MapData
 var _overlay_mesh := PlaneMesh.new()
 var _overlays := {}
 var _nodes := {}
+var _zone_range := -1
 
 
-func build(state: BattleState, tether_range: int) -> void:
+func build(state: BattleState) -> void:
 	map = state.map
 	_overlay_mesh.size = Vector2(1.0 - TILE_GAP, 1.0 - TILE_GAP)
 	var floor_mesh := BoxMesh.new()
@@ -49,7 +50,6 @@ func build(state: BattleState, tether_range: int) -> void:
 		_add_mesh(_overlay_mesh, extraction, cell_to_world(cell) + Vector3(0, EXTRACTION_Y, 0))
 	for id in map.node_ids():
 		_build_node(id)
-	_build_access_zones(tether_range)
 	update_nodes(state)
 
 
@@ -74,6 +74,24 @@ func add_probe(cell: Vector2i) -> void:
 	material.emission_enabled = true
 	material.emission = Color(0.45, 1.0, 0.95)
 	_add_mesh(mesh, material, cell_to_world(cell) + Vector3(0, 1.55, 0))
+
+
+# Where an Operator with this tether range can stand to plug its AI in.
+func show_access_zones(tether_range: int) -> void:
+	if tether_range == _zone_range:
+		return
+	_zone_range = tether_range
+	var zone: Array[Vector2i] = []
+	for id in map.node_ids():
+		if map.node_kind(id) != "access":
+			continue
+		var center_cell := map.node_cell(id)
+		for x in range(center_cell.x - tether_range, center_cell.x + tether_range + 1):
+			for y in range(center_cell.y - tether_range, center_cell.y + tether_range + 1):
+				var cell := Vector2i(x, y)
+				if map.in_bounds(cell) and not map.is_wall(cell) and Grid.distance(cell, center_cell) <= tether_range and not zone.has(cell):
+					zone.append(cell)
+	set_overlay("access", zone, ACCESS_ZONE_COLOR, ACCESS_Y)
 
 
 func node_position(id: String, height := 0.0) -> Vector3:
@@ -157,20 +175,6 @@ func _build_node(id: String) -> void:
 		"cache":
 			shape = _add_box(root, Vector3(0.7, 1.3, 0.7), 0.65, material)
 	_nodes[id] = {"material": material, "shape": shape}
-
-
-func _build_access_zones(tether_range: int) -> void:
-	var zone: Array[Vector2i] = []
-	for id in map.node_ids():
-		if map.node_kind(id) != "access":
-			continue
-		var center_cell := map.node_cell(id)
-		for x in range(center_cell.x - tether_range, center_cell.x + tether_range + 1):
-			for y in range(center_cell.y - tether_range, center_cell.y + tether_range + 1):
-				var cell := Vector2i(x, y)
-				if map.in_bounds(cell) and not map.is_wall(cell) and Grid.distance(cell, center_cell) <= tether_range and not zone.has(cell):
-					zone.append(cell)
-	set_overlay("access", zone, ACCESS_ZONE_COLOR, ACCESS_Y)
 
 
 func _add_box(parent: Node3D, size: Vector3, center_y: float, material: Material) -> MeshInstance3D:

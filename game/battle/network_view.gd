@@ -11,6 +11,9 @@ const BACKDROP_SHADER := preload("res://battle/network_backdrop.gdshader")
 const FLOOR_Y := 0.08
 const AGENT_Y := 0.3
 const TOKEN_RADIUS := 0.38
+const TOKEN_SPACING := 0.8
+# How far below its node a label starts, in label pixels.
+const LABEL_DROP := 44.0
 const HOP_SECONDS := 0.15
 const INK := Color(0.07, 0.13, 0.3)
 const REACHABLE := Color(0.1, 0.45, 1.0)
@@ -93,12 +96,19 @@ func refresh() -> void:
 		elif def.goal > 0:
 			label.text += "\n%d/%d" % [_state.breach.get(id, 0), def.goal]
 		disc.albedo_color = Color(color, disc.albedo_color.a)
+	var sharing := {}
 	for id in _agents:
 		var unit: Unit = _state.units[id]
 		var agent: Node3D = _agents[id]
 		agent.visible = unit.agent_node != ""
 		if agent.visible:
 			agent.position = _agent_position(unit, unit.agent_node)
+			sharing[unit.agent_node] = sharing.get(unit.agent_node, 0) + 1
+	# A label drops below the row of tokens on its node, whichever way the camera turns the row.
+	for id in _nodes:
+		var label: Label3D = _nodes[id]["label"]
+		var spread: float = (sharing.get(id, 1) - 1) / 2.0 * TOKEN_SPACING
+		label.offset.y = -LABEL_DROP - spread / label.pixel_size
 
 
 # The current ring circles the active AI's own token, so it stays readable when AIs share a node.
@@ -165,7 +175,7 @@ func _build_node(id: String) -> void:
 	# below its node in screen space instead.
 	label.position = at
 	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	label.offset = Vector2(0, -44)
+	label.offset = Vector2(0, -LABEL_DROP)
 	add_child(label)
 	_labels.append(label)
 	_nodes[id] = {"disc": disc, "ring": ring, "label": label}
@@ -202,7 +212,7 @@ func _agent_position(unit: Unit, id: String) -> Vector3:
 			sharing.append(other.id)
 	var offset := 0.0
 	if sharing.has(unit.id):
-		offset = (sharing.find(unit.id) - (sharing.size() - 1) / 2.0) * 0.8
+		offset = (sharing.find(unit.id) - (sharing.size() - 1) / 2.0) * TOKEN_SPACING
 	return node_position(id) + Vector3(offset, AGENT_Y, 0)
 
 

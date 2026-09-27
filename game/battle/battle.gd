@@ -43,7 +43,7 @@ func _ready() -> void:
 		set_process(false)
 		_hud.show_errors(state.errors)
 		return
-	_grid.build(state, operators[0].tether_range)
+	_grid.build(state)
 	_network.build(state, _grid)
 	for unit in state.units:
 		var view := UnitView.new()
@@ -110,6 +110,7 @@ func _next_turn() -> void:
 		_hud.show_result(state.winner() == BattleState.Winner.PLAYER)
 		return
 	if unit.is_player():
+		_grid.show_access_zones(unit.def.tether_range)
 		_camera_rig.keep_in_view(_views[unit.id].position)
 		_begin_control()
 		return
