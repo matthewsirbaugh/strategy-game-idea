@@ -99,6 +99,19 @@ fixes to the weak environment pieces; a terrain kit; notes and an import check i
   recipe, timings and lessons are in [art/human-pipeline.md](../art/human-pipeline.md).
 - Image-to-3D was not used. The Blender MCP's Rodin trial key had no credit left, and the
   Hugging Face demos' anonymous quota ran out after one untextured shape.
+- The same day, the first baked texture pass gave eleven environment, network and prop assets
+  baked procedural atlases ([art/NOTES.md](../art/NOTES.md#baked-texture-pass--2026-09-26)).
+
+### 2026-09-27 — Where the 2026-09-24 plan stands (Claude, from the commit history)
+
+| Stage | State |
+|---|---|
+| Baked materials and readable previews | Done for eleven assets; the rest are still flat color |
+| Installer and her gear | Rebuilt 2026-09-26; the separate backpack and rivet-driver props are the Astra versions |
+| Chibi AI | Not started; `ai_moth` is still the realistic moth |
+| Weak environment pieces | Not started: the hatch is unchanged, and the rammed-earth wall got baked materials but no shape changes |
+| Terrain kit | Not started |
+| Import check in Godot | Done for the Installer only |
 
 ## Questions to answer
 

@@ -1,7 +1,8 @@
 # Battle MVP
 
 - Feeds: [battle-core.md](battle-core.md), [DESIGN.md decisions](../DESIGN.md#decisions).
-- Status: scope and architecture agreed by Bryson, 2026-09-23. Building.
+- Status: scope and architecture agreed by Bryson, 2026-09-23. All five milestones built
+  2026-09-24, with fixes on 2026-09-27; waiting on Bryson's full playtest.
 - Engine: Godot 4 (Bryson, 2026-09-23), set up for the long term rather than as a throwaway.
 
 ## The question it answers

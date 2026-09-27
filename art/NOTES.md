@@ -12,7 +12,13 @@ Prototype interpretations of `astra-brief.md`; creative approval remains with Br
 - Verified: every stage built headless; inspected the hero, back, face, chest, tactics and comparison renders; imported the GLB in Godot 4.7.2 and rendered it with its own renderer: one mesh, ten surfaces, 67,074 triangles, 53 skin binds, no errors on the clean reimport. Rebuilding through the kit reproduced the earlier renders. A throwaway smoke test moved the finished outfit onto a generated 1.80 m male body through the retarget stage; it fitted, apart from the shoe weakness noted in human-pipeline.md.
 - Limits: the previews show the full-detail authoring model (about 400k triangles, Cycles, procedural materials). The GLB is decimated and baked, so hair and folds are softer in the game, and the cloth atlas shows a few faint orange bleed streaks on the right thigh. Only the relaxed review pose was checked; walk, run, aim and extreme bends are untested, and weights come from nearest-surface transfer. Hair is sculpted ringlets, which read well at game distance and look sculpted up close. The triangle count is over the brief's 15–25k budget. The battle still uses its placeholders; nothing is integrated or playtested.
 
+## Baked texture pass — 2026-09-26
+
+Eleven assets now ship baked 1024 px albedo, normal and roughness/metal atlases, made from procedural materials: `kit_floor_commons`, `kit_wall_commons`, `kit_wall_company`, `kit_cover_planter`, `net_access_point`, `net_camera`, `net_door`, `net_turret`, `prop_cable_tray`, `prop_cargo_bike` and `prop_salvage_crate`. Their previews are the `.jpg` files. The rest still use flat colors.
+
 ## Handoff — 2026-09-25
+
+The Operator lines below describe the Astra-era build, replaced by the 2026-09-26 rebuild above.
 
 - All 24 Priority 1 assets/variants have scripts, Blender sources, GLBs and both previews; individual model commits are on `main`. Stop before Priority 2, per the brief.
 - Blender builds/renders completed. Key close and tactics views were inspected. Godot imported the set successfully, but the final Operator revision was built afterward. Native visual/animation validation and Bryson's review remain.
@@ -40,12 +46,12 @@ Rebuild one asset from the project root: `blender --background --python art/scri
 | `ai_moth` | 2,944 | 0.452 × 0.285 × 0.079 | hover_idle, fly, scan, deploy_probe, strain | One 1024×1024 RGBA wing atlas. Eight-bone rig, five clips. scan opens the wings; the travelling cell-light sweep remains a game shader hook. Place root ~1.82 m high for a 1.9 m hover center. |
 | `prop_backpack_rig` | 5,910 | 0.610 × 0.448 × 0.562 | static | No textures. 42 cm frame, ~55 cm with two 30×22 cm solar flaps spread side by side. Positive Y straps face wearer; status_heart is independent. |
 | `char_installer` | 67,074 | 1.008 × 0.692 × 1.763 | static | Rebuilt by Claude 2026-09-26: baked 2048 px cloth, gear and skin atlases, one skinned mesh, ten materials, 53 bones, A-pose export. Height includes the camera bot on the pack. See the rebuild checkpoint above. |
-| `prop_salvage_crate` | 1,600 | 0.835 × 0.749 × 0.590 | static | Baked 1024 px albedo, normal and roughness/metal atlas. No textures. Open crate of salvaged battery, conduit and cloth-wrapped cable. |
-| `kit_wall_commons` | 508 | 1.000 × 1.000 × 2.401 | static | Baked 1024 px albedo, normal and roughness/metal atlas. No textures. Nine quiet earth strata under a timber cap. |
-| `kit_cover_planter` | 556 | 0.900 × 0.900 × 0.850 | static | Baked 1024 px albedo, normal and roughness/metal atlas. No textures. 1×1 tile; timber box is 0.65 m and foliage reaches 0.9 m. |
-| `net_turret` | 3,576 | 0.720 × 0.874 × 0.899 | active, offline | Baked 1024 px albedo, normal and roughness/metal atlas. No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline. |
-| `kit_floor_commons` | 600 | 1.000 × 1.000 × 0.207 | static | Baked 1024 px albedo, normal and roughness/metal atlas. No textures. Twelve salvaged pavers with sparse moss; whole-tile footprint. |
-| `kit_wall_company` | 308 | 1.000 × 1.000 × 2.400 | static | Baked 1024 px albedo, normal and roughness/metal atlas. No textures. Solid capped 1 m wall block; fixed cyan seam is architectural. |
+| `prop_salvage_crate` | 1,600 | 0.835 × 0.749 × 0.590 | static | Baked 1024 px albedo, normal and roughness/metal atlas. Open crate of salvaged battery, conduit and cloth-wrapped cable. |
+| `kit_wall_commons` | 508 | 1.000 × 1.000 × 2.401 | static | Baked 1024 px albedo, normal and roughness/metal atlas. Nine quiet earth strata under a timber cap. |
+| `kit_cover_planter` | 556 | 0.900 × 0.900 × 0.850 | static | Baked 1024 px albedo, normal and roughness/metal atlas. 1×1 tile; timber box is 0.65 m and foliage reaches 0.9 m. |
+| `net_turret` | 3,576 | 0.720 × 0.874 × 0.899 | active, offline | Baked 1024 px albedo, normal and roughness/metal atlas. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline. |
+| `kit_floor_commons` | 600 | 1.000 × 1.000 × 0.207 | static | Baked 1024 px albedo, normal and roughness/metal atlas. Twelve salvaged pavers with sparse moss; whole-tile footprint. |
+| `kit_wall_company` | 308 | 1.000 × 1.000 × 2.400 | static | Baked 1024 px albedo, normal and roughness/metal atlas. Solid capped 1 m wall block; fixed cyan seam is architectural. |
 | `net_camera` | 2,352 | 0.400 × 0.726 × 2.204 | static | Baked 1024 px albedo, normal and roughness/metal atlas. Pole variant first; lens halo is repeated on top for tactics readability. |
 | `prop_cargo_bike` | 4,056 | 0.640 × 2.010 × 1.073 | static | Baked 1024 px albedo, normal and roughness/metal atlas. Front-facing −Y; working cargo-bike proportions, boxed solar-install supplies, and a parked kickstand. |
 | `net_access_point` | 2,304 | 0.441 × 0.562 × 1.088 | static | Baked 1024 px albedo, normal and roughness/metal atlas. Ownership ring, port halo and top cap share status_ring; unambiguous top beacon. |
