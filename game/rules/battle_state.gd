@@ -33,6 +33,7 @@ var cache_breached := false
 var errors := PackedStringArray()
 var _node_defs := {}
 var _links := {}
+var _network_searches := {}
 var _queue: Array[Unit] = []
 var _open_doors := {}
 
@@ -324,14 +325,7 @@ func is_door_open(id: String) -> bool:
 
 
 func network_path(from: String, to: String) -> Array[String]:
-	var came_from := {from: from}
-	var frontier: Array[String] = [from]
-	while not frontier.is_empty():
-		var current: String = frontier.pop_front()
-		for next in _links.get(current, []):
-			if not came_from.has(next):
-				came_from[next] = current
-				frontier.append(next)
+	var came_from: Dictionary = _network_from(from)["came_from"]
 	var path: Array[String] = []
 	if not came_from.has(to):
 		return path
@@ -346,11 +340,32 @@ func agent_destinations(unit: Unit) -> Array[String]:
 	var result: Array[String] = []
 	if unit.agent_node == "" or not _may_act(unit, Phase.AGENT):
 		return result
+	var hops: Dictionary = _network_from(unit.agent_node)["hops"]
 	for id in map.node_ids():
-		var hops := network_path(unit.agent_node, id).size()
-		if hops > 0 and hops <= unit.def.network_range:
+		if hops.get(id, 0) > 0 and hops[id] <= unit.def.network_range:
 			result.append(id)
 	return result
+
+
+# One breadth-first search from a node: how many hops away every node is, and the step before it
+# on a shortest path. Links never change during a battle, so each search is kept.
+func _network_from(from: String) -> Dictionary:
+	if _network_searches.has(from):
+		return _network_searches[from]
+	var hops := {from: 0}
+	var came_from := {from: from}
+	var frontier: Array[String] = [from]
+	var next := 0
+	while next < frontier.size():
+		var current := frontier[next]
+		next += 1
+		for neighbor in _links.get(current, []):
+			if not came_from.has(neighbor):
+				came_from[neighbor] = current
+				hops[neighbor] = hops[current] + 1
+				frontier.append(neighbor)
+	_network_searches[from] = {"hops": hops, "came_from": came_from}
+	return _network_searches[from]
 
 
 func access_point_in_reach(unit: Unit) -> String:
