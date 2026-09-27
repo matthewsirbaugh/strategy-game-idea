@@ -36,6 +36,7 @@ var _links := {}
 var _network_searches := {}
 var _queue: Array[Unit] = []
 var _open_doors := {}
+var _probes := {}
 
 
 func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: UnitDef, node_defs: Array[NodeDef]) -> void:
@@ -530,7 +531,13 @@ func can_use_ability(unit: Unit) -> bool:
 		return false
 	if unit.ability_uses_left == 0 or round_number < unit.ability_ready_round:
 		return false
+	if unit.def.ability == UnitDef.Ability.PROBE:
+		return not has_probe(unit.agent_node)
 	return unit.def.ability != UnitDef.Ability.LOCATE or not locate_targets().is_empty()
+
+
+func has_probe(id: String) -> bool:
+	return _probes.has(id)
 
 
 func locate_targets() -> Array[Unit]:
@@ -554,6 +561,7 @@ func use_ability(unit: Unit, target: Unit = null) -> Array[Dictionary]:
 	unit.ability_ready_round = round_number + def.ability_cooldown
 	match def.ability:
 		UnitDef.Ability.PROBE:
+			_probes[unit.agent_node] = true
 			vision_sources.append({"cell": map.node_cell(unit.agent_node), "radius": def.ability_radius})
 		UnitDef.Ability.LOCATE:
 			target.located_until = round_number + def.ability_duration

@@ -208,6 +208,8 @@ func _ability_label(unit: Unit) -> String:
 		return label + "  (used up)"
 	if state.round_number < unit.ability_ready_round:
 		return label + "  (ready in %d)" % (unit.ability_ready_round - state.round_number)
+	if unit.def.ability == UnitDef.Ability.PROBE and state.has_probe(unit.agent_node):
+		return label + "  (one here already)"
 	if unit.ability_uses_left > 0:
 		return label + "  (%d left)" % unit.ability_uses_left
 	return label
