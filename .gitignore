@@ -5,3 +5,4 @@ game/export/
 __pycache__/
 art/source/cache/
 art/source/baked/
+art/vendor/_sources/

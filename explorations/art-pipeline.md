@@ -83,6 +83,23 @@ Plan for this pass, one commit per stage: shared pipeline upgrade (baked stylize
 readable previews) and a rebuild of the environment; the chibi AI; the Installer and her gear;
 fixes to the weak environment pieces; a terrain kit; notes and an import check in Godot.
 
+### 2026-09-26 — Hand-built Installer and a shared human kit (Claude)
+
+- Bryson asked for a best-effort Blender build of the direction C Installer, "even though it's
+  not the best route" compared with image-to-3D, then for lessons and a reusable base because
+  more human models are coming.
+- Built entirely by script: the MPFB body, cloth-simulated trousers and shirt, draped vest, gear,
+  ringlet hair, CC0 textures with procedural wear, baked into a 67k-triangle GLB. The record is
+  the rebuild checkpoint in [art/NOTES.md](../art/NOTES.md); previews are
+  `art/previews/char_installer_*.jpg`.
+- Cost: about 6 hours of agent time for the first character, most of it debugging the toolkit.
+  A full rebuild then runs unattended in about 35 minutes on the M1 Pro.
+- The reusable part is now a kit, `art/scripts/human/`: one spec file per character, with a
+  retarget stage that moves an outfit built on the reference mannequin onto any MPFB body. The
+  recipe, timings and lessons are in [art/human-pipeline.md](../art/human-pipeline.md).
+- Image-to-3D was not used. The Blender MCP's Rodin trial key had no credit left, and the
+  Hugging Face demos' anonymous quota ran out after one untextured shape.
+
 ## Questions to answer
 
 1. How much does this depend on what the game turns out to be?
