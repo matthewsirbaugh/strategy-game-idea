@@ -3,7 +3,7 @@
 - Feeds: DESIGN.md open question 2
 - Status: open
 - Next action: build one small cel-shaded test in Godot, starting with the main character from
-  [the reference](../art/reference/main-character.webp), for Bryson to judge.
+  [the references](../art/reference/), for Bryson to judge.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -139,26 +139,29 @@ fixes to the weak environment pieces; a terrain kit; notes and an import check i
   characters and art; ink outlines; Ghibli-inspired proportions, "I think that will translate
   better on the map"; flat color for now. Graduated to DESIGN.md.
 
-### 2026-09-27 — Main character reference (Bryson)
+### 2026-09-27 — The three Operators' references (Bryson)
 
-Bryson supplied [art/reference/main-character.webp](../art/reference/main-character.webp), front
-and back views, and asked that the next design adhere to it. What it shows, for tools that can't
-read images:
+Bryson supplied front and back views of the three Operators in `art/reference/` and asked that
+the next designs adhere to them. The main character is `main-character.webp`; the other two are
+`operator-headband.webp` and `operator-sage.webp` (Claude's file names, after what sets each one
+apart). What they show, for tools that can't read images:
 
-| Part | Reference |
-|---|---|
-| Build and face | Slim young man, warm tan skin, messy dark-brown hair, round black glasses, easy smile |
-| Jacket | Cream bomber-style zip jacket, loose, sleeves pushed up; grey ribbed cuffs and hem; yellow zipper trim and yellow zip pulls on the chest and sleeve pockets |
-| Underneath | Grey hood from an inner hoodie; black crew-neck tee |
-| Trousers | Loose charcoal-grey straight trousers with yellow zip pulls on the side pockets |
-| Shoes | Grey and cream trail sneakers, dark soles, yellow accents |
-| Backpack | Light-grey and grey pack with a yellow tab, a metal bottle in the right side pocket, and a small camera bot on a short mast over one shoulder |
+| Part | [Main character](../art/reference/main-character.webp) | [Headband](../art/reference/operator-headband.webp) | [Sage](../art/reference/operator-sage.webp) |
+|---|---|---|---|
+| Accent color | Yellow | Blue | Sage green |
+| Head | Messy dark-brown hair, round black glasses, easy smile | Curly dark hair in a high puff, blue twisted headband, clear rectangular glasses with a dark AR module on the temple | Short tousled dark hair, clear glasses with a dark AR module on the temple |
+| Top | Cream bomber-style zip jacket, sleeves pushed up, grey ribbed cuffs and hem, yellow zip trim and pulls; grey inner hood; black tee | Grey cropped vest with a stand collar, open; cream long-sleeve top, sleeves pushed up; black watch | Cream zip jacket with sage zip pockets on the chest and sleeve; sage hood and tee; black watch |
+| Trousers | Loose charcoal straight trousers, yellow zip pulls | Loose charcoal joggers with elastic cuffs | Grey cargo joggers with cuffs and side cargo pockets |
+| Shoes | Grey and cream trail sneakers, yellow accents | Grey and cream trail sneakers, blue accents | Grey and cream trail sneakers, sage accents |
+| Backpack | Light-grey pack, yellow tab, bottle in a side pocket | Grey pack with a blue front pocket and a lens on the back panel | Cream and sage pack with a lens, a bottle in a side pocket and a chest strap |
 
-The palette already fits the Cyberpunk 2077 direction: neutral greys and cream, with that game's
-signature yellow as the only accent.
+All three carry a small camera bot on a short mast. Bryson, 2026-09-27: it sits over the
+character's **left** shoulder. The image generator put it over the right shoulder in every front
+view, so the back views are the correct ones.
 
-One contradiction to settle: in the front view the camera bot is over his right shoulder, and in
-the back view over his left.
+The shared base (greys and cream) with one accent per Operator should read well on the map.
+Yellow is Cyberpunk 2077's signature color; blue and sage are softer than that game's cyan and
+red, which is worth keeping in mind when the city palette gets picked (Claude).
 
 ## Questions to answer
 
