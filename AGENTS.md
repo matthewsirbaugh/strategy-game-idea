@@ -52,6 +52,7 @@ expects that plan to change as ideas surface while playing.
 | explorations/*.md | One file per research or design thread |
 | README.md | How to set up, run and test the game |
 | game/ | The Godot project; README.md explains its folders |
+| art/reference/ | Reference images Bryson chose; new art adheres to them |
 | .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
 
 There is no NOW.md — the board covers what is current. Project knowledge lives in these files, not in a

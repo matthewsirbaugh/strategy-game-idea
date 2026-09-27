@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: settle the open look questions in the 2026-09-27 findings, then build one small
-  cel-shaded test scene in Godot for Bryson to judge.
+- Next action: build one small cel-shaded test in Godot, starting with the main character from
+  [the reference](../art/reference/main-character.webp), for Bryson to judge.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -135,9 +135,30 @@ fixes to the weak environment pieces; a terrain kit; notes and an import check i
   Sable (cel-shaded, Moebius rather than Ghibli), Ni no Kuni (actual Ghibli, but fantasy), and
   Hi-Fi Rush (cel-shaded and corporate, but cartoon). None combine Ghibli softness with a
   cyberpunk city, so the gap Bryson sees looks real.
-- Still open: palette, outline or no outline, how characters are proportioned, and what "simple"
-  allows (flat color only, or painted textures). A small test scene in Godot answers these faster
-  than talking about them.
+- Bryson's answers, the same day: the color palette of Cyberpunk 2077 applied to Ghibli-style
+  characters and art; ink outlines; Ghibli-inspired proportions, "I think that will translate
+  better on the map"; flat color for now. Graduated to DESIGN.md.
+
+### 2026-09-27 — Main character reference (Bryson)
+
+Bryson supplied [art/reference/main-character.webp](../art/reference/main-character.webp), front
+and back views, and asked that the next design adhere to it. What it shows, for tools that can't
+read images:
+
+| Part | Reference |
+|---|---|
+| Build and face | Slim young man, warm tan skin, messy dark-brown hair, round black glasses, easy smile |
+| Jacket | Cream bomber-style zip jacket, loose, sleeves pushed up; grey ribbed cuffs and hem; yellow zipper trim and yellow zip pulls on the chest and sleeve pockets |
+| Underneath | Grey hood from an inner hoodie; black crew-neck tee |
+| Trousers | Loose charcoal-grey straight trousers with yellow zip pulls on the side pockets |
+| Shoes | Grey and cream trail sneakers, dark soles, yellow accents |
+| Backpack | Light-grey and grey pack with a yellow tab, a metal bottle in the right side pocket, and a small camera bot on a short mast over one shoulder |
+
+The palette already fits the Cyberpunk 2077 direction: neutral greys and cream, with that game's
+signature yellow as the only accent.
+
+One contradiction to settle: in the front view the camera bot is over his right shoulder, and in
+the back view over his left.
 
 ## Questions to answer
 

@@ -101,7 +101,10 @@ locked yet, are in
   once the playtest validates it. (2026-09-24)
 - The world is solarpunk meets a corporate AI future full of advertisements. (2026-09-24)
 - The look is simple and cel-shaded, anime-inspired: Ghibli style, but cyberpunk. It replaces the
-  earlier realistic direction, and all art made before it was removed. Details are worked out in
+  earlier realistic direction, and all art made before it was removed. Cyberpunk 2077's color
+  palette on Ghibli-style characters and places, with ink outlines and Ghibli proportions, which
+  should read better on the map. Flat color for now. The main character's reference is
+  [art/reference/main-character.webp](art/reference/main-character.webp). Details are in
   [the art-pipeline exploration](explorations/art-pipeline.md). (2026-09-27)
 - Between battles there is a town, like Persona: walk around, talk to people, investigate, and
   buy and install upgrades. It starts small, and it gets built to explore the story I need to

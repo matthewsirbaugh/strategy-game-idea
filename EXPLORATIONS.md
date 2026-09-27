@@ -7,7 +7,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 |---|---|---|---|
 | Battle MVP: first playable in Godot | open | All five milestones built. Bryson plays the full MVP and answers the playtest questions | [battle-mvp.md](explorations/battle-mvp.md) |
 | Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
-| Art pipeline: how 3D assets get made | open | Look set 2026-09-27: simple, cel-shaded, Ghibli but cyberpunk. Settle palette and outlines, then build one small test scene in Godot | [art-pipeline.md](explorations/art-pipeline.md) |
+| Art pipeline: how 3D assets get made | open | Look set 2026-09-27: Ghibli style, Cyberpunk 2077 palette, ink outlines, flat color. Build a small cel-shaded test in Godot, starting with the main character from [the reference](art/reference/main-character.webp) | [art-pipeline.md](explorations/art-pipeline.md) |
 | The core idea and story | parked | World and premise are sufficient for gameplay exploration; resume character and plot development when Bryson returns to it | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |
 | Between battles: the town | parked | Waiting on the story the town needs to tell; starts as one neighborhood | not started |
