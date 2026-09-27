@@ -19,4 +19,4 @@ def build():
 if __name__ == '__main__':
     start('prop_rivet_driver')
     build()
-    finish('prop_rivet_driver','props','No textures. 28 cm solar-install rivet tool with tape-wrapped nozzle and removable battery; muzzle faces −Y.',front_pitch=20)
+    finish('prop_rivet_driver','props','28 cm solar-install rivet tool with tape-wrapped nozzle and removable battery; muzzle faces −Y.',front_pitch=20)

@@ -22,4 +22,4 @@ def build(planted=False):
 if __name__ == '__main__':
     start('kit_wall_commons')
     build()
-    finish('kit_wall_commons','kit','No textures. Nine quiet earth strata under a timber cap.',front_pitch=25)
+    finish('kit_wall_commons','kit','Nine quiet earth strata under a timber cap.',front_pitch=25)

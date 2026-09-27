@@ -15,4 +15,4 @@ for i in range(9):
         box('Cooling vent',(x,-.376,z),(.02,.007,.052),'graphite',0)
 for x in [-.31,.31]:
     box('Vertical rail',(x,-.348,1.02),(.025,.02,1.85),'steel',.004,1)
-finish('prop_server_rack','props','No textures. Warm activity LEDs only; deliberately no ownership ring because this rack is not interactive.',front_pitch=20)
+finish('prop_server_rack','props','Warm activity LEDs only; deliberately no ownership ring because this rack is not interactive.',front_pitch=20)

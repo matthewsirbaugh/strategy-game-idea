@@ -16,4 +16,4 @@ for i in range(3):
         z = .2+j*.174
         side = (-1)**j
         leaf('Vine leaf',(x,-.48,z),(x+side*.13,-.498,z+.15),.1,['sage','moss','leaf_light'][j%3])
-finish('kit_wall_greenwash','kit','No textures. Company composite behind a shallow timber trellis; leaves stay inside the tile.',front_pitch=23)
+finish('kit_wall_greenwash','kit','Company composite behind a shallow timber trellis; leaves stay inside the tile.',front_pitch=23)

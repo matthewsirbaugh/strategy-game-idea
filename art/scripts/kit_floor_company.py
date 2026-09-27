@@ -11,4 +11,4 @@ for i in range(32):
     r = random.uniform(.003,.009)
     mesh('Terrazzo inlay',[(x-r,y,.00015),(x+r,y,.00015),(x,y+r*1.2,.00015)],[(0,1,2)],
         mat('aggregate_'+str(i%3),['#C3BEB0','#BBBAB5','#EEEADD'][i%3]))
-finish('kit_floor_company','kit','No textures. Restrained geometric terrazzo; slab spans −0.2 to 0 m.',front_pitch=48)
+finish('kit_floor_company','kit','Restrained geometric terrazzo; slab spans −0.2 to 0 m.',front_pitch=48)

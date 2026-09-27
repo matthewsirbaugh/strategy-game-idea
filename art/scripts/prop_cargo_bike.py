@@ -41,4 +41,4 @@ for z in [.59,.72,.85]:
 box('Sage canvas parcel',(0,-.55,.71),(.39,.38,.32),'sage',.06,3)
 box('Parcel strap',(0,-.55,.877),(.065,.38,.013),'webbing',.005,1)
 rod('Kickstand',(.02,.31,.30),(.23,.32,.015),.012,'steel',10)
-finish('prop_cargo_bike','props','No textures. Front-facing −Y; working cargo-bike proportions, boxed solar-install supplies, and a parked kickstand.',front_yaw=65,front_pitch=25)
+finish('prop_cargo_bike','props','Front-facing −Y; working cargo-bike proportions, boxed solar-install supplies, and a parked kickstand.',front_yaw=65,front_pitch=25)

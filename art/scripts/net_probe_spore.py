@@ -17,4 +17,4 @@ def build():
 if __name__ == '__main__':
     start('net_probe_spore')
     build()
-    finish('net_probe_spore','network','No textures. Actual 8 cm sensor spore; nearly invisible at default zoom, so gameplay needs a marker.',front_pitch=20)
+    finish('net_probe_spore','network','Actual 8 cm sensor spore; nearly invisible at default zoom, so gameplay needs a marker.',front_pitch=20)

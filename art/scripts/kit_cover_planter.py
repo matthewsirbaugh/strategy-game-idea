@@ -23,4 +23,4 @@ def build(width=1):
 if __name__ == '__main__':
     start('kit_cover_planter')
     build()
-    finish('kit_cover_planter','kit','No textures. 1×1 tile; timber box is 0.65 m and foliage reaches 0.9 m.',front_pitch=29)
+    finish('kit_cover_planter','kit','1×1 tile; timber box is 0.65 m and foliage reaches 0.9 m.',front_pitch=29)

@@ -18,4 +18,4 @@ for y in [-.23,.23]:
 box('Bone crown',(0,0,1.965),(.56,.43,.07),'white',.025,3)
 ring('Crown ownership ring',(0,0,2.003),.145,.009,status(),major=40)
 box('Crown dark field',(0,0,1.999),(.33,.33,.008),'glass',.03,3)
-finish('net_data_cache','network','No textures. Frosted faces are opaque for reliable sorting. Recolor status_ring green when secured; pulse in game.',front_pitch=22)
+finish('net_data_cache','network','Frosted faces are opaque for reliable sorting. Recolor status_ring green when secured; pulse in game.',front_pitch=22)

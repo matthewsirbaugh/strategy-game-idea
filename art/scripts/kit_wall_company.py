@@ -11,4 +11,4 @@ box('Clean top cap',(0,0,2.366),(1,1,.068),'white',.014,1)
 box('Upper light seam',(0,-.494,2.316),(.87,.013,.015),mat('emissive_architecture','cyan',emission=1.6),.004,1)
 for x in [-.44,.44]:
     box('Panel reveal',(x,-.495,1.2),(.009,.003,1.8),'concrete',0)
-finish('kit_wall_company','kit','No textures. Solid capped 1 m wall block; fixed cyan seam is architectural.',front_pitch=25)
+finish('kit_wall_company','kit','Solid capped 1 m wall block; fixed cyan seam is architectural.',front_pitch=25)

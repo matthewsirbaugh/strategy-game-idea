@@ -18,4 +18,4 @@ mesh('Hand-painted up arrow',[(-.08,.76,1.77),(.08,.76,1.77),(.08,.76,1.99),(.20
 tube('Warm light cable',[(-.8,.64,2.24),(0,.64,2.13),(.8,.64,2.24)],.008,'graphite',4,0)
 for x,z in [(-.6,2.195),(0,2.115),(.6,2.195)]:
     sphere('Warm bulb',(x,.64,z),(.04,.04,.05),warm(),8,4)
-finish('kit_exit_hatch','kit','No textures. 2×2 extraction vignette: six roofward steps, open hatch and hand-painted arrow. Layout is a proposal for review.',front_pitch=27)
+finish('kit_exit_hatch','kit','2×2 extraction vignette: six roofward steps, open hatch and hand-painted arrow. Layout is a proposal for review.',front_pitch=27)

@@ -14,4 +14,4 @@ for i in range(5):
         ['graphite','terra','graphite','webbing','graphite'][i],3,1)
 for y in [-.27,.33]:
     box('Cloth repair tape',(0,y,.071),(.277,.068,.037),'terra',.012,2)
-finish('prop_cable_tray','props','No textures. One-metre segment; local Z=0 is its mounting surface. Rotate the parent to hang overhead.',front_pitch=44)
+finish('prop_cable_tray','props','One-metre segment; local Z=0 is its mounting surface. Rotate the parent to hang overhead.',front_pitch=44)

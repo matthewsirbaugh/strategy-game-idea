@@ -6,4 +6,4 @@ from kit_cover_planter import build
 
 start('kit_cover_planter_wide')
 build(2)
-finish('kit_cover_planter_wide','kit','No textures. 2×1 tile version shares the narrow planter construction.',front_pitch=29)
+finish('kit_cover_planter_wide','kit','2×1 tile version shares the narrow planter construction.',front_pitch=29)

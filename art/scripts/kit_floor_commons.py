@@ -14,4 +14,4 @@ for i in range(7):
     x = [-1/6,1/6][i%2]
     y = random.uniform(-.44,.44)
     leaf('Joint moss',(x,y,.001),(x+random.uniform(-.02,.02),y+.048,.003),.022,'moss')
-finish('kit_floor_commons','kit','No textures. Twelve salvaged pavers with sparse moss; whole-tile footprint.',front_pitch=48)
+finish('kit_floor_commons','kit','Twelve salvaged pavers with sparse moss; whole-tile footprint.',front_pitch=48)

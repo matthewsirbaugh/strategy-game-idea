@@ -29,4 +29,4 @@ home=tuple(emitter.location)
 action(emitter,'active',[(1,home),(2,home)])
 action(emitter,'offline',[(1,home),(18,(home[0],home[1]+.20,home[2]))])
 emitter.location=home
-finish('net_turret','network','No textures. active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline.',front_pitch=26)
+finish('net_turret','network','active/offline clips extend or retract the emitter and slump the head. Set status_ring to non-emissive #4A4F57 for offline.',front_pitch=26)

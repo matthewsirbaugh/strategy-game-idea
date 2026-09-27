@@ -25,4 +25,4 @@ def build():
 if __name__ == '__main__':
     start('prop_salvage_crate')
     build()
-    finish('prop_salvage_crate','props','No textures. Open crate of salvaged battery, conduit and cloth-wrapped cable.',front_pitch=31)
+    finish('prop_salvage_crate','props','Open crate of salvaged battery, conduit and cloth-wrapped cable.',front_pitch=31)
