@@ -100,8 +100,7 @@ locked yet, are in
 - The game is 3D, and it should be good looking. The MVP uses basic greybox shapes; art comes
   once the playtest validates it. (2026-09-24)
 - Art direction: stylized but realistic, in a world that is solarpunk meets a corporate AI future
-  full of advertisements. The first brief built on it is [art/astra-brief.md](art/astra-brief.md).
-  (2026-09-24)
+  full of advertisements. (2026-09-24)
 - Models should be attractive, cool and stylized. Humans are realistic, like Watch Dogs meets
   Cyberpunk. AI partners are cute and chibi, as a contrast, for now. The game needs terrain
   models too. The review this came with is in

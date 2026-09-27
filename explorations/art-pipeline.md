@@ -2,8 +2,11 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Bryson reviews the hand-built Installer; the next human characters use the kit in
-  [art/human-pipeline.md](../art/human-pipeline.md). Checkpoint is in [art/NOTES.md](../art/NOTES.md).
+- Next action: work out with Bryson what "hyper simplified" art looks like, then make a small
+  set of it (see the 2026-09-27 finding).
+- All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
+  `game/art/` linked below no longer exist; they are still in git history at commit
+  `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
 
 ## The question
 
@@ -112,6 +115,16 @@ fixes to the weak environment pieces; a terrain kit; notes and an import check i
 | Weak environment pieces | Not started: the hatch is unchanged, and the rammed-earth wall got baked materials but no shape changes |
 | Terrain kit | Not started |
 | Import check in Godot | Done for the Installer only |
+
+### 2026-09-27 — All existing art removed; hyper-simplify (Bryson)
+
+- Bryson: "I think we need to hyper simplify the art, so that it's easy for you to produce, but
+  we also need to make sure that there is some kind of art." And: "I don't like any of the art so
+  far," so every model, script, preview, concept image and vendored source was removed. "We don't
+  want the models you created, as I'm going to have you create more later."
+- Open, for Bryson: what "hyper simplified" means, and whether it replaces the 2026-09-24 character
+  direction in DESIGN.md (realistic humans, chibi AI). The hand-built human kit is gone with the
+  rest.
 
 ## Questions to answer
 
