@@ -19,6 +19,7 @@ func _initialize() -> void:
 	_guards_ignore_operators_they_cannot_see()
 	_guards_attack_operators_their_move_reveals()
 	_illegal_actions_change_nothing()
+	_undo_forgets_nothing_it_learned()
 	_broken_content_is_reported()
 	print("rules tests: " + ("all passed" if _failures == 0 else "%d failed" % _failures))
 	quit(1 if _failures > 0 else 0)
@@ -68,6 +69,17 @@ func _illegal_actions_change_nothing() -> void:
 	_refused(state, func() -> Array: return state.hack(alpha), "hacking an access point")
 	state.agent_move(alpha, "e")
 	_refused(state, func() -> Array: return state.hack(alpha), "a second AI action in one turn")
+
+
+# Seeing that a guard has left its last-seen spot is information too, so that move can't be undone.
+func _undo_forgets_nothing_it_learned() -> void:
+	var state := _state(null, ["alpha"])
+	var alpha := state.begin_next_turn()
+	var guard_3 := _unit(state, "Guard 3")
+	_place(state, "Guard 3", Vector2i(11, 0))
+	state.move(alpha, Vector2i(9, 9))
+	_check(not state.known.has(guard_3.id), "Alpha sees Guard 3's post is empty")
+	_check(not state.can_undo(alpha), "a move that cleared a last-seen marker can't be undone")
 
 
 func _broken_content_is_reported() -> void:

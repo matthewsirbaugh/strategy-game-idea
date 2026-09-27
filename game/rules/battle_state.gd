@@ -273,10 +273,15 @@ func move(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
 	if not unit.is_player():
 		_track(unit, [start] + walked)
 	var seen_before := _seen_enemy_ids()
+	var markers_before := known.keys()
 	refresh_vision()
 	unit.revealed = blocker != null
 	for id in _seen_enemy_ids():
 		if not seen_before.has(id):
+			unit.revealed = true
+	# Seeing that an enemy has left its last-seen spot is information too.
+	for id in markers_before:
+		if not known.has(id):
 			unit.revealed = true
 	var events: Array[Dictionary] = [{"type": "move", "unit": unit, "path": walked}]
 	if blocker:
