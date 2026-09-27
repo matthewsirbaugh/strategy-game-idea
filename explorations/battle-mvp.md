@@ -203,7 +203,7 @@ Each one runs, gets played, and is committed.
 
 ## Findings
 
-### 2026-09-27 — Fixes from Bryson's bug list (Claude; tests, bot runs and scripted clicks in the cloud, not played)
+### 2026-09-27 — Fixes from Bryson's bug list and Claude's code review (Claude; tests, bot runs and scripted clicks in the cloud, not played)
 
 - Guards plan only around Operators they can see. Claude's choice, easy to change: like players,
   they walk into a hidden Operator and stop one tile short, which puts it in plain view.
@@ -214,6 +214,10 @@ Each one runs, gets played, and is committed.
 - A broken map shows its errors on screen, naming the file and field, instead of loading corrupted.
   The objective is the map's one data cache, whatever its letter.
 - AI destinations come from one cached network search, so large networks stay fast.
+- From the code review: a move that shows a guard's last-seen spot to be empty can't be undone,
+  like one that reveals an enemy. A destroyed turret's node can't be hacked and an offline turret
+  can't be shot. One probe per node. Node labels drop below stacked AIs, and the access zones on
+  the map use the active Operator's own tether range.
 
 ### 2026-09-24 — Milestone 5 build notes (Claude; scripted and bot runs, not yet played by Bryson)
 
