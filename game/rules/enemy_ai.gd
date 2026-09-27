@@ -25,16 +25,25 @@ static func take_turn(state: BattleState, unit: Unit) -> Array[Dictionary]:
 static func _engage(state: BattleState, unit: Unit, seen: Array[Unit]) -> Array[Dictionary]:
 	_remember(unit, seen)
 	var events: Array[Dictionary] = []
-	if state.attack_targets(unit, unit.cell).is_empty() and unit.def.move > 0:
-		var destination := _attack_position(state, unit)
+	if _targets(state, unit, unit.cell, seen).is_empty() and unit.def.move > 0:
+		var destination := _attack_position(state, unit, seen)
 		if destination == unit.cell:
 			destination = _toward(state, unit, unit.lead)
 		if destination != unit.cell:
 			events.append_array(state.move(unit, destination))
-	var in_range := state.attack_targets(unit, unit.cell)
+	# Looks again after moving, so it can shoot someone the move revealed.
+	var in_range := _targets(state, unit, unit.cell, state.seen_enemies(unit))
 	if not in_range.is_empty():
 		events.append_array(state.attack(unit, _weakest(in_range)))
 	return events
+
+
+static func _targets(state: BattleState, unit: Unit, from: Vector2i, seen: Array[Unit]) -> Array[Unit]:
+	var result: Array[Unit] = []
+	for target in state.attack_targets(unit, from):
+		if seen.has(target):
+			result.append(target)
+	return result
 
 
 # Heads for where it last saw an Operator, and gives up once there with nobody in sight.
@@ -82,13 +91,13 @@ static func _patrol(state: BattleState, unit: Unit) -> Array[Dictionary]:
 	return state.move(unit, destination)
 
 
-# The cheapest tile this turn from which some target can be attacked; the current tile if none.
-static func _attack_position(state: BattleState, unit: Unit) -> Vector2i:
+# The cheapest tile this turn from which a seen target can be attacked; the current tile if none.
+static func _attack_position(state: BattleState, unit: Unit, seen: Array[Unit]) -> Vector2i:
 	var costs := state.reach(unit, unit.def.move).cost
 	var best := unit.cell
 	var best_cost := -1
 	for cell in state.destinations(unit):
-		if state.attack_targets(unit, cell).is_empty():
+		if _targets(state, unit, cell, seen).is_empty():
 			continue
 		if best_cost < 0 or costs[cell] < best_cost:
 			best = cell

@@ -128,9 +128,16 @@ func sees(viewer: Unit, cell: Vector2i) -> bool:
 func seen_enemies(viewer: Unit) -> Array[Unit]:
 	var result: Array[Unit] = []
 	for unit in units:
-		if not unit.is_down() and unit.is_enemy_of(viewer) and sees(viewer, unit.cell) and not _cloaked_from(viewer.cell, unit):
+		if not unit.is_down() and unit.is_enemy_of(viewer) and knows_position(viewer, unit):
 			result.append(unit)
 	return result
+
+
+# Players share the team's vision. Each enemy knows only what it can see from where it stands.
+func knows_position(viewer: Unit, other: Unit) -> bool:
+	if viewer.is_player():
+		return player_sees(other)
+	return sees(viewer, other.cell) and not _cloaked_from(viewer.cell, other)
 
 
 # Structures like the turret are always on the map; everything else needs live vision, or Locate.
@@ -162,15 +169,13 @@ func refresh_vision() -> void:
 			known.erase(unit.id)
 
 
-# Players plan around what they can see: hidden enemies don't block their plans, they
-# interrupt the move when walked into.
+# Both sides plan around the enemies they know about: hidden enemies don't block their plans,
+# they interrupt the move when walked into.
 func can_pass(unit: Unit, cell: Vector2i) -> bool:
 	if blocks_movement(cell):
 		return false
 	var other := unit_at(cell)
-	if other == null or not other.is_enemy_of(unit):
-		return true
-	return unit.is_player() and not player_sees(other)
+	return other == null or not other.is_enemy_of(unit) or not knows_position(unit, other)
 
 
 func reach(unit: Unit, max_cost: int) -> Reach:
@@ -184,7 +189,7 @@ func destinations(unit: Unit) -> Array[Vector2i]:
 		return result
 	for cell in reach(unit, unit.def.move).cost:
 		var other := unit_at(cell)
-		if other == null or other == unit or (unit.is_player() and other.is_enemy_of(unit) and not player_sees(other)):
+		if other == null or other == unit or (other.is_enemy_of(unit) and not knows_position(unit, other)):
 			result.append(cell)
 	return result
 
