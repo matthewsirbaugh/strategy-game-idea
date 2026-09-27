@@ -239,7 +239,7 @@ func attack_targets(unit: Unit, from: Vector2i) -> Array[Unit]:
 	if unit.acted or not _may_act(unit, Phase.HUMAN):
 		return result
 	for target in units:
-		if not _in_range(unit, target, from):
+		if target.disabled or not _in_range(unit, target, from):
 			continue
 		if unit.is_player() and not player_sees(target):
 			continue
@@ -316,6 +316,10 @@ func attack(unit: Unit, target: Unit) -> Array[Dictionary]:
 	]
 	if target.is_down():
 		_disconnect(target)
+		# A destroyed turret leaves nothing to hack, the same as a breached one.
+		var node := map.node_at(target.cell)
+		if node != "":
+			breached[node] = true
 		events.append({"type": "downed", "unit": target})
 		refresh_vision()
 	return events

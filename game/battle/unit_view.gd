@@ -3,6 +3,7 @@ extends Node3D
 
 const STEP_SECONDS := 0.12
 const DOWNED_COLOR := Color(0.25, 0.25, 0.28)
+const CLOAKED_ALPHA := 0.3
 
 var unit: Unit
 var _material := StandardMaterial3D.new()
@@ -10,6 +11,7 @@ var _body := MeshInstance3D.new()
 var _label := make_label(40, 1.55)
 var _alert := make_label(96, 2.05)
 var _flash: Tween
+var _cloaked := false
 
 
 func setup(p_unit: Unit, at: Vector3) -> void:
@@ -46,8 +48,9 @@ func refresh() -> void:
 
 
 func set_cloaked(cloaked: bool) -> void:
+	_cloaked = cloaked
 	_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA if cloaked else BaseMaterial3D.TRANSPARENCY_DISABLED
-	_material.albedo_color.a = 0.3 if cloaked else 1.0
+	_material.albedo_color.a = CLOAKED_ALPHA if cloaked else 1.0
 
 
 # shown[i] says whether the player can see the unit on points[i]; walking in the fog is instant.
@@ -76,9 +79,11 @@ func lunge(toward: Vector3) -> void:
 
 
 func take_hit(damage: int) -> void:
-	_material.albedo_color = Color.WHITE
+	if _flash:
+		_flash.kill()
+	_material.albedo_color = Color(Color.WHITE, _material.albedo_color.a)
 	_flash = create_tween()
-	_flash.tween_property(_material, "albedo_color", unit.def.color, 0.3)
+	_flash.tween_property(_material, "albedo_color", _resting_color(), 0.3)
 	var number := make_label(56, 1.3)
 	number.text = "-%d" % damage
 	number.modulate = Color(1.0, 0.4, 0.35)
@@ -99,6 +104,12 @@ func set_downed() -> void:
 		tween.tween_property(_body, "rotation:z", PI / 2.0, 0.3)
 		tween.parallel().tween_property(_body, "position:y", 0.28, 0.3)
 	refresh()
+
+
+# The flash after a hit fades back to this, so an offline turret stays grey and a cloak stays sheer.
+func _resting_color() -> Color:
+	var color := DOWNED_COLOR if unit.is_down() or unit.disabled else unit.def.color
+	return Color(color, CLOAKED_ALPHA if _cloaked else 1.0)
 
 
 func _build_turret() -> void:
