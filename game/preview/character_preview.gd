@@ -2,14 +2,17 @@ extends Node3D
 ## Look-dev stage for character models: the toon shader on a Meshy character, its clips, and the
 ## battle camera's view. Run with `godot --path game res://preview/character_preview.tscn`.
 
-const MODEL := "res://art/characters/main_character/main_character.glb"
-const EXTRA_CLIPS := {"Walk": "res://art/characters/main_character/walk.glb", "Run": "res://art/characters/main_character/run.glb"}
+# Each folder in art/characters/ holds <name>.glb (mesh, rig, clips) plus armature-only walk.glb and run.glb.
+const CHARACTERS := ["main_character", "operator_sage", "operator_headband"]
 const FIRST_CLIPS := ["Walk", "Idle"]
 const TOON := preload("res://art/shaders/toon.gdshader")
 const INK := preload("res://art/shaders/ink_outline.gdshader")
 const CLOSE := {"distance": 4.0, "pitch": 12.0, "height": 1.0, "fov": 40.0}
 const BATTLE := {"distance": 34.0, "pitch": 50.0, "height": 0.9, "fov": 40.0}
 
+var _names: Array[String] = []
+var _character_index := 0
+var _character: Node3D
 var _player: AnimationPlayer
 var _clips: Array[String] = []
 var _clip := 0
@@ -25,11 +28,28 @@ var _mesh: MeshInstance3D
 
 
 func _ready() -> void:
-	var character: Node3D = load(MODEL).instantiate()
-	add_child(character)
-	_player = character.find_child("AnimationPlayer", true, false)
-	for clip_name in EXTRA_CLIPS:
-		var source: Node = load(EXTRA_CLIPS[clip_name]).instantiate()
+	for character_name in CHARACTERS:
+		if ResourceLoader.exists(_path(character_name, character_name)):
+			_names.append(character_name)
+	_load_character()
+
+
+func _path(character_name: String, file: String) -> String:
+	return "res://art/characters/%s/%s.glb" % [character_name, file]
+
+
+func _load_character() -> void:
+	if _character:
+		_character.free()
+	_clips.clear()
+	_original.clear()
+	_toon_materials.clear()
+	var character_name := _names[_character_index]
+	_character = load(_path(character_name, character_name)).instantiate()
+	add_child(_character)
+	_player = _character.find_child("AnimationPlayer", true, false)
+	for clip_name in {"Walk": "walk", "Run": "run"}.keys():
+		var source: Node = load(_path(character_name, clip_name.to_lower())).instantiate()
 		var source_player: AnimationPlayer = source.find_child("AnimationPlayer", true, false)
 		_player.get_animation_library("").add_animation(clip_name, source_player.get_animation(source_player.get_animation_list()[0]))
 		source.free()
@@ -42,7 +62,8 @@ func _ready() -> void:
 	for clip_name in FIRST_CLIPS:
 		_clips.erase(clip_name)
 		_clips.push_front(clip_name)
-	_mesh = _find_mesh(character)
+	_clip = mini(_clip, _clips.size() - 1)
+	_mesh = _find_mesh(_character)
 	for surface in _mesh.mesh.get_surface_count():
 		var original := _mesh.get_active_material(surface)
 		_original.append(original)
@@ -83,6 +104,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	match event.keycode:
 		KEY_RIGHT: _clip = (_clip + 1) % _clips.size()
 		KEY_LEFT: _clip = (_clip - 1 + _clips.size()) % _clips.size()
+		KEY_C:
+			_character_index = (_character_index + 1) % _names.size()
+			_load_character()
+			return
 		KEY_T: _toon = not _toon
 		KEY_V: _view = BATTLE if _view == CLOSE else CLOSE
 		KEY_Q: _yaw -= 45.0
@@ -101,5 +126,5 @@ func _apply() -> void:
 	var offset := Vector3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * cos(pitch)) * (_view.distance as float)
 	_camera.fov = _view.fov
 	_camera.look_at_from_position(target + offset, target)
-	_label.text = "%s   (%d/%d)\n←/→ clip   T toon %s   V view: %s   Q/E rotate   Esc quit" % [
-		_clips[_clip], _clip + 1, _clips.size(), "on" if _toon else "off", "battle camera" if _view == BATTLE else "close"]
+	_label.text = "%s — %s   (%d/%d)\nC character   ←/→ clip   T toon %s   V view: %s   Q/E rotate   Esc quit" % [
+		_names[_character_index], _clips[_clip], _clip + 1, _clips.size(), "on" if _toon else "off", "battle camera" if _view == BATTLE else "close"]

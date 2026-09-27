@@ -106,6 +106,10 @@ locked yet, are in
   should read better on the map. Flat color for now. The three Operators' references, the main character
   included, are in [art/reference/](art/reference/). Details are in
   [the art-pipeline exploration](explorations/art-pipeline.md). (2026-09-27)
+- 3D models in the world and in battle; 2D portraits in dialogue scenes, like Persona 4. Battle
+  keeps the camera far enough back that faces don't need to hold up close. (2026-09-27)
+- The Operators' weapon is non-lethal, like a phaser or taser: it fires a disabling energy pulse.
+  (2026-09-27)
 - Between battles there is a town, like Persona: walk around, talk to people, investigate, and
   buy and install upgrades. It starts small, and it gets built to explore the story I need to
   tell rather than the story being made to fit the game.

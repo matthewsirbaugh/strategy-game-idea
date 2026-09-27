@@ -2,8 +2,9 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Bryson judges the first Meshy character in the preview scene
-  (`godot --path game res://preview/character_preview.tscn`) and decides whether Meshy is the route.
+- Next action: Bryson reviews all three Operators in the preview scene
+  (`godot --path game res://preview/character_preview.tscn`, C switches character) and decides
+  on fixing the defects in the latest finding.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -149,13 +150,14 @@ apart). What they show, for tools that can't read images:
 | Part | [Main character](../art/reference/main-character.webp) | [Headband](../art/reference/operator-headband.webp) | [Sage](../art/reference/operator-sage.webp) |
 |---|---|---|---|
 | Accent color | Yellow | Blue | Sage green |
-| Head | Messy dark-brown hair, round black glasses, easy smile | Curly dark hair in a high puff, blue twisted headband, clear rectangular glasses with a dark AR module on the temple | Short tousled dark hair, clear glasses with a dark AR module on the temple |
-| Top | Cream bomber-style zip jacket, grey ribbed cuffs and hem, yellow zip trim and pulls; grey inner hood; yellow tee | Grey cropped vest with a stand collar, open; cream long-sleeve top, sleeves pushed up; black watch | Cream zip jacket with sage zip pockets on the chest and sleeve; sage hood and tee; black watch |
-| Trousers | Loose charcoal straight trousers, yellow zip pulls | Loose charcoal joggers with elastic cuffs | Grey cargo joggers with cuffs and side cargo pockets |
+| Head | Messy dark-brown hair, round black glasses, easy smile | Curly dark hair in a high puff, blue twisted headband, dark rectangular glasses | Shaggy chin-length dark hair, dark rectangular glasses |
+| Top | Cream bomber-style zip jacket, grey ribbed cuffs and hem, yellow zip trim and pulls; grey inner hood; yellow tee | Grey cropped vest with a stand collar, open; cream long-sleeve top, sleeves pushed up | Cream zip jacket with sage cuffs; sage hood and tee |
+| Trousers | Loose charcoal straight trousers, yellow zip pulls | Loose charcoal cargo joggers with elastic cuffs | Loose grey joggers with elastic cuffs |
 | Shoes | Grey and cream trail sneakers, yellow accents | Grey and cream trail sneakers, blue accents | Grey and cream trail sneakers, sage accents |
-| Backpack | Cream hard-shell pack with a solar panel on the back, a vent and yellow clips | Grey pack with a blue front pocket and a lens on the back panel | Cream and sage pack with a lens, a bottle in a side pocket and a chest strap |
+| Backpack | Cream hard-shell pack with a solar panel on the back, a vent and yellow clips | Grey hard-shell pack with a solar panel, a vent and blue side pods | Cream hard-shell pack with a solar panel, a vent and sage trim |
 
-All three carry a small camera bot on a short mast. Bryson, 2026-09-27: it sits over the
+The table describes the T-pose sheets Bryson supplied later the same day, which replaced the first
+references (older versions are in git history). All three carry a small camera bot on a short mast. Bryson, 2026-09-27: it sits over the
 character's **left** shoulder. The image generator put it over the right shoulder in every front
 view, so the back views are the correct ones.
 
@@ -205,6 +207,19 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   tee. Up close the face is Meshy's weak spot, soft and generic. Meshy also paints soft shading
   into the texture, so the result reads more like a 3D anime game than flat Ghibli cels. Several
   clips are generic motion capture: the shooting clip has no gun, and the idle is stiff.
+
+### 2026-09-27 — The other two Operators (Claude; rendered and inspected, not yet seen by Bryson)
+
+- Bryson: Meshy is fine for now. Faces only need to hold up at battle distance, since dialogue
+  uses 2D portraits (graduated to DESIGN.md), and this is the MVP.
+- Bryson supplied T-pose sheets for both, now in `art/reference/`. Same mirroring fix for the
+  camera bot. Same five clips as the main character, so all three share one set.
+- 100 credits for the pair, 2,950 left. Everything succeeded on the first try.
+- Defects: the sage Operator came out with a camera bot on *both* shoulders, which is in the
+  geometry and needs a regeneration to fix. None of the three packs kept the solar panel; from
+  behind they are plain dark boxes.
+- The shooting clip stays Cowboy Quick Draw for now: a one-handed draw suits a sidearm pulse
+  weapon. It changes once the weapon exists.
 
 ## Questions to answer
 
