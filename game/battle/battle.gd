@@ -172,7 +172,7 @@ func _open_menu() -> void:
 
 func _human_actions(unit: Unit) -> Array:
 	var actions := []
-	if not unit.moved:
+	if not state.destinations(unit).is_empty():
 		actions.append({"id": "move", "text": "Move"})
 	if not state.attack_targets(unit, unit.cell).is_empty():
 		actions.append({"id": "attack", "text": "Attack"})
@@ -188,7 +188,7 @@ func _agent_actions(unit: Unit) -> Array:
 		actions.append({"id": "network_move", "text": "Move"})
 	if state.can_hack(unit):
 		actions.append({"id": "hack", "text": "Hack  +%d" % state.hack_yield(unit)})
-	if unit.context > 0:
+	if state.can_compact(unit):
 		actions.append({"id": "compact", "text": "Compact  (%d to %d)" % [unit.context, state.compacted(unit.context)]})
 	if state.can_toggle_door(unit):
 		actions.append({"id": "door", "text": "Close door" if state.is_door_open(unit.agent_node) else "Open door"})
@@ -214,9 +214,7 @@ func _on_action(id: String) -> void:
 	match id:
 		"move":
 			_mode = Mode.MOVE
-			var moves := state.destinations(unit)
-			moves.erase(unit.cell)
-			_grid.set_overlay("move", moves, MOVE_COLOR)
+			_grid.set_overlay("move", state.destinations(unit), MOVE_COLOR)
 			_hud.set_hint("Choose a blue tile    ·    Right-click: back")
 		"attack":
 			_mode = Mode.TARGET
@@ -550,10 +548,10 @@ func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 				return token == unit if token else state.map.node_at(cell) == unit.agent_node
 			return not _network_shown and cell == unit.cell
 		Mode.MOVE:
-			return cell != unit.cell and state.destinations(unit).has(cell)
+			return state.can_move(unit, cell)
 		Mode.TARGET:
 			var target := state.unit_at(cell)
-			return target != null and state.player_sees(target) and state.can_attack(unit, target, unit.cell)
+			return target != null and state.can_attack(unit, target)
 		Mode.NODE:
 			return state.agent_destinations(unit).has(state.map.node_at(cell))
 	return false
@@ -565,7 +563,7 @@ func _describe(cell: Vector2i) -> String:
 	if unit and state.player_sees(unit):
 		text += "    %s  HP %d/%d" % [unit.display_name, unit.hp, unit.def.max_hp]
 		var active := state.active
-		if _mode == Mode.TARGET and state.can_attack(active, unit, active.cell):
+		if _mode == Mode.TARGET and state.can_attack(active, unit):
 			text += "    Attack: -%d" % active.def.damage
 	else:
 		for id in state.known:

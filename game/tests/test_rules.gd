@@ -1,6 +1,7 @@
 extends SceneTree
 
-# Rules that are easy to break quietly: guards playing fair with the fog.
+# Rules that are easy to break quietly: guards playing fair with the fog, and the rules refusing
+# actions the menus would never offer.
 # Run: godot --headless --path game -s tests/test_rules.gd
 
 # The guard (1) sees an Operator 5 tiles west (P). The walls at x=6 hide the tiles behind them,
@@ -17,6 +18,7 @@ var _failures := 0
 func _initialize() -> void:
 	_guards_ignore_operators_they_cannot_see()
 	_guards_attack_operators_their_move_reveals()
+	_illegal_actions_change_nothing()
 	print("rules tests: " + ("all passed" if _failures == 0 else "%d failed" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -46,10 +48,47 @@ func _guards_attack_operators_their_move_reveals() -> void:
 	_check(summary == "moved to (3, 3), attacked Alpha", "the guard shoots the weaker Operator its move revealed, got %s" % summary)
 
 
-func _state(layout: String, operator_names: Array, node_kinds := {"z": "cache"}) -> BattleState:
-	var map := MapData.new()
-	map.layout = layout
-	map.node_kinds = node_kinds
+# Each one is a direct call the menus would never make.
+func _illegal_actions_change_nothing() -> void:
+	var state := _state(null, ["alpha", "bravo"])
+	var alpha := state.begin_next_turn()
+	var bravo := _unit(state, "Bravo")
+	var guard_2 := _unit(state, "Guard 2")
+	var guard_4 := _unit(state, "Guard 4")
+	_refused(state, func() -> Array: return state.move(bravo, Vector2i(9, 9)), "moving out of turn")
+	_refused(state, func() -> Array: return state.attack(alpha, guard_2), "attacking from 11 tiles with range 3")
+	state.move(alpha, Vector2i(6, 11))
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(7, 11)), "a second move")
+	state.attack(alpha, guard_4)
+	_refused(state, func() -> Array: return state.attack(alpha, guard_4), "a second attack")
+	state.end_human_phase(alpha)
+	_check(alpha.agent_node == "a", "Alpha's AI connects at the access point")
+	_refused(state, func() -> Array: return state.agent_move(alpha, "z"), "a network move of 4 hops with range 3")
+	_refused(state, func() -> Array: return state.hack(alpha), "hacking an access point")
+	state.agent_move(alpha, "e")
+	_refused(state, func() -> Array: return state.hack(alpha), "a second AI action in one turn")
+
+
+func _refused(state: BattleState, action: Callable, what: String) -> void:
+	var before := _snapshot(state)
+	var events: Array = action.call()
+	_check(events.is_empty() and _snapshot(state) == before, "%s should be refused and change nothing" % what)
+
+
+func _snapshot(state: BattleState) -> String:
+	var units := []
+	for u in state.units:
+		units.append([u.cell, u.hp, u.moved, u.acted, u.agent_node, u.entry, u.context, u.ability_uses_left, u.cloaked_until, u.located_until])
+	return var_to_str([units, state.phase, state.active, state.breach, state.breached, state.known, state.visible_cells, state.vision_sources])
+
+
+# A null layout means the MVP map.
+func _state(layout: Variant, operator_names: Array, node_kinds := {"z": "cache"}) -> BattleState:
+	var map: MapData = load("res://content/maps/mvp.tres")
+	if layout != null:
+		map = MapData.new()
+		map.layout = layout
+		map.node_kinds = node_kinds
 	var operators: Array[UnitDef] = []
 	for operator_name in operator_names:
 		operators.append(load("res://content/units/%s.tres" % operator_name))
@@ -61,19 +100,21 @@ func _state(layout: String, operator_names: Array, node_kinds := {"z": "cache"})
 	)
 
 
-func _place(state: BattleState, unit_name: String, cell: Vector2i) -> void:
+func _unit(state: BattleState, unit_name: String) -> Unit:
 	for unit in state.units:
 		if unit.display_name == unit_name:
-			unit.cell = cell
+			return unit
+	return null
+
+
+func _place(state: BattleState, unit_name: String, cell: Vector2i) -> void:
+	_unit(state, unit_name).cell = cell
 	state.refresh_vision()
 
 
 func _guard_to_act(state: BattleState) -> Unit:
-	for unit in state.units:
-		if unit.display_name == "Guard 1":
-			state.active = unit
-			return unit
-	return null
+	state.active = _unit(state, "Guard 1")
+	return state.active
 
 
 func _summary(events: Array[Dictionary]) -> String:

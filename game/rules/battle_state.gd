@@ -2,11 +2,13 @@ class_name BattleState
 extends RefCounted
 
 # Actions return events (plain dictionaries with a "type") so the view can animate them in
-# order without the rules knowing anything about the view.
+# order without the rules knowing anything about the view. An illegal action changes nothing and
+# returns no events; the can_ and list functions below are the checks, shared with the menus.
 
 enum Winner { NONE, PLAYER, ENEMY }
-# An Operator's turn is split: the human acts, then their AI does.
-enum Phase { HUMAN, AGENT }
+# An Operator's turn is split: the human acts, then their AI does. Enemies act in the human phase.
+# DONE: the active unit has nothing left to do this turn.
+enum Phase { HUMAN, AGENT, DONE }
 
 const CONTEXT_MAX := 100
 const FULL_CONTEXT_YIELD := 0.5
@@ -182,29 +184,29 @@ func reach(unit: Unit, max_cost: int) -> Reach:
 	return Reach.new(unit.cell, max_cost, func(cell: Vector2i) -> bool: return can_pass(unit, cell))
 
 
-# Includes the unit's own tile, so staying put is always an option.
+# The tiles the active unit can move to this turn, not counting the one it's on.
 func destinations(unit: Unit) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
-	if unit.moved:
+	if unit.moved or unit.acted or not _may_act(unit, Phase.HUMAN):
 		return result
 	for cell in reach(unit, unit.def.move).cost:
 		var other := unit_at(cell)
-		if other == null or other == unit or (other.is_enemy_of(unit) and not knows_position(unit, other)):
+		if other == null or (other.is_enemy_of(unit) and not knows_position(unit, other)):
 			result.append(cell)
 	return result
 
 
-func can_attack(unit: Unit, target: Unit, from: Vector2i) -> bool:
-	if unit.acted or target.is_down() or not unit.is_enemy_of(target):
-		return false
-	var distance := Grid.distance(from, target.cell)
-	return distance <= unit.def.attack_range and (distance <= 1 or has_line_of_sight(from, target.cell))
+func can_move(unit: Unit, cell: Vector2i) -> bool:
+	return destinations(unit).has(cell)
 
 
+# Who the active unit could attack if it stood on `from`. Enemy AI plans with other tiles.
 func attack_targets(unit: Unit, from: Vector2i) -> Array[Unit]:
 	var result: Array[Unit] = []
+	if unit.acted or not _may_act(unit, Phase.HUMAN):
+		return result
 	for target in units:
-		if not can_attack(unit, target, from):
+		if not _in_range(unit, target, from):
 			continue
 		if unit.is_player() and not player_sees(target):
 			continue
@@ -214,7 +216,13 @@ func attack_targets(unit: Unit, from: Vector2i) -> Array[Unit]:
 	return result
 
 
+func can_attack(unit: Unit, target: Unit) -> bool:
+	return attack_targets(unit, unit.cell).has(target)
+
+
 func move(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
+	if not can_move(unit, cell):
+		return []
 	var start := unit.cell
 	var walked: Array[Vector2i] = []
 	var blocker: Unit = null
@@ -247,10 +255,12 @@ func move(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
 
 
 func can_undo(unit: Unit) -> bool:
-	return phase == Phase.HUMAN and unit.moved and not unit.acted and not unit.revealed
+	return _may_act(unit, Phase.HUMAN) and unit.moved and not unit.acted and not unit.revealed
 
 
 func undo_move(unit: Unit) -> void:
+	if not can_undo(unit):
+		return
 	unit.cell = unit.move_origin
 	unit.moved = false
 	unit.agent_node = unit.agent_origin
@@ -259,6 +269,8 @@ func undo_move(unit: Unit) -> void:
 
 
 func attack(unit: Unit, target: Unit) -> Array[Dictionary]:
+	if not can_attack(unit, target):
+		return []
 	target.hp = maxi(target.hp - unit.def.damage, 0)
 	unit.acted = true
 	var events: Array[Dictionary] = [
@@ -300,7 +312,7 @@ func network_path(from: String, to: String) -> Array[String]:
 
 func agent_destinations(unit: Unit) -> Array[String]:
 	var result: Array[String] = []
-	if unit.agent_node == "":
+	if unit.agent_node == "" or not _may_act(unit, Phase.AGENT):
 		return result
 	for id in map.node_ids():
 		var hops := network_path(unit.agent_node, id).size()
@@ -327,26 +339,31 @@ func can_connect(unit: Unit) -> bool:
 # The AI plugs in when the human's part of the turn ends near an access point.
 func end_human_phase(unit: Unit) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
+	if not _may_act(unit, Phase.HUMAN):
+		return events
 	if unit.agent_node == "":
 		var access := access_point_in_reach(unit)
 		if access != "":
 			unit.agent_node = access
 			unit.entry = access
 			events.append({"type": "connect", "unit": unit, "node": access})
-	if unit.agent_node != "":
-		phase = Phase.AGENT
+	phase = Phase.AGENT if unit.agent_node != "" else Phase.DONE
 	return events
 
 
+# Each AI action below uses up the AI's one action for the turn.
 func agent_move(unit: Unit, id: String) -> Array[Dictionary]:
+	if not agent_destinations(unit).has(id):
+		return []
 	var path := network_path(unit.agent_node, id)
 	unit.agent_node = id
+	phase = Phase.DONE
 	return [{"type": "agent_move", "unit": unit, "path": path}]
 
 
 func can_hack(unit: Unit) -> bool:
 	var def := node_def(unit.agent_node)
-	return def != null and def.goal > 0 and not breached.has(unit.agent_node)
+	return _may_act(unit, Phase.AGENT) and def != null and def.goal > 0 and not breached.has(unit.agent_node)
 
 
 func hack_yield(unit: Unit) -> int:
@@ -356,11 +373,14 @@ func hack_yield(unit: Unit) -> int:
 
 
 func hack(unit: Unit) -> Array[Dictionary]:
+	if not can_hack(unit):
+		return []
 	var id := unit.agent_node
 	var def := node_def(id)
 	var points := hack_yield(unit)
 	breach[id] = breach.get(id, 0) + points
 	unit.context = mini(CONTEXT_MAX, unit.context + def.context_cost)
+	phase = Phase.DONE
 	var events: Array[Dictionary] = [{"type": "hack", "unit": unit, "node": id, "points": points}]
 	if breach[id] >= def.goal:
 		events.append(_breach(unit, id))
@@ -371,23 +391,33 @@ func compacted(context: int) -> int:
 	return roundi(context * COMPACT_KEEPS)
 
 
+func can_compact(unit: Unit) -> bool:
+	return _may_act(unit, Phase.AGENT) and unit.agent_node != "" and unit.context > 0
+
+
 func compact(unit: Unit) -> Array[Dictionary]:
+	if not can_compact(unit):
+		return []
 	var before := unit.context
 	unit.context = compacted(before)
+	phase = Phase.DONE
 	return [{"type": "compact", "unit": unit, "before": before}]
 
 
 func can_toggle_door(unit: Unit) -> bool:
 	var id := unit.agent_node
-	return breached.has(id) and map.node_kind(id) == "door" and unit_at(map.node_cell(id)) == null
+	return _may_act(unit, Phase.AGENT) and breached.has(id) and map.node_kind(id) == "door" and unit_at(map.node_cell(id)) == null
 
 
 func toggle_door(unit: Unit) -> Array[Dictionary]:
+	if not can_toggle_door(unit):
+		return []
 	var id := unit.agent_node
 	if _open_doors.has(id):
 		_open_doors.erase(id)
 	else:
 		_open_doors[id] = true
+	phase = Phase.DONE
 	refresh_vision()
 	return [{"type": "door", "unit": unit, "node": id, "open": _open_doors.has(id)}]
 
@@ -440,7 +470,7 @@ func ability_name(unit: Unit) -> String:
 
 
 func can_use_ability(unit: Unit) -> bool:
-	if unit.def.ability == UnitDef.Ability.NONE or unit.agent_node == "":
+	if unit.def.ability == UnitDef.Ability.NONE or unit.agent_node == "" or not _may_act(unit, Phase.AGENT):
 		return false
 	if unit.ability_uses_left == 0 or round_number < unit.ability_ready_round:
 		return false
@@ -455,8 +485,14 @@ func locate_targets() -> Array[Unit]:
 	return result
 
 
+# Locate needs one of locate_targets() as its target; the others take none.
 func use_ability(unit: Unit, target: Unit = null) -> Array[Dictionary]:
+	if not can_use_ability(unit):
+		return []
 	var def := unit.def
+	if def.ability == UnitDef.Ability.LOCATE and not locate_targets().has(target):
+		return []
+	phase = Phase.DONE
 	if unit.ability_uses_left > 0:
 		unit.ability_uses_left -= 1
 	unit.ability_ready_round = round_number + def.ability_cooldown
@@ -469,6 +505,17 @@ func use_ability(unit: Unit, target: Unit = null) -> Array[Dictionary]:
 			unit.cloaked_until = round_number + def.ability_duration
 	refresh_vision()
 	return [{"type": "ability", "unit": unit, "node": unit.agent_node, "target": target}]
+
+
+func _may_act(unit: Unit, in_phase: Phase) -> bool:
+	return unit != null and unit == active and phase == in_phase
+
+
+func _in_range(unit: Unit, target: Unit, from: Vector2i) -> bool:
+	if target.is_down() or not unit.is_enemy_of(target):
+		return false
+	var distance := Grid.distance(from, target.cell)
+	return distance <= unit.def.attack_range and (distance <= 1 or has_line_of_sight(from, target.cell))
 
 
 # A cloaked Operator can't be seen or targeted by enemies unless they're right next to it.

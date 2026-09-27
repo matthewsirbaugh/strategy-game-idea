@@ -62,7 +62,7 @@ func show_active(state: BattleState) -> void:
 	var unit := state.active
 	_context.value = unit.context
 	_context.modulate = FULL_CONTEXT_COLOR if unit.context >= BattleState.CONTEXT_MAX else Color.WHITE
-	if state.phase == BattleState.Phase.HUMAN:
+	if state.phase == BattleState.Phase.HUMAN or unit.agent_node == "":
 		_active_name.text = unit.display_name
 		_active_stats.text = "HP %d/%d    Move %d    Damage %d    Range %d    Context %d" % [
 			unit.hp, unit.def.max_hp, unit.def.move, unit.def.damage, unit.def.attack_range, unit.context
