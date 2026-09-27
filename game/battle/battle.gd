@@ -39,6 +39,10 @@ var _network_moving := false
 
 func _ready() -> void:
 	state = BattleState.new(map, operators, guard, turret, node_defs)
+	if not state.errors.is_empty():
+		set_process(false)
+		_hud.show_errors(state.errors)
+		return
 	_grid.build(state, operators[0].tether_range)
 	_network.build(state, _grid)
 	for unit in state.units:

@@ -149,6 +149,20 @@ func show_result(won: bool) -> void:
 	_restart.grab_focus()
 
 
+func show_errors(errors: PackedStringArray) -> void:
+	_active_panel.hide()
+	_result_label.text = "This battle's content is broken"
+	var details := Label.new()
+	details.text = "\n".join(errors)
+	details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	details.custom_minimum_size.x = 900
+	details.add_theme_font_size_override("font_size", 18)
+	_result_label.add_sibling(details)
+	_restart.hide()
+	_result.show()
+	_quit.grab_focus()
+
+
 func _choose(id: String) -> void:
 	close_menu()
 	action_chosen.emit(id)

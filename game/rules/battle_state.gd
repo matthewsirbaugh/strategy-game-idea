@@ -27,6 +27,8 @@ var vision_sources: Array[Dictionary] = []
 var breach := {}
 var breached := {}
 var cache_breached := false
+# Why the content can't make a valid battle. When there are any, the battle is left empty.
+var errors := PackedStringArray()
 var _node_defs := {}
 var _links := {}
 var _queue: Array[Unit] = []
@@ -37,6 +39,11 @@ func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: Un
 	map = p_map
 	for def in node_defs:
 		_node_defs[def.kind] = def
+	errors = validate(map, operators, node_defs)
+	for error in errors:
+		push_error(error)
+	if not errors.is_empty():
+		return
 	for link in map.links:
 		var ends := link.split("-")
 		_links.get_or_add(ends[0], []).append(ends[1])
@@ -56,6 +63,19 @@ func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: Un
 		if not unit.is_player():
 			known[unit.id] = unit.cell
 	refresh_vision()
+
+
+# Why this content can't make a valid battle. Empty when it can.
+static func validate(p_map: MapData, operators: Array[UnitDef], node_defs: Array[NodeDef]) -> PackedStringArray:
+	var result := p_map.validate()
+	var kinds := node_defs.map(func(def: NodeDef) -> String: return def.kind)
+	for id in p_map.node_ids():
+		var kind := p_map.node_kind(id)
+		if kind != "" and not kinds.has(kind):
+			result.append(p_map.field_error("node_kinds", "gives node '%s' the kind '%s', which has no NodeDef in this battle" % [id, kind]))
+	if p_map.player_starts().size() < operators.size():
+		result.append(p_map.field_error("layout", "has %d player starts (P) for %d Operators" % [p_map.player_starts().size(), operators.size()]))
+	return result
 
 
 func begin_next_turn() -> Unit:

@@ -19,6 +19,7 @@ func _initialize() -> void:
 	_guards_ignore_operators_they_cannot_see()
 	_guards_attack_operators_their_move_reveals()
 	_illegal_actions_change_nothing()
+	_broken_content_is_reported()
 	print("rules tests: " + ("all passed" if _failures == 0 else "%d failed" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -69,6 +70,33 @@ func _illegal_actions_change_nothing() -> void:
 	_refused(state, func() -> Array: return state.hack(alpha), "a second AI action in one turn")
 
 
+func _broken_content_is_reported() -> void:
+	var map := MapData.new()
+	map.layout = "X . a . a\n. 1 . 1\nP . 0 . q"
+	map.node_kinds = {"a": "vault", "b": "door"}
+	map.links = PackedStringArray(["a-b", "a"])
+	map.patrols = PackedStringArray(["1,1 9,9", "7;7"])
+	var operators: Array[UnitDef] = [load("res://content/units/alpha.tres"), load("res://content/units/bravo.tres")]
+	var errors := "\n".join(BattleState.validate(map, operators, _node_defs()))
+	for expected in [
+		"Unsaved map: layout row 1 has 4 tiles, but row 0 has 5",
+		"layout has node 'a' at 2,0 and again at 4,0",
+		"layout has guard 1 at 1,1 and again at 3,1",
+		"layout has guard 0 at 2,2",
+		"node_kinds has no kind for node 'q'",
+		"node_kinds names node 'b', which isn't on the layout",
+		"node_kinds gives node 'a' the kind 'vault', which has no NodeDef",
+		"links[0] 'a-b' names node 'b'",
+		"links[1] 'a' should join two different nodes",
+		"patrols[0] waypoint 9,9 is off the map",
+		"patrols[1] is for guard 2, who isn't on the layout",
+		"patrols[1] waypoint '7;7' should be 'x,y'",
+		"layout has 1 player starts (P) for 2 Operators",
+	]:
+		_check(errors.contains(expected), "broken content should report: " + expected)
+	_check(BattleState.validate(load("res://content/maps/mvp.tres"), operators, _node_defs()).is_empty(), "the MVP map is valid")
+
+
 func _refused(state: BattleState, action: Callable, what: String) -> void:
 	var before := _snapshot(state)
 	var events: Array = action.call()
@@ -92,12 +120,16 @@ func _state(layout: Variant, operator_names: Array, node_kinds := {"z": "cache"}
 	var operators: Array[UnitDef] = []
 	for operator_name in operator_names:
 		operators.append(load("res://content/units/%s.tres" % operator_name))
+	return BattleState.new(
+		map, operators, load("res://content/units/guard.tres"), load("res://content/units/turret.tres"), _node_defs()
+	)
+
+
+func _node_defs() -> Array[NodeDef]:
 	var nodes: Array[NodeDef] = []
 	for kind in ["access", "door", "camera", "turret", "cache"]:
 		nodes.append(load("res://content/nodes/%s.tres" % kind))
-	return BattleState.new(
-		map, operators, load("res://content/units/guard.tres"), load("res://content/units/turret.tres"), nodes
-	)
+	return nodes
 
 
 func _unit(state: BattleState, unit_name: String) -> Unit:
