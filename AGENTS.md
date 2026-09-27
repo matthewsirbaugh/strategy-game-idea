@@ -50,10 +50,11 @@ expects that plan to change as ideas surface while playing.
 | CLAUDE.md | One line pointing Claude Code at this file |
 | EXPLORATIONS.md | The board: every open topic, its status and its next action |
 | explorations/*.md | One file per research or design thread |
+| README.md | How to set up, run and test the game |
+| game/ | The Godot project; README.md explains its folders |
 | .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
 
-README.md (setup and run instructions) gets created when there is code to run. There is no
-NOW.md — the board covers what is current. Project knowledge lives in these files, not in a
+There is no NOW.md — the board covers what is current. Project knowledge lives in these files, not in a
 tool's private memory, which the other tools can't see.
 
 ## Explorations
