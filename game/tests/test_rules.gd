@@ -92,9 +92,17 @@ func _broken_content_is_reported() -> void:
 		"patrols[1] is for guard 2, who isn't on the layout",
 		"patrols[1] waypoint '7;7' should be 'x,y'",
 		"layout has 1 player starts (P) for 2 Operators",
+		"node_kinds has no node of kind 'cache', so the mission has no objective",
 	]:
 		_check(errors.contains(expected), "broken content should report: " + expected)
 	_check(BattleState.validate(load("res://content/maps/mvp.tres"), operators, _node_defs()).is_empty(), "the MVP map is valid")
+	var two_caches := MapData.new()
+	two_caches.layout = "X z y P P"
+	two_caches.node_kinds = {"z": "cache", "y": "cache"}
+	errors = "\n".join(BattleState.validate(two_caches, operators, _node_defs()))
+	_check(errors.contains("has 2 nodes of kind 'cache' (z, y), so the objective is ambiguous"), "two caches make the objective ambiguous, got: " + errors)
+	var renamed := _state(FOG_MAP.replace("z", "q"), ["alpha"], {"q": "cache"})
+	_check(renamed.errors.is_empty() and renamed.objective == "q", "the objective is whichever node is the cache")
 
 
 func _refused(state: BattleState, action: Callable, what: String) -> void:

@@ -26,6 +26,8 @@ var known := {}
 var vision_sources: Array[Dictionary] = []
 var breach := {}
 var breached := {}
+# The data cache this mission is about: the one node of kind "cache" on the map.
+var objective := ""
 var cache_breached := false
 # Why the content can't make a valid battle. When there are any, the battle is left empty.
 var errors := PackedStringArray()
@@ -56,8 +58,11 @@ func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: Un
 		var unit := _add(guard, "Guard %d" % number, route[0])
 		unit.route = route
 	for id in map.node_ids():
-		if map.node_kind(id) == "turret":
-			_add(turret, turret.display_name, map.node_cell(id))
+		match map.node_kind(id):
+			"turret":
+				_add(turret, turret.display_name, map.node_cell(id))
+			"cache":
+				objective = id
 	# Pre-mission intel: the player starts knowing where every enemy was posted.
 	for unit in units:
 		if not unit.is_player():
@@ -69,10 +74,17 @@ func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: Un
 static func validate(p_map: MapData, operators: Array[UnitDef], node_defs: Array[NodeDef]) -> PackedStringArray:
 	var result := p_map.validate()
 	var kinds := node_defs.map(func(def: NodeDef) -> String: return def.kind)
+	var caches: Array[String] = []
 	for id in p_map.node_ids():
 		var kind := p_map.node_kind(id)
 		if kind != "" and not kinds.has(kind):
 			result.append(p_map.field_error("node_kinds", "gives node '%s' the kind '%s', which has no NodeDef in this battle" % [id, kind]))
+		if kind == "cache":
+			caches.append(id)
+	if caches.is_empty():
+		result.append(p_map.field_error("node_kinds", "has no node of kind 'cache', so the mission has no objective"))
+	elif caches.size() > 1:
+		result.append(p_map.field_error("node_kinds", "has %d nodes of kind 'cache' (%s), so the objective is ambiguous" % [caches.size(), ", ".join(caches)]))
 	if p_map.player_starts().size() < operators.size():
 		result.append(p_map.field_error("layout", "has %d player starts (P) for %d Operators" % [p_map.player_starts().size(), operators.size()]))
 	return result

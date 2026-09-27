@@ -420,8 +420,8 @@ func _refresh_units() -> void:
 
 func _update_objective() -> void:
 	if not state.cache_breached:
-		var goal := state.node_def("z").goal if state.node_def("z") else 0
-		_hud.set_objective("Objective: breach the data cache  (%d/%d)" % [state.breach.get("z", 0), goal])
+		var progress := [state.breach.get(state.objective, 0), state.node_def(state.objective).goal]
+		_hud.set_objective("Objective: breach the data cache  (%d/%d)" % progress)
 		return
 	var standing := state.living().filter(func(unit: Unit) -> bool: return unit.is_player()).size()
 	_hud.set_objective("Objective: get everyone to the exit  (%d/%d there)" % [state.extracted(), standing])
