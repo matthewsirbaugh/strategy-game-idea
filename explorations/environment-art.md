@@ -2,8 +2,8 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson answers the questions at the bottom, then we make the style anchor
-  (method step 1) before any single object.
+- Next action: Bryson decides on Claude's trimmed 12-image set (latest finding) and runs it
+  in Astra; Claude then builds the props with Meshy and dresses the MVP map.
 
 ## The question
 
@@ -32,7 +32,7 @@ What makes a set feel like one world, in order of impact:
 2. **One shader for everything.** Every object uses the same toon shader, key light, shadow tint
    and ink outline as the Operators. This does more for cohesion than any modeling choice.
 3. **One palette.** Grimy neutral cream, grey and charcoal base, shared with the Operators. Corporate spaces add
-   Cyberpunk 2077 accents (cyan, magenta, hazard yellow) in screens and ads; back rooms, service
+   neon accents in magenta, hot pink, red, orange and violet in screens and ads; back rooms, service
    areas and the street are darker and dirtier, lit mostly by signage. The Operators' own accents (yellow, blue, sage) stay reserved
    for the Operators so they never blend into the set.
 4. **Two ways to build, split by job.**
@@ -97,12 +97,18 @@ cover it doesn't.
 
 ## Questions for Bryson
 
-1. What is the MVP map, as a place? Claude has been assuming a corporate building's upper floor:
-   loading dock, atrium, server room and exit corridor, with extraction through the roof.
+1. ~~What is the MVP map, as a place?~~ A city street (Bryson, 2026-09-27).
 2. Should the style anchor painting come first, before any object?
 3. Is the split right: grid pieces by script, everything else through Meshy?
 4. Anything missing from the list, or anything to cut?
 
 ## Findings
 
-None yet.
+### 2026-09-27 — The MVP map is a city street (Bryson)
+
+- The MVP battle map is an urban city street, not a building interior.
+- Skip the AI and network objects for now; build up the city environment first.
+- The full street inventory Claude proposed was too much. The goal is "strictly better than the
+  blank placeholders," enough to get an idea of the visuals, not a finished product.
+- No yellow or cyan anywhere in the city. Hazard stripes are orange and white.
+- Images are requested from Astra in one batch so they stay consistent, one copy each.
