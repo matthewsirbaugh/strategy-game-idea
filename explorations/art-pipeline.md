@@ -2,9 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Bryson reviews the rigged Operators with their packs in the preview scene
-  (`godot --path game res://preview/character_preview.tscn`) and makes the three camera bot
-  sheets in Astra (L-shaped mount, latest finding).
+- Next action: Bryson makes the three camera bot sheets in Astra (L-shaped mount, latest
+  finding); Claude builds them as separate pieces and removes the old bots baked into the bodies.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -319,6 +318,8 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   into the socket, a short stub runs back to an elbow, and the mast rises past the shoulder.
 - Still baked into the bodies: each Operator's old camera bot, from round one of the sheets.
   They come out when the separate bots go in.
+- Bryson, after the fix: "now all three models look perfect." The Operators' bodies and packs
+  are approved.
 
 ## Questions to answer
 
