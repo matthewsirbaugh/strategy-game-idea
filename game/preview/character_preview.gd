@@ -3,13 +3,13 @@ extends Node3D
 ## battle camera's view. Run with `godot --path game res://preview/character_preview.tscn`.
 
 # Each folder in art/characters/ holds <name>.glb (mesh and rig) plus armature-only walk.glb and run.glb.
-# The other clips were bought once, on the old main character, and are shared through CharacterRig.
+# The other clips were bought once, for the first main character (clip_source/), and are shared through CharacterRig.
 const CHARACTERS := {
-	"main_character_v2": "pack_main_character",
-	"operator_sage_v2": "pack_operator_sage",
-	"operator_headband_v2": "pack_operator_headband",
+	"main_character": "pack_main_character",
+	"operator_sage": "pack_operator_sage",
+	"operator_headband": "pack_operator_headband",
 }
-const CLIP_SOURCE := "main_character"
+const CLIP_SOURCE := "clip_source"
 const FIRST_CLIPS := ["Walk", "Idle"]
 const TOON := preload("res://art/shaders/toon.gdshader")
 const INK := preload("res://art/shaders/ink_outline.gdshader")

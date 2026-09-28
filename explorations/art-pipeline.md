@@ -320,6 +320,9 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   They come out when the separate bots go in.
 - Bryson, after the fix: "now all three models look perfect." The Operators' bodies and packs
   are approved.
+- Cleanup, at Bryson's request: the round-one models are deleted and the `_v2` suffixes dropped,
+  so each Operator lives in `game/art/characters/<name>/`. The first main character stays as
+  `game/art/characters/clip_source/`, only because the shared clips are retargeted from it.
 
 ## Questions to answer
 
