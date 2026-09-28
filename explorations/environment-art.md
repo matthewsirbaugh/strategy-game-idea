@@ -16,7 +16,8 @@ match the three Operators. Bryson asked for a full list to solve one at a time (
   start from the [house style](art-pipeline.md#house-style).
 - The Operators are Meshy models drawn with `game/art/shaders/toon.gdshader` and a
   silhouette-only ink outline. Their painted-in detail lines stay (Bryson, 2026-09-27).
-- The world: solarpunk meets a corporate AI future full of advertisements (DESIGN.md).
+- The world: a gritty, technofeudal corporate AI future full of advertisements, all the way
+  through (DESIGN.md).
 - The map is a 12×12 grid of 1 m tiles, seen mostly from the battle camera: 50° down, about 34 m
   away, where a person is about 55 px tall. Objects have to read at that size first.
 
@@ -31,14 +32,14 @@ What makes a set feel like one world, in order of impact:
 2. **One shader for everything.** Every object uses the same toon shader, key light, shadow tint
    and ink outline as the Operators. This does more for cohesion than any modeling choice.
 3. **One palette.** Grimy neutral cream, grey and charcoal base, shared with the Operators. Corporate spaces add
-   Cyberpunk 2077 accents (cyan, magenta, hazard yellow) in screens and ads; Commons spaces add
-   greens, timber and warm light. The Operators' own accents (yellow, blue, sage) stay reserved
+   Cyberpunk 2077 accents (cyan, magenta, hazard yellow) in screens and ads; back rooms, service
+   areas and the street are darker and dirtier, lit mostly by signage. The Operators' own accents (yellow, blue, sage) stay reserved
    for the Operators so they never blend into the set.
 4. **Two ways to build, split by job.**
 
    | Kind | How | Why |
    |---|---|---|
-   | Grid pieces: floors, walls, doorways | Simple shapes built by script (Godot or Blender), flat colors, sized exactly to 1 m | They must tile perfectly; Meshy can't hit exact dimensions |
+   | Grid pieces: floors, walls, doorways | Simple shapes built by script (Godot or Blender), sized exactly to 1 m, with worn textures in the house style | They must tile perfectly; Meshy can't hit exact dimensions |
    | Everything else: nodes, props, dressing | Concept sheet → Meshy → the same shader | Where Meshy shines, and it matches the Operators because it made them |
 
 5. **Judge in place.** Each object is reviewed on the map at the battle camera, next to an
@@ -82,7 +83,7 @@ Priority: **1** the MVP can't show its rules without it; **2** makes the map rea
 | # | Object | Priority | Notes |
 |---|---|---|---|
 | 14 | Advertisement screens and holo-billboards | 2 | The world's signature; the main carrier of the neon accents |
-| 15 | Planters and greenery | 2 | The solarpunk half |
+| 15 | ~~Planters and greenery~~ | — | Cut 2026-09-27: the world is gritty all the way through |
 | 16 | Server racks | 2 | Fills the sealed server room around the cache |
 | 17 | Desks, benches, lobby seating | 3 | Atrium and corridor |
 | 18 | Crates and loading-dock clutter | 3 | The start zone |

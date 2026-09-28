@@ -189,15 +189,17 @@ apart). What they show, for tools that can't read images:
 
 | Part | [Main character](../art/reference/main-character.webp) | [Headband](../art/reference/operator-headband.webp) | [Sage](../art/reference/operator-sage.webp) |
 |---|---|---|---|
-| Accent color | Yellow | Blue | Sage green |
-| Head | Messy dark-brown hair, round black glasses, easy smile | Curly dark hair in a high puff, blue twisted headband, dark rectangular glasses | Shaggy chin-length dark hair, dark rectangular glasses |
-| Top | Cream bomber-style zip jacket, grey ribbed cuffs and hem, yellow zip trim and pulls; grey inner hood; yellow tee | Grey cropped vest with a stand collar, open; cream long-sleeve top, sleeves pushed up | Cream zip jacket with sage cuffs; sage hood and tee |
-| Trousers | Loose charcoal straight trousers, yellow zip pulls | Loose charcoal cargo joggers with elastic cuffs | Loose grey joggers with elastic cuffs |
-| Shoes | Grey and cream trail sneakers, yellow accents | Grey and cream trail sneakers, blue accents | Grey and cream trail sneakers, sage accents |
-| Backpack | Cream hard-shell pack with a solar panel on the back, a vent and yellow clips | Grey hard-shell pack with a solar panel, a vent and blue side pods | Cream hard-shell pack with a solar panel, a vent and sage trim |
+| Accent color | Yellow | Electric blue | Sage green, rust red |
+| Role | Street courier | Hardware tinkerer | Ex-military field medic, clearly a woman |
+| Head | Messy dark-brown hair, yellow goggles, easy smile | Curly dark hair in a high puff, braided blue cable headband, blue eyepiece over one eye, headphones | Short wavy dark-brown bob, metal hair clip, dark rectangular glasses |
+| Top | Grimy cream cropped techwear jacket with a tall collar, a diagonal black-and-yellow hazard stripe, one sleeve covered in defaced ad stickers; faded yellow tee | Dirty cream long-sleeve top, sleeves pushed up, under a grey utility harness vest full of tool pockets and a coiled blue cable | Cropped olive field jacket, sleeves rolled, one cream shoulder plate; olive chest rig with pouches over a cream high-neck top; a wrist device |
+| Hands | Black gloves, yellow knuckle plates | Black gloves, blue fingertips | Cream and olive gloves |
+| Trousers | Charcoal cargo trousers, a holster pouch on one thigh, worn knee patches | Charcoal cargo joggers, one leg rolled to the knee over a blue knee pad | Loose grey cargo trousers cinched at the ankle, a medical pouch on the belt |
+| Shoes | Chunky grey and cream sneakers, yellow soles | Mismatched: one grey and blue, one cream and blue | Grey and sage sneakers |
+| Backpack | Dented cream hard shell, hazard stripe, tape repair, vent | Scratched grey metal shell, exposed circuit window, blue side pods, vent | Cream shell, rust-red medical stripe, small cross, side canister, vent |
 
-The table describes the T-pose sheets Bryson supplied later the same day, which replaced the first
-references (older versions are in git history). All three carry a small camera bot on a short mast. Bryson, 2026-09-27: it sits over the
+The table describes the redesigned sheets from later on 2026-09-27; earlier references are in git
+history. The camera bot is drawn correctly on the left shoulder in both views of every sheet. All three carry a small camera bot on a short mast. Bryson, 2026-09-27: it sits over the
 character's **left** shoulder. The image generator put it over the right shoulder in every front
 view, so the back views are the correct ones.
 
@@ -291,6 +293,10 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   a flat back panel, an empty mount socket at the top left corner for the bot.
 - Bryson asked for the docs to carry the new look for future environment and enemy work: DESIGN.md
   and the House style section above.
+- Bryson, the same day: Edgerunners is the right reference. "If people play my game and say it
+  looks like Edgerunners specifically, then we were successful." The world goes gritty all the
+  way through, with no solarpunk half (DESIGN.md has his reasons). The packs have no solar
+  panels.
 
 ## Questions to answer
 

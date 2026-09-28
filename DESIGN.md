@@ -99,11 +99,17 @@ locked yet, are in
 - No permadeath.
 - The game is 3D, and it should be good looking. The MVP uses basic greybox shapes; art comes
   once the playtest validates it. (2026-09-24)
-- The world is solarpunk meets a corporate AI future full of advertisements. (2026-09-24)
+- The world is a gritty, technofeudal corporate AI future full of advertisements, all the way
+  through. It replaces "solarpunk meets corporate AI future." I was trying to reinvent the wheel;
+  the classic technofeudal future looks alike across media for a reason, and I think it's the
+  most likely one. Our unique angle is that this game is made in a world where this AI now
+  exists: we know how it really works and what its limits are, and we build the game around
+  them. (2026-09-27)
 - The look is gritty cyberpunk anime, in the vein of Cyberpunk: Edgerunners: bold ink outlines,
   hard-edged cel shading, saturated colors and realistic adult proportions. Clothes are
   near-future street techwear, layered, asymmetric and worn, and each character is a little
-  eccentric. Grimy neutral bases with one strong accent per character. It replaces the Ghibli
+  eccentric. Grimy neutral bases with one strong accent per character. If players say it looks
+  like Edgerunners, it worked. It replaces the Ghibli
   direction from earlier the same day, which replaced a realistic one. The Operators'
   references are in [art/reference/](art/reference/); the house style for image prompts is in
   [the art-pipeline exploration](explorations/art-pipeline.md#house-style). (2026-09-27)
