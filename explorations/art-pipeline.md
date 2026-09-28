@@ -303,9 +303,11 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
 - Bryson made four-view pack sheets (`art/reference/packs/`). Meshy 7 built each from all four
   views, 4K texture, about 30k triangles: 90 credits. All three rigged: 15 credits. 2,755 left.
 - Packs hang from the `Spine` bone (`game/art/characters/character_rig.gd`), back panel against
-  the body, top at the shoulders. The headband Operator's body has a pouch Meshy modeled where
-  the pack goes, so her pack sits 16 cm deeper to swallow it. Cutting that pouch out of the mesh
-  would be cleaner, but a Blender round trip risks changing the bone axes the clips rely on.
+  the body, top at the shoulders.
+- The headband Operator's body had a false pack Meshy modeled onto her back, and it poked
+  through the real one (Bryson). Claude flattened it into her back in Blender (`bone_heuristic`
+  "BLENDER" on import, for a lossless round trip) instead of deleting it, so no hole shows. Her
+  bones came back within 0.04°, so the shared clips still fit.
 - The five extra clips bought for the old main character are shared by all three rigs, so no
   new clip credits. Meshy rigs share bone names but not bone orientations, and their rest poses
   don't line up. Every rig gets the same Walking clip, so frame 0 of each rig's walk calibrates

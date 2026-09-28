@@ -5,9 +5,9 @@ extends Node3D
 # Each folder in art/characters/ holds <name>.glb (mesh and rig) plus armature-only walk.glb and run.glb.
 # The other clips were bought once, on the old main character, and are shared through CharacterRig.
 const CHARACTERS := {
-	"main_character_v2": {"pack": "pack_main_character", "inset": 0.0},
-	"operator_sage_v2": {"pack": "pack_operator_sage", "inset": 0.0},
-	"operator_headband_v2": {"pack": "pack_operator_headband", "inset": 0.16},
+	"main_character_v2": "pack_main_character",
+	"operator_sage_v2": "pack_operator_sage",
+	"operator_headband_v2": "pack_operator_headband",
 }
 const CLIP_SOURCE := "main_character"
 const FIRST_CLIPS := ["Walk", "Idle"]
@@ -62,8 +62,7 @@ func _load_character() -> void:
 	_player = _character.find_child("AnimationPlayer", true, false)
 	var skeleton: Skeleton3D = _character.find_children("*", "Skeleton3D", true, false)[0]
 	var body: MeshInstance3D = skeleton.find_children("*", "MeshInstance3D", false, false)[0]
-	var pack: Dictionary = CHARACTERS[character_name]
-	CharacterRig.attach_pack(skeleton, body, load("res://art/characters/packs/%s.glb" % pack.pack).instantiate(), pack.inset)
+	CharacterRig.attach_pack(skeleton, body, load("res://art/characters/packs/%s.glb" % CHARACTERS[character_name]).instantiate())
 	var library := AnimationLibrary.new()
 	library.add_animation("Walk", _first_clip(_path(character_name, "walk")))
 	library.add_animation("Run", _first_clip(_path(character_name, "run")))

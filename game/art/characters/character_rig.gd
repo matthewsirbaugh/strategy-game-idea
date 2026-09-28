@@ -52,9 +52,8 @@ static func _world_pose(clip: Animation, skeleton: Skeleton3D, time: float) -> D
 
 
 # Hangs the pack on the chest bone with its back panel against the body and its top at the
-# shoulders. Pack models face +Z like the characters, so the pack turns to face away. Inset sinks
-# the pack into gear Meshy modeled onto the back.
-static func attach_pack(skeleton: Skeleton3D, body: MeshInstance3D, pack: Node3D, inset := 0.0) -> void:
+# shoulders. Pack models face +Z like the characters, so the pack turns to face away.
+static func attach_pack(skeleton: Skeleton3D, body: MeshInstance3D, pack: Node3D) -> void:
 	var attachment := BoneAttachment3D.new()
 	attachment.bone_name = PACK_BONE
 	skeleton.add_child(attachment)
@@ -64,7 +63,7 @@ static func attach_pack(skeleton: Skeleton3D, body: MeshInstance3D, pack: Node3D
 	var bone := skeleton.global_transform * skeleton.get_bone_global_rest(skeleton.find_bone(PACK_BONE))
 	var top := (skeleton.global_transform * skeleton.get_bone_global_rest(skeleton.find_bone("LeftShoulder"))).origin.y + 0.04
 	var back := _back_of(body, bone * _bind_pose(body, PACK_BONE), top - PACK_HEIGHT, top)
-	turned.origin = Vector3(-box.get_center().x, top - box.end.y, back - box.end.z + inset)
+	turned.origin = Vector3(-box.get_center().x, top - box.end.y, back - box.end.z)
 	pack.transform = bone.affine_inverse() * turned
 	attachment.add_child(pack)
 
