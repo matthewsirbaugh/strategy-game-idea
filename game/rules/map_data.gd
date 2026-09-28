@@ -7,6 +7,9 @@ extends Resource
 @export var links := PackedStringArray()
 # Line N holds guard N+1's waypoints after its start tile, as "x,y x,y".
 @export var patrols := PackedStringArray()
+# Props with no rules role, one per line: "name x,y facing", facing north, south, east or west.
+# The name is a folder in art/props/. The rules ignore these.
+@export var dressing := PackedStringArray()
 
 var size := Vector2i.ZERO
 var _parsed := false

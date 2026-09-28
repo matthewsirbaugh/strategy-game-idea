@@ -10,6 +10,12 @@ const FOG_Y := 0.009
 const OVERLAY_Y := 0.012
 const FLOOR_TEXTURE := preload("res://art/textures/corporate_floor.png")
 const WALL_TEXTURE := preload("res://art/textures/corporate_wall.png")
+const PROP_PATH := "res://art/props/%s/%s.glb"
+# Heights in metres, bigger than life where a prop has to read from the battle camera.
+const PROP_HEIGHTS := {"access_point": 1.0, "security_camera": 0.55, "server_rack": 2.0, "vault_door": 1.6}
+const FACINGS := {"south": 0.0, "east": PI / 2.0, "north": PI, "west": -PI / 2.0}
+const CAMERA_MOUNT_Y := 0.6
+const CAMERA_POLE_HEIGHT := 1.3
 
 const NODE_COLORS := {
 	"access": Color(0.2, 0.85, 1.0),
@@ -52,6 +58,8 @@ func build(state: BattleState) -> void:
 		_add_mesh(_overlay_mesh, extraction, cell_to_world(cell) + Vector3(0, EXTRACTION_Y, 0))
 	for id in map.node_ids():
 		_build_node(id)
+	for line in map.dressing:
+		_build_dressing(line)
 	update_nodes(state)
 
 
@@ -60,11 +68,9 @@ func update_nodes(state: BattleState) -> void:
 	for id in _nodes:
 		var part: Dictionary = _nodes[id]
 		if state.breached.has(id):
-			var material: StandardMaterial3D = part["material"]
-			material.albedo_color = BREACHED_COLOR
-			material.emission = BREACHED_COLOR * 0.35
+			part["model"].tint = BREACHED_COLOR
 		if map.node_kind(id) == "door":
-			part["shape"].visible = not state.is_door_open(id)
+			part["model"].visible = not state.is_door_open(id)
 
 
 # A dropped probe: a small glowing marker floating over the node it watches from.
@@ -157,37 +163,80 @@ func _build_node(id: String) -> void:
 	if kind == "turret":
 		return
 	var cell := map.node_cell(id)
-	var root := Node3D.new()
-	root.position = cell_to_world(cell)
-	add_child(root)
-	var color: Color = NODE_COLORS[kind]
-	var material := _material(color)
-	material.emission_enabled = true
-	material.emission = color * 0.35
-	var shape: MeshInstance3D = null
+	var at := cell_to_world(cell)
+	var wall := _wall_beside(cell)
+	var model: ToonModel
 	match kind:
 		"access":
-			shape = _add_box(root, Vector3(0.45, 0.8, 0.45), 0.4, material)
+			model = _add_prop("access_point", at, 0.0, PROP_HEIGHTS["access_point"])
 		"camera":
-			_add_box(root, Vector3(0.08, 1.0, 0.08), 0.5, material)
-			shape = _add_box(root, Vector3(0.4, 0.25, 0.25), 1.05, material)
+			if wall != Vector2i.ZERO:
+				model = _mount_on_wall("security_camera", at + Vector3(wall.x, 0, wall.y) * 0.5 + Vector3(0, CAMERA_MOUNT_Y, 0), -wall)
+			else:
+				_add_pole(at, CAMERA_POLE_HEIGHT)
+				model = _add_prop("security_camera", at + Vector3(0, CAMERA_POLE_HEIGHT, 0), _yaw_toward(center() - at), PROP_HEIGHTS["security_camera"])
 		"door":
 			var spans_x := map.is_wall(cell + Vector2i(1, 0)) or map.is_wall(cell + Vector2i(-1, 0))
-			shape = _add_box(root, Vector3(1.0, 1.0, 0.2) if spans_x else Vector3(0.2, 1.0, 1.0), 0.5, material)
+			model = _add_prop("security_door", at, 0.0 if spans_x else PI / 2.0, 0.0, 1.0)
 		"cache":
-			shape = _add_box(root, Vector3(0.7, 1.3, 0.7), 0.65, material)
-	_nodes[id] = {"material": material, "shape": shape}
+			model = _add_prop("server_rack", at, 0.0, PROP_HEIGHTS["server_rack"])
+	_nodes[id] = {"model": model}
 
 
-func _add_box(parent: Node3D, size: Vector3, center_y: float, material: Material) -> MeshInstance3D:
-	var mesh := BoxMesh.new()
-	mesh.size = size
-	var instance := MeshInstance3D.new()
-	instance.mesh = mesh
-	instance.material_override = material
-	instance.position.y = center_y
-	parent.add_child(instance)
-	return instance
+# Map dressing, one prop per line: "name x,y facing". On a wall tile it hangs on that face of the wall.
+func _build_dressing(line: String) -> void:
+	var parts := line.split(" ", false)
+	var xy := parts[1].split(",")
+	var cell := Vector2i(xy[0].to_int(), xy[1].to_int())
+	var yaw: float = FACINGS[parts[2]]
+	if map.is_wall(cell):
+		var out := Vector3(sin(yaw), 0, cos(yaw))
+		_mount_on_wall(parts[0], cell_to_world(cell) + out * 0.5, Vector2i(roundi(out.x), roundi(out.z)))
+	else:
+		_add_prop(parts[0], cell_to_world(cell), yaw, PROP_HEIGHTS.get(parts[0], 1.0))
+
+
+# Sized to a height, or to a width when one is given.
+func _add_prop(prop: String, at: Vector3, yaw: float, height: float, width := 0.0) -> ToonModel:
+	var holder := Node3D.new()
+	holder.position = at
+	add_child(holder)
+	var model := ToonModel.new()
+	holder.add_child(model)
+	model.build(load(PROP_PATH % [prop, prop]))
+	if width > 0.0:
+		model.fit_width(width)
+	else:
+		model.fit_height(height)
+	holder.rotation.y = yaw
+	return model
+
+
+# Props face +Z with a flat back, so the back goes against the wall and the front faces away.
+func _mount_on_wall(prop: String, at: Vector3, facing: Vector2i) -> ToonModel:
+	var model := _add_prop(prop, at, 0.0, PROP_HEIGHTS.get(prop, 1.0))
+	model.position.z += model.bounds().size.z / 2.0
+	model.get_parent_node_3d().rotation.y = _yaw_toward(Vector3(facing.x, 0, facing.y))
+	return model
+
+
+func _add_pole(at: Vector3, height: float) -> void:
+	var pole := CylinderMesh.new()
+	pole.top_radius = 0.04
+	pole.bottom_radius = 0.06
+	pole.height = height
+	_add_mesh(pole, _material(Color(0.12, 0.12, 0.14)), at + Vector3(0, height / 2.0, 0))
+
+
+func _wall_beside(cell: Vector2i) -> Vector2i:
+	for direction in Grid.DIRECTIONS:
+		if map.is_wall(cell + direction):
+			return direction
+	return Vector2i.ZERO
+
+
+func _yaw_toward(direction: Vector3) -> float:
+	return atan2(direction.x, direction.z)
 
 
 func _add_mesh(mesh: Mesh, material: Material, at: Vector3) -> MeshInstance3D:

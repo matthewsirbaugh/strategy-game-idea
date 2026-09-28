@@ -2,8 +2,7 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson decides whether the models replace the MVP map's placeholders now, or
-  wait for the new Alpha maps (latest finding).
+- Next action: Bryson plays the MVP with the models in and says how they read (latest finding).
 
 ## The question
 
@@ -110,6 +109,24 @@ None open. The map question, the style anchor, the build split and the list were
 2026-09-27 (Findings).
 
 ## Findings
+
+### 2026-09-28 — Models replace the MVP map's placeholders (Bryson asked; Claude built it; scripted runs and screenshots, not played)
+
+- Operators and guards replace the capsules: Alpha is the main character, Bravo the headband
+  Operator, Charlie the sage Operator (Claude's mapping, by the closest UI color). Each unit's
+  model and pack are file paths in its unit data, so the rules and tests never load art.
+- Animations: units run between tiles with the feet matched to their speed, turn to face where
+  they go and what they shoot, draw and fire on an attack, flinch on a hit, and fall when downed.
+  A hit still flashes white and a downed or offline unit greys out, now through the toon shader;
+  a cloaked unit goes see-through. The turret swings round and kicks back.
+- Nodes: access points stand as terminals, cameras mount on a neighbouring wall or on a pole,
+  the door fills its gap and vanishes when open, the cache is a server rack. A breached node
+  still takes the player's green. New map field `dressing` places props with no rules role:
+  the MVP map gets the vault door on the server room's wall and two more racks inside.
+- One `ToonModel` loads any Meshy model with the toon look, shared by the battle and the
+  character preview. The server rack's stray fragment was removed in Blender.
+- Readability, from the default battle camera: the Operators' cream and charcoal read muddy
+  against the dark floor at about 40 px; the old capsules were brighter. Not yet addressed.
 
 ### 2026-09-28 — All 12 props built (Bryson's direction; Claude's results, rendered and inspected, not yet seen by Bryson)
 

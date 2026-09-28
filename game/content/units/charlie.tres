@@ -14,3 +14,5 @@ color = Color(0.7, 0.5, 1, 1)
 ability = 3
 ability_uses = 1
 ability_duration = 2
+model = "res://art/characters/operator_sage/operator_sage.glb"
+pack = "res://art/characters/packs/pack_operator_sage.glb"

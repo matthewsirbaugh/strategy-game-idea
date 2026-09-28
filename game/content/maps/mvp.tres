@@ -28,3 +28,4 @@ node_kinds = {
 }
 links = PackedStringArray("a-e", "a-d", "e-t", "t-b", "b-z", "d-f", "f-c", "c-z")
 patrols = PackedStringArray("7,7 7,4 2,4", "2,2 2,0 6,0", "11,7 7,7", "7,11 4,11", "2,7 0,4")
+dressing = PackedStringArray("vault_door 10,3 south", "server_rack 9,0 south", "server_rack 11,0 south")

@@ -2,32 +2,31 @@ class_name UnitView
 extends Node3D
 
 const STEP_SECONDS := 0.12
-const DOWNED_COLOR := Color(0.25, 0.25, 0.28)
-const CLOAKED_ALPHA := 0.3
+const TURRET_HEIGHT := 1.3
+# A skinned mesh's bounds don't track its height reliably, so people get a fixed one.
+const PERSON_HEIGHT := 1.8
+const DOWNED_TINT := Color(0.4, 0.4, 0.45)
+const SHOT_SECONDS := 0.45
 
 var unit: Unit
-var _material := StandardMaterial3D.new()
-var _body := MeshInstance3D.new()
-var _label := make_label(40, 1.55)
-var _alert := make_label(96, 2.05)
+var _model := ToonModel.new()
+var _label := make_label(40, 0.0)
+var _alert := make_label(96, 0.0)
 var _flash: Tween
-var _cloaked := false
 
 
+# Must be in the tree first: the model is placed from world positions.
 func setup(p_unit: Unit, at: Vector3) -> void:
 	unit = p_unit
 	position = at
-	_material.albedo_color = unit.def.color
-	_body.material_override = _material
+	add_child(_model)
+	_model.build(load(unit.def.model), load(unit.def.pack) if unit.def.pack else null)
+	var top := PERSON_HEIGHT
 	if unit.def.kind == UnitDef.Kind.TURRET:
-		_build_turret()
-	else:
-		var capsule := CapsuleMesh.new()
-		capsule.radius = 0.26
-		capsule.height = 1.1
-		_body.mesh = capsule
-		_body.position.y = 0.55
-	add_child(_body)
+		_model.fit_height(TURRET_HEIGHT)
+		top = TURRET_HEIGHT
+	_label.position.y = top + 0.3
+	_alert.position.y = top + 0.75
 	add_child(_label)
 	_alert.text = "!"
 	_alert.modulate = Color(1.0, 0.85, 0.2)
@@ -41,16 +40,14 @@ func refresh() -> void:
 		status = "down"
 	elif unit.disabled:
 		status = "offline"
-		_material.albedo_color = DOWNED_COLOR
+	_model.tint = DOWNED_TINT if unit.is_down() or unit.disabled else Color.WHITE
 	_label.text = "%s\n%s" % [unit.display_name, status]
 	_alert.text = "!" if unit.alerted else "?"
 	_alert.visible = (unit.alerted or unit.searching) and not unit.is_down()
 
 
 func set_cloaked(cloaked: bool) -> void:
-	_cloaked = cloaked
-	_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA if cloaked else BaseMaterial3D.TRANSPARENCY_DISABLED
-	_material.albedo_color.a = CLOAKED_ALPHA if cloaked else 1.0
+	_model.set_cloaked(cloaked)
 
 
 # shown[i] says whether the player can see the unit on points[i]; walking in the fog is instant.
@@ -59,31 +56,45 @@ func walk(points: Array[Vector3], shown: Array[bool] = []) -> void:
 		return
 	var tween := create_tween()
 	var was_shown := visible
+	var from := position
+	_model.play("Run", 1.0 / STEP_SECONDS)
 	for i in points.size():
 		var is_shown: bool = shown.is_empty() or shown[i]
 		if is_shown:
 			tween.tween_callback(set_visible.bind(true))
+		tween.tween_callback(_model.face.bind(points[i] - from))
 		tween.tween_property(self, "position", points[i], STEP_SECONDS if is_shown or was_shown else 0.0)
 		if not is_shown:
 			tween.tween_callback(set_visible.bind(false))
 		was_shown = is_shown
+		from = points[i]
 	await tween.finished
+	if not unit.is_down():
+		_model.play(_model.idle)
 
 
+# The attack: characters draw and fire, a turret swings round and kicks back.
 func lunge(toward: Vector3) -> void:
-	var home := position
-	var tween := create_tween()
-	tween.tween_property(self, "position", home + (toward - home).normalized() * 0.3, 0.08)
-	tween.tween_property(self, "position", home, 0.14)
-	await tween.finished
+	_model.face(toward - position)
+	if unit.def.kind == UnitDef.Kind.TURRET:
+		var home := _model.position
+		var tween := create_tween()
+		tween.tween_property(_model, "position", home - (toward - position).normalized() * 0.15, 0.06)
+		tween.tween_property(_model, "position", home, 0.16)
+		await tween.finished
+	else:
+		_model.play("Cowboy_Quick_Draw_Shooting")
+		await get_tree().create_timer(SHOT_SECONDS, false).timeout
 
 
 func take_hit(damage: int) -> void:
 	if _flash:
 		_flash.kill()
-	_material.albedo_color = Color(Color.WHITE, _material.albedo_color.a)
+	_model.flash = 0.8
 	_flash = create_tween()
-	_flash.tween_property(_material, "albedo_color", _resting_color(), 0.3)
+	_flash.tween_property(_model, "flash", 0.0, 0.3)
+	if not unit.is_down():
+		_model.play("Hit_Reaction")
 	var number := make_label(56, 1.3)
 	number.text = "-%d" % damage
 	number.modulate = Color(1.0, 0.4, 0.35)
@@ -98,34 +109,10 @@ func take_hit(damage: int) -> void:
 func set_downed() -> void:
 	if _flash:
 		_flash.kill()
-	_material.albedo_color = DOWNED_COLOR
-	if unit.def.kind != UnitDef.Kind.TURRET:
-		var tween := create_tween()
-		tween.tween_property(_body, "rotation:z", PI / 2.0, 0.3)
-		tween.parallel().tween_property(_body, "position:y", 0.28, 0.3)
+	_model.flash = 0.0
+	_model.idle = ""
+	_model.play("Knock_Down")
 	refresh()
-
-
-# The flash after a hit fades back to this, so an offline turret stays grey and a cloak stays sheer.
-func _resting_color() -> Color:
-	var color := DOWNED_COLOR if unit.is_down() or unit.disabled else unit.def.color
-	return Color(color, CLOAKED_ALPHA if _cloaked else 1.0)
-
-
-func _build_turret() -> void:
-	var base := CylinderMesh.new()
-	base.top_radius = 0.32
-	base.bottom_radius = 0.42
-	base.height = 0.7
-	_body.mesh = base
-	_body.position.y = 0.35
-	var barrel := MeshInstance3D.new()
-	var barrel_mesh := BoxMesh.new()
-	barrel_mesh.size = Vector3(0.14, 0.14, 0.6)
-	barrel.mesh = barrel_mesh
-	barrel.material_override = _material
-	barrel.position = Vector3(0.0, 0.3, 0.3)
-	_body.add_child(barrel)
 
 
 static func make_label(font_size: int, height: float) -> Label3D:

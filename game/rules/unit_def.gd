@@ -16,6 +16,12 @@ enum Ability { NONE, PROBE, LOCATE, CLOAK }
 @export var sight := 5
 @export var color := Color.WHITE
 
+# Paths rather than loaded scenes, so the rules and their tests never load art.
+@export_group("Art")
+@export_file("*.glb") var model := ""
+# Operators only: the compute pack hung on the model's back.
+@export_file("*.glb") var pack := ""
+
 @export_group("Agent")
 @export var hack_power := 10
 @export var network_range := 3
