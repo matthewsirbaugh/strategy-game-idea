@@ -2,8 +2,8 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson reviews the batch in `art/concepts/environment-facility-batch/` and
-  approves the Meshy spend for the guard and the props (latest finding).
+- Next action: Bryson picks the Meshy mode for the other 11 props from the turret comparison
+  (latest finding).
 
 ## The question
 
@@ -111,6 +111,25 @@ None open. The map question, the style anchor, the build split and the list were
 
 ## Findings
 
+### 2026-09-28 — The guard, and the turret in two Meshy modes (Claude; rendered and inspected, not yet seen by Bryson)
+
+- Spent 80 credits, 2,675 left. Everything succeeded on the first try.
+- Guard: Meshy 7 from front and back, 4K texture, about 60k triangles, rigged. In
+  `game/art/characters/guard/` and in the character preview. The shared clips work on him too:
+  idle, quick draw, walk and hit reaction checked.
+- Turret, same image both ways, in `game/art/props/`: hard-surface ("smart topology") mode, 15
+  credits and 3,677 triangles, against Meshy 7, 30 credits and 28,299 triangles. Meshy 7 keeps the
+  long barrels and the exact silhouette; the cheap one shortens the barrels. Both have clean
+  guessed backs. At the battle camera the difference should be small, but that isn't checked yet.
+
+### 2026-09-27 — Batch adopted; Meshy spend approved (Bryson)
+
+- The batch moved to `art/reference/environment-facility/` as adopted reference.
+- Astra's logo, slogans and names stay as placeholders. "We'll create new stuff later when we've
+  deep dived the story; this is still gameplay proof of concept/alpha build."
+- Approved: the guard (35 credits) and a Meshy mode test on the turret (45) before the other 11
+  props.
+
 ### 2026-09-27 — Review of the batch; interior textures on the MVP map (Claude; run and screenshotted, not played)
 
 - The 20 images are consistent with each other and with the house style: one corporate logo,
@@ -131,7 +150,7 @@ None open. The map question, the style anchor, the build split and the list were
 
 - Exactly one image was generated for each approved item, in the approved order, with no
   variations, alternates or retry generations.
-- The 20 unique PNG files are in `art/concepts/environment-facility-batch/`. The five textures
+- The 20 unique PNG files are in `art/concepts/environment-facility-batch/` (since moved to `art/reference/environment-facility/`). The five textures
   are square and use their filenames as identifiers so no label interrupts the texture pixels.
 - These remain exploratory concepts in `art/concepts/` until Bryson reviews them; generation and
   file validation do not constitute creative approval or proof that the textures tile seamlessly

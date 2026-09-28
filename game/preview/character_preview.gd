@@ -8,6 +8,7 @@ const CHARACTERS := {
 	"main_character": "pack_main_character",
 	"operator_sage": "pack_operator_sage",
 	"operator_headband": "pack_operator_headband",
+	"guard": "",
 }
 const CLIP_SOURCE := "clip_source"
 const FIRST_CLIPS := ["Walk", "Idle"]
@@ -62,7 +63,8 @@ func _load_character() -> void:
 	_player = _character.find_child("AnimationPlayer", true, false)
 	var skeleton: Skeleton3D = _character.find_children("*", "Skeleton3D", true, false)[0]
 	var body: MeshInstance3D = skeleton.find_children("*", "MeshInstance3D", false, false)[0]
-	CharacterRig.attach_pack(skeleton, body, load("res://art/characters/packs/%s.glb" % CHARACTERS[character_name]).instantiate())
+	if CHARACTERS[character_name]:
+		CharacterRig.attach_pack(skeleton, body, load("res://art/characters/packs/%s.glb" % CHARACTERS[character_name]).instantiate())
 	var library := AnimationLibrary.new()
 	library.add_animation("Walk", _first_clip(_path(character_name, "walk")))
 	library.add_animation("Run", _first_clip(_path(character_name, "run")))

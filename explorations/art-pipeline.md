@@ -324,6 +324,13 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   so each Operator lives in `game/art/characters/<name>/`. The first main character stays as
   `game/art/characters/clip_source/`, only because the shared clips are retargeted from it.
 
+### 2026-09-27 — Correction: the Operators and packs were probably Meshy 6 (Claude)
+
+- The Meshy server's notes say that "latest" combined with `remove_lighting` keeps a task on
+  Meshy 6. Every Operator body and pack was generated that way, so they were most likely Meshy 6,
+  not Meshy 7 as recorded above. The cost is the same. From now on Meshy 7 is requested by name
+  (`meshy-7`), without `remove_lighting`.
+
 ## Questions to answer
 
 1. How much does this depend on what the game turns out to be?
