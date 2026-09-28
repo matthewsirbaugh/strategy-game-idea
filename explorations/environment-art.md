@@ -2,9 +2,9 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson runs the 20-image batch (prompt below) in Astra. Claude then builds the
-  textures onto scripted floors and walls first (no credits), then the props and the guard with
-  Meshy.
+- Next action: Bryson reviews the generated batch in
+  `art/concepts/environment-facility-batch/`. Claude then builds the textures onto scripted
+  floors and walls first (no credits), then the props and the guard with Meshy.
 
 ## The question
 
@@ -111,6 +111,16 @@ None open. The map question, the style anchor, the build split and the list were
 2026-09-27 (Findings).
 
 ## Findings
+
+### 2026-09-27 — The approved 20-image batch was generated (Codex)
+
+- Exactly one image was generated for each approved item, in the approved order, with no
+  variations, alternates or retry generations.
+- The 20 unique PNG files are in `art/concepts/environment-facility-batch/`. The five textures
+  are square and use their filenames as identifiers so no label interrupts the texture pixels.
+- These remain exploratory concepts in `art/concepts/` until Bryson reviews them; generation and
+  file validation do not constitute creative approval or proof that the textures tile seamlessly
+  in-engine.
 
 ### 2026-09-27 — The mission is a corporate facility, outside then inside (Bryson)
 
