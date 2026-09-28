@@ -8,6 +8,8 @@ const EXTRACTION_Y := 0.005
 const ACCESS_Y := 0.007
 const FOG_Y := 0.009
 const OVERLAY_Y := 0.012
+const FLOOR_TEXTURE := preload("res://art/textures/corporate_floor.png")
+const WALL_TEXTURE := preload("res://art/textures/corporate_wall.png")
 
 const NODE_COLORS := {
 	"access": Color(0.2, 0.85, 1.0),
@@ -34,9 +36,9 @@ func build(state: BattleState) -> void:
 	floor_mesh.size = Vector3(1.0 - TILE_GAP, TILE_HEIGHT, 1.0 - TILE_GAP)
 	var wall_mesh := BoxMesh.new()
 	wall_mesh.size = Vector3(1.0, WALL_HEIGHT, 1.0)
-	var light := _material(Color(0.38, 0.41, 0.47))
-	var dark := _material(Color(0.33, 0.36, 0.42))
-	var wall := _material(Color(0.56, 0.59, 0.66))
+	var light := _textured(FLOOR_TEXTURE, Color.WHITE)
+	var dark := _textured(FLOOR_TEXTURE, Color(0.85, 0.85, 0.85))
+	var wall := _textured(WALL_TEXTURE, Color.WHITE, 0.5)
 	for y in map.size.y:
 		for x in map.size.x:
 			var cell := Vector2i(x, y)
@@ -195,6 +197,16 @@ func _add_mesh(mesh: Mesh, material: Material, at: Vector3) -> MeshInstance3D:
 	instance.position = at
 	add_child(instance)
 	return instance
+
+
+# World-space UVs, so the pattern runs on across neighbouring tiles. Repeats is per metre.
+func _textured(texture: Texture2D, tint: Color, repeats := 1.0) -> StandardMaterial3D:
+	var material := _material(tint)
+	material.albedo_texture = texture
+	material.uv1_triplanar = true
+	material.uv1_world_triplanar = true
+	material.uv1_scale = Vector3.ONE * repeats
+	return material
 
 
 func _material(color: Color, overlay := false) -> StandardMaterial3D:
