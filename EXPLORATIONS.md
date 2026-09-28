@@ -7,7 +7,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 |---|---|---|---|
 | Battle MVP: first playable in Godot | open | All five milestones built. Bryson plays the full MVP and answers the playtest questions | [battle-mvp.md](explorations/battle-mvp.md) |
 | Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
-| Art pipeline: how 3D assets get made | open | Look changed 2026-09-27 to gritty cyberpunk anime (house style in the file). Redesigned Operators approved; Bryson makes pack sheets in Astra, then Claude builds the packs as separate pieces and rigs the Operators | [art-pipeline.md](explorations/art-pipeline.md) |
+| Art pipeline: how 3D assets get made | open | Look changed 2026-09-27 to gritty cyberpunk anime (house style in the file). Operators rigged with packs and shared clips. Bryson reviews them in the preview and makes the camera bot sheets | [art-pipeline.md](explorations/art-pipeline.md) |
 | Environment art for the battle MVP | open | Bryson answers the questions in the file, then we make the style anchor | [environment-art.md](explorations/environment-art.md) |
 | The core idea and story | parked | World and premise are sufficient for gameplay exploration; resume character and plot development when Bryson returns to it | [core-idea-and-story.md](explorations/core-idea-and-story.md) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |

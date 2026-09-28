@@ -2,9 +2,9 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Bryson makes the three pack sheets in Astra (prompts in the latest finding);
-  Claude builds each pack as a separate piece with Meshy, attached to the spine bone, then rigs
-  the `_v2` Operators.
+- Next action: Bryson reviews the rigged Operators with their packs in the preview scene
+  (`godot --path game res://preview/character_preview.tscn`) and makes the three camera bot
+  sheets in Astra (L-shaped mount, latest finding).
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -297,6 +297,26 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   looks like Edgerunners specifically, then we were successful." The world goes gritty all the
   way through, with no solarpunk half (DESIGN.md has his reasons). The packs have no solar
   panels.
+
+### 2026-09-27 — Packs attached, Operators rigged, clips shared (Claude; rendered and inspected, not yet seen by Bryson)
+
+- Bryson made four-view pack sheets (`art/reference/packs/`). Meshy 7 built each from all four
+  views, 4K texture, about 30k triangles: 90 credits. All three rigged: 15 credits. 2,755 left.
+- Packs hang from the `Spine` bone (`game/art/characters/character_rig.gd`), back panel against
+  the body, top at the shoulders. The headband Operator's body has a pouch Meshy modeled where
+  the pack goes, so her pack sits 16 cm deeper to swallow it. Cutting that pouch out of the mesh
+  would be cleaner, but a Blender round trip risks changing the bone axes the clips rely on.
+- The five extra clips bought for the old main character are shared by all three rigs, so no
+  new clip credits. Meshy rigs share bone names but not bone orientations, and their rest poses
+  don't line up. Every rig gets the same Walking clip, so frame 0 of each rig's walk calibrates
+  one rig against another. Idle, quick draw, hit reaction and walk were checked on all three.
+- Camera bots, Bryson: each one is different. Some repurposed corporate tech, one DIY from parts,
+  one chunky and several generations old. The first sheet had a straight mast with the plug at
+  the bottom, which doesn't fit: the pack's socket is on its outer face at the top left corner,
+  facing backward. Bryson caught it. The bot needs an L-shaped mount: the plug points forward
+  into the socket, a short stub runs back to an elbow, and the mast rises past the shoulder.
+- Still baked into the bodies: each Operator's old camera bot, from round one of the sheets.
+  They come out when the separate bots go in.
 
 ## Questions to answer
 
