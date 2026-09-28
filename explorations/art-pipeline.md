@@ -2,9 +2,9 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Bryson reviews the three redesigned Operators (the `_v2` models) in the preview
-  scene (`godot --path game res://preview/character_preview.tscn`, C switches character) and
-  decides how to get the backpacks back (latest finding) before they are rigged.
+- Next action: Bryson makes the three pack sheets in Astra (prompts in the latest finding);
+  Claude builds each pack as a separate piece with Meshy, attached to the spine bone, then rigs
+  the `_v2` Operators.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -27,6 +27,46 @@ MVP's 3D scene is built so that models can replace its greybox shapes directly.
 - Final polished assets are deliberately deferred toward the end of the project. The style and
   scale decisions are not.
 - Bryson directs the art. Agents and external tools execute it.
+
+## House style
+
+The look that produced the approved Operators (2026-09-27). Every new image prompt, for
+characters, enemies, props or places, starts from it so the set stays one world. DESIGN.md holds
+the decision; this is the working detail.
+
+- **Style:** gritty cyberpunk anime in the vein of Cyberpunk: Edgerunners. Bold ink outlines,
+  hard-edged cel shading, saturated colors, sharp angular design.
+- **Surfaces:** worn and lived-in. Scuffs, grime, tape repairs, patches, scratched hard plates,
+  faded prints and defaced corporate stickers.
+- **Clothes:** near-future street techwear, layered and asymmetric, with one eccentric,
+  memorable detail per character.
+- **Color:** grimy neutral bases (cream, grey, charcoal) with one strong accent per character.
+  The Operators own yellow, electric blue and sage green; nothing else on the map should use them.
+- **Silhouette first:** a character must read at about 55 px tall from the battle camera, so each
+  one gets a distinct shape (a tall collar, a harness, headphones) and not just a color swap.
+
+Rules that keep a sheet usable by Meshy:
+
+- Character sheets are front and back views side by side on white, in a strict T-pose, arms
+  horizontal, palms down.
+- Gloves, fingers together. The rig has no finger bones, so bare spread fingers stay spread in
+  every animation.
+- Nothing hangs below mid-thigh or dangles loose: no capes, long coats or loose cables. They tear
+  when rigged.
+- Rigid gear that must keep its shape, such as backpacks, is generated as a separate object with
+  its own multi-view sheet (front, back, side, three-quarter), then attached to a bone. Meshy
+  flattened every pack that was modeled on the body.
+- Name sides in viewer terms ("on the viewer's right in the front view"). The generator flips
+  sides otherwise.
+
+The prompt block for characters, as used for the Operators:
+
+```
+Character turnaround sheet, front view and back view side by side, full body, plain white background. Gritty cyberpunk anime style in the vein of Cyberpunk: Edgerunners: bold ink outlines, hard-edged cel shading, flat saturated colors, sharp angular design. Near-future street techwear, layered and asymmetric, worn and lived-in: scuffed fabric, tape repairs, patches, scratched hard plates, faded prints. Strict T-pose: arms straight out horizontally, palms facing down, gloved hands relaxed with fingers together and gently curled, not spread. Feet shoulder-width apart. Realistic adult proportions, not chibi. Every outfit piece ends above mid-thigh, no capes, no long coats, no loose hanging cables or straps.
+```
+
+Operators add their compute backpack and camera bot to this. For props and places, keep the
+style and surface sentences and swap the rest; that adaptation is untested.
 
 ## Candidates
 
@@ -240,6 +280,17 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   into straps or a flat pouch. The main character's camera bot lost its lens, and the sage
   Operator's is a small stub. Meshy also added details that weren't asked for, like a chest rig
   and knee pads on the main character.
+
+### 2026-09-27 — Packs become separate pieces (Bryson)
+
+- Bryson likes the redesigned models: "they look great."
+- Packs: Bryson chose to build each pack as its own object, attached to the spine bone, rather
+  than regenerating the bodies. A hard shell shouldn't bend anyway. The camera bot is planned as
+  its own piece too, which would let it turn and look around; one per Operator or shared is open.
+- Claude wrote Astra prompts for four-view pack sheets: the pack alone, no straps or camera bot,
+  a flat back panel, an empty mount socket at the top left corner for the bot.
+- Bryson asked for the docs to carry the new look for future environment and enemy work: DESIGN.md
+  and the House style section above.
 
 ## Questions to answer
 

@@ -100,12 +100,13 @@ locked yet, are in
 - The game is 3D, and it should be good looking. The MVP uses basic greybox shapes; art comes
   once the playtest validates it. (2026-09-24)
 - The world is solarpunk meets a corporate AI future full of advertisements. (2026-09-24)
-- The look is simple and cel-shaded, anime-inspired: Ghibli style, but cyberpunk. It replaces the
-  earlier realistic direction, and all art made before it was removed. Cyberpunk 2077's color
-  palette on Ghibli-style characters and places, with ink outlines and Ghibli proportions, which
-  should read better on the map. Flat color for now. The three Operators' references, the main character
-  included, are in [art/reference/](art/reference/). Details are in
-  [the art-pipeline exploration](explorations/art-pipeline.md). (2026-09-27)
+- The look is gritty cyberpunk anime, in the vein of Cyberpunk: Edgerunners: bold ink outlines,
+  hard-edged cel shading, saturated colors and realistic adult proportions. Clothes are
+  near-future street techwear, layered, asymmetric and worn, and each character is a little
+  eccentric. Grimy neutral bases with one strong accent per character. It replaces the Ghibli
+  direction from earlier the same day, which replaced a realistic one. The Operators'
+  references are in [art/reference/](art/reference/); the house style for image prompts is in
+  [the art-pipeline exploration](explorations/art-pipeline.md#house-style). (2026-09-27)
 - 3D models in the world and in battle; 2D portraits in dialogue scenes, like Persona 4. Battle
   keeps the camera far enough back that faces don't need to hold up close. (2026-09-27)
 - The Operators' weapon is non-lethal, like a phaser or taser: it fires a disabling energy pulse.

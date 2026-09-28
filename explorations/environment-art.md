@@ -12,7 +12,8 @@ match the three Operators. Bryson asked for a full list to solve one at a time (
 
 ## Constraints this inherits
 
-- The look: Ghibli-style, Cyberpunk 2077 palette, ink outlines, flat color (DESIGN.md).
+- The look: gritty cyberpunk anime, Edgerunners-style, worn surfaces (DESIGN.md). Image prompts
+  start from the [house style](art-pipeline.md#house-style).
 - The Operators are Meshy models drawn with `game/art/shaders/toon.gdshader` and a
   silhouette-only ink outline. Their painted-in detail lines stay (Bryson, 2026-09-27).
 - The world: solarpunk meets a corporate AI future full of advertisements (DESIGN.md).
@@ -25,11 +26,11 @@ What makes a set feel like one world, in order of impact:
 
 1. **One style anchor.** Before any single object, one painted concept of the MVP map's key
    space (the atrium) from the battle camera's angle, made with the same image generator and
-   prompt style as the Operator sheets, with the Operators in it for scale. Every object sheet
+   [house style](art-pipeline.md#house-style) as the Operator sheets, with the Operators in it for scale. Every object sheet
    afterwards is cut from or checked against it.
 2. **One shader for everything.** Every object uses the same toon shader, key light, shadow tint
    and ink outline as the Operators. This does more for cohesion than any modeling choice.
-3. **One palette.** Neutral cream and grey base, shared with the Operators. Corporate spaces add
+3. **One palette.** Grimy neutral cream, grey and charcoal base, shared with the Operators. Corporate spaces add
    Cyberpunk 2077 accents (cyan, magenta, hazard yellow) in screens and ads; Commons spaces add
    greens, timber and warm light. The Operators' own accents (yellow, blue, sage) stay reserved
    for the Operators so they never blend into the set.
