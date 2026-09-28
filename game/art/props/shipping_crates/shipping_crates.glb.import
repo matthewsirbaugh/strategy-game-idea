@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://xjcu3s5cieck"
-path="res://.godot/imported/turret_meshy7.glb-685fd91c336a8deb2befb252c531dcfc.scn"
+uid="uid://boe78y7c8w6wv"
+path="res://.godot/imported/shipping_crates.glb-dc0ddb19ec602ed318689f53211c1d1e.scn"
 
 [deps]
 
-source_file="res://art/props/turret_meshy7/turret_meshy7.glb"
-dest_files=["res://.godot/imported/turret_meshy7.glb-685fd91c336a8deb2befb252c531dcfc.scn"]
+source_file="res://art/props/shipping_crates/shipping_crates.glb"
+dest_files=["res://.godot/imported/shipping_crates.glb-dc0ddb19ec602ed318689f53211c1d1e.scn"]
 
 [params]
 

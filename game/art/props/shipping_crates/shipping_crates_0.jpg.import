@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b42fnn677eayj"
-path="res://.godot/imported/turret_meshy7_0.jpg-3540b08fbe973bc9331f4f4610c4e253.ctex"
+uid="uid://6inarobf75kp"
+path="res://.godot/imported/shipping_crates_0.jpg-7bb585c748c5bbaf65127da6d82433eb.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "7be6f75cdbbbe4e1e3a5a7a7d0262794"
+"md5": "c6d81c704a9e4ce64ea408151616f09e"
 }
 
 [deps]
 
-source_file="res://art/props/turret_meshy7/turret_meshy7_0.jpg"
-dest_files=["res://.godot/imported/turret_meshy7_0.jpg-3540b08fbe973bc9331f4f4610c4e253.ctex"]
+source_file="res://art/props/shipping_crates/shipping_crates_0.jpg"
+dest_files=["res://.godot/imported/shipping_crates_0.jpg-7bb585c748c5bbaf65127da6d82433eb.ctex"]
 
 [params]
 

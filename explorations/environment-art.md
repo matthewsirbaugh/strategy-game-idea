@@ -2,8 +2,8 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson picks the Meshy mode for the other 11 props from the turret comparison
-  (latest finding).
+- Next action: Bryson decides whether the models replace the MVP map's placeholders now, or
+  wait for the new Alpha maps (latest finding).
 
 ## The question
 
@@ -110,6 +110,19 @@ None open. The map question, the style anchor, the build split and the list were
 2026-09-27 (Findings).
 
 ## Findings
+
+### 2026-09-28 — All 12 props built (Bryson's direction; Claude's results, rendered and inspected, not yet seen by Bryson)
+
+- Bryson: hard-surface mode for the blockier props, Claude's judgement for each; keep the
+  hard-surface turret. The Meshy 7 turret is deleted.
+- Hard-surface (15 credits each): guard booth, floodlight pole, loading dock, shipping crates,
+  security door, security camera, server rack, access point, turret. About 3–4k triangles each.
+- Meshy 7 (30 each): delivery van, vault door, reception desk, for their curves and wheels, and
+  because the vault is the mission's centerpiece. 26–38k triangles.
+- 210 credits, 2,465 left. All succeeded on the first try. In `game/art/props/<name>/`.
+- Checked in a lineup at real-world size next to the guard, with the toon shader. All read as
+  their sketches. The server rack has a tiny stray fragment beside it that stretches its bounds;
+  it gets trimmed on placement.
 
 ### 2026-09-28 — The guard, and the turret in two Meshy modes (Claude; rendered and inspected, not yet seen by Bryson)
 

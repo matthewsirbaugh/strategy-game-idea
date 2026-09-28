@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cldisbeq8itqg"
-path="res://.godot/imported/turret_smart.glb-ae56f8fafd70fbe976eb48c6c325dd5b.scn"
+uid="uid://6ykk6o7gey40"
+path="res://.godot/imported/security_door.glb-74adb6a58d192d45b436fadb96a9a31c.scn"
 
 [deps]
 
-source_file="res://art/props/turret_smart/turret_smart.glb"
-dest_files=["res://.godot/imported/turret_smart.glb-ae56f8fafd70fbe976eb48c6c325dd5b.scn"]
+source_file="res://art/props/security_door/security_door.glb"
+dest_files=["res://.godot/imported/security_door.glb-74adb6a58d192d45b436fadb96a9a31c.scn"]
 
 [params]
 
