@@ -3,7 +3,9 @@ extends Node3D
 ## battle camera's view. Run with `godot --path game res://preview/character_preview.tscn`.
 
 # Each folder in art/characters/ holds <name>.glb (mesh, rig, clips) plus armature-only walk.glb and run.glb.
-const CHARACTERS := ["main_character", "operator_sage", "operator_headband"]
+# An unrigged model (just <name>.glb) shows as a still T-pose.
+const CHARACTERS := ["main_character_v2", "operator_sage_v2", "operator_headband_v2", "main_character", "operator_sage", "operator_headband"]
+const HEIGHT := 1.7
 const FIRST_CLIPS := ["Walk", "Idle"]
 const TOON := preload("res://art/shaders/toon.gdshader")
 const INK := preload("res://art/shaders/ink_outline.gdshader")
@@ -48,12 +50,15 @@ func _load_character() -> void:
 	_character = load(_path(character_name, character_name)).instantiate()
 	add_child(_character)
 	_player = _character.find_child("AnimationPlayer", true, false)
-	for clip_name in {"Walk": "walk", "Run": "run"}.keys():
+	_mesh = _find_mesh(_character)
+	if not _player:
+		_stand_up()
+	for clip_name in {"Walk": "walk", "Run": "run"}.keys() if _player else []:
 		var source: Node = load(_path(character_name, clip_name.to_lower())).instantiate()
 		var source_player: AnimationPlayer = source.find_child("AnimationPlayer", true, false)
 		_player.get_animation_library("").add_animation(clip_name, source_player.get_animation(source_player.get_animation_list()[0]))
 		source.free()
-	for clip_name in _player.get_animation_list():
+	for clip_name in _player.get_animation_list() if _player else []:
 		var clip := _player.get_animation(clip_name)
 		clip.loop_mode = Animation.LOOP_LINEAR
 		_keep_in_place(clip)
@@ -62,8 +67,7 @@ func _load_character() -> void:
 	for clip_name in FIRST_CLIPS:
 		_clips.erase(clip_name)
 		_clips.push_front(clip_name)
-	_clip = mini(_clip, _clips.size() - 1)
-	_mesh = _find_mesh(_character)
+	_clip = clampi(_clip, 0, maxi(_clips.size() - 1, 0))
 	for surface in _mesh.mesh.get_surface_count():
 		var original := _mesh.get_active_material(surface)
 		_original.append(original)
@@ -75,6 +79,14 @@ func _load_character() -> void:
 		toon.next_pass = ink
 		_toon_materials.append(toon)
 	_apply()
+
+
+# Unrigged Meshy output comes at an arbitrary scale and origin; stand it on the floor at person height.
+func _stand_up() -> void:
+	var box := _mesh.global_transform * _mesh.get_aabb()
+	_character.scale *= HEIGHT / box.size.y
+	box = _mesh.global_transform * _mesh.get_aabb()
+	_character.position -= Vector3(box.get_center().x, box.position.y, box.get_center().z)
 
 
 # Meshy clips walk the hips forward; a tactics unit moves by code, so the clips play in place.
@@ -102,8 +114,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo:
 		return
 	match event.keycode:
-		KEY_RIGHT: _clip = (_clip + 1) % _clips.size()
-		KEY_LEFT: _clip = (_clip - 1 + _clips.size()) % _clips.size()
+		KEY_RIGHT: _clip = (_clip + 1) % maxi(_clips.size(), 1)
+		KEY_LEFT: _clip = (_clip - 1 + _clips.size()) % maxi(_clips.size(), 1)
 		KEY_C:
 			_character_index = (_character_index + 1) % _names.size()
 			_load_character()
@@ -117,7 +129,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _apply() -> void:
-	_player.play(_clips[_clip])
+	if _player:
+		_player.play(_clips[_clip])
 	for surface in _original.size():
 		_mesh.set_surface_override_material(surface, _toon_materials[surface] if _toon else _original[surface])
 	var pitch := deg_to_rad(_view.pitch as float)
@@ -127,4 +140,4 @@ func _apply() -> void:
 	_camera.fov = _view.fov
 	_camera.look_at_from_position(target + offset, target)
 	_label.text = "%s — %s   (%d/%d)\nC character   ←/→ clip   T toon %s   V view: %s   Q/E rotate   Esc quit" % [
-		_names[_character_index], _clips[_clip], _clip + 1, _clips.size(), "on" if _toon else "off", "battle camera" if _view == BATTLE else "close"]
+		_names[_character_index], _clips[_clip] if _player else "T-pose, no rig yet", _clip + 1 if _player else 0, _clips.size(), "on" if _toon else "off", "battle camera" if _view == BATTLE else "close"]

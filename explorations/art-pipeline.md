@@ -2,9 +2,9 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Bryson reviews all three Operators in the preview scene
-  (`godot --path game res://preview/character_preview.tscn`, C switches character) and decides
-  on fixing the defects in the latest finding.
+- Next action: Bryson reviews the three redesigned Operators (the `_v2` models) in the preview
+  scene (`godot --path game res://preview/character_preview.tscn`, C switches character) and
+  decides how to get the backpacks back (latest finding) before they are rigged.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -220,6 +220,26 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   behind they are plain dark boxes.
 - The shooting clip stays Cowboy Quick Draw for now: a one-handed draw suits a sidearm pulse
   weapon. It changes once the weapon exists.
+
+### 2026-09-27 — Redesigned Operators, round one (Bryson's direction; Claude's results, rendered and inspected, not yet seen by Bryson)
+
+- Bryson's critique of the first three: the clothes are plain and all alike, the sage Operator
+  reads too androgynous, and the hands are awkward. He wants them more cyberpunk: grittier,
+  eccentric, near-future and cool, keeping each one's color scheme. For the image prompts he
+  dropped Ghibli and solarpunk. Whether DESIGN.md's look and world lines change too is still open.
+- Hands: Meshy's rig has no finger bones, so a hand keeps its modeled shape in every clip. The
+  new sheets use gloves with fingers together, which Meshy builds cleanly.
+- Bryson made new T-pose sheets in Astra (now in `art/reference/`): a street courier (yellow),
+  a hardware tinkerer (blue) and an ex-military medic (sage). All three put the camera bot on the
+  left shoulder, so no mirroring was needed.
+- Bryson chose to judge the models before rigging: Meshy 7, 4K texture, about 100k triangles,
+  30 credits each, 90 in total (2,860 left). All succeeded on the first try. In the game as
+  `game/art/characters/*_v2/`, unrigged; the preview now shows unrigged models in T-pose.
+- Result: faces, outfits, gloves and colors follow the sheets far better than round one. The
+  hands are clean mitten shapes. But **all three lost their backpacks**: Meshy turned each one
+  into straps or a flat pouch. The main character's camera bot lost its lens, and the sage
+  Operator's is a small stub. Meshy also added details that weren't asked for, like a chest rig
+  and knee pads on the main character.
 
 ## Questions to answer
 
