@@ -2,9 +2,8 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson reviews the generated batch in
-  `art/concepts/environment-facility-batch/`. Claude then builds the textures onto scripted
-  floors and walls first (no credits), then the props and the guard with Meshy.
+- Next action: Bryson reviews the batch in `art/concepts/environment-facility-batch/` and
+  approves the Meshy spend for the guard and the props (latest finding).
 
 ## The question
 
@@ -111,6 +110,22 @@ None open. The map question, the style anchor, the build split and the list were
 2026-09-27 (Findings).
 
 ## Findings
+
+### 2026-09-27 — Review of the batch; interior textures on the MVP map (Claude; run and screenshotted, not played)
+
+- The 20 images are consistent with each other and with the house style: one corporate logo,
+  magenta on white and charcoal, orange-and-white hazard stripes, none of the Operators' colors.
+- Astra invented world details nobody has decided: the logo, a name on the van that reads like
+  "Sentine(l)", slogans ("Sentience serves order", "Human data higher", "More obedient humans")
+  and kanji on the tower. Keeping or replacing them is Bryson's call.
+- Tiling, checked 2×2: asphalt, floor tile and wall panels are seamless. The paving shows a
+  doubled joint line and the perimeter wall a faint band where copies meet; minor.
+- The corporate floor and wall textures now cover the MVP map's floor tiles and wall blocks, in
+  world space. The wall texture repeats every 2 m; at 1 m its seams read as noise from the
+  battle camera.
+- For Meshy: each object image is a clean three-quarter view on white, and the number labels in
+  the corners get whited out first. The guard sheet is a clean T-pose, gloves closed, the holster
+  on the same side in both views.
 
 ### 2026-09-27 — The approved 20-image batch was generated (Codex)
 
