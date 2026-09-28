@@ -1,14 +1,18 @@
-# Environment art for the battle MVP
+# Environment art for the corporate facility mission
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson decides on Claude's trimmed 12-image set (latest finding) and runs it
-  in Astra; Claude then builds the props with Meshy and dresses the MVP map.
+- Next action: Bryson runs the 20-image batch (prompt below) in Astra. Claude then builds the
+  textures onto scripted floors and walls first (no credits), then the props and the guard with
+  Meshy.
 
 ## The question
 
 Which environment objects the MVP battle needs, and how to make them so they belong together and
 match the three Operators. Bryson asked for a full list to solve one at a time (2026-09-27).
+
+Later the same day it became the art for the first Alpha mission: infiltrating a corporate
+facility, outside and then inside (Findings).
 
 ## Constraints this inherits
 
@@ -18,15 +22,16 @@ match the three Operators. Bryson asked for a full list to solve one at a time (
   silhouette-only ink outline. Their painted-in detail lines stay (Bryson, 2026-09-27).
 - The world: a gritty, technofeudal corporate AI future full of advertisements, all the way
   through (DESIGN.md).
-- The map is a 12×12 grid of 1 m tiles, seen mostly from the battle camera: 50° down, about 34 m
-  away, where a person is about 55 px tall. Objects have to read at that size first.
+- Maps are grids of 1 m tiles, seen mostly from the battle camera: 50° down, about 34 m away,
+  where a person is about 55 px tall. Objects have to read at that size first. New maps replace
+  the 12×12 MVP map (Bryson, 2026-09-27).
 
 ## Method (Claude's recommendation, 2026-09-27)
 
 What makes a set feel like one world, in order of impact:
 
-1. **One style anchor.** Before any single object, one painted concept of the MVP map's key
-   space (the atrium) from the battle camera's angle, made with the same image generator and
+1. **One style anchor.** Before any single object, one painted concept of each map from the
+   battle camera's angle, made with the same image generator and
    [house style](art-pipeline.md#house-style) as the Operator sheets, with the Operators in it for scale. Every object sheet
    afterwards is cut from or checked against it.
 2. **One shader for everything.** Every object uses the same toon shader, key light, shadow tint
@@ -45,64 +50,79 @@ What makes a set feel like one world, in order of impact:
 5. **Judge in place.** Each object is reviewed on the map at the battle camera, next to an
    Operator, not alone in the preview.
 
-## The list
+## The set (approved by Bryson, 2026-09-27)
 
-Priority: **1** the MVP can't show its rules without it; **2** makes the map read as a place;
-**3** dressing. Status starts at "todo" for everything.
+The goal is "strictly better than the blank placeholders," not finished art. Twenty images in one
+Astra batch, one copy each, so they stay consistent. An earlier, larger list is in git history.
 
-### Grid and structure
-
-| # | Object | Priority | Notes |
+| Phase | Textures (scripted floors and walls) | Props (Meshy) | Characters |
 |---|---|---|---|
-| 1 | Floor tile, corporate interior | 1 | The default floor |
-| 2 | Wall segment, 1 m | 1 | Blocks movement and sight; needs to stay readable from above (a cutaway top) |
-| 3 | Wall corner and wall end | 1 | So wall runs join cleanly |
-| 4 | Extraction zone | 1 | The exit tiles (`X`): roof access or a hatch, readable as "go here" |
-| 5 | Operator start zone | 3 | The loading dock (`P`) |
-| 6 | Floor variants (server room, corridor) | 2 | Tells rooms apart at a glance |
+| Outside | Asphalt, concrete paving, perimeter wall | Guard booth, floodlight pole, loading dock (the way in), shipping crates, delivery van | Guard |
+| Inside | Corporate floor tile, white wall panels | Security door, security camera, turret, vault door, server rack, reception desk, access point | Guard |
 
-### Network nodes (each needs an idle look and a hacked/secured look)
+- Two establishing shots come first, one per phase: they are the style anchors.
+- The guard wears a full helmet, so Meshy never has to make a face (Bryson agreed). He goes
+  through the Operator pipeline and shares their clips.
+- The corporation's color is magenta on white and charcoal. Inside is sleek and cold but worn at
+  the edges, cleaner than the street (Claude's calls, in the approved prompt).
+- States the rules need, made with lights and materials rather than extra models: door open,
+  closed and locked; turret active, offline and destroyed; camera view direction.
+- Props sit only on wall tiles or against walls, so nothing looks like cover the rules don't have.
+- Meshy cost estimate: about 215 to 395 credits.
 
-| # | Object | Priority | Notes |
-|---|---|---|---|
-| 7 | Access point | 1 | Where an Operator plugs in their AI |
-| 8 | Door | 1 | Open, closed and locked states |
-| 9 | Security camera | 1 | Wall or pole mount, with its view direction readable |
-| 10 | Turret | 1 | A unit with HP: active, offline and destroyed looks |
-| 11 | Data cache | 1 | The objective, so the most striking object on the map |
-| 12 | Probe | 1 | Dropped on a node; small, so it needs a marker |
+The prompt:
 
-### Characters that aren't Operators
+```
+I need a batch of 20 separate images for a video game's environment art. Generate them in the order listed, each as its own image, labeled with its number. Exactly one image per item: no variations, no alternates, no retries.
 
-| # | Object | Priority | Notes |
-|---|---|---|---|
-| 13 | Guard | 1 | Humanoid, so it goes through the Operator pipeline. Not environment, listed so it isn't forgotten |
+STYLE FOR EVERY IMAGE: Gritty cyberpunk anime style in the vein of Cyberpunk: Edgerunners: bold ink outlines, hard-edged cel shading, flat saturated colors, sharp angular design. A technofeudal corporate AI city. Outside is gritty: grime, rust, stains, scuffs, graffiti. The corporation's own spaces are sleek and cold, white and charcoal with magenta light, worn at the edges but cleaner than the street. Accent colors only magenta, hot pink, red, orange and violet. Never use yellow, blue, cyan or green anywhere. Hazard stripes are orange and white. Any text is short invented words or pictograms, never real brands.
 
-### Dressing (makes it a place)
+IMAGE 0A, EXTERIOR ESTABLISHING SHOT (make first; keep every exterior image consistent with it): A corporate facility at night, seen from high above at about 50 degrees looking down, like a tactics game camera. A walled compound off a gritty city street: a guard booth with a gate arm, floodlight poles, a loading dock at the side of the building with shipping crates and a delivery van, and a tall sleek corporate building of dark glass and concrete with a glowing magenta logo. A few small armored guards patrolling.
 
-| # | Object | Priority | Notes |
-|---|---|---|---|
-| 14 | Advertisement screens and holo-billboards | 2 | The world's signature; the main carrier of the neon accents |
-| 15 | ~~Planters and greenery~~ | — | Cut 2026-09-27: the world is gritty all the way through |
-| 16 | Server racks | 2 | Fills the sealed server room around the cache |
-| 17 | Desks, benches, lobby seating | 3 | Atrium and corridor |
-| 18 | Crates and loading-dock clutter | 3 | The start zone |
-| 19 | Cable trays and conduit | 3 | Ties the network to the physical space |
-| 20 | Lights: ceiling panels, lamps | 3 | |
-| 21 | Vending machine or kiosk | 3 | More ads |
+IMAGE 0B, INTERIOR ESTABLISHING SHOT (keep every interior image consistent with it): Inside the same corporate building, seen from high above at about 50 degrees with the ceiling cut away, like a tactics game camera. A lobby with a reception desk, corridors with sliding security doors, a wall-mounted security camera, an automated turret, and a sealed server room behind a massive vault door. A few small armored guards.
 
-Dressing can't block movement or sight unless the rules say so. Until there's a cover mechanic,
-it stays against walls or on tiles that are already walls, so the map never looks like it has
-cover it doesn't.
+IMAGES 1 TO 12, OBJECTS: Each shows ONE object alone, centered on a plain white background, no people, no ground, no scenery. Three-quarter view from the front-left, camera slightly above at about 30 degrees, the whole object in frame. Even, neutral lighting with no dramatic shadows; lights and screens are drawn glowing. Wall-mounted objects have a flat back.
+1. Guard booth, 2 m by 2 m by 2.8 m tall: a small concrete-and-steel security booth with tinted windows and a striped boom-gate arm.
+2. Floodlight pole, 7 m tall: a steel pole topped with a bank of harsh white security floodlights.
+3. Loading dock, 4 m wide by 4 m tall, wall-mounted: a roll-up steel door above a raised concrete dock edge with rubber bumpers and orange-and-white hazard stripes.
+4. Shipping crates, 1.8 m tall: heavy plastic shipping crates stacked on a pallet, stenciled numbers, strapped down.
+5. Delivery van, 5 m long: a boxy corporate self-driving delivery van with no windows in back, white with a magenta stripe, dented and dirty.
+6. Security door, 1.2 m wide by 2.4 m tall, wall-mounted: a heavy sliding door in a thick frame, with a card reader and a magenta status light, scratched.
+7. Security camera, 0.5 m long, wall-mounted: a boxy surveillance camera on a short wall arm, with one red lens light.
+8. Turret, 1.3 m tall: a compact automated sentry turret on a squat armored pedestal, twin barrels and a single red sensor eye, white and charcoal armor plates.
+9. Vault door, 3 m wide by 3 m tall, wall-mounted: a massive round steel vault door set in a thick square frame, closed, heavy locking bolts, a magenta status ring.
+10. Server rack, 2.2 m tall: a black server cabinet with a glass door, rows of glowing magenta and red status lights, neat cable bundles.
+11. Reception desk, 3 m long: a sleek curved corporate reception desk, glossy white top, an invented corporate logo on the front, a slim monitor.
+12. Access point, 1 m tall, wall-mounted: a slim armored network terminal with a data socket and a small glowing screen.
+
+IMAGES T1 TO T5, TEXTURES: Each is a square, perfectly flat, seamless tileable texture viewed straight on, with even lighting and no perspective.
+T1. Asphalt, cracked and patched.
+T2. Concrete paving slabs, stained, with expansion joints.
+T3. Tall concrete perimeter wall, stained, with water streaks.
+T4. Polished dark grey corporate floor tiles, scuffed.
+T5. White corporate wall panels with thin seams, scuffs and marks.
+
+IMAGE G, GUARD CHARACTER SHEET (different format): Character turnaround sheet, front view and back view side by side, full body, plain white background. Strict T-pose: arms straight out horizontally, palms facing down, gloved hands with fingers together, not spread. Feet shoulder-width apart. Realistic adult proportions. Nothing hangs below mid-thigh; no capes, long coats or loose straps. A corporate security guard: full-face helmet with a dark visor and a thin magenta light strip, charcoal and white body armor plates over a dark uniform, an invented corporate insignia on the shoulder, a holstered sidearm on the right hip, heavy boots. Empty hands, no weapon held.
+```
 
 ## Questions for Bryson
 
-1. ~~What is the MVP map, as a place?~~ A city street (Bryson, 2026-09-27).
-2. Should the style anchor painting come first, before any object?
-3. Is the split right: grid pieces by script, everything else through Meshy?
-4. Anything missing from the list, or anything to cut?
+None open. The map question, the style anchor, the build split and the list were all settled on
+2026-09-27 (Findings).
 
 ## Findings
+
+### 2026-09-27 — The mission is a corporate facility, outside then inside (Bryson)
+
+- Supersedes the city-street entry below. Bryson imagines the mission as a team infiltrating a
+  corporate facility: first avoiding guards outside to get into the building, then inside,
+  reaching a vault while avoiding turrets, cameras and guards.
+- The vault is both a room and the objective: an access point the Operator must be inside the
+  vault to use, and once inside, has to stay within a certain distance of. The rule itself is
+  recorded in [battle-mvp.md](battle-mvp.md).
+- New maps replace the 12×12, which only demonstrated the smallest version of the game. "We're
+  slowly graduating to an Alpha build."
+- Bryson approved the 20-image set above and agreed to helmeted guards.
 
 ### 2026-09-27 — The MVP map is a city street (Bryson)
 

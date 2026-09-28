@@ -204,6 +204,19 @@ Each one runs, gets played, and is committed.
 
 ## Findings
 
+### 2026-09-27 — Toward an Alpha: a two-phase facility mission (Bryson)
+
+- "The 12x12 was just to demonstrate the smallest version of the game. We're slowly graduating
+  to an Alpha build," with new maps.
+- The mission Bryson imagines: the team infiltrates a corporate facility. Outside, they avoid
+  guards to get into the building; then the game moves inside, where they reach a vault while
+  avoiding turrets, cameras and guards.
+- The vault holds an access point. The Operator has to be inside the vault for their AI to
+  reach it, and once inside has to stay within a certain distance.
+- Open, not designed yet: how the outside map hands over to the inside one (what carries
+  across, whether it is one battle or two), map sizes, and how the vault rule differs from the
+  existing tether. The art for both phases is in [environment-art.md](environment-art.md).
+
 ### 2026-09-27 — Fixes from Bryson's bug list and Claude's code review (Claude; tests, bot runs and scripted clicks in the cloud, not played)
 
 - Guards plan only around Operators they can see. Claude's choice, easy to change: like players,
