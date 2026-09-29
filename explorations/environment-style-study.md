@@ -20,6 +20,19 @@ amateurish, and the same is true of the ground, the walls on the building. We ha
 to great individual props, but the literal brick and mortar is very lacking... do it in a
 stylized way that's cohesive with our character design and inspirations."
 
+After the reference frames, the same day:
+
+- "I think there's a liveliness, a neon quality, etc that this is missing. Things like neon
+  signs, reflections of the neon light on the various surfaces, etc are all part of that night
+  time aesthetic."
+- "I also want to note the daytime aesthetic as well for the future." The daytime frames are
+  the Cyberpunk 2077 ones in `art/reference/look/`.
+- "I think our mistake was leading with color in the props, when the props should be more
+  stark and gray, but the rain and the lights around and embedded in the gray are what give it
+  the atmosphere we're looking for."
+- "Our color palette, even being dark, is still very different from even the other dark color
+  palettes." What the difference is, and whether the city palette changes, is decision 6.
+
 ## What's wrong today
 
 What the code does now, and why it reads badly. This is Claude's diagnosis; the research backs
@@ -273,13 +286,18 @@ ground, a toon shader that takes scene lights) runs alongside and matters as muc
 Answered 2026-09-29 (Bryson):
 
 1. Painted. "I want it to be able to be taken seriously."
-2. Thin lines, for now. The Afterlife frame shows exactly this: thin dark lines on the
-   architecture, lower in contrast than the characters'. "I'm not committed to the cel shading entirely yet, in fact I'm leaning
-   against it, though I like the anime style." DESIGN.md's look decision still says hard-edged
-   cel shading; nothing there changes until he decides.
+2. Thin lines, for now. "I'm not committed to the cel shading entirely yet, in fact I'm
+   leaning against it, though I like the anime style." DESIGN.md's look decision still says
+   hard-edged cel shading; nothing there changes until he decides. The Afterlife frame shows
+   exactly this: thin dark lines on the architecture, lower in contrast than the characters'.
 3. Clean tower, weathered perimeter wall, dirty street.
-4. Agreed: real frames get checked. Which route, screencaps or network access, is still open.
+4. Agreed: real frames get checked. Bryson sent them as images; they're in
+   [art/reference/look/](../art/reference/look/README.md).
 5. Confirmed; closed in environment-fidelity.md.
+
+Open:
+
+6. **The city palette.** See the conversation of 2026-09-29; nothing is decided yet.
 
 The options as they were put:
 
