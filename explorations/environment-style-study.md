@@ -192,6 +192,10 @@ reference frame Bryson chose, in [art/reference/look/](../art/reference/look/REA
     (frame).
   - Neon street render: dark neutral buildings, all color from signs, which the wet road
     repeats as vertical streaks (frame, `neon-street-render.webp`).
+- Haze between near and far: most of Bryson's night frames carry a colored haze that
+  softens the distance (frames `ai-elevated-train-street.webp`, `neon-street-render.webp`).
+  Haze here means atmosphere, lit by the neon. It is a different thing from our fog, which
+  means fog of war.
   - Ruiner and Cloudpunk carry their look with neon on wet ground (sourced).
   - Triangle Strategy's HD-2D gets its richness from lighting over simple assets (sourced).
 - For us: this agrees with environment-fidelity.md putting lighting first. The dark areas
@@ -396,3 +400,17 @@ image: plain face, chamfered cap, painted base band. The view from above is the 
 battle camera and confirms a calm street with the detail on buildings and roofs. The painted
 neon street shows wet ground as broad painted strokes. The looking-up shot shows facade color
 blocking. None is an Edgerunners exterior, so the anime's street grime is still unchecked.
+
+### 2026-09-29 — Third batch of frames (Bryson's picks; Claude's reading)
+
+Five more, all AI-generated or stock illustrations; none from the anime. What they add:
+
+- Night, magenta and cyan, wet ground and colored haze in almost every frame (haze added to
+  principle 8).
+- Ink lines over painted color on architecture (`stock-inked-neon-street.webp`), matching
+  thin lines plus painted surfaces.
+- Ground grime drawn as short strokes, cracks as lines and patches as flat shapes
+  (`ai-anime-alley-sketch.webp`). This is the only frame showing street grime, but it's
+  generated, so it shows a possible treatment, not Edgerunners.
+- A character held apart from a blue city by rim light and one orange accent
+  (`ai-rooftop-rim-light.webp`).

@@ -14,3 +14,8 @@ Frames Bryson chose for the environment's look (2026-09-29). What each one is fo
 | `cp2077-japantown-barrier-wall.webp` | Cyberpunk 2077, Japantown | The perimeter wall in one image: plain concrete face, chunky chamfered cap, red-painted base band. Painted curbs, zebra crossing, a mural on a wall |
 | `cp2077-facades-looking-up.webp` | Cyberpunk 2077 gameplay | Facade color blocking: teal and orange-red bands and panels, strong ledges and trims on plain concrete |
 | `painted-neon-street.webp` | Digital painting, artist unknown | The painted direction: dark loose architecture, signs carrying all the color, wet road as broad strokes of sign color |
+| `stock-inked-neon-street.webp` | Stock illustration (123RF preview, watermarked); reference only | Thin ink lines over painted color on architecture; dense signage; wet ground painted in sign colors |
+| `ai-anime-alley-sketch.webp` | AI-generated | Ground grime as drawn marks: cracks as lines, patches as flat shapes, short strokes. Low quality; take the idea, not the finish |
+| `ai-elevated-train-street.webp` | AI-generated | Colored haze in depth, dark underside of the structure, wet ground as pink and cyan patches |
+| `ai-rooftop-rim-light.webp` | AI-generated (Novarenders watermark) | A character held apart from a blue city by rim light and one orange accent |
+| `ai-garden-tower-night.webp` | AI-generated | Lit windows as the detail on dark facades; purple haze. Its greenery belongs to the dropped solarpunk direction, so ignore that part |
