@@ -3,8 +3,8 @@
 - Feeds: [environment-fidelity.md](environment-fidelity.md) (the technical how),
   [environment-art.md](environment-art.md), [art-pipeline.md](art-pipeline.md#house-style)
 - Status: open
-- Next action: Bryson answers the decisions at the bottom. Then an implementing agent builds
-  one test patch from this file.
+- Next action: Bryson picks how the reference frames arrive (decision 4); an agent checks the
+  study against them. Then an implementing agent builds one test patch from this file.
 
 Written for the agent that implements the environment pass. It says what the walls and ground
 should look like and why, with the games that prove it. For tools, plugins and packs, read
@@ -249,6 +249,18 @@ The lighting work in environment-fidelity.md (floodlights as real lights, neon s
 ground, a toon shader that takes scene lights) runs alongside and matters as much.
 
 ## Decisions for Bryson
+
+Answered 2026-09-29 (Bryson):
+
+1. Painted. "I want it to be able to be taken seriously."
+2. Thin lines, for now. "I'm not committed to the cel shading entirely yet, in fact I'm leaning
+   against it, though I like the anime style." DESIGN.md's look decision still says hard-edged
+   cel shading; nothing there changes until he decides.
+3. Clean tower, weathered perimeter wall, dirty street.
+4. Agreed: real frames get checked. Which route, screencaps or network access, is still open.
+5. Confirmed; closed in environment-fidelity.md.
+
+The options as they were put:
 
 1. **How the environment is shaded.**
    - (a) Painted: flat value blocks under plain lighting, with cel characters on top. This is

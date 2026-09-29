@@ -170,6 +170,8 @@ And to test it small first, per AGENTS.md: do all four on one **test patch**, th
 1. **How photographic?** Poly Haven textures are photos: they look real but pull away from a
    painted anime style unless graded hard. The other way is painted textures, ours from Astra,
    with depth maps generated from them. Or a mix: photo ground, painted signage.
+   **Answered 2026-09-29 (Bryson): stylized, not photographic.** See
+   [environment-style-study.md](environment-style-study.md).
 2. **Night and wet, like 0A?** It's the biggest lighting win and matches the reference. It also
    decides a lot of the texture work.
 3. **Test patch first**, the street entrance, before the whole map?
