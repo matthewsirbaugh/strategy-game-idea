@@ -8,7 +8,6 @@ enum Mode { IDLE, MENU, MOVE, TARGET, NODE }
 const MOVE_COLOR := Color(0.3, 0.6, 1.0, 0.35)
 const ATTACK_COLOR := Color(1.0, 0.3, 0.3, 0.5)
 const FOG_COLOR := Color(0.02, 0.02, 0.06, 0.68)
-const GHOST_ALPHA := 0.3
 const ENEMY_TURN_PAUSE := 0.35
 const UNIT_HEIGHT := 1.1
 const PICK_RADIUS := 0.4
@@ -91,8 +90,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _mode in [Mode.MOVE, Mode.TARGET, Mode.NODE]:
 			_open_menu()
 	else:
+		# On release, so a press that turns into a camera drag never selects anything.
 		var click := event as InputEventMouseButton
-		if click and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+		if click and not click.pressed and click.button_index == MOUSE_BUTTON_LEFT and not _camera_rig.dragged:
 			_click(click.position)
 
 
@@ -474,26 +474,21 @@ func _refresh_fog() -> void:
 			ghost.position = _grid.cell_to_world(state.known[id])
 
 
+# Where an enemy was last seen: a see-through copy of its model.
 func _make_ghost(unit: Unit) -> Node3D:
-	var capsule := CapsuleMesh.new()
-	capsule.radius = 0.26
-	capsule.height = 1.1
-	var material := StandardMaterial3D.new()
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = Color(unit.def.color, GHOST_ALPHA)
-	var body := MeshInstance3D.new()
-	body.mesh = capsule
-	body.material_override = material
-	body.position.y = 0.55
-	var label := UnitView.make_label(36, 1.55)
+	var ghost := Node3D.new()
+	add_child(ghost)
+	var model := ToonModel.new()
+	ghost.add_child(model)
+	model.build(load(unit.def.model))
+	if unit.def.kind == UnitDef.Kind.TURRET:
+		model.fit_height(UnitView.TURRET_HEIGHT)
+	model.set_cloaked(true)
+	var label := UnitView.make_label(36, UnitView.PERSON_HEIGHT + 0.3)
 	label.text = "%s\nlast seen" % unit.display_name
 	label.modulate = Color(1, 1, 1, 0.6)
-	var ghost := Node3D.new()
-	ghost.add_child(body)
 	ghost.add_child(label)
 	ghost.visible = false
-	add_child(ghost)
 	return ghost
 
 

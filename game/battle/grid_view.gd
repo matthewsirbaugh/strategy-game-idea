@@ -10,9 +10,18 @@ const FOG_Y := 0.009
 const OVERLAY_Y := 0.012
 const FLOOR_TEXTURE := preload("res://art/textures/corporate_floor.png")
 const WALL_TEXTURE := preload("res://art/textures/corporate_wall.png")
+const SHELL_TEXTURE := preload("res://art/textures/perimeter_wall.png")
+const YARD_TEXTURE := preload("res://art/textures/asphalt.png")
+const APRON_TEXTURE := preload("res://art/textures/concrete_paving.png")
 const PROP_PATH := "res://art/props/%s/%s.glb"
 # Heights in metres, bigger than life where a prop has to read from the battle camera.
-const PROP_HEIGHTS := {"access_point": 1.0, "security_camera": 0.55, "server_rack": 2.0, "vault_door": 1.6}
+const PROP_HEIGHTS := {"access_point": 1.0, "security_camera": 0.55, "server_rack": 2.0, "vault_door": 1.6,
+	"loading_dock": 2.2, "delivery_van": 2.6, "shipping_crates": 1.6, "floodlight_pole": 5.0, "guard_booth": 2.8}
+# These hang on a wall face; any other prop placed on a wall tile stands in for the wall.
+const MOUNTED := ["vault_door", "loading_dock", "security_door", "access_point", "security_camera"]
+const NEON := Color(1.0, 0.15, 0.6)
+const APRON_WIDTH := 2.0
+const YARD_SIZE := 60.0
 const FACINGS := {"south": 0.0, "east": PI / 2.0, "north": PI, "west": -PI / 2.0}
 const CAMERA_MOUNT_Y := 0.6
 const CAMERA_POLE_HEIGHT := 1.3
@@ -45,11 +54,14 @@ func build(state: BattleState) -> void:
 	var light := _textured(FLOOR_TEXTURE, Color.WHITE)
 	var dark := _textured(FLOOR_TEXTURE, Color(0.85, 0.85, 0.85))
 	var wall := _textured(WALL_TEXTURE, Color.WHITE, 0.5)
+	var filled := _filled_cells()
 	for y in map.size.y:
 		for x in map.size.x:
 			var cell := Vector2i(x, y)
+			if filled.has(cell):
+				continue
 			if map.is_wall(cell):
-				_add_mesh(wall_mesh, wall, cell_to_world(cell) + Vector3(0, WALL_HEIGHT / 2.0 - TILE_HEIGHT, 0))
+				_add_wall(cell, wall_mesh, wall)
 			else:
 				var tile := light if (x + y) % 2 == 0 else dark
 				_add_mesh(floor_mesh, tile, cell_to_world(cell) + Vector3(0, -TILE_HEIGHT / 2.0, 0))
@@ -58,6 +70,7 @@ func build(state: BattleState) -> void:
 		_add_mesh(_overlay_mesh, extraction, cell_to_world(cell) + Vector3(0, EXTRACTION_Y, 0))
 	for id in map.node_ids():
 		_build_node(id)
+	_build_shell(wall_mesh)
 	for line in map.dressing:
 		_build_dressing(line)
 	update_nodes(state)
@@ -183,17 +196,87 @@ func _build_node(id: String) -> void:
 	_nodes[id] = {"model": model}
 
 
-# Map dressing, one prop per line: "name x,y facing". On a wall tile it hangs on that face of the wall.
+# Map dressing, one prop per line: "name x,y facing [tiles]". On a wall tile a mounted prop hangs
+# on that face of the wall, and any other prop stands in for the wall across that many tiles,
+# along x when it faces north or south and along y when it faces east or west.
 func _build_dressing(line: String) -> void:
 	var parts := line.split(" ", false)
-	var xy := parts[1].split(",")
-	var cell := Vector2i(xy[0].to_int(), xy[1].to_int())
+	var prop := parts[0]
+	var cell := _cell(parts[1])
 	var yaw: float = FACINGS[parts[2]]
-	if map.is_wall(cell):
+	var tiles := parts[3].to_int() if parts.size() > 3 else 1
+	if _is_structure(cell) and prop in MOUNTED:
 		var out := Vector3(sin(yaw), 0, cos(yaw))
-		_mount_on_wall(parts[0], cell_to_world(cell) + out * 0.5, Vector2i(roundi(out.x), roundi(out.z)))
+		_mount_on_wall(prop, cell_to_world(cell) + out * 0.5, Vector2i(roundi(out.x), roundi(out.z)))
+	elif map.is_wall(cell):
+		var run := _run_direction(yaw)
+		var middle := cell_to_world(cell) + Vector3(run.x, 0, run.y) * (tiles - 1) / 2.0
+		_add_prop(prop, middle, yaw, 0.0, tiles)
 	else:
-		_add_prop(parts[0], cell_to_world(cell), yaw, PROP_HEIGHTS.get(parts[0], 1.0))
+		_add_prop(prop, cell_to_world(cell), yaw, PROP_HEIGHTS.get(prop, 1.0))
+
+
+func _filled_cells() -> Dictionary:
+	var cells := {}
+	for line in map.dressing:
+		var parts := line.split(" ", false)
+		var cell := _cell(parts[1])
+		if parts[0] in MOUNTED or not map.is_wall(cell):
+			continue
+		var run := _run_direction(FACINGS[parts[2]])
+		for i in (parts[3].to_int() if parts.size() > 3 else 1):
+			cells[cell + run * i] = true
+	return cells
+
+
+func _run_direction(yaw: float) -> Vector2i:
+	return Vector2i(1, 0) if is_zero_approx(sin(yaw)) else Vector2i(0, 1)
+
+
+func _cell(xy: String) -> Vector2i:
+	var parts := xy.split(",")
+	return Vector2i(parts[0].to_int(), parts[1].to_int())
+
+
+# The building around the map: a wall ring one tile out, a paved apron, then the asphalt yard.
+func _build_shell(wall_mesh: Mesh) -> void:
+	var shell := _textured(SHELL_TEXTURE, Color.WHITE, 0.5)
+	for x in range(-1, map.size.x + 1):
+		for y in range(-1, map.size.y + 1):
+			if _on_shell(Vector2i(x, y)):
+				_add_wall(Vector2i(x, y), wall_mesh, shell)
+	var apron := PlaneMesh.new()
+	apron.size = Vector2(map.size.x + 2.0 + APRON_WIDTH * 2.0, map.size.y + 2.0 + APRON_WIDTH * 2.0)
+	_add_mesh(apron, _textured(APRON_TEXTURE, Color(0.8, 0.8, 0.8), 0.5), center() + Vector3(0, -TILE_HEIGHT + 0.005, 0))
+	var yard := PlaneMesh.new()
+	yard.size = Vector2(YARD_SIZE, YARD_SIZE)
+	_add_mesh(yard, _textured(YARD_TEXTURE, Color(0.7, 0.7, 0.75), 0.25), center() + Vector3(0, -TILE_HEIGHT, 0))
+
+
+func _on_shell(cell: Vector2i) -> bool:
+	return (cell.x == -1 or cell.y == -1 or cell.x == map.size.x or cell.y == map.size.y) \
+		and cell.x >= -1 and cell.y >= -1 and cell.x <= map.size.x and cell.y <= map.size.y
+
+
+func _is_structure(cell: Vector2i) -> bool:
+	return map.is_wall(cell) or _on_shell(cell)
+
+
+# A wall block with a dark cap and a neon strip, like the facility's corridors.
+func _add_wall(cell: Vector2i, wall_mesh: Mesh, material: Material) -> void:
+	var at := cell_to_world(cell)
+	_add_mesh(wall_mesh, material, at + Vector3(0, WALL_HEIGHT / 2.0 - TILE_HEIGHT, 0))
+	var top := WALL_HEIGHT - TILE_HEIGHT
+	var cap := BoxMesh.new()
+	cap.size = Vector3(1.02, 0.06, 1.02)
+	_add_mesh(cap, _material(Color(0.28, 0.28, 0.32)), at + Vector3(0, top + 0.03, 0))
+	var strip := BoxMesh.new()
+	strip.size = Vector3(1.015, 0.04, 1.015)
+	var neon := _material(NEON)
+	neon.emission_enabled = true
+	neon.emission = NEON
+	neon.emission_energy_multiplier = 2.5
+	_add_mesh(strip, neon, at + Vector3(0, top - 0.12, 0))
 
 
 # Sized to a height, or to a width when one is given.

@@ -2,7 +2,7 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson plays the MVP with the models in and says how they read (latest finding).
+- Next action: Bryson plays the MVP with everything in and says what to refine (latest finding).
 
 ## The question
 
@@ -109,6 +109,23 @@ None open. The map question, the style anchor, the build split and the list were
 2026-09-27 (Findings).
 
 ## Findings
+
+### 2026-09-28 — Everything on the map; mouse camera; neutral stance (Bryson asked; Claude built it; scripted runs and screenshots, not played)
+
+- Bryson wanted to see "the final product, everything we've created thrown at it," then refine.
+- Walls get a charcoal cap and a magenta neon strip; the scene glows only where something emits.
+  Some wall tiles are props that block the same way: crate stacks, a server rack, the reception
+  desk. The map sits in a building shell (perimeter wall texture) on a paved apron and an asphalt
+  yard with the loading dock at the Operators' start, the van, crates, floodlights and the guard
+  booth. All of it is `dressing` lines on the map; a prop can now fill a run of wall tiles.
+- A guard's "last seen" marker is a see-through copy of the guard model instead of a capsule.
+- Camera, per Bryson: left-drag orbits (turn and tilt), middle-drag or Option-drag pans, wheel or
+  pinch zooms, closer than before. A click selects on release, so a drag never selects. The view
+  can pan past the map to see the yard.
+- Units stand in a still "Neutral" pose, built from each rig's T-pose with the arms lowered,
+  instead of Meshy's idle clip (Bryson: "not this strange idle animation"). Clips still play for
+  running, shooting, hits and going down.
+- Known mismatch: the reception desk is low but blocks sight, like the wall it replaces.
 
 ### 2026-09-28 — Models replace the MVP map's placeholders (Bryson asked; Claude built it; scripted runs and screenshots, not played)
 

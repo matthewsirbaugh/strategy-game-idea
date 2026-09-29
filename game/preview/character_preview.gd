@@ -9,7 +9,7 @@ const CHARACTERS := {
 	"operator_headband": "pack_operator_headband",
 	"guard": "",
 }
-const FIRST_CLIPS := ["Walk", "Idle"]
+const FIRST_CLIPS := ["Walk", "Neutral"]
 const CLOSE := {"distance": 4.0, "pitch": 12.0, "height": 1.0, "fov": 40.0}
 const BATTLE := {"distance": 34.0, "pitch": 50.0, "height": 0.9, "fov": 40.0}
 

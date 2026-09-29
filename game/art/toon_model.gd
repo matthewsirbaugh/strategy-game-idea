@@ -6,7 +6,8 @@ extends Node3D
 const TOON := preload("res://art/shaders/toon.gdshader")
 const INK := preload("res://art/shaders/ink_outline.gdshader")
 const CLIP_SOURCE := "res://art/characters/clip_source/"
-const LOOPING := ["Idle", "Walk", "Run", "Cautious_Crouch_Walk_Forward"]
+const LOOPING := ["Neutral", "Idle", "Walk", "Run", "Cautious_Crouch_Walk_Forward"]
+const ARM_DROP_DEGREES := 75.0
 
 # Shared by every copy: one toon material per source material, one clip library per rig.
 static var _toon_materials := {}
@@ -22,7 +23,7 @@ var flash := 0.0:
 		flash = value
 		_set_instance("flash", value)
 # The clip to fall back to when a one-shot clip ends; empty once the unit is down.
-var idle := "Idle"
+var idle := "Neutral"
 var player: AnimationPlayer
 var _surfaces: Array[Dictionary] = []
 
@@ -149,6 +150,7 @@ static func _library(path: String, skeleton: Skeleton3D) -> AnimationLibrary:
 	var source_player: AnimationPlayer = source.find_child("AnimationPlayer", true, false)
 	var source_skeleton: Skeleton3D = source.find_children("*", "Skeleton3D", true, false)[0]
 	var source_walk := _first_clip(CLIP_SOURCE + "walk.glb")
+	library.add_animation("Neutral", _neutral(skeleton, str(walk.track_get_path(0)).get_slice(":", 0)))
 	for clip_name in source_player.get_animation_list():
 		library.add_animation(clip_name, CharacterRig.retarget(source_player.get_animation(clip_name), source_skeleton, source_walk, skeleton, walk))
 	source.free()
@@ -159,6 +161,27 @@ static func _library(path: String, skeleton: Skeleton3D) -> AnimationLibrary:
 		_keep_in_place(clip, metres)
 	_libraries[path] = library
 	return library
+
+
+# A still, relaxed stance: the rig's own T-pose with the upper arms lowered to its sides.
+static func _neutral(skeleton: Skeleton3D, prefix: String) -> Animation:
+	var clip := Animation.new()
+	clip.length = 1.0
+	for bone in skeleton.get_bone_count():
+		var bone_name := skeleton.get_bone_name(bone)
+		var local := skeleton.get_bone_rest(bone).basis.get_rotation_quaternion()
+		var side: float = {"LeftArm": -1.0, "RightArm": 1.0}.get(bone_name, 0.0)
+		if side != 0.0:
+			var world := skeleton.get_bone_global_rest(bone).basis.get_rotation_quaternion()
+			var parent := skeleton.get_bone_global_rest(skeleton.get_bone_parent(bone)).basis.get_rotation_quaternion()
+			local = parent.inverse() * Quaternion(Vector3.BACK, side * deg_to_rad(ARM_DROP_DEGREES)) * world
+		var track := clip.add_track(Animation.TYPE_ROTATION_3D)
+		clip.track_set_path(track, "%s:%s" % [prefix, bone_name])
+		clip.rotation_track_insert_key(track, 0.0, local)
+	var hips := clip.add_track(Animation.TYPE_POSITION_3D)
+	clip.track_set_path(hips, prefix + ":Hips")
+	clip.position_track_insert_key(hips, 0.0, skeleton.get_bone_rest(skeleton.find_bone("Hips")).origin)
+	return clip
 
 
 static func _first_clip(path: String) -> Animation:

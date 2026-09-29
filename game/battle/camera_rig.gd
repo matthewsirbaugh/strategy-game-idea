@@ -3,30 +3,43 @@ extends Node3D
 
 @export var pan_speed := 8.0
 @export var pitch_degrees := 50.0
-@export var min_distance := 12.0
+@export var min_distance := 5.0
 @export var max_distance := 50.0
 @export var zoom_step := 2.0
 @export var rotate_seconds := 0.25
 @export var overhead_distance := 34.0
 @export var overhead_seconds := 0.5
+# How far past the map the view can pan, to take in the building around it.
+@export var pan_margin := 6.0
+@export var drag_threshold := 8.0
+@export var orbit_degrees_per_pixel := 0.3
+@export var min_pitch := 15.0
+@export var max_pitch := 85.0
+
+# The last press moved far enough to be a drag, so letting go isn't a click.
+var dragged := false
 
 var _bounds_min := Vector3.ZERO
 var _bounds_max := Vector3.ZERO
 var _distance := 34.0
 var _pitch := 50.0
-var _yaw_steps := 0
+# Starts at 45° so the grid reads as a diamond, the usual tactics view.
+var _yaw := 45.0
 var _rotate_tween: Tween
 var _focus_tween: Tween
 var _before_overhead := {}
+var _drag_button := MOUSE_BUTTON_NONE
+var _press_at := Vector2.ZERO
 
 @onready var _camera: Camera3D = $Camera3D
 
 
 func setup(center: Vector3, extent: Vector3) -> void:
 	position = center
-	_bounds_max = extent
+	_bounds_min = -Vector3(pan_margin, 0, pan_margin)
+	_bounds_max = extent + Vector3(pan_margin, 0, pan_margin)
 	_pitch = pitch_degrees
-	rotation.y = _yaw()
+	rotation.y = deg_to_rad(_yaw)
 	_update_camera()
 
 
@@ -81,14 +94,55 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_distance(_distance - zoom_step)
 	elif event.is_action_pressed("camera_zoom_out"):
 		_set_distance(_distance + zoom_step)
+	elif event is InputEventMagnifyGesture:
+		_set_distance(_distance / event.factor)
+	elif event is InputEventMouseButton:
+		_on_button(event)
+	elif event is InputEventMouseMotion and _drag_button != MOUSE_BUTTON_NONE:
+		_on_drag(event)
+
+
+# Left-drag orbits: sideways turns the view, up and down tilts it. Middle-drag, or Option/Alt
+# with left-drag on a trackpad, pans.
+func _on_button(event: InputEventMouseButton) -> void:
+	if event.button_index not in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_MIDDLE]:
+		return
+	if not event.pressed:
+		_drag_button = MOUSE_BUTTON_NONE
+		return
+	var panning := event.button_index == MOUSE_BUTTON_MIDDLE or event.alt_pressed
+	_drag_button = MOUSE_BUTTON_MIDDLE if panning else MOUSE_BUTTON_LEFT
+	_press_at = event.position
+	dragged = false
+
+
+func _on_drag(event: InputEventMouseMotion) -> void:
+	if not dragged and event.position.distance_to(_press_at) < drag_threshold:
+		return
+	dragged = true
+	if _drag_button == MOUSE_BUTTON_MIDDLE:
+		_pan_by(event.relative)
+		return
+	if _rotate_tween:
+		_rotate_tween.kill()
+	_yaw -= event.relative.x * orbit_degrees_per_pixel
+	rotation.y = deg_to_rad(_yaw)
+	_set_pitch(clampf(_pitch + event.relative.y * orbit_degrees_per_pixel, min_pitch, max_pitch))
+
+
+# Grabs the ground: whatever is under the cursor stays under it.
+func _pan_by(pixels: Vector2) -> void:
+	var metres := 2.0 * _distance * tan(deg_to_rad(_camera.fov) / 2.0) / _camera.get_viewport().get_visible_rect().size.y
+	var move := Vector3(-pixels.x, 0.0, -pixels.y / sin(deg_to_rad(_pitch))) * metres
+	position = (position + move.rotated(Vector3.UP, rotation.y)).clamp(_bounds_min, _bounds_max)
 
 
 func _rotate(steps: int) -> void:
-	_yaw_steps += steps
+	_yaw += 90.0 * steps
 	if _rotate_tween:
 		_rotate_tween.kill()
 	_rotate_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_rotate_tween.tween_property(self, "rotation:y", _yaw(), rotate_seconds)
+	_rotate_tween.tween_property(self, "rotation:y", deg_to_rad(_yaw), rotate_seconds)
 
 
 func _set_distance(distance: float) -> void:
@@ -99,11 +153,6 @@ func _set_distance(distance: float) -> void:
 func _set_pitch(pitch: float) -> void:
 	_pitch = pitch
 	_update_camera()
-
-
-# Starts at 45° so the grid reads as a diamond, the usual tactics view.
-func _yaw() -> float:
-	return deg_to_rad(45.0 + 90.0 * _yaw_steps)
 
 
 func _update_camera() -> void:
