@@ -89,6 +89,7 @@ func _broken_content_is_reported() -> void:
 	map.node_kinds = {"a": "vault", "b": "door"}
 	map.links = PackedStringArray(["a-b", "a"])
 	map.patrols = PackedStringArray(["1,1 9,9", "7;7"])
+	map.dressing = PackedStringArray(["crates 2,1 up"])
 	var operators: Array[UnitDef] = [load("res://content/units/alpha.tres"), load("res://content/units/bravo.tres")]
 	var errors := "\n".join(BattleState.validate(map, operators, _node_defs()))
 	for expected in [
@@ -104,6 +105,7 @@ func _broken_content_is_reported() -> void:
 		"patrols[0] waypoint 9,9 is off the map",
 		"patrols[1] is for guard 2, who isn't on the layout",
 		"patrols[1] waypoint '7;7' should be 'x,y'",
+		"dressing[0] 'crates 2,1 up' should read 'name x,y facing'",
 		"layout has 1 player starts (P) for 2 Operators",
 		"node_kinds has no node of kind 'cache', so the mission has no objective",
 	]:

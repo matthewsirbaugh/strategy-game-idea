@@ -2,7 +2,8 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Bryson plays the MVP with everything in and says what to refine (latest finding).
+- Next action: the aesthetics pass. Bryson's critique and the questions it raises are in the latest
+  finding; the exterior map aims at the exterior establishing shot (0A).
 
 ## The question
 
@@ -20,9 +21,9 @@ facility, outside and then inside (Findings).
   silhouette-only ink outline. Their painted-in detail lines stay (Bryson, 2026-09-27).
 - The world: a gritty, technofeudal corporate AI future full of advertisements, all the way
   through (DESIGN.md).
-- Maps are grids of 1 m tiles, seen mostly from the battle camera: 50° down, about 34 m away,
-  where a person is about 55 px tall. Objects have to read at that size first. New maps replace
-  the 12×12 MVP map (Bryson, 2026-09-27).
+- Maps are grids of 1.5 m tiles with walls 2.8 m tall (2026-09-28), under a free camera that
+  can zoom from close-ups to the whole map (Bryson, 2026-09-28). Objects have to read both close
+  and far. New maps replace the 12×12 MVP map (Bryson, 2026-09-27).
 
 ## Method (Claude's recommendation, 2026-09-27)
 
@@ -105,10 +106,25 @@ IMAGE G, GUARD CHARACTER SHEET (different format): Character turnaround sheet, f
 
 ## Questions for Bryson
 
-None open. The map question, the style anchor, the build split and the list were all settled on
-2026-09-27 (Findings).
+Earlier ones were settled on 2026-09-27 (Findings). Open for the aesthetics pass:
+
+1. The ceiling: how to show one from above, Sims-style.
+2. Cohesion: what makes the models and the set read as one world (latest finding).
 
 ## Findings
+
+### 2026-09-28 — The goal for the exterior, and a critique of the look (Bryson)
+
+- The exterior establishing shot, `art/reference/environment-facility/0A-exterior-establishing.png`,
+  is the goal for the first part of the level: a walled compound off a wet street, guard booth
+  and gate, floodlights, the tower entrance with planters and screens, the loading dock with the
+  van and crates, slogans and hazard stripes on the walls.
+- "We need more aesthetic cohesion. Nothing looks like it belongs in the same world, the models
+  themselves don't look good." Bryson also wants some indication of a ceiling, as seen in The
+  Sims. Both wait for the aesthetics pass, after the fixes, docs and code review.
+- Built the same day (details in [battle-mvp.md](battle-mvp.md)): 1.5 m tiles, 2.8 m walls that
+  cut away in front of the camera, the fog as light, rings under units. The level is drawn by
+  `game/battle/level_view.gd`, the grid and fog by `game/battle/grid_view.gd`.
 
 ### 2026-09-28 — Everything on the map; mouse camera; neutral stance (Bryson asked; Claude built it; scripted runs and screenshots, not played)
 

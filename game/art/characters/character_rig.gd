@@ -41,13 +41,14 @@ static func retarget(clip: Animation, from: Skeleton3D, from_walk: Animation, to
 
 # Each bone's world rotation, and the hips position, at one moment of a clip.
 static func _world_pose(clip: Animation, skeleton: Skeleton3D, time: float) -> Dictionary:
+	var prefix := str(clip.track_get_path(0)).get_slice(":", 0)
 	var rotations := []
 	for bone in skeleton.get_bone_count():
-		var track := clip.find_track("%s:%s" % [str(clip.track_get_path(0)).get_slice(":", 0), skeleton.get_bone_name(bone)], Animation.TYPE_ROTATION_3D)
+		var track := clip.find_track("%s:%s" % [prefix, skeleton.get_bone_name(bone)], Animation.TYPE_ROTATION_3D)
 		var local := clip.rotation_track_interpolate(track, time) if track >= 0 else skeleton.get_bone_rest(bone).basis.get_rotation_quaternion()
 		var parent := skeleton.get_bone_parent(bone)
 		rotations.append(rotations[parent] * local if parent >= 0 else local)
-	var hips := clip.find_track("%s:Hips" % str(clip.track_get_path(0)).get_slice(":", 0), Animation.TYPE_POSITION_3D)
+	var hips := clip.find_track(prefix + ":Hips", Animation.TYPE_POSITION_3D)
 	return {"rotations": rotations, "hips": clip.position_track_interpolate(hips, time) if hips >= 0 else skeleton.get_bone_rest(skeleton.find_bone("Hips")).origin}
 
 

@@ -7,9 +7,11 @@ extends Resource
 @export var links := PackedStringArray()
 # Line N holds guard N+1's waypoints after its start tile, as "x,y x,y".
 @export var patrols := PackedStringArray()
-# Props with no rules role, one per line: "name x,y facing", facing north, south, east or west.
-# The name is a folder in art/props/. The rules ignore these.
+# Props with no rules role, one per line: "name x,y facing [tiles]", facing north, south, east or
+# west. The name is a folder in art/props/. The rules ignore these; the level view draws them.
 @export var dressing := PackedStringArray()
+
+const FACINGS := {"south": 0.0, "east": PI / 2.0, "north": PI, "west": -PI / 2.0}
 
 var size := Vector2i.ZERO
 var _parsed := false
@@ -52,11 +54,32 @@ func validate() -> PackedStringArray:
 			var cell := Vector2i(xy[0].to_int(), xy[1].to_int())
 			if not in_bounds(cell) or is_wall(cell):
 				errors.append(field_error("patrols[%d]" % i, "waypoint %s is off the map or a wall" % _xy(cell)))
+	for i in dressing.size():
+		var parts := dressing[i].split(" ", false)
+		var xy := parts[1].split(",") if parts.size() > 1 else PackedStringArray()
+		if parts.size() not in [3, 4] or xy.size() != 2 or not xy[0].is_valid_int() or not xy[1].is_valid_int() \
+				or not FACINGS.has(parts[2]) or (parts.size() == 4 and not parts[3].is_valid_int()):
+			errors.append(field_error("dressing[%d]" % i, "'%s' should read 'name x,y facing', with an optional tile count" % dressing[i]))
 	if _player_starts.is_empty():
 		errors.append(field_error("layout", "has no player start (P)"))
 	if _extraction.is_empty():
 		errors.append(field_error("layout", "has no extraction tile (X)"))
 	return errors
+
+
+# Each dressing line as {prop, cell, yaw, tiles}. Assumes validate() found no errors.
+func dressing_items() -> Array[Dictionary]:
+	var items: Array[Dictionary] = []
+	for line in dressing:
+		var parts := line.split(" ", false)
+		var xy := parts[1].split(",")
+		items.append({
+			"prop": parts[0],
+			"cell": Vector2i(xy[0].to_int(), xy[1].to_int()),
+			"yaw": FACINGS[parts[2]],
+			"tiles": parts[3].to_int() if parts.size() > 3 else 1,
+		})
+	return items
 
 
 func field_error(field: String, problem: String) -> String:

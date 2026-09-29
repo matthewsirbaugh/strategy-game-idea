@@ -2,7 +2,8 @@
 
 - Feeds: [battle-core.md](battle-core.md), [DESIGN.md decisions](../DESIGN.md#decisions).
 - Status: scope and architecture agreed by Bryson, 2026-09-23. All five milestones built
-  2026-09-24, with fixes on 2026-09-27; waiting on Bryson's full playtest.
+  2026-09-24, with fixes on 2026-09-27. Art, the free camera and the lit fog went in on
+  2026-09-28 (Findings). Graduating toward an Alpha; Bryson's playtest answers still feed it.
 - Engine: Godot 4 (Bryson, 2026-09-23), set up for the long term rather than as a throwaway.
 
 ## The question it answers
@@ -25,6 +26,9 @@ Bryson plays it and decides whether to pursue it. Art comes after the playtest v
 | Context window, efficiency loss, compaction | |
 | One signature ability per character | |
 | Goal: breach the data cache, then extract | |
+
+The table is the scope as agreed. Since then, at Bryson's request, the models and textures
+replaced the greybox (2026-09-28), ahead of the playtest.
 
 ## Rules
 
@@ -68,12 +72,17 @@ fills the context window (0–100) by the node's context cost. When the context 
 line of sight, breached cameras and probes. Anywhere else, an enemy shows as a marker at its
 last-known position.
 
+How the fog looks (Bryson, 2026-09-28): the parts of the level no one can see keep their shape
+and texture but sit in the dark, and enemies there are hidden entirely. When the team sees a
+place, it lights up like an overhead light turning on.
+
 **Guards.** They patrol set routes. They act only on what they can see or last saw: chase, attack,
 or investigate a last-known position. They never cheat past the fog.
 
-Placeholder fog rules Claude chose while building (2026-09-24), each easy to change: the battle
-opens with pre-mission intel, so every guard starts as a last-known marker at its post; a hidden
-enemy in the way stops a move one tile short; and a move that reveals an enemy can't be undone.
+Placeholder fog rules Claude chose while building (2026-09-24), each easy to change: a hidden
+enemy in the way stops a move one tile short, and a move that reveals an enemy can't be undone.
+The pre-mission intel that showed every guard's post at the start was removed on 2026-09-28,
+since Bryson wants enemies in the fog unseen.
 
 **Network view** (Bryson, 2026-09-24). The network layer isn't visible at all times. It appears
 automatically during the AI phase, is hidden during the human phase, and can be shown with a button
@@ -179,7 +188,7 @@ is alerted and acts on its next turn rather than shooting immediately.
 | Location | `game/` in this repo | Design docs and the game share one git history |
 | Rules vs. visuals | The battle rules are plain data and functions with no scene nodes. The 3D scene reads that state and animates it | Rules can be tested without running the game, enemy AI can simulate moves, and saving later is easy. This is the one long-term bet |
 | Content as data | Units, abilities, nodes and maps are Godot Resources (`.tres`) | Bryson can tune numbers in the editor without code |
-| View | 3D scene with greybox meshes and a fixed-angle tactics camera that rotates in 90° steps | Blender art drops straight in, and height can come later. Characters can still be sprites if the art direction goes HD-2D |
+| View | 3D scene with greybox meshes and a fixed-angle tactics camera that rotates in 90° steps. Changed by Bryson, 2026-09-28: a free, RTS-style camera, still over a grid | Blender art drops straight in, and height can come later. Characters can still be sprites if the art direction goes HD-2D |
 | Input | Mouse and keyboard, through Godot's input actions | A controller can be added later without rewiring |
 | Globals | Two autoloads: settings and scene switching | Kept minimal |
 | Tests | A handful for the hack and context math, run headless, no test addon | Per AGENTS.md: only where it earns its keep |
@@ -203,6 +212,25 @@ Each one runs, gets played, and is committed.
 5. After losing, do you want to go again?
 
 ## Findings
+
+### 2026-09-28 — Fog as light, a free camera, real scale (Bryson's list; Claude built it; scripted runs and screenshots, not played)
+
+- Bryson's list, in no particular order: colored rings under the units; the map looked crowded
+  and short, with characters taller than the walls; enemies showed see-through in the fog and
+  shouldn't show at all; the fog should keep the level's shape and texture, darkened, and light up
+  like an overhead light when the team walks in; some sign of a ceiling, as The Sims does; drop
+  the isometric camera for a free RTS-style one ("we're still on a grid"); and the models and
+  set don't look like one world.
+- Built: each unit stands on a ring in its UI color. Unseen enemies are hidden; a last-seen spot
+  is a red ring with the name. Unseen tiles and walls are dark, seen ones brighter than their
+  texture, and a tile coming into view flickers on like a fluorescent tube.
+- Scale: a tile is now 1.5 m, so a 1.8 m person has room, and walls stand 2.8 m. Walls between
+  the camera and what it looks at drop to a stub, like The Sims; not when looking steeply down.
+  Tile counts in the rules are unchanged.
+- Camera: left-drag orbits freely, middle- or Option-drag and WASD pan, Q and E turn smoothly, the
+  wheel or a pinch zooms from 3 m to 45 m. Labels stay the same size on screen at any zoom.
+- Open, for the aesthetics pass: the ceiling, and the look as a whole. Recorded in
+  [environment-art.md](environment-art.md).
 
 ### 2026-09-27 — Toward an Alpha: a two-phase facility mission (Bryson)
 

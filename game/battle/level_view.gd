@@ -22,7 +22,6 @@ const PROP_HEIGHTS := {"access_point": 1.2, "security_camera": 0.6, "server_rack
 	"loading_dock": 2.8, "delivery_van": 2.6, "shipping_crates": 1.6, "floodlight_pole": 6.0, "guard_booth": 2.8}
 # These hang on a wall face; any other prop placed on a wall tile stands in for the wall.
 const MOUNTED := ["vault_door", "loading_dock", "security_door", "access_point", "security_camera"]
-const FACINGS := {"south": 0.0, "east": PI / 2.0, "north": PI, "west": -PI / 2.0}
 const NEON := Color(1.0, 0.15, 0.6)
 const CAMERA_MOUNT_Y := 2.1
 const CAMERA_POLE_HEIGHT := 2.2
@@ -56,8 +55,8 @@ func build(state: BattleState, grid: GridView) -> void:
 	_build_surroundings()
 	for id in map.node_ids():
 		_build_node(id)
-	for line in map.dressing:
-		_build_dressing(line)
+	for item in map.dressing_items():
+		_build_dressing(item)
 	update_nodes(state)
 
 
@@ -139,8 +138,9 @@ func _build_node(id: String) -> void:
 		"access":
 			model = _add_prop("access_point", at, 0.0, PROP_HEIGHTS["access_point"])
 		"camera":
-			if wall != Vector2i.ZERO:
+			if _walls.has(cell + wall) and wall != Vector2i.ZERO:
 				model = _mount_on_wall("security_camera", at + Vector3(wall.x, 0, wall.y) * GridView.CELL / 2.0 + Vector3(0, CAMERA_MOUNT_Y, 0), -wall)
+				_walls[cell + wall].hung.append(model.get_parent_node_3d())
 			else:
 				_add_pole(at, CAMERA_POLE_HEIGHT)
 				model = _add_prop("security_camera", at + Vector3(0, CAMERA_POLE_HEIGHT, 0), _yaw_toward(_grid.center() - at), PROP_HEIGHTS["security_camera"])
@@ -152,47 +152,37 @@ func _build_node(id: String) -> void:
 	_nodes[id] = model
 
 
-# Map dressing, one prop per line: "name x,y facing [tiles]". On a wall tile a mounted prop hangs
-# on that face of the wall, and any other prop stands in for the wall across that many tiles,
-# along x when it faces north or south and along y when it faces east or west.
-func _build_dressing(line: String) -> void:
-	var parts := line.split(" ", false)
-	var prop := parts[0]
-	var cell := _cell(parts[1])
-	var yaw: float = FACINGS[parts[2]]
-	var tiles := parts[3].to_int() if parts.size() > 3 else 1
-	if _walls.has(cell) and prop in MOUNTED:
+# On a wall tile a mounted prop hangs on that face of the wall, and any other prop stands in for
+# the wall across its tiles, along x when it faces north or south and along y when it faces east
+# or west. Anywhere else a prop just stands on the floor.
+func _build_dressing(item: Dictionary) -> void:
+	var cell: Vector2i = item.cell
+	var yaw: float = item.yaw
+	if _walls.has(cell) and item.prop in MOUNTED:
 		var out := Vector3(sin(yaw), 0, cos(yaw))
-		var model := _mount_on_wall(prop, _grid.cell_to_world(cell) + out * GridView.CELL / 2.0, Vector2i(roundi(out.x), roundi(out.z)))
+		var model := _mount_on_wall(item.prop, _grid.cell_to_world(cell) + out * GridView.CELL / 2.0, Vector2i(roundi(out.x), roundi(out.z)))
 		_walls[cell].hung.append(model.get_parent_node_3d())
 	elif map.is_wall(cell):
 		var run := _run_direction(yaw)
-		var middle := _grid.cell_to_world(cell) + Vector3(run.x, 0, run.y) * GridView.CELL * (tiles - 1) / 2.0
-		_add_prop(prop, middle, yaw, 0.0, tiles * GridView.CELL)
+		var middle := _grid.cell_to_world(cell) + Vector3(run.x, 0, run.y) * GridView.CELL * (item.tiles - 1) / 2.0
+		_add_prop(item.prop, middle, yaw, 0.0, item.tiles * GridView.CELL)
 	else:
-		_add_prop(prop, _grid.cell_to_world(cell), yaw, PROP_HEIGHTS.get(prop, 1.0))
+		_add_prop(item.prop, _grid.cell_to_world(cell), yaw, PROP_HEIGHTS.get(item.prop, 1.0))
 
 
+# Wall tiles that a prop stands in for, so no wall block is built there.
 func _filled_cells() -> Dictionary:
 	var cells := {}
-	for line in map.dressing:
-		var parts := line.split(" ", false)
-		var cell := _cell(parts[1])
-		if parts[0] in MOUNTED or not map.is_wall(cell):
+	for item in map.dressing_items():
+		if item.prop in MOUNTED or not map.is_wall(item.cell):
 			continue
-		var run := _run_direction(FACINGS[parts[2]])
-		for i in (parts[3].to_int() if parts.size() > 3 else 1):
-			cells[cell + run * i] = true
+		for i in item.tiles:
+			cells[item.cell + _run_direction(item.yaw) * i] = true
 	return cells
 
 
 func _run_direction(yaw: float) -> Vector2i:
 	return Vector2i(1, 0) if is_zero_approx(sin(yaw)) else Vector2i(0, 1)
-
-
-func _cell(xy: String) -> Vector2i:
-	var parts := xy.split(",")
-	return Vector2i(parts[0].to_int(), parts[1].to_int())
 
 
 func _on_shell(cell: Vector2i) -> bool:

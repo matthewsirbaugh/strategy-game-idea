@@ -96,12 +96,12 @@ func take_hit(damage: int) -> void:
 	_flash.tween_property(_model, "flash", 0.0, 0.3)
 	if not unit.is_down():
 		_model.play("Hit_Reaction")
-	var number := make_label(56, 1.3)
+	var number := make_label(56, PERSON_HEIGHT)
 	number.text = "-%d" % damage
 	number.modulate = Color(1.0, 0.4, 0.35)
 	add_child(number)
 	var rise := create_tween()
-	rise.tween_property(number, "position:y", 2.3, 0.7)
+	rise.tween_property(number, "position:y", PERSON_HEIGHT + 0.8, 0.7)
 	rise.parallel().tween_property(number, "modulate:a", 0.0, 0.7)
 	rise.tween_callback(number.queue_free)
 	refresh()

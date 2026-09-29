@@ -10,6 +10,10 @@ const ATTACK_COLOR := Color(1.0, 0.3, 0.3, 0.5)
 const LAST_SEEN_COLOR := Color(1.0, 0.3, 0.25, 0.7)
 const ENEMY_TURN_PAUSE := 0.35
 const UNIT_HEIGHT := 1.7
+# Where a tether leaves the pack and where shots fly, on a person 1.8 m tall.
+const PACK_Y := 1.3
+const CHEST_Y := 1.3
+const TERMINAL_Y := 1.0
 const PICK_RADIUS := 0.45
 const CHOICE_LAYERS: Array[String] = ["move", "attack"]
 
@@ -77,7 +81,7 @@ func _process(_delta: float) -> void:
 		if unit.entry == "" or unit.is_down():
 			tether.visible = false
 		else:
-			GridView.place_beam(tether, _views[id].position + Vector3(0, 0.9, 0), _grid.node_position(unit.entry, 0.8))
+			GridView.place_beam(tether, _views[id].position + Vector3(0, PACK_Y, 0), _grid.node_position(unit.entry, TERMINAL_Y))
 	_update_hover()
 
 
@@ -519,7 +523,7 @@ func _float_text(at: Vector3, text: String, color: Color) -> void:
 func _tracer(from: Vector3, to: Vector3) -> void:
 	var beam := GridView.make_beam(0.05, Color(1.0, 0.95, 0.6))
 	add_child(beam)
-	GridView.place_beam(beam, from + Vector3(0, 0.8, 0), to + Vector3(0, 0.8, 0))
+	GridView.place_beam(beam, from + Vector3(0, CHEST_Y, 0), to + Vector3(0, CHEST_Y, 0))
 	var tween := create_tween()
 	tween.tween_property(beam.material_override, "albedo_color:a", 0.0, 0.25)
 	tween.tween_callback(beam.queue_free)

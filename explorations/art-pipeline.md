@@ -2,8 +2,9 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: Bryson makes the three camera bot sheets in Astra (L-shaped mount, latest
-  finding); Claude builds them as separate pieces and removes the old bots baked into the bodies.
+- Next action: the aesthetics pass (Bryson, 2026-09-28: "nothing looks like it belongs in the
+  same world, the models themselves don't look good"), run from
+  [environment-art.md](environment-art.md). Camera bots are parked.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -330,6 +331,13 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   Meshy 6. Every Operator body and pack was generated that way, so they were most likely Meshy 6,
   not Meshy 7 as recorded above. The cost is the same. From now on Meshy 7 is requested by name
   (`meshy-7`), without `remove_lighting`.
+
+### 2026-09-28 — Camera bots parked; the models' look questioned (Bryson)
+
+- "Let's leave the bot sheets alone for now." The L-shaped mount prompt stays above for when they
+  resume.
+- After seeing everything in the battle: the set lacks cohesion and the models don't look good.
+  The aesthetics pass is tracked in [environment-art.md](environment-art.md).
 
 ## Questions to answer
 
