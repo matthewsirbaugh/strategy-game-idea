@@ -1,6 +1,8 @@
 # Environment fidelity: real walls, real ground
 
 - Feeds: [environment-art.md](environment-art.md), [wall-occlusion.md](wall-occlusion.md)
+- Style: [environment-style-study.md](environment-style-study.md) (2026-09-29) says what the
+  surfaces should look like; where the two disagree, it is newer.
 - Status: open
 - Next action: Bryson answers the questions at the bottom. Nothing gets built until then.
 
