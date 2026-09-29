@@ -65,10 +65,6 @@ func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: Un
 				_add(turret, turret.display_name, map.node_cell(id))
 			"cache":
 				objective = id
-	# Pre-mission intel: the player starts knowing where every enemy was posted.
-	for unit in units:
-		if not unit.is_player():
-			known[unit.id] = unit.cell
 	refresh_vision()
 
 

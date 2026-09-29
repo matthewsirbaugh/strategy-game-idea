@@ -7,10 +7,10 @@ enum Mode { IDLE, MENU, MOVE, TARGET, NODE }
 
 const MOVE_COLOR := Color(0.3, 0.6, 1.0, 0.35)
 const ATTACK_COLOR := Color(1.0, 0.3, 0.3, 0.5)
-const FOG_COLOR := Color(0.02, 0.02, 0.06, 0.68)
+const LAST_SEEN_COLOR := Color(1.0, 0.3, 0.25, 0.7)
 const ENEMY_TURN_PAUSE := 0.35
-const UNIT_HEIGHT := 1.1
-const PICK_RADIUS := 0.4
+const UNIT_HEIGHT := 1.7
+const PICK_RADIUS := 0.45
 const CHOICE_LAYERS: Array[String] = ["move", "attack"]
 
 @export var map: MapData
@@ -21,7 +21,7 @@ const CHOICE_LAYERS: Array[String] = ["move", "attack"]
 
 var state: BattleState
 var _views := {}
-var _ghosts := {}
+var _last_seen := {}
 var _tethers := {}
 var _busy := true
 var _mode := Mode.IDLE
@@ -29,6 +29,7 @@ var _network_shown := false
 var _network_moving := false
 
 @onready var _grid: GridView = $GridView
+@onready var _level: LevelView = $LevelView
 @onready var _network: NetworkView = $NetworkView
 @onready var _camera_rig: CameraRig = $CameraRig
 @onready var _hover: MeshInstance3D = $HoverHighlight
@@ -43,6 +44,8 @@ func _ready() -> void:
 		_hud.show_errors(state.errors)
 		return
 	_grid.build(state)
+	_level.build(state, _grid)
+	_hover.scale = Vector3.ONE * GridView.CELL
 	_network.build(state, _grid)
 	for unit in state.units:
 		var view := UnitView.new()
@@ -53,7 +56,7 @@ func _ready() -> void:
 			_tethers[unit.id] = GridView.make_beam(0.03, Color(unit.def.color, 0.8))
 			add_child(_tethers[unit.id])
 		else:
-			_ghosts[unit.id] = _make_ghost(unit)
+			_last_seen[unit.id] = _make_last_seen(unit)
 	_camera_rig.setup(_grid.center(), _grid.extent())
 	_hud.action_chosen.connect(_on_action)
 	_hud.menu_cancelled.connect(_on_menu_cancelled)
@@ -67,7 +70,7 @@ func _process(_delta: float) -> void:
 	_active_ring.visible = active != null and _views[active.id].visible and state.phase == BattleState.Phase.HUMAN
 	if _active_ring.visible:
 		_active_ring.position = _views[active.id].position + Vector3(0, 0.02, 0)
-		_active_ring.scale = Vector3.ONE * (1.0 + 0.08 * sin(Time.get_ticks_msec() / 160.0))
+		_active_ring.scale = Vector3.ONE * GridView.CELL * (1.0 + 0.08 * sin(Time.get_ticks_msec() / 160.0))
 	for id in _tethers:
 		var unit: Unit = state.units[id]
 		var tether: MeshInstance3D = _tethers[id]
@@ -393,7 +396,7 @@ func _play(events: Array[Dictionary]) -> void:
 			"ability":
 				_play_ability(event)
 	_refresh_units()
-	_grid.update_nodes(state)
+	_level.update_nodes(state)
 	_network.refresh()
 	_refresh_fog()
 	_hud.show_turn(state)
@@ -438,8 +441,8 @@ func _walk(unit: Unit, path: Array) -> void:
 		points.append(_grid.cell_to_world(cell))
 		shown.append(unit.is_player() or state.visible_cells.has(cell) or state.is_located(unit))
 	if view.visible or shown.has(true):
-		if _ghosts.has(unit.id):
-			_ghosts[unit.id].hide()
+		if _last_seen.has(unit.id):
+			_last_seen[unit.id].hide()
 		await view.walk(points, shown)
 	elif not points.is_empty():
 		view.position = points.back()
@@ -456,40 +459,42 @@ func _any_seen(events: Array[Dictionary]) -> bool:
 	return false
 
 
+# Unseen tiles go dark and unseen enemies vanish; where one was last seen, a marker stays.
 func _refresh_fog() -> void:
-	var fog: Array[Vector2i] = []
-	for y in state.map.size.y:
-		for x in state.map.size.x:
-			var cell := Vector2i(x, y)
-			if not state.map.is_wall(cell) and not state.visible_cells.has(cell):
-				fog.append(cell)
-	_grid.set_overlay("fog", fog, FOG_COLOR, GridView.FOG_Y)
-	for id in _ghosts:
+	_grid.set_visible_cells(state.visible_cells)
+	for id in _last_seen:
 		var unit: Unit = state.units[id]
 		var view: UnitView = _views[id]
 		view.visible = unit.is_down() or state.player_sees(unit)
-		var ghost: Node3D = _ghosts[id]
-		ghost.visible = not view.visible and state.known.has(id)
-		if ghost.visible:
-			ghost.position = _grid.cell_to_world(state.known[id])
+		var marker: Node3D = _last_seen[id]
+		marker.visible = not view.visible and state.known.has(id)
+		if marker.visible:
+			marker.position = _grid.cell_to_world(state.known[id])
 
 
-# Where an enemy was last seen: a see-through copy of its model.
-func _make_ghost(unit: Unit) -> Node3D:
-	var ghost := Node3D.new()
-	add_child(ghost)
-	var model := ToonModel.new()
-	ghost.add_child(model)
-	model.build(load(unit.def.model))
-	if unit.def.kind == UnitDef.Kind.TURRET:
-		model.fit_height(UnitView.TURRET_HEIGHT)
-	model.set_cloaked(true)
-	var label := UnitView.make_label(36, UnitView.PERSON_HEIGHT + 0.3)
+# A red ring on the floor with the enemy's name, not its body: the player knows where, not what now.
+func _make_last_seen(unit: Unit) -> Node3D:
+	var ring := TorusMesh.new()
+	ring.inner_radius = 0.42
+	ring.outer_radius = 0.5
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.albedo_color = LAST_SEEN_COLOR
+	var mesh := MeshInstance3D.new()
+	mesh.mesh = ring
+	mesh.material_override = material
+	mesh.scale = Vector3(1.0, 0.1, 1.0)
+	mesh.position.y = 0.02
+	var label := UnitView.make_label(36, 0.4)
 	label.text = "%s\nlast seen" % unit.display_name
-	label.modulate = Color(1, 1, 1, 0.6)
-	ghost.add_child(label)
-	ghost.visible = false
-	return ghost
+	label.modulate = Color(1, 0.7, 0.65, 0.8)
+	var marker := Node3D.new()
+	marker.add_child(mesh)
+	marker.add_child(label)
+	marker.visible = false
+	add_child(marker)
+	return marker
 
 
 func _clear_choices() -> void:

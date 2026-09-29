@@ -76,6 +76,7 @@ func _undo_forgets_nothing_it_learned() -> void:
 	var state := _state(null, ["alpha"])
 	var alpha := state.begin_next_turn()
 	var guard_3 := _unit(state, "Guard 3")
+	state.known[guard_3.id] = guard_3.cell
 	_place(state, "Guard 3", Vector2i(11, 0))
 	state.move(alpha, Vector2i(9, 9))
 	_check(not state.known.has(guard_3.id), "Alpha sees Guard 3's post is empty")

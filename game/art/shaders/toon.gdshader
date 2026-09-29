@@ -4,6 +4,7 @@ shader_type spatial;
 render_mode unshaded;
 // Marks the model's pixels so ink_outline.gdshader draws only outside the silhouette.
 stencil_mode write, compare_always, 1;
+#include "res://art/shaders/fog.gdshaderinc"
 
 uniform sampler2D albedo_texture : source_color, filter_linear_mipmap;
 uniform vec3 light_direction = vec3(-0.5, -1.0, -0.4);
@@ -16,5 +17,6 @@ instance uniform float flash = 0.0;
 void fragment() {
 	vec3 world_normal = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 	float lit = smoothstep(0.0, band_softness, dot(world_normal, -normalize(light_direction)));
-	ALBEDO = mix(texture(albedo_texture, UV).rgb * mix(shadow_tint, vec3(1.0), lit) * tint, vec3(1.0), flash);
+	vec3 world = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	ALBEDO = mix(texture(albedo_texture, UV).rgb * mix(shadow_tint, vec3(1.0), lit) * tint * fog_light(world), vec3(1.0), flash);
 }

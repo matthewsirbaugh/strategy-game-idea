@@ -21,6 +21,7 @@ func setup(p_unit: Unit, at: Vector3) -> void:
 	position = at
 	add_child(_model)
 	_model.build(load(unit.def.model), load(unit.def.pack) if unit.def.pack else null)
+	add_child(_ring(unit.def.color))
 	var top := PERSON_HEIGHT
 	if unit.def.kind == UnitDef.Kind.TURRET:
 		_model.fit_height(TURRET_HEIGHT)
@@ -57,7 +58,7 @@ func walk(points: Array[Vector3], shown: Array[bool] = []) -> void:
 	var tween := create_tween()
 	var was_shown := visible
 	var from := position
-	_model.play("Run", 1.0 / STEP_SECONDS)
+	_model.play("Run", GridView.CELL / STEP_SECONDS)
 	for i in points.size():
 		var is_shown: bool = shown.is_empty() or shown[i]
 		if is_shown:
@@ -115,12 +116,30 @@ func set_downed() -> void:
 	refresh()
 
 
+# A ring on the floor in the unit's color, so who's who reads at a glance from any distance.
+static func _ring(color: Color) -> MeshInstance3D:
+	var torus := TorusMesh.new()
+	torus.inner_radius = 0.42
+	torus.outer_radius = 0.52
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = color
+	var ring := MeshInstance3D.new()
+	ring.mesh = torus
+	ring.material_override = material
+	ring.scale = Vector3(1.0, 0.1, 1.0)
+	ring.position.y = 0.03
+	return ring
+
+
 static func make_label(font_size: int, height: float) -> Label3D:
 	var label := Label3D.new()
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.no_depth_test = true
 	label.font_size = font_size
 	label.outline_size = 12
-	label.pixel_size = 0.006
+	# Same size on screen at any zoom.
+	label.fixed_size = true
+	label.pixel_size = 0.0003
 	label.position.y = height
 	return label

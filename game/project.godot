@@ -80,3 +80,14 @@ toggle_network={
 
 renderer/rendering_method="forward_plus"
 anti_aliasing/quality/msaa_3d=2
+
+[shader_globals]
+
+fog_map={
+"type": "sampler2D",
+"value": ""
+}
+fog_bounds={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}

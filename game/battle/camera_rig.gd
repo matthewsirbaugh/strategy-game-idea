@@ -1,19 +1,22 @@
 class_name CameraRig
 extends Node3D
 
-@export var pan_speed := 8.0
+## A free, RTS-style camera around a point on the floor: pan it, orbit it, zoom in close.
+
+# Pan speed is in screen heights per second, so it feels the same at any zoom.
+@export var pan_speed := 0.8
 @export var pitch_degrees := 50.0
-@export var min_distance := 5.0
-@export var max_distance := 50.0
-@export var zoom_step := 2.0
-@export var rotate_seconds := 0.25
-@export var overhead_distance := 34.0
+@export var min_distance := 3.0
+@export var max_distance := 45.0
+@export var zoom_factor := 1.15
+@export var turn_degrees_per_second := 90.0
+@export var overhead_distance := 44.0
 @export var overhead_seconds := 0.5
 # How far past the map the view can pan, to take in the building around it.
-@export var pan_margin := 6.0
+@export var pan_margin := 9.0
 @export var drag_threshold := 8.0
 @export var orbit_degrees_per_pixel := 0.3
-@export var min_pitch := 15.0
+@export var min_pitch := 10.0
 @export var max_pitch := 85.0
 
 # The last press moved far enough to be a drag, so letting go isn't a click.
@@ -25,7 +28,6 @@ var _distance := 34.0
 var _pitch := 50.0
 # Starts at 45° so the grid reads as a diamond, the usual tactics view.
 var _yaw := 45.0
-var _rotate_tween: Tween
 var _focus_tween: Tween
 var _before_overhead := {}
 var _drag_button := MOUSE_BUTTON_NONE
@@ -78,22 +80,21 @@ func _glide(to_position: Vector3, to_distance: float, to_pitch: float) -> void:
 
 
 func _process(delta: float) -> void:
+	var turn := Input.get_axis("camera_rotate_left", "camera_rotate_right")
+	if turn != 0.0:
+		_yaw += turn * turn_degrees_per_second * delta
+		rotation.y = deg_to_rad(_yaw)
 	var input := Input.get_vector("camera_left", "camera_right", "camera_forward", "camera_back")
-	if input == Vector2.ZERO:
-		return
-	var direction := Vector3(input.x, 0.0, input.y).rotated(Vector3.UP, rotation.y)
-	position = (position + direction * pan_speed * delta).clamp(_bounds_min, _bounds_max)
+	if input != Vector2.ZERO:
+		var screen_height := _camera.get_viewport().get_visible_rect().size.y
+		_pan_by(input * pan_speed * screen_height * delta * Vector2(-1, -1))
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("camera_rotate_left"):
-		_rotate(-1)
-	elif event.is_action_pressed("camera_rotate_right"):
-		_rotate(1)
-	elif event.is_action_pressed("camera_zoom_in"):
-		_set_distance(_distance - zoom_step)
+	if event.is_action_pressed("camera_zoom_in"):
+		_set_distance(_distance / zoom_factor)
 	elif event.is_action_pressed("camera_zoom_out"):
-		_set_distance(_distance + zoom_step)
+		_set_distance(_distance * zoom_factor)
 	elif event is InputEventMagnifyGesture:
 		_set_distance(_distance / event.factor)
 	elif event is InputEventMouseButton:
@@ -123,8 +124,6 @@ func _on_drag(event: InputEventMouseMotion) -> void:
 	if _drag_button == MOUSE_BUTTON_MIDDLE:
 		_pan_by(event.relative)
 		return
-	if _rotate_tween:
-		_rotate_tween.kill()
 	_yaw -= event.relative.x * orbit_degrees_per_pixel
 	rotation.y = deg_to_rad(_yaw)
 	_set_pitch(clampf(_pitch + event.relative.y * orbit_degrees_per_pixel, min_pitch, max_pitch))
@@ -135,14 +134,6 @@ func _pan_by(pixels: Vector2) -> void:
 	var metres := 2.0 * _distance * tan(deg_to_rad(_camera.fov) / 2.0) / _camera.get_viewport().get_visible_rect().size.y
 	var move := Vector3(-pixels.x, 0.0, -pixels.y / sin(deg_to_rad(_pitch))) * metres
 	position = (position + move.rotated(Vector3.UP, rotation.y)).clamp(_bounds_min, _bounds_max)
-
-
-func _rotate(steps: int) -> void:
-	_yaw += 90.0 * steps
-	if _rotate_tween:
-		_rotate_tween.kill()
-	_rotate_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_rotate_tween.tween_property(self, "rotation:y", deg_to_rad(_yaw), rotate_seconds)
 
 
 func _set_distance(distance: float) -> void:
