@@ -62,6 +62,8 @@ reference frame Bryson chose, in [art/reference/look/](../art/reference/look/REA
   At 30 px per metre, 10 cm is 3 px and a 3 cm bevel is 1 px.
 - Who does it:
   - 0A: plinth, cap, joints (observed).
+  - Cyberpunk 2077's Japantown: a plain concrete barrier wall read entirely by a chunky
+    chamfered cap and a red-painted base band (frame, `cp2077-japantown-barrier-wall.webp`).
   - Hi-Fi Rush's keywords were "Colorful, Sharp, Clean" (sourced).
   - The stylized cyberpunk breakdowns on 80.lv build chunky bevelled pieces with one trim
     sheet, not unique textures (sourced).
@@ -158,6 +160,9 @@ reference frame Bryson chose, in [art/reference/look/](../art/reference/look/REA
     (observed).
   - Cyberpunk 2077 by day: ads, murals and stripe bands are the wall texture on plain dark
     faces; graffiti sits at street level (frame, `cp2077-daytime-street.webp`).
+  - Cyberpunk 2077 seen from above: billboards and rooftop clutter (dishes, fans, corrugated
+    roofs) carry the buildings; the street is a calm grey ribbon with lane paint and red curbs
+    (frame, `cp2077-street-from-above.webp`, the closest to our camera).
   - The stylized cyberpunk scenes on 80.lv keep the base tile plain and put leaks, cracks and
     puddles in decals (sourced).
   - Arcane-style environments keep painted detail near the characters and the rest quiet
@@ -205,12 +210,12 @@ reference frame Bryson chose, in [art/reference/look/](../art/reference/look/REA
 
 ## Per surface
 
-| Surface | What it should look like | 0A region to study |
+| Surface | What it should look like | Where to look |
 |---|---|---|
-| Perimeter wall | Flat grey-blue concrete panels in 3 to 4 tones. A dark plinth with procedural orange hazard stripes. A pale bevelled cap with a lit edge. A groove at every tile seam. Drips only below the cap and seams. One slogan or graffiti panel per 3 to 5 tiles. Razor wire, posts and lamps on top | Left and bottom-right walls |
-| Facility tower facade | A smooth corporate monolith: big flat dark sheets, strong vertical mullions, and a magenta emissive logo and slogan panels. Cleaner than the street: grime only at the base. The Edgerunners agent says Cyberpunk 2077's "Neo-militarism" style for corporations is exactly this (sourced) | Center tower |
-| Street asphalt | A calm, dark, low-contrast base. Richness from white lane marks, STOP text, manholes, patched squares, and wet streaks catching neon and floodlight color. No visible repeat at 4 m scale: large-scale tint plus a per-tile hash | Bottom-left street |
-| Sidewalk and curb | A curb is geometry: a 15 cm lip with a lit top edge. Paving slabs as flat tone blocks with thin dark joints, one value step lighter than the asphalt | Curbs around the booth and gate |
+| Perimeter wall | Flat grey-blue concrete panels in 3 to 4 tones. A dark plinth with procedural orange hazard stripes. A pale bevelled cap with a lit edge. A groove at every tile seam. Drips only below the cap and seams. One slogan or graffiti panel per 3 to 5 tiles. Razor wire, posts and lamps on top | 0A left and bottom-right walls; `cp2077-japantown-barrier-wall.webp` |
+| Facility tower facade | A smooth corporate monolith: big flat dark sheets, strong vertical mullions, and a magenta emissive logo and slogan panels. Cleaner than the street: grime only at the base. The Edgerunners agent says Cyberpunk 2077's "Neo-militarism" style for corporations is exactly this (sourced). Color blocking in big bands and panels, strong ledges | 0A center tower; `cp2077-facades-looking-up.webp` |
+| Street asphalt | A calm, dark, low-contrast base. Richness from white lane marks, STOP text, manholes, patched squares, and wet streaks catching neon and floodlight color. No visible repeat at 4 m scale: large-scale tint plus a per-tile hash | 0A bottom-left street; `cp2077-street-from-above.webp`; wet ground painted in `painted-neon-street.webp` |
+| Sidewalk and curb | A curb is geometry: a 15 cm lip with a lit top edge. Paving slabs as flat tone blocks with thin dark joints, one value step lighter than the asphalt. Painted curb edges (red, orange) are a cheap strong accent | 0A curbs around the booth and gate; `cp2077-japantown-barrier-wall.webp` |
 | Yard concrete | Between sidewalk and asphalt in value, with orange painted corner brackets and parking lines | Loading area on the right |
 | Interior floor and wall | Same rules, cleaner. Corporate interiors are flat tones, with seams as geometry and value steps. The color comes from screens and neon | 0B, not studied in depth |
 
@@ -383,3 +388,11 @@ Afterlife frame confirms thin lines on architecture, flat panel fills and one do
 color. It corrects the grime: soft mottled patches inside panels, not hard-edged blobs
 (principle 3 changed). The rest confirm signage as texture and color from light. The drip and
 base-band reading of the anime's grime is still unchecked: the Afterlife is an interior.
+
+### 2026-09-29 — Second batch of frames (Bryson's picks; Claude's reading)
+
+Four more, mostly Cyberpunk 2077. The Japantown barrier wall is the perimeter wall kit in one
+image: plain face, chamfered cap, painted base band. The view from above is the closest to our
+battle camera and confirms a calm street with the detail on buildings and roofs. The painted
+neon street shows wet ground as broad painted strokes. The looking-up shot shows facade color
+blocking. None is an Edgerunners exterior, so the anime's street grime is still unchecked.
