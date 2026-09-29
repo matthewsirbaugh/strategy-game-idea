@@ -279,6 +279,8 @@ Each one runs, gets played, and is committed.
   Tile counts in the rules are unchanged.
 - Camera: left-drag orbits freely, middle- or Option-drag and WASD pan, Q and E turn smoothly, the
   wheel or a pinch zooms from 3 m to 45 m. Labels stay the same size on screen at any zoom.
+  Remapped by Bryson the same day: left-drag pans and right-drag orbits. A right-click without a
+  drag still steps back, and a click without a drag still selects.
 - Open, for the aesthetics pass: the ceiling, and the look as a whole. Recorded in
   [environment-art.md](environment-art.md).
 
