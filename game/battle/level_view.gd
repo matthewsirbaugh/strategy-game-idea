@@ -156,28 +156,31 @@ func _build_node(id: String) -> void:
 # the wall across its tiles, along x when it faces north or south and along y when it faces east
 # or west. Anywhere else a prop just stands on the floor.
 func _build_dressing(item: Dictionary) -> void:
+	var prop: String = item.prop
 	var cell: Vector2i = item.cell
 	var yaw: float = item.yaw
-	if _walls.has(cell) and item.prop in MOUNTED:
+	var tiles: int = item.tiles
+	if _walls.has(cell) and prop in MOUNTED:
 		var out := Vector3(sin(yaw), 0, cos(yaw))
-		var model := _mount_on_wall(item.prop, _grid.cell_to_world(cell) + out * GridView.CELL / 2.0, Vector2i(roundi(out.x), roundi(out.z)))
+		var model := _mount_on_wall(prop, _grid.cell_to_world(cell) + out * GridView.CELL / 2.0, Vector2i(roundi(out.x), roundi(out.z)))
 		_walls[cell].hung.append(model.get_parent_node_3d())
 	elif map.is_wall(cell):
 		var run := _run_direction(yaw)
-		var middle := _grid.cell_to_world(cell) + Vector3(run.x, 0, run.y) * GridView.CELL * (item.tiles - 1) / 2.0
-		_add_prop(item.prop, middle, yaw, 0.0, item.tiles * GridView.CELL)
+		var middle := _grid.cell_to_world(cell) + Vector3(run.x, 0, run.y) * GridView.CELL * (tiles - 1) / 2.0
+		_add_prop(prop, middle, yaw, 0.0, tiles * GridView.CELL)
 	else:
-		_add_prop(item.prop, _grid.cell_to_world(cell), yaw, PROP_HEIGHTS.get(item.prop, 1.0))
+		_add_prop(prop, _grid.cell_to_world(cell), yaw, PROP_HEIGHTS.get(prop, 1.0))
 
 
 # Wall tiles that a prop stands in for, so no wall block is built there.
 func _filled_cells() -> Dictionary:
 	var cells := {}
 	for item in map.dressing_items():
-		if item.prop in MOUNTED or not map.is_wall(item.cell):
+		var cell: Vector2i = item.cell
+		if item.prop in MOUNTED or not map.is_wall(cell):
 			continue
-		for i in item.tiles:
-			cells[item.cell + _run_direction(item.yaw) * i] = true
+		for i: int in item.tiles:
+			cells[cell + _run_direction(item.yaw) * i] = true
 	return cells
 
 
