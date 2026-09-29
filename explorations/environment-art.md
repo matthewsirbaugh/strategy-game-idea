@@ -122,8 +122,15 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
     the wall neon changed to a clay glow (`NEON` in `level_view.gd`).
   - Light grays warmed toward cream.
   - The Operators were not touched.
-- 0A has a recolored copy beside the original, `0A-exterior-establishing-anthropomorphic.png`.
-  Bryson picks which one is the reference.
+- Bryson adopted the recolored 0A: "The recoloured one with the orange is incredible, keep
+  that please." It replaced the original under the same name (the magenta version is in git
+  history).
+- The rest of the facility art was recolored to match:
+  - the concepts in `art/reference/environment-facility/`
+  - the Meshy renders of the props, guard and turret
+  - the in-game floor and wall textures
+
+  Orange hazard stripes stay.
 - Checked by viewing the images, not in the game: Godot isn't installed in the cloud session.
 - Logos and the van's "SENTINEL" text keep their shapes.
 
