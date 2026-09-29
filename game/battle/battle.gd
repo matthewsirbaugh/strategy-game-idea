@@ -96,13 +96,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("end_turn"):
 		_end_player_turn()
-	elif event.is_action_pressed("cancel"):
+	elif event.is_action_released("cancel"):
 		if _mode in [Mode.MOVE, Mode.TARGET, Mode.NODE]:
 			_open_menu()
 	else:
-		# On release, so a press that turns into a camera drag never selects anything.
+		# On release: the camera swallows the release that ends a drag, so this is a plain click.
 		var click := event as InputEventMouseButton
-		if click and not click.pressed and click.button_index == MOUSE_BUTTON_LEFT and not _camera_rig.dragged:
+		if click and not click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
 			_click(click.position)
 
 

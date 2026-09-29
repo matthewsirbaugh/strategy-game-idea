@@ -39,7 +39,7 @@ func _ready() -> void:
 
 # The menu has to close before the pause menu sees Esc, so this runs in _input.
 func _input(event: InputEvent) -> void:
-	if _action_menu.visible and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("cancel")):
+	if _action_menu.visible and (event.is_action_pressed("ui_cancel") or event.is_action_released("cancel")):
 		get_viewport().set_input_as_handled()
 		close_menu()
 		menu_cancelled.emit()

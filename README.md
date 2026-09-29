@@ -13,8 +13,9 @@ Needs Godot 4.7 (`brew install --cask godot`).
 - Test the hacking math: `godot --headless --path game -s tests/test_hacking.gd`
 - Test the rules (fog fairness, illegal actions, map checks): `godot --headless --path game -s tests/test_rules.gd`
 
-Battle camera: left-drag orbits, middle-drag, Option-drag or WASD pans, Q and E turn, the wheel
-or a pinch zooms.
+Battle camera: left-drag or WASD pans; right-drag (or Option-drag, or middle-drag) orbits; Q
+and E turn; the wheel or a pinch zooms. A click without a drag selects, and a right-click without
+a drag steps back.
 
 ## How `game/` is organized
 

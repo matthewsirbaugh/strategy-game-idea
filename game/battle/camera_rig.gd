@@ -2,6 +2,8 @@ class_name CameraRig
 extends Node3D
 
 ## A free, RTS-style camera around a point on the floor: pan it, orbit it, zoom in close.
+## It sits last in the battle scene so it sees mouse input first: a press that becomes a drag
+## moves the camera, and its release is swallowed, so only a plain click selects or goes back.
 
 # Pan speed is in screen heights per second, so it feels the same at any zoom.
 @export var pan_speed := 0.8
@@ -21,8 +23,6 @@ extends Node3D
 @export var min_pitch := 10.0
 @export var max_pitch := 85.0
 
-# The last press moved far enough to be a drag, so letting go isn't a click.
-var dragged := false
 
 var _bounds_min := Vector3.ZERO
 var _bounds_max := Vector3.ZERO
@@ -33,6 +33,8 @@ var _focus_tween: Tween
 var _before_overhead := {}
 var _drag_button := MOUSE_BUTTON_NONE
 var _press_at := Vector2.ZERO
+var _dragged := false
+var _panning := false
 
 @onready var _camera: Camera3D = $Camera3D
 
@@ -99,31 +101,40 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_distance(_distance * zoom_factor)
 	elif event is InputEventMagnifyGesture:
 		_set_distance(_distance / event.factor)
-	elif event is InputEventMouseButton:
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
 		_on_button(event)
 	elif event is InputEventMouseMotion and _drag_button != MOUSE_BUTTON_NONE:
 		_on_drag(event)
 
 
-# Left-drag orbits: sideways turns the view, up and down tilts it. Middle-drag, or Option/Alt
-# with left-drag on a trackpad, pans.
+# Left-drag pans. Right-drag orbits: sideways turns the view, up and down tilts it. Middle-drag,
+# or Option/Alt with left-drag on a trackpad, orbits too. A press on the HUD is left to the HUD.
 func _on_button(event: InputEventMouseButton) -> void:
-	if event.button_index not in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_MIDDLE]:
+	if event.button_index not in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT, MOUSE_BUTTON_MIDDLE]:
 		return
 	if not event.pressed:
-		_drag_button = MOUSE_BUTTON_NONE
+		if event.button_index == _drag_button:
+			if _dragged:
+				get_viewport().set_input_as_handled()
+			_drag_button = MOUSE_BUTTON_NONE
 		return
-	var panning := event.button_index == MOUSE_BUTTON_MIDDLE or event.alt_pressed
-	_drag_button = MOUSE_BUTTON_MIDDLE if panning else MOUSE_BUTTON_LEFT
+	if get_viewport().gui_get_hovered_control() != null:
+		return
+	var panning := event.button_index == MOUSE_BUTTON_LEFT and not event.alt_pressed
+	_drag_button = event.button_index
+	_panning = panning
 	_press_at = event.position
-	dragged = false
+	_dragged = false
 
 
 func _on_drag(event: InputEventMouseMotion) -> void:
-	if not dragged and event.position.distance_to(_press_at) < drag_threshold:
+	if not _dragged and event.position.distance_to(_press_at) < drag_threshold:
 		return
-	dragged = true
-	if _drag_button == MOUSE_BUTTON_MIDDLE:
+	_dragged = true
+	if _panning:
 		_pan_by(event.relative)
 		return
 	_yaw -= event.relative.x * orbit_degrees_per_pixel

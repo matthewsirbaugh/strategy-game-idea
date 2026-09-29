@@ -82,6 +82,10 @@ visible = false
 mesh = SubResource("RingMesh")
 material_override = SubResource("RingMat")
 
+[node name="Hud" parent="." instance=ExtResource("6")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("5")]
+
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("3")
 start_yaw = -35.0
@@ -89,7 +93,3 @@ start_yaw = -35.0
 [node name="Camera3D" type="Camera3D" parent="CameraRig"]
 current = true
 fov = 30.0
-
-[node name="Hud" parent="." instance=ExtResource("6")]
-
-[node name="PauseMenu" parent="." instance=ExtResource("5")]
