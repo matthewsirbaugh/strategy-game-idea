@@ -120,21 +120,23 @@ the game directly.
 ```
       0 1 2 3 4 5 6 7 8 9 10 11
   0   X X . . . . . . # . .  .
-  1   X X . . c . . f # . z  .
-  2   . . . . . . 2 . # . .  .
+  1   X X . . . . . f # . z  .
+  2   . . . . c . 2 . # . .  .
   3   # # # d # # . . # # #  #
   4   . . . . . . . . . t .  .
-  5   . e . . # . b . . . 3  .
+  5   . e . . # b . . . . 3  .
   6   . . 1 . . . . . # . .  .
   7   . . . . . . . . . . .  .
   8   # # . # # . . # # . #  #
   9   . . . # . 4 . . # . .  .
- 10   . 5 . # . . a . # P P  .
+ 10   . 5 . # . . . a # P P  .
  11   . . . . . . . . . . P  .
 ```
 
 `.` floor, `#` wall, `X` extraction, `P` Operator start, `1`–`5` guard start. Letters are
-network nodes:
+network nodes. An access point next to a wall is drawn as a panel on that wall, facing its tile;
+one in the open will be a terminal (2026-09-28). The three access points each moved one tile onto
+a wall that day (a from 6,10; b from 6,5; c from 4,1), keeping their roles.
 
 | Node | Kind | Role |
 |---|---|---|

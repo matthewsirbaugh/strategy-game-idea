@@ -2,8 +2,9 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: the aesthetics pass. Bryson's critique and the questions it raises are in the latest
-  finding; the exterior map aims at the exterior establishing shot (0A).
+- Next action: Claude mounts access points on walls as panels (latest finding). Later: a
+  hand-built terminal model for free-standing access points, and a map editor for Bryson
+  (both on the board).
 
 ## The question
 
@@ -106,12 +107,24 @@ IMAGE G, GUARD CHARACTER SHEET (different format): Character turnaround sheet, f
 
 ## Questions for Bryson
 
-Earlier ones were settled on 2026-09-27 (Findings). Open for the aesthetics pass:
-
-1. The ceiling: how to show one from above, Sims-style.
-2. Cohesion: what makes the models and the set read as one world (latest finding).
+Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 
 ## Findings
+
+### 2026-09-28 — Cutaway walls stay; models approved in play; two kinds of access point (Bryson)
+
+- The walls that cut away in front of the camera stay for now as the answer to showing a
+  ceiling: "it takes the shape of the solution I want, if not the aesthetic." Bryson doesn't
+  expect it to last forever.
+- "The models are looking great now that they're in the game." This answers the earlier critique.
+- Access points looked wrong: the model is flat on one side, as if meant for a wall, but stood in
+  the middle of the floor. Bryson wants several kinds of access point in time, two to start:
+  - **Wall panel**: the existing access point model, mounted on a wall. No new generation.
+  - **Terminal**: a monitor on a podium, like the terminals in No Man's Sky, placeable anywhere.
+    Claude builds it by hand, not with Meshy. Later; the panels come first.
+- The exterior establishing shot (0A): Bryson says Claude missed the point of it, and that it
+  makes him think a map editor, so he can lay out levels himself, would be easier. The map
+  editor is on the board as something to build.
 
 ### 2026-09-28 — The goal for the exterior, and a critique of the look (Bryson)
 

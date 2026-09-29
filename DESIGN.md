@@ -97,8 +97,8 @@ locked yet, are in
   different ways, developed through hardware, harness and post-training upgrades. It is broad
   enough that no two players play alike. Builds change tactics, not just numbers.
 - No permadeath.
-- The game is 3D, and it should be good looking. The MVP uses basic greybox shapes; art comes
-  once the playtest validates it. (2026-09-24)
+- The game is 3D, and it should be good looking. The models and textures in the game now are
+  alpha placeholder art, there to judge the look in play; final art comes later. (2026-09-28)
 - The world is a gritty, technofeudal corporate AI future full of advertisements, all the way
   through. It replaces "solarpunk meets corporate AI future." I was trying to reinvent the wheel;
   the classic technofeudal future looks alike across media for a reason, and I think it's the
