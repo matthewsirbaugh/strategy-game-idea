@@ -31,7 +31,7 @@ const PROP_HEIGHTS := {"access_point": 1.2, "security_camera": 0.6, "server_rack
 const MOUNTED := ["vault_door", "loading_dock", "security_door", "access_point", "security_camera"]
 # Wall stand-ins sized by height rather than stretched to fill their tiles.
 const KEEP_HEIGHT := ["guard_booth"]
-const NEON := Color(1.0, 0.15, 0.6)
+const NEON := Color(1.0, 0.42, 0.22)
 const HAZARD := Color(1.0, 0.42, 0.1)
 const CAMERA_MOUNT_Y := 2.1
 # A wall panel's bottom edge, so its screen sits at chest height.

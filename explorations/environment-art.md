@@ -113,6 +113,20 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 
 ## Findings
 
+### 2026-09-29 — The facility corp is Anthropomorphic: clay and cream (Bryson; Claude recolored)
+
+- Bryson named the corps OpenBrain and Anthropomorphic, tongue-in-cheek, with no real brands.
+  The facility is Anthropomorphic.
+- The recolor was done by script:
+  - Magenta turned clay orange in every facility prop texture and the guard's texture, and
+    the wall neon changed to a clay glow (`NEON` in `level_view.gd`).
+  - Light grays warmed toward cream.
+  - The Operators were not touched.
+- 0A has a recolored copy beside the original, `0A-exterior-establishing-anthropomorphic.png`.
+  Bryson picks which one is the reference.
+- Checked by viewing the images, not in the game: Godot isn't installed in the cloud session.
+- Logos and the van's "SENTINEL" text keep their shapes.
+
 ### 2026-09-28 — The cutaway walls are out; ghosting instead (Bryson)
 
 - Bryson changed his mind about the cutaway: "we need ghosting on the walls so that the player

@@ -304,8 +304,10 @@ Open:
    we're going for." The Operators no longer reserve yellow, blue and sage.
 7. **The corporations' color identities.** Mostly gray with pops of color, stark white, or a
    tongue-in-cheek nod to AI companies' colors (Bryson). Decided 2026-09-29 (Bryson): "Go with
-   the AI company nods more I think. No real brands, but make it tongue in cheek." Which corp
-   gets which scheme, and whether the facility corp's magenta changes, is open.
+   the AI company nods more I think. No real brands, but make it tongue in cheek." The two corps
+   are **OpenBrain** and **Anthropomorphic** (Bryson's names). The facility corp is
+   Anthropomorphic, recolored from magenta to clay and cream (Bryson: "Recolor it now").
+   OpenBrain, stark black and white, comes later.
 
 The options as they were put:
 
