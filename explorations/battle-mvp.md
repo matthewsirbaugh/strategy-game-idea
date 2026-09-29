@@ -111,6 +111,56 @@ lives in the menu.
 **Win and lose.** Win: breach the data cache, then get every standing Operator to the
 extraction zone. Lose: all three Operators downed.
 
+## Facility exterior map
+
+Since 2026-09-28 the battle plays `game/content/maps/facility_exterior.tres`, the first part of
+the facility mission, laid out from the exterior establishing shot (0A) at Bryson's request.
+The MVP map below stays as the map the rules tests run on.
+
+```
+      0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+  0   # # # # # # B B B B B  B  B  B  B  B  B  B  B  B
+  1   # . . . . . B B B B B  B  B  B  B  B  B  B  B  B
+  2   # . . . . . B B B B B  B  B  B  B  B  B  B  B  B
+  3   # . . . . . B B f B B  B  B  B  B  B  B  B  B  B
+  4   # . 4 . . . . . . X X  .  .  .  .  .  B  B  B  B
+  5   # . . . . . . . 2 . .  3  t  .  .  .  g  B  B  B
+  6   b . . . . . . . . . .  .  .  .  .  X  B  B  B  B
+  7   # . . . . . . . . . .  .  .  .  .  X  B  B  B  B
+  8   # . . . . . . . . . .  .  #  #  .  .  z  B  B  B
+  9   # . . . . . . . . . .  .  #  #  .  .  B  B  B  B
+ 10   # . . . . . . . . . .  .  .  5  .  .  c  B  B  B
+ 11   # . . . . . . . 1 . .  .  .  #  #  #  B  B  B  B
+ 12   # # d # a # # . . # e  #  #  #  #  #  B  B  B  B
+ 13   , , , , , , , , , , ,  ,  ,  ,  ,  ,  ,  ,  ,  ,
+ 14   , P P , , , , , , , ,  ,  ,  ,  ,  ,  ,  ,  ,  ,
+ 15   , P , , , , , , , , ,  ,  ,  ,  ,  ,  ,  ,  ,  ,
+```
+
+`B` is a building (the tower at the top, the dock building at the right), `,` is the street,
+the rest as in the MVP legend below. The team starts on the street. Two ways in: the open vehicle
+lane past the guard booth (5–6,12) and its guard, or the service door d into the side yard. The
+exits are the tower's glass doors and the loading dock door. Crates and the van are obstacles.
+
+| Node | Kind | Role |
+|---|---|---|
+| a | Access point | A panel on the street side of the wall, by the start. Safe. Reaches the service door and the gate camera |
+| b | Access point | A panel on the side yard's wall |
+| c | Access point | A panel on the dock building, beside a patrol. One hop from the cache |
+| d | Door | The service door into the side yard |
+| e | Camera | Over the gate, watching the lane and courtyard |
+| f | Camera | On the tower, watching the entrance plaza |
+| g | Camera | On the dock building, watching the dock |
+| t | Turret | Covers the entrance plaza |
+| z | Data cache | The dock's security rack, beside the dock door |
+
+Network links: a–d, a–e, d–b, b–f, e–f, f–t, t–g, g–z, c–z, c–g. The cache is 5 hops from the
+safe panel, 4 from the side yard's, and 1 from the dock's.
+
+A node set into a wall line, with wall on both sides, is part of the wall: panels and wall
+cameras block sight like the wall, and are used from the tile in front. An access point in the
+open will be a terminal (Bryson, 2026-09-28).
+
 ## Map sketch
 
 Claude's placeholder, drawn 2026-09-24 at Bryson's request. Level layout is Bryson's call, so
@@ -120,23 +170,21 @@ the game directly.
 ```
       0 1 2 3 4 5 6 7 8 9 10 11
   0   X X . . . . . . # . .  .
-  1   X X . . . . . f # . z  .
-  2   . . . . c . 2 . # . .  .
+  1   X X . . c . . f # . z  .
+  2   . . . . . . 2 . # . .  .
   3   # # # d # # . . # # #  #
   4   . . . . . . . . . t .  .
-  5   . e . . # b . . . . 3  .
+  5   . e . . # . b . . . 3  .
   6   . . 1 . . . . . # . .  .
   7   . . . . . . . . . . .  .
   8   # # . # # . . # # . #  #
   9   . . . # . 4 . . # . .  .
- 10   . 5 . # . . . a # P P  .
+ 10   . 5 . # . . a . # P P  .
  11   . . . . . . . . . . P  .
 ```
 
 `.` floor, `#` wall, `X` extraction, `P` Operator start, `1`–`5` guard start. Letters are
-network nodes. An access point next to a wall is drawn as a panel on that wall, facing its tile;
-one in the open will be a terminal (2026-09-28). The three access points each moved one tile onto
-a wall that day (a from 6,10; b from 6,5; c from 4,1), keeping their roles.
+network nodes.
 
 | Node | Kind | Role |
 |---|---|---|

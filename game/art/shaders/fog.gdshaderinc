@@ -5,7 +5,7 @@ global uniform sampler2D fog_map : filter_nearest;
 // The lit area in world metres: x and z of its corner, then its width and depth. Zero size, as
 // outside a battle, turns the fog off.
 global uniform vec4 fog_bounds;
-const float FOG_DARK = 0.16;
+const float FOG_DARK = 0.3;
 const float FOG_LIT = 1.3;
 
 float fog_light(vec3 world) {

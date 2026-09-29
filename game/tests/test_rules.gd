@@ -111,6 +111,7 @@ func _broken_content_is_reported() -> void:
 	]:
 		_check(errors.contains(expected), "broken content should report: " + expected)
 	_check(BattleState.validate(load("res://content/maps/mvp.tres"), operators, _node_defs()).is_empty(), "the MVP map is valid")
+	_check(BattleState.validate(load("res://content/maps/facility_exterior.tres"), operators, _node_defs()).is_empty(), "the facility exterior map is valid")
 	var two_caches := MapData.new()
 	two_caches.layout = "X z y P P"
 	two_caches.node_kinds = {"z": "cache", "y": "cache"}

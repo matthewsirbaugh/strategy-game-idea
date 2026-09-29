@@ -1,7 +1,8 @@
 class_name MapData
 extends Resource
 
-# Legend: explorations/battle-mvp.md, "Map sketch".
+# Legend: explorations/battle-mvp.md, "Map sketch". B is a wall that belongs to a building and
+# a comma is street; to the rules they are a wall and a floor like any other.
 @export_multiline var layout := ""
 @export var node_kinds := {}
 @export var links := PackedStringArray()
@@ -10,6 +11,12 @@ extends Resource
 # Props with no rules role, one per line: "name x,y facing [tiles]", facing north, south, east or
 # west. The name is a folder in art/props/. The rules ignore these; the level view draws them.
 @export var dressing := PackedStringArray()
+# Indoors the floor and walls are the corporate interior; outdoors, paving and concrete. Only the
+# look changes.
+@export var indoors := false
+# Which way a node set into a wall faces, as north, south, east or west. Without an entry it
+# faces its first open side.
+@export var node_facings := {}
 
 const FACINGS := {"south": 0.0, "east": PI / 2.0, "north": PI, "west": -PI / 2.0}
 
@@ -17,6 +24,8 @@ var size := Vector2i.ZERO
 var _parsed := false
 var _parse_errors := PackedStringArray()
 var _walls := {}
+var _buildings := {}
+var _street := {}
 var _nodes := {}
 var _node_at := {}
 var _player_starts: Array[Vector2i] = []
@@ -54,6 +63,9 @@ func validate() -> PackedStringArray:
 			var cell := Vector2i(xy[0].to_int(), xy[1].to_int())
 			if not in_bounds(cell) or is_wall(cell):
 				errors.append(field_error("patrols[%d]" % i, "waypoint %s is off the map or a wall" % _xy(cell)))
+	for id in node_facings:
+		if not _nodes.has(id) or not FACINGS.has(node_facings[id]):
+			errors.append(field_error("node_facings", "'%s: %s' should name a node on the layout and a facing" % [id, node_facings[id]]))
 	for i in dressing.size():
 		var parts := dressing[i].split(" ", false)
 		var xy := parts[1].split(",") if parts.size() > 1 else PackedStringArray()
@@ -94,6 +106,37 @@ func in_bounds(cell: Vector2i) -> bool:
 func is_wall(cell: Vector2i) -> bool:
 	_parse()
 	return _walls.has(cell)
+
+
+func is_building(cell: Vector2i) -> bool:
+	_parse()
+	return _buildings.has(cell)
+
+
+func is_street(cell: Vector2i) -> bool:
+	_parse()
+	return _street.has(cell)
+
+
+# A node with walls on both sides of it, in a line, is set into that wall: a panel, a wall camera,
+# a door. It blocks sight like the wall does, unless it's an open door.
+func in_wall(cell: Vector2i) -> bool:
+	_parse()
+	return (_walls.has(cell + Vector2i(-1, 0)) and _walls.has(cell + Vector2i(1, 0))) \
+		or (_walls.has(cell + Vector2i(0, -1)) and _walls.has(cell + Vector2i(0, 1)))
+
+
+# The side of the tile a node faces, as a step on the grid.
+func node_facing(id: String) -> Vector2i:
+	_parse()
+	if node_facings.has(id):
+		var yaw: float = FACINGS[node_facings[id]]
+		return Vector2i(roundi(sin(yaw)), roundi(cos(yaw)))
+	var cell: Vector2i = _nodes[id]
+	for step in [Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 0), Vector2i(-1, 0)]:
+		if in_bounds(cell + step) and not _walls.has(cell + step):
+			return step
+	return Vector2i(0, 1)
 
 
 func node_at(cell: Vector2i) -> String:
@@ -167,6 +210,11 @@ func _read_tile(tile: String, cell: Vector2i) -> void:
 			pass
 		"#":
 			_walls[cell] = true
+		"B":
+			_walls[cell] = true
+			_buildings[cell] = true
+		",":
+			_street[cell] = true
 		"X":
 			_extraction.append(cell)
 		"P":

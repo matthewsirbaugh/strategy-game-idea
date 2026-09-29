@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="MapData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/map_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+layout = "# # # # # # B B B B B B B B B B B B B B
+# . . . . . B B B B B B B B B B B B B B
+# . . . . . B B B B B B B B B B B B B B
+# . . . . . B B f B B B B B B B B B B B
+# . 4 . . . . . . X X . . . . . B B B B
+# . . . . . . . 2 . . 3 t . . . g B B B
+b . . . . . . . . . . . . . . X B B B B
+# . . . . . . . . . . . . . . X B B B B
+# . . . . . . . . . . . # # . . z B B B
+# . . . . . . . . . . . # # . . B B B B
+# . . . . . . . . . . . . 5 . . c B B B
+# . . . . . . . 1 . . . . # # # B B B B
+# # d # a # # . . # e # # # # # B B B B
+, , , , , , , , , , , , , , , , , , , ,
+, P P , , , , , , , , , , , , , , , , ,
+, P , , , , , , , , , , , , , , , , , ,"
+node_kinds = {
+"a": "access",
+"b": "access",
+"c": "access",
+"d": "door",
+"e": "camera",
+"f": "camera",
+"g": "camera",
+"t": "turret",
+"z": "cache"
+}
+links = PackedStringArray("a-d", "a-e", "d-b", "b-f", "e-f", "f-t", "t-g", "g-z", "c-z", "c-g")
+patrols = PackedStringArray("8,9 7,9 7,11", "5,5 5,8 8,8", "14,5 14,7 11,7", "2,10 4,10 4,4", "14,10 14,6")
+dressing = PackedStringArray("guard_booth 5,12 south 2", "security_door 9,3 south", "security_door 10,3 south", "loading_dock 16,6 west", "delivery_van 13,11 south 3", "shipping_crates 12,8 south 2", "shipping_crates 12,9 south 2", "floodlight_pole 1,11 south", "floodlight_pole 11,11 south", "floodlight_pole 5,4 south", "floodlight_pole 15,4 south")
+node_facings = {
+"a": "south",
+"e": "north"
+}

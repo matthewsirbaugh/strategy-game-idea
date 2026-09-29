@@ -61,7 +61,10 @@ func _ready() -> void:
 			add_child(_tethers[unit.id])
 		else:
 			_last_seen[unit.id] = _make_last_seen(unit)
-	_camera_rig.setup(_grid.center(), _grid.extent())
+	var team := Vector3.ZERO
+	for cell in state.map.player_starts():
+		team += _grid.cell_to_world(cell) / state.map.player_starts().size()
+	_camera_rig.setup(team, _grid.extent())
 	_hud.action_chosen.connect(_on_action)
 	_hud.menu_cancelled.connect(_on_menu_cancelled)
 	_hud.network_toggled.connect(_on_network_toggled)

@@ -146,7 +146,11 @@ func blocks_sight(cell: Vector2i) -> bool:
 	if not map.in_bounds(cell) or map.is_wall(cell):
 		return true
 	var node := map.node_at(cell)
-	return node != "" and map.node_kind(node) == "door" and not _open_doors.has(node)
+	if node == "":
+		return false
+	if map.node_kind(node) == "door":
+		return not _open_doors.has(node)
+	return map.in_wall(cell)
 
 
 func has_line_of_sight(from: Vector2i, to: Vector2i) -> bool:

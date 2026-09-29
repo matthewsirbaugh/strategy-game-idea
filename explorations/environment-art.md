@@ -2,9 +2,8 @@
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
 - Status: open
-- Next action: Claude mounts access points on walls as panels (latest finding). Later: a
-  hand-built terminal model for free-standing access points, and a map editor for Bryson
-  (both on the board).
+- Next action: Bryson plays the redesigned exterior map and says what to change. Later: a
+  hand-built terminal model and a map editor for Bryson (both on the board).
 
 ## The question
 
@@ -110,6 +109,20 @@ IMAGE G, GUARD CHARACTER SHEET (different format): Character turnaround sheet, f
 Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 
 ## Findings
+
+### 2026-09-28 — The map redesigned from 0A; panels in walls (Bryson asked; Claude built it; screenshots, not played)
+
+- Bryson: "Use the reference image as the basis for how to build the map. Redesign it." That was
+  the point of sharing 0A: it's the layout, not only the look.
+- The battle now plays `facility_exterior.tres` (sketch in [battle-mvp.md](battle-mvp.md)): street
+  along the south, perimeter wall with an orange hazard band, guard booth and boom beside an open
+  vehicle lane, a service door into a side yard, floodlights, the tower's entrance with glass
+  doors, a turret on the plaza, and the loading dock building with its dock door, the van, crates
+  and the objective rack.
+- Access points are panels set into walls, as Bryson asked; cameras and the cache rack too.
+- Missing against 0A, for later: the tower's facade (windows, screens, logo, slogans), planters,
+  barbed wire, the wet street and its poles, hazard stripes (a solid band stands in), the street
+  painting.
 
 ### 2026-09-28 — Cutaway walls stay; models approved in play; two kinds of access point (Bryson)
 

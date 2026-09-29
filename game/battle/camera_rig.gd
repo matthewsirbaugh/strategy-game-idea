@@ -6,6 +6,8 @@ extends Node3D
 # Pan speed is in screen heights per second, so it feels the same at any zoom.
 @export var pan_speed := 0.8
 @export var pitch_degrees := 50.0
+# Which way the view first faces: 0 looks north from the south edge of the map.
+@export var start_yaw := 45.0
 @export var min_distance := 3.0
 @export var max_distance := 45.0
 @export var zoom_factor := 1.15
@@ -24,10 +26,9 @@ var dragged := false
 
 var _bounds_min := Vector3.ZERO
 var _bounds_max := Vector3.ZERO
-var _distance := 34.0
+var _distance := 26.0
 var _pitch := 50.0
-# Starts at 45° so the grid reads as a diamond, the usual tactics view.
-var _yaw := 45.0
+var _yaw := 0.0
 var _focus_tween: Tween
 var _before_overhead := {}
 var _drag_button := MOUSE_BUTTON_NONE
@@ -41,6 +42,7 @@ func setup(center: Vector3, extent: Vector3) -> void:
 	_bounds_min = -Vector3(pan_margin, 0, pan_margin)
 	_bounds_max = extent + Vector3(pan_margin, 0, pan_margin)
 	_pitch = pitch_degrees
+	_yaw = start_yaw
 	rotation.y = deg_to_rad(_yaw)
 	_update_camera()
 

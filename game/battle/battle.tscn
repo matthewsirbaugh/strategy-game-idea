@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://battle/battle.gd" id="1"]
 [ext_resource type="Script" path="res://battle/grid_view.gd" id="2"]
 [ext_resource type="Script" path="res://battle/camera_rig.gd" id="3"]
-[ext_resource type="Resource" path="res://content/maps/mvp.tres" id="4"]
+[ext_resource type="Resource" path="res://content/maps/facility_exterior.tres" id="4"]
 [ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://battle/hud.tscn" id="6"]
 [ext_resource type="Script" path="res://rules/unit_def.gd" id="7"]
@@ -84,6 +84,7 @@ material_override = SubResource("RingMat")
 
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("3")
+start_yaw = -35.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig"]
 current = true
