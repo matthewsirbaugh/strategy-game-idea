@@ -52,8 +52,9 @@ it up.
 
 Each principle gives the rule, who does it, and what it means for us. How sure we are:
 **sourced** means a talk or article said it (seen in search summaries, not opened; see
-Sources). **Observed** means visible in 0A or our own files. **Inferred** means the agents'
-judgment.
+Sources). **Observed** means visible in 0A or our own files. **Frame** means visible in a
+reference frame Bryson chose, in [art/reference/look/](../art/reference/look/README.md).
+**Inferred** means the agents' judgment.
 
 ### 1. Big shapes carry the look; texture doesn't
 
@@ -94,18 +95,20 @@ judgment.
 
 ### 3. Flat value blocks, not photo noise
 
-- The rule: a surface is 3 to 5 flat tones, with a few hard-edged stain shapes. Anime
+- The rule: a surface is 3 to 5 flat tones, with painted stains kept inside the panel shapes. Anime
   background painters work this way, and hard cel bands already split a face into 2 or 3
   tones. Photo grit under cel light reads as "a dirty photo under a cartoon".
 - Who does it:
+  - Edgerunners' Afterlife bar: flat panel fills, grime as soft mottled patches clipped to
+    each panel, no photo speckle (frame, `edgerunners-afterlife-bar.webp`).
   - Sea of Thieves cuts the noise inside its color blocks (sourced, GDC 2018).
   - Hi-Fi Rush wanted no color gradations (sourced, GDC 2024).
   - Arknights: Endfield puts anime characters in more realistic environments. Even so, its
     concrete walls were hand-adjusted until they matched the character rendering (sourced,
     Light Zhong interview).
 - For us: replace the photo albedo with a flat palette plus a soft grayscale grunge mask.
-  The shader thresholds the mask into a hard edge (`smoothstep` with `fwidth`). The stains
-  then stay crisp at every zoom and look painted, not photographed. The palette colors are
+  The stain edges stay soft and mottled, as in the Afterlife frame, but stop at panel seams,
+  so each panel reads as its own painted shape. Don't threshold the mask to a hard line. The palette colors are
   uniforms, so one material covers every wall style.
 
 ### 4. Grime has a cause and a place
@@ -153,6 +156,8 @@ judgment.
 - Who does it:
   - 0A: lane marks, STOP text, corner brackets, manholes, and slogans spaced along the wall
     (observed).
+  - Cyberpunk 2077 by day: ads, murals and stripe bands are the wall texture on plain dark
+    faces; graffiti sits at street level (frame, `cp2077-daytime-street.webp`).
   - The stylized cyberpunk scenes on 80.lv keep the base tile plain and put leaks, cracks and
     puddles in decals (sourced).
   - Arcane-style environments keep painted detail near the characters and the rest quiet
@@ -174,8 +179,14 @@ judgment.
   magenta onto nearby walls and ground. Wet ground is drawn as streaks of the light's color
   on a flat dark base, not a blurry mirror. Between the pools of light the ground falls
   toward black.
+- Each place has one dominant light color that tints everything in it: the Afterlife is
+  green and cyan throughout. For the exterior map that is magenta and floodlight white.
 - Who does it:
   - 0A: pink streaks under the sign, white light pools under the floodlights (observed).
+  - Afterlife bar: one light color floods the scene; neon is flat bright bands with a glow
+    (frame).
+  - Neon street render: dark neutral buildings, all color from signs, which the wet road
+    repeats as vertical streaks (frame, `neon-street-render.webp`).
   - Ruiner and Cloudpunk carry their look with neon on wet ground (sourced).
   - Triangle Strategy's HD-2D gets its richness from lighting over simple assets (sourced).
 - For us: this agrees with environment-fidelity.md putting lighting first. The dark areas
@@ -253,7 +264,8 @@ ground, a toon shader that takes scene lights) runs alongside and matters as muc
 Answered 2026-09-29 (Bryson):
 
 1. Painted. "I want it to be able to be taken seriously."
-2. Thin lines, for now. "I'm not committed to the cel shading entirely yet, in fact I'm leaning
+2. Thin lines, for now. The Afterlife frame shows exactly this: thin dark lines on the
+   architecture, lower in contrast than the characters'. "I'm not committed to the cel shading entirely yet, in fact I'm leaning
    against it, though I like the anime style." DESIGN.md's look decision still says hard-edged
    cel shading; nothing there changes until he decides.
 3. Clean tower, weathered perimeter wall, dirty street.
@@ -363,3 +375,11 @@ the agents' own knowledge, and are marked that way above.
 - **They split on:** ink lines on architecture (decision 2).
 - **Weakest area:** no primary source was found on how Edgerunners' backgrounds are painted.
   That section is inference from memory until checked against real frames (decision 4).
+
+### 2026-09-29 — First reference frames (Bryson's picks; Claude's reading)
+
+Five frames in [art/reference/look/](../art/reference/look/README.md), one from the anime. The
+Afterlife frame confirms thin lines on architecture, flat panel fills and one dominant light
+color. It corrects the grime: soft mottled patches inside panels, not hard-edged blobs
+(principle 3 changed). The rest confirm signage as texture and color from light. The drip and
+base-band reading of the anime's grime is still unchecked: the Afterlife is an interior.
