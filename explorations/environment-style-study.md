@@ -303,7 +303,9 @@ Open:
    AI to be helpful, but there's no need. We want full color palette access to achieve the look
    we're going for." The Operators no longer reserve yellow, blue and sage.
 7. **The corporations' color identities.** Mostly gray with pops of color, stark white, or a
-   tongue-in-cheek nod to AI companies' colors (Bryson). Not decided.
+   tongue-in-cheek nod to AI companies' colors (Bryson). Decided 2026-09-29 (Bryson): "Go with
+   the AI company nods more I think. No real brands, but make it tongue in cheek." Which corp
+   gets which scheme, and whether the facility corp's magenta changes, is open.
 
 The options as they were put:
 
