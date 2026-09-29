@@ -41,7 +41,8 @@ the decision; this is the working detail.
 - **Clothes:** near-future street techwear, layered and asymmetric, with one eccentric,
   memorable detail per character.
 - **Color:** grimy neutral bases (cream, grey, charcoal) with one strong accent per character.
-  The Operators own yellow, electric blue and sage green; nothing else on the map should use them.
+  Full palette. Operators stay readable through silhouette, light and contrast, not reserved
+  colors (Bryson, 2026-09-29).
 - **Silhouette first:** a character must read at about 55 px tall from the battle camera, so each
   one gets a distinct shape (a tall collar, a harness, headphones) and not just a color swap.
 

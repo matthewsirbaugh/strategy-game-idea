@@ -29,7 +29,9 @@ After the reference frames, the same day:
   the Cyberpunk 2077 ones in `art/reference/look/`.
 - "I think our mistake was leading with color in the props, when the props should be more
   stark and gray, but the rain and the lights around and embedded in the gray are what give it
-  the atmosphere we're looking for."
+  the atmosphere we're looking for." He clarified: "I don't mean literally gray props. I just
+  mean that for the corps in particular, mostly gray with pops of color might make sense, or
+  maybe stark white, or maybe even tongue in cheek give them Anthropic and OpenAI colors."
 - "Our color palette, even being dark, is still very different from even the other dark color
   palettes." What the difference is, and whether the city palette changes, is decision 6.
 
@@ -297,7 +299,11 @@ Answered 2026-09-29 (Bryson):
 
 Open:
 
-6. **The city palette.** See the conversation of 2026-09-29; nothing is decided yet.
+6. **The city palette.** Decided 2026-09-29 (Bryson): "That color lock rule was written by the
+   AI to be helpful, but there's no need. We want full color palette access to achieve the look
+   we're going for." The Operators no longer reserve yellow, blue and sage.
+7. **The corporations' color identities.** Mostly gray with pops of color, stark white, or a
+   tongue-in-cheek nod to AI companies' colors (Bryson). Not decided.
 
 The options as they were put:
 

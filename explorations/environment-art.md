@@ -37,8 +37,8 @@ What makes a set feel like one world, in order of impact:
    and ink outline as the Operators. This does more for cohesion than any modeling choice.
 3. **One palette.** Grimy neutral cream, grey and charcoal base, shared with the Operators. Corporate spaces add
    neon accents in magenta, hot pink, red, orange and violet in screens and ads; back rooms, service
-   areas and the street are darker and dirtier, lit mostly by signage. The Operators' own accents (yellow, blue, sage) stay reserved
-   for the Operators so they never blend into the set.
+   areas and the street are darker and dirtier, lit mostly by signage. Full palette. Operators stay
+   readable through silhouette, light and contrast, not reserved colors (Bryson, 2026-09-29).
 4. **Two ways to build, split by job.**
 
    | Kind | How | Why |
@@ -103,6 +103,9 @@ T5. White corporate wall panels with thin seams, scuffs and marks.
 
 IMAGE G, GUARD CHARACTER SHEET (different format): Character turnaround sheet, front view and back view side by side, full body, plain white background. Strict T-pose: arms straight out horizontally, palms facing down, gloved hands with fingers together, not spread. Feet shoulder-width apart. Realistic adult proportions. Nothing hangs below mid-thigh; no capes, long coats or loose straps. A corporate security guard: full-face helmet with a dark visor and a thin magenta light strip, charcoal and white body armor plates over a dark uniform, an invented corporate insignia on the shoulder, a holstered sidearm on the right hip, heavy boots. Empty hands, no weapon held.
 ```
+
+The accent-color sentence in this prompt is lifted (Bryson, 2026-09-29: full palette). Drop it
+before reusing the prompt; see [the style study](environment-style-study.md).
 
 ## Questions for Bryson
 
@@ -270,5 +273,6 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 - Skip the AI and network objects for now; build up the city environment first.
 - The full street inventory Claude proposed was too much. The goal is "strictly better than the
   blank placeholders," enough to get an idea of the visuals, not a finished product.
-- No yellow or cyan anywhere in the city. Hazard stripes are orange and white.
+- No yellow or cyan anywhere in the city. Hazard stripes are orange and white. (Color rule lifted
+  2026-09-29, see [environment-style-study.md](environment-style-study.md).)
 - Images are requested from Astra in one batch so they stay consistent, one copy each.
