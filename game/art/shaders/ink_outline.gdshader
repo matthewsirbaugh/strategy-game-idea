@@ -4,9 +4,12 @@ shader_type spatial;
 // only work in the transparent pass, which is why it sets ALPHA.
 render_mode unshaded, cull_front;
 stencil_mode read, compare_not_equal, 1;
+#include "res://art/shaders/ghost.gdshaderinc"
 
 uniform vec3 ink : source_color = vec3(0.13, 0.1, 0.1);
 uniform float width_pixels = 2.0;
+// Thinned with the model, so a ghosted prop doesn't show its own dark hull through the gaps.
+instance uniform float ghost : instance_index(2) = 0.0;
 
 void vertex() {
 	vec4 clip = PROJECTION_MATRIX * MODELVIEW_MATRIX * vec4(VERTEX, 1.0);
@@ -16,6 +19,9 @@ void vertex() {
 }
 
 void fragment() {
+	if (ghosted(FRAGCOORD.xy, ghost)) {
+		discard;
+	}
 	ALBEDO = ink;
 	ALPHA = 1.0;
 }

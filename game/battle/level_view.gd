@@ -1,14 +1,15 @@
 class_name LevelView
 extends Node3D
 ## The level as a place: ground, walls and buildings, and the props that stand for its nodes and
-## dress it. Walls between the camera and what it looks at drop to a stub, the way The Sims cuts
-## walls away, so the view stays free.
+## dress it. Walls and wall-standing props between the camera and the player's units ghost out,
+## thinned to a dot pattern, the way Diablo and Baldur's Gate 3 keep the party in view; H ghosts
+## every wall.
 
 const TILE_HEIGHT := 0.2
-const CUT_HEIGHT := 0.3
-const CUT_SPEED := 10.0
-# Looking down steeper than this, walls hide little, so none are cut.
-const CUT_BELOW_PITCH := 65.0
+const GHOST_SECONDS := 0.2
+# Points on a unit checked for a clear line to the camera: feet, waist, head.
+const SIGHT_HEIGHTS := [0.3, 1.0, 1.7]
+const SIGHT_STEP := 0.25
 const WORLD := preload("res://art/shaders/world.gdshader")
 # Each kind of wall: its texture, height in metres, and whether a neon strip runs under its cap.
 const WALLS := {
@@ -39,10 +40,16 @@ const CAMERA_POLE_HEIGHT := 2.2
 const BREACHED_COLOR := Color(0.35, 1.0, 0.6)
 
 var map: MapData
+# The units whose view the walls get out of.
+var watched: Array[Node3D] = []
 var _grid: GridView
 var _nodes := {}
-# Each wall that can be cut away: its parts, full and current height, and the dressing hung on it.
+# Each wall tile: its block, its height, and how ghosted it is now.
 var _walls := {}
+# Props that stand in for wall tiles, by tile, and each of them once.
+var _standins := {}
+var _standin_models: Array[ToonModel] = []
+var _ghost_all := false
 var _materials := {}
 var _cap_material: ShaderMaterial
 var _neon_material: StandardMaterial3D
@@ -74,29 +81,50 @@ func update_nodes(state: BattleState) -> void:
 			_nodes[id].visible = not state.is_door_open(id)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_walls"):
+		_ghost_all = not _ghost_all
+
+
 func _process(delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	if not camera or _walls.is_empty():
 		return
-	var cutting := rad_to_deg(-camera.global_rotation.x) < CUT_BELOW_PITCH
-	var focus := _focus(camera)
-	var toward_camera := camera.global_position - focus
-	toward_camera.y = 0.0
-	toward_camera = toward_camera.normalized()
+	var in_the_way := {}
+	for unit in watched:
+		if unit.is_visible_in_tree():
+			for height in SIGHT_HEIGHTS:
+				_mark_between(unit.global_position + Vector3(0, height, 0), camera.global_position, in_the_way)
+	var step := delta / GHOST_SECONDS
 	for cell in _walls:
 		var wall: Dictionary = _walls[cell]
-		var in_front := cutting and (_grid.cell_to_world(cell) - focus).dot(toward_camera) > GridView.CELL * 0.3
-		var height := move_toward(wall.height, CUT_HEIGHT if in_front else wall.full, CUT_SPEED * delta)
-		if height != wall.height:
-			_set_wall_height(wall, height)
+		var ghost := move_toward(wall.ghost, 1.0 if _ghost_all or in_the_way.has(cell) else 0.0, step)
+		if ghost != wall.ghost:
+			wall.ghost = ghost
+			wall.block.set_instance_shader_parameter("ghost", ghost)
+	for model in _standin_models:
+		model.ghost = move_toward(model.ghost, 1.0 if _ghost_all or in_the_way.has(model) else 0.0, step)
 
 
-# Where the camera is looking, on the floor.
-func _focus(camera: Camera3D) -> Vector3:
-	var forward := -camera.global_basis.z
-	if forward.y > -0.01:
-		return camera.global_position
-	return camera.global_position + forward * (-camera.global_position.y / forward.y)
+# Walks the line from a point on a unit to the camera and marks every wall, or wall-standing prop,
+# it passes through below its top.
+func _mark_between(from: Vector3, to: Vector3, marks: Dictionary) -> void:
+	var start_cell := _grid.world_to_cell(from)
+	var length := from.distance_to(to)
+	var direction := (to - from) / length
+	var distance := SIGHT_STEP
+	while distance < length:
+		var point := from + direction * distance
+		distance += SIGHT_STEP
+		var cell := _grid.world_to_cell(point)
+		if cell == start_cell:
+			continue
+		if _walls.has(cell) and point.y < _walls[cell].top:
+			marks[cell] = true
+		elif _standins.has(cell) and point.y < _standins[cell].bounds().end.y:
+			marks[_standins[cell]] = true
+		elif point.y > WALLS.building.height:
+			return
 
 
 func _build_ground() -> void:
@@ -141,7 +169,7 @@ func _build_node(id: String) -> void:
 	var set_in_wall := map.in_wall(cell) and kind != "door"
 	var facing := map.node_facing(id)
 	if set_in_wall:
-		_add_wall(cell, _wall_style(_wall_beside(cell) + cell), false)
+		_add_wall(cell, _wall_style(_wall_beside(cell) + cell))
 	var model: ToonModel
 	match kind:
 		"access":
@@ -182,10 +210,14 @@ func _build_dressing(item: Dictionary) -> void:
 	elif map.is_wall(cell):
 		var run := _run_direction(yaw)
 		var middle := _grid.cell_to_world(cell) + Vector3(run.x, 0, run.y) * GridView.CELL * (tiles - 1) / 2.0
+		var model: ToonModel
 		if prop in KEEP_HEIGHT:
-			_add_prop(prop, middle, yaw, PROP_HEIGHTS[prop])
+			model = _add_prop(prop, middle, yaw, PROP_HEIGHTS[prop])
 		else:
-			_add_prop(prop, middle, yaw, 0.0, tiles * GridView.CELL)
+			model = _add_prop(prop, middle, yaw, 0.0, tiles * GridView.CELL)
+		_standin_models.append(model)
+		for i in tiles:
+			_standins[cell + run * i] = model
 	else:
 		_add_prop(prop, _grid.cell_to_world(cell), yaw, PROP_HEIGHTS.get(prop, 1.0))
 
@@ -206,41 +238,27 @@ func _run_direction(yaw: float) -> Vector2i:
 	return Vector2i(1, 0) if is_zero_approx(sin(yaw)) else Vector2i(0, 1)
 
 
-# A wall block with a cap, and a neon strip or a hazard band by style. A wall holding a node is
-# never cut away, so the node stays in view.
-func _add_wall(cell: Vector2i, style: String, cuttable := true) -> void:
+# A wall block with a cap, and a neon strip or a hazard band by style. Only the block ghosts, so
+# the cap and the band keep showing where the wall stands and how tall it is.
+func _add_wall(cell: Vector2i, style: String) -> void:
 	var look: Dictionary = WALLS[style]
+	var height: float = look.height
+	var bottom := -TILE_HEIGHT
+	var at := _grid.cell_to_world(cell)
 	var block := BoxMesh.new()
-	block.size = Vector3(GridView.CELL, 1.0, GridView.CELL)
+	block.size = Vector3(GridView.CELL, height, GridView.CELL)
 	var cap := BoxMesh.new()
 	cap.size = Vector3(GridView.CELL + 0.02, 0.06, GridView.CELL + 0.02)
 	var strip := BoxMesh.new()
 	strip.size = Vector3(GridView.CELL + 0.015, 0.04 if look.neon else 0.35, GridView.CELL + 0.015)
-	var at := _grid.cell_to_world(cell)
-	var wall := {
-		"block": _add_mesh(block, _materials[style], at),
-		"cap": _add_mesh(cap, _cap_material, at),
-		"strip": _add_mesh(strip, _neon_material if look.neon else _hazard_material, at),
-		"neon": look.neon,
-		"full": look.height,
-		"height": 0.0,
-		"hung": [],
+	var strip_y := bottom + height - 0.12 if look.neon else bottom + 0.5
+	_walls[cell] = {
+		"block": _add_mesh(block, _materials[style], at + Vector3(0, bottom + height / 2.0, 0)),
+		"top": bottom + height,
+		"ghost": 0.0,
 	}
-	_set_wall_height(wall, look.height)
-	if cuttable:
-		_walls[cell] = wall
-
-
-func _set_wall_height(wall: Dictionary, height: float) -> void:
-	wall.height = height
-	var bottom := -TILE_HEIGHT
-	wall.block.scale.y = height
-	wall.block.position.y = bottom + height / 2.0
-	wall.cap.position.y = bottom + height + 0.03
-	# Neon runs just under the cap; the hazard band stays near the foot of the wall.
-	wall.strip.position.y = bottom + height - 0.12 if wall.neon else bottom + minf(0.5, height / 2.0)
-	for hung: Node3D in wall.hung:
-		hung.visible = height > wall.full * 0.8
+	_add_mesh(cap, _cap_material, at + Vector3(0, bottom + height + 0.03, 0))
+	_add_mesh(strip, _neon_material if look.neon else _hazard_material, at + Vector3(0, strip_y, 0))
 
 
 # Sized to a height, or to a width when one is given.
@@ -259,15 +277,13 @@ func _add_prop(prop: String, at: Vector3, yaw: float, height: float, width := 0.
 	return model
 
 
-# On one face of a wall tile, facing out from it, at a height; it hides if that wall is cut.
-# Props face +Z with a flat back, so the back goes against the wall.
+# On one face of a wall tile, facing out from it, at a height. It stays solid when the wall
+# ghosts. Props face +Z with a flat back, so the back goes against the wall.
 func _hang(prop: String, cell: Vector2i, facing: Vector2i, height: float) -> ToonModel:
 	var at := _grid.cell_to_world(cell) + Vector3(facing.x, 0, facing.y) * GridView.CELL / 2.0 + Vector3(0, height, 0)
 	var model := _add_prop(prop, at, 0.0, PROP_HEIGHTS.get(prop, 1.0))
 	model.position.z += model.bounds().size.z / 2.0
 	model.get_parent_node_3d().rotation.y = _yaw_toward(Vector3(facing.x, 0, facing.y))
-	if _walls.has(cell):
-		_walls[cell].hung.append(model.get_parent_node_3d())
 	return model
 
 

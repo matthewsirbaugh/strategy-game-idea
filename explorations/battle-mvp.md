@@ -281,6 +281,8 @@ Each one runs, gets played, and is committed.
   wheel or a pinch zooms from 3 m to 45 m. Labels stay the same size on screen at any zoom.
   Remapped by Bryson the same day: left-drag pans and right-drag orbits. A right-click without a
   drag still steps back, and a click without a drag still selects.
+- The cutaway walls were replaced the same day by ghosting (decision in
+  [wall-occlusion.md](wall-occlusion.md)).
 - Open, for the aesthetics pass: the ceiling, and the look as a whole. Recorded in
   [environment-art.md](environment-art.md).
 

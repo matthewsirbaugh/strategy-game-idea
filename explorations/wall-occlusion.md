@@ -1,9 +1,8 @@
 # Wall occlusion: seeing past walls
 
 - Feeds: [environment-art.md](environment-art.md), [battle-mvp.md](battle-mvp.md)
-- Status: open
-- Next action: Bryson picks an approach and answers the questions at the bottom. Nothing gets
-  built until then.
+- Status: decided 2026-09-28 (Decision, at the bottom). Built the same day.
+- Next action: Bryson plays with it and says whether the ghosting reads well.
 
 ## The question
 
@@ -68,12 +67,7 @@ upgrade if A looks too blocky once it's in.
 
 ## Questions for Bryson
 
-1. Which approach: A, B or C?
-2. What counts as "in the way": units only, units and the cursor, or everything near where the
-   camera looks?
-3. Silhouettes of units behind walls: yes or no?
-4. A key that ghosts every wall: yes or no?
-5. How ghosted: a see-through wall with a solid top edge, or only a faint outline?
+All answered (Decision).
 
 ## Findings
 
@@ -91,3 +85,22 @@ The table above. Sources:
 - [Invisible, Inc. camera angles (Steam)](https://steamcommunity.com/app/243970/discussions/0/626329186869631549/)
 - [Screen-door transparency (DigitalRune docs)](https://digitalrune.github.io/DigitalRune-Documentation/html/fa431d48-b457-4c70-a590-d44b0840ab1e.htm) and
   [camera occlusion dither for Godot (Godot Shaders)](https://godotshaders.com/shader/camera-occlusion-dither/)
+
+## Decision
+
+2026-09-28. Bryson chose **A**, and for the rest: "I'm interested in what is most conventional, I
+would like to borrow from their wisdom and experience before trying to reinvent the wheel. I think
+this is a solved problem." Claude took the conventional answer for each open question:
+
+| Question | Convention taken | From |
+|---|---|---|
+| In the way of what | The player's own units: walls on the line from each of them to the camera | Diablo, Divinity 2, Baldur's Gate 3 |
+| Silhouettes | Yes: a unit hidden behind something shows as a flat shape in its color | Most games of this kind |
+| Ghost-all key | Yes, on H | The Sims' walls down, Jagged Alliance 3's Ctrl+H |
+| How ghosted | A dithered wall; its cap and base band stay solid, so its footprint and height still read | Dithering is the standard technique; the solid edges are Claude's addition |
+
+Built: the cutaway is gone and walls always stand full height. Walls and wall-standing props
+(the booth, crates, the van) ghost when they're between a player unit and the camera, checked at
+feet, waist and head. Panels and cameras on a wall stay solid. Shaders:
+`game/art/shaders/ghost.gdshaderinc` and `silhouette.gdshader`; the logic is in
+`game/battle/level_view.gd`.

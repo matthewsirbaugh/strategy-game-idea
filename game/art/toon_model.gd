@@ -5,6 +5,7 @@ extends Node3D
 
 const TOON := preload("res://art/shaders/toon.gdshader")
 const INK := preload("res://art/shaders/ink_outline.gdshader")
+const SILHOUETTE := preload("res://art/shaders/silhouette.gdshader")
 const CLIP_SOURCE := "res://art/characters/clip_source/"
 const LOOPING := ["Neutral", "Idle", "Walk", "Run", "Cautious_Crouch_Walk_Forward"]
 const ARM_DROP_DEGREES := 75.0
@@ -13,6 +14,7 @@ const ARM_DROP_DEGREES := 75.0
 static var _toon_materials := {}
 static var _cloak_materials := {}
 static var _libraries := {}
+static var _silhouette: ShaderMaterial
 
 var tint := Color.WHITE:
 	set(value):
@@ -22,6 +24,16 @@ var flash := 0.0:
 	set(value):
 		flash = value
 		_set_instance("flash", value)
+# 0 is solid; toward 1 the model thins out, for a prop in the way of the camera.
+var ghost := 0.0:
+	set(value):
+		ghost = value
+		_set_instance("ghost", value)
+# The color the model shows in where something hides it; clear for none.
+var silhouette := Color.TRANSPARENT:
+	set(value):
+		silhouette = value
+		_set_instance("silhouette", value)
 # The clip to fall back to when a one-shot clip ends; empty once the unit is down.
 var idle := "Neutral"
 var player: AnimationPlayer
@@ -121,6 +133,10 @@ static func _toon(original: Material) -> ShaderMaterial:
 		var ink := ShaderMaterial.new()
 		ink.shader = INK
 		toon.next_pass = ink
+		if not _silhouette:
+			_silhouette = ShaderMaterial.new()
+			_silhouette.shader = SILHOUETTE
+		ink.next_pass = _silhouette
 		_toon_materials[original] = toon
 	return _toon_materials[original]
 

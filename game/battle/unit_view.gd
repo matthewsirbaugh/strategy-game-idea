@@ -7,6 +7,7 @@ const TURRET_HEIGHT := 1.3
 const PERSON_HEIGHT := 1.8
 const DOWNED_TINT := Color(0.4, 0.4, 0.45)
 const SHOT_SECONDS := 0.45
+const SILHOUETTE_ALPHA := 0.75
 
 var unit: Unit
 var _model := ToonModel.new()
@@ -22,6 +23,7 @@ func setup(p_unit: Unit, at: Vector3) -> void:
 	add_child(_model)
 	_model.build(load(unit.def.model), load(unit.def.pack) if unit.def.pack else null)
 	add_child(_ring(unit.def.color))
+	_model.silhouette = Color(unit.def.color, SILHOUETTE_ALPHA)
 	var top := PERSON_HEIGHT
 	if unit.def.kind == UnitDef.Kind.TURRET:
 		_model.fit_height(TURRET_HEIGHT)

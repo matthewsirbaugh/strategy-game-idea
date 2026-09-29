@@ -153,7 +153,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.6, 0.66, 0.74, 1)
 theme_override_font_sizes/font_size = 16
-text = "Click the highlighted unit for actions   ·   Right-click: back   ·   Space: end turn   ·   N: network view   ·   Drag or WASD: pan   ·   Right-drag, ⌥-drag or Q E: turn   ·   Wheel or pinch: zoom   ·   Esc: pause"
+text = "Click the highlighted unit for actions   ·   Right-click: back   ·   Space: end turn   ·   N: network view   ·   Drag or WASD: pan   ·   Right-drag, ⌥-drag or Q E: turn   ·   Wheel or pinch: zoom   ·   H: ghost walls   ·   Esc: pause"
 
 [node name="ActionMenu" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true

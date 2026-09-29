@@ -9,7 +9,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 | Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
 | Art pipeline: how 3D assets get made | open | Look set 2026-09-27 (house style in the file); Operators, guard and facility props built. Camera bots parked. The aesthetics pass runs from the environment thread | [art-pipeline.md](explorations/art-pipeline.md) |
 | Environment art for the facility mission | open | The exterior map redesigned from shot 0A, access points as wall panels. Bryson plays it and says what to change | [environment-art.md](explorations/environment-art.md) |
-| Wall occlusion: seeing past walls | open | Research done; Bryson picks between ghosting approaches and answers five questions. The cutaway stays in until then | [wall-occlusion.md](explorations/wall-occlusion.md) |
+| Wall occlusion: seeing past walls | decided | Ghosting, the conventional way (2026-09-28); built. Bryson plays with it | [wall-occlusion.md](explorations/wall-occlusion.md) |
 | Terminal model for free-standing access points | parked | After the wall panels: Claude builds a monitor-on-a-podium terminal by hand, not with Meshy (Bryson, 2026-09-28) | [environment-art.md](explorations/environment-art.md) |
 | Map editor for Bryson | parked | Something to build so Bryson can lay out levels himself (Bryson, 2026-09-28). Scope it when he picks it up | not started |
 | The core idea and story | parked | World and premise are sufficient for gameplay exploration; resume character and plot development when Bryson returns to it | [core-idea-and-story.md](explorations/core-idea-and-story.md) |

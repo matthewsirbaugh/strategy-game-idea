@@ -57,6 +57,7 @@ func _ready() -> void:
 		view.setup(unit, _grid.cell_to_world(unit.cell))
 		_views[unit.id] = view
 		if unit.is_player():
+			_level.watched.append(view)
 			_tethers[unit.id] = GridView.make_beam(0.03, Color(unit.def.color, 0.8))
 			add_child(_tethers[unit.id])
 		else:

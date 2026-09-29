@@ -114,7 +114,8 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 
 - Bryson changed his mind about the cutaway: "we need ghosting on the walls so that the player
   knows that they're there, instead of what we have now." Research first; the thread is
-  [wall-occlusion.md](wall-occlusion.md).
+  [wall-occlusion.md](wall-occlusion.md). Decided and built the same day: walls in the way of the
+  team ghost, hidden units show as silhouettes, H ghosts every wall.
 
 ### 2026-09-28 — The map redesigned from 0A; panels in walls (Bryson asked; Claude built it; screenshots, not played)
 
