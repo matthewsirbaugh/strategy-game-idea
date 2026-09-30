@@ -6,7 +6,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 | Topic | Status | Next action | File |
 |---|---|---|---|
 | Battle MVP: first playable in Godot | open | Art, free camera and lit fog in (2026-09-28). Graduating toward an Alpha: a two-phase facility mission on new maps; the handover and the vault rule are open. Bryson's playtest answers still feed it | [battle-mvp.md](explorations/battle-mvp.md) |
-| Battle core: turns, fog, network and hacking | open | Questions 5 and 6 remain; the MVP playtest feeds this thread next | [battle-core.md](explorations/battle-core.md) |
+| Battle core: turns, fog, network and hacking | open | Context rules and interim turn rules decided and built (2026-09-29), costs are placeholders. Bryson plays it; the action system and the tuning pass come later | [battle-core.md](explorations/battle-core.md) |
 | Art pipeline: how 3D assets get made | open | Look set 2026-09-27 (house style in the file); Operators, guard and facility props built. Camera bots parked. The aesthetics pass runs from the environment thread | [art-pipeline.md](explorations/art-pipeline.md) |
 | Environment art for the facility mission | open | The exterior map redesigned from shot 0A, access points as wall panels. Bryson plays it and says what to change | [environment-art.md](explorations/environment-art.md) |
 | Wall occlusion: seeing past walls | decided | Ghosting, the conventional way (2026-09-28); built. Bryson plays with it | [wall-occlusion.md](explorations/wall-occlusion.md) |

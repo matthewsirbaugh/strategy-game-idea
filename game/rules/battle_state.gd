@@ -6,11 +6,17 @@ extends RefCounted
 # returns no events; the can_ and list functions below are the checks, shared with the menus.
 
 enum Winner { NONE, PLAYER, ENEMY }
-# An Operator's turn is split: the human acts, then their AI does. Enemies act in the human phase.
+# An Operator's turn has two halves, the human's and the AI's, played as two blocks in either
+# order: leaving a half after doing something in it ends that half. Enemies act in the human half.
 # DONE: the active unit has nothing left to do this turn.
 enum Phase { HUMAN, AGENT, DONE }
 
+# Context counts millions of tokens: 100 is the setting's standard 100M window. All the context
+# numbers are placeholders until the tuning pass.
 const CONTEXT_MAX := 100
+# Loading the network-movement skill. Once loaded, moves are free until compaction clears it.
+const NETWORK_SKILL := "network_move"
+const NETWORK_SKILL_COST := 10
 const FULL_CONTEXT_YIELD := 0.5
 const COMPACT_KEEPS := 0.25
 const ABILITY_NAMES := ["", "Probe", "Locate", "Cloak"]
@@ -37,6 +43,8 @@ var _network_searches := {}
 var _queue: Array[Unit] = []
 var _open_doors := {}
 var _probes := {}
+var _human_done := false
+var _agent_done := false
 
 
 func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: UnitDef, node_defs: Array[NodeDef]) -> void:
@@ -101,12 +109,12 @@ func begin_next_turn() -> Unit:
 		if not next.is_down():
 			active = next
 	phase = Phase.HUMAN
+	_human_done = false
+	_agent_done = false
 	active.moved = false
 	active.acted = false
+	active.agent_moved = false
 	active.revealed = false
-	active.move_origin = active.cell
-	active.agent_origin = active.agent_node
-	active.entry_origin = active.entry
 	return active
 
 
@@ -258,6 +266,10 @@ func move(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
 	if not can_move(unit, cell):
 		return []
 	var start := unit.cell
+	# Taken here rather than at the start of the turn, so undo keeps a network move made before it.
+	unit.move_origin = start
+	unit.agent_origin = unit.agent_node
+	unit.entry_origin = unit.entry
 	var walked: Array[Vector2i] = []
 	var blocker: Unit = null
 	for step in reach(unit, unit.def.move).path_to(cell):
@@ -348,7 +360,7 @@ func network_path(from: String, to: String) -> Array[String]:
 
 func agent_destinations(unit: Unit) -> Array[String]:
 	var result: Array[String] = []
-	if unit.agent_node == "" or not _may_act(unit, Phase.AGENT):
+	if unit.agent_node == "" or unit.agent_moved or not _may_act(unit, Phase.AGENT):
 		return result
 	var hops: Dictionary = _network_from(unit.agent_node)["hops"]
 	for id in map.node_ids():
@@ -393,29 +405,58 @@ func can_connect(unit: Unit) -> bool:
 	return unit.agent_node != "" or access_point_in_reach(unit) != ""
 
 
-# The AI plugs in when the human's part of the turn ends near an access point.
+func can_start_agent_phase(unit: Unit) -> bool:
+	return _may_act(unit, Phase.HUMAN) and not _agent_done and can_connect(unit)
+
+
+func can_return_to_human(unit: Unit) -> bool:
+	return _may_act(unit, Phase.AGENT) and not _human_done
+
+
+# Hands the turn to the AI if its half is still open, plugging it in near an access point.
 func end_human_phase(unit: Unit) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
 	if not _may_act(unit, Phase.HUMAN):
 		return events
-	if unit.agent_node == "":
+	_human_done = unit.moved or unit.acted
+	if not _agent_done and unit.agent_node == "":
 		var access := access_point_in_reach(unit)
 		if access != "":
 			unit.agent_node = access
 			unit.entry = access
 			events.append({"type": "connect", "unit": unit, "node": access})
-	phase = Phase.AGENT if unit.agent_node != "" else Phase.DONE
+	phase = Phase.AGENT if not _agent_done and unit.agent_node != "" else Phase.DONE
 	return events
 
 
-# Each AI action below uses up the AI's one action for the turn.
+func end_agent_phase(unit: Unit) -> void:
+	if not _may_act(unit, Phase.AGENT):
+		return
+	_agent_done = unit.agent_moved
+	phase = Phase.HUMAN if not _human_done else Phase.DONE
+
+
+func end_turn(unit: Unit) -> void:
+	if _may_act(unit, phase):
+		phase = Phase.DONE
+
+
+# The AI can move once and then take one other action; that action ends its half of the turn.
 func agent_move(unit: Unit, id: String) -> Array[Dictionary]:
 	if not agent_destinations(unit).has(id):
 		return []
 	var path := network_path(unit.agent_node, id)
 	unit.agent_node = id
-	phase = Phase.DONE
-	return [{"type": "agent_move", "unit": unit, "path": path}]
+	unit.agent_moved = true
+	var loaded := not unit.skills.has(NETWORK_SKILL)
+	if loaded:
+		unit.skills[NETWORK_SKILL] = true
+		_add_context(unit, NETWORK_SKILL_COST)
+	return [{"type": "agent_move", "unit": unit, "path": path, "loaded": loaded}]
+
+
+func network_move_cost(unit: Unit) -> int:
+	return 0 if unit.skills.has(NETWORK_SKILL) else NETWORK_SKILL_COST
 
 
 func can_hack(unit: Unit) -> bool:
@@ -436,8 +477,8 @@ func hack(unit: Unit) -> Array[Dictionary]:
 	var def := node_def(id)
 	var points := hack_yield(unit)
 	breach[id] = breach.get(id, 0) + points
-	unit.context = mini(CONTEXT_MAX, unit.context + def.context_cost)
-	phase = Phase.DONE
+	_add_context(unit, def.context_cost)
+	_finish_agent_phase()
 	var events: Array[Dictionary] = [{"type": "hack", "unit": unit, "node": id, "points": points}]
 	if breach[id] >= def.goal:
 		events.append(_breach(unit, id))
@@ -456,9 +497,11 @@ func compact(unit: Unit) -> Array[Dictionary]:
 	if not can_compact(unit):
 		return []
 	var before := unit.context
+	var skills_cleared := not unit.skills.is_empty()
 	unit.context = compacted(before)
-	phase = Phase.DONE
-	return [{"type": "compact", "unit": unit, "before": before}]
+	unit.skills.clear()
+	_finish_agent_phase()
+	return [{"type": "compact", "unit": unit, "before": before, "skills_cleared": skills_cleared}]
 
 
 func can_toggle_door(unit: Unit) -> bool:
@@ -474,7 +517,7 @@ func toggle_door(unit: Unit) -> Array[Dictionary]:
 		_open_doors.erase(id)
 	else:
 		_open_doors[id] = true
-	phase = Phase.DONE
+	_finish_agent_phase()
 	refresh_vision()
 	return [{"type": "door", "unit": unit, "node": id, "open": _open_doors.has(id)}]
 
@@ -555,7 +598,8 @@ func use_ability(unit: Unit, target: Unit = null) -> Array[Dictionary]:
 	var def := unit.def
 	if def.ability == UnitDef.Ability.LOCATE and not locate_targets().has(target):
 		return []
-	phase = Phase.DONE
+	_add_context(unit, def.ability_context_cost)
+	_finish_agent_phase()
 	if unit.ability_uses_left > 0:
 		unit.ability_uses_left -= 1
 	unit.ability_ready_round = round_number + def.ability_cooldown
@@ -569,6 +613,15 @@ func use_ability(unit: Unit, target: Unit = null) -> Array[Dictionary]:
 			unit.cloaked_until = round_number + def.ability_duration
 	refresh_vision()
 	return [{"type": "ability", "unit": unit, "node": unit.agent_node, "target": target}]
+
+
+func _finish_agent_phase() -> void:
+	_agent_done = true
+	phase = Phase.HUMAN if not _human_done else Phase.DONE
+
+
+func _add_context(unit: Unit, amount: int) -> void:
+	unit.context = mini(CONTEXT_MAX, unit.context + amount)
 
 
 func _may_act(unit: Unit, in_phase: Phase) -> bool:

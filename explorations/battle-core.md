@@ -127,13 +127,41 @@ without locking it in.
 
 The MVP itself is specified in [battle-mvp.md](battle-mvp.md).
 
+## 2026-09-29 — Context as a battle-long resource, and interim turn rules (Bryson)
+
+Bryson approved these through a rules handoff written with another model, then added the turn
+rules. The design goal: context is a strategic resource across the whole Battle, and compaction
+is a real tradeoff, never upkeep. The question it should pose: keep the tools and working
+knowledge that make the AI capable now, or compact to make room for what the rest of the Battle
+may demand?
+
+| ID | Status | Rule |
+|---|---|---|
+| CTX-01 | Decided | A context window lasts the whole Battle: every phase, area and map in it. It resets when the Battle ends. |
+| CTX-02 | Decided | The setting's standard window is 100 million tokens, shown in millions. The prototype's 0–100 meter reads as 0–100M. |
+| CTX-03 | Decided | Hacking, tool calls and AI abilities generally add tokens to the context. |
+| CTX-04 | Decided | Repeated utility operations, such as moving through the network, pay a one-time loading cost, then reuse is free. |
+| CTX-05 | Decided | Compaction clears loaded skills, so their loading cost is paid again after compacting. |
+| CTX-06 | Open tuning | Every context number is a placeholder. Capacity, compaction and all costs get rescaled together later; keep the current proportions until then. |
+| HACK-01 | Rejected | A node's difficulty does not reduce the share of hack points that count. Context fullness stays the only efficiency modifier. |
+| HACK-02 | Open | Difficult hacking may get another mechanic later; none is chosen. |
+| TURN-01 | Decided, interim | The AI can move through the network and then take one other action (hack, compact, ability or door) in the same turn. |
+| TURN-02 | Decided, interim | The Operator's part (move, then optionally attack) and the AI's part run as two blocks in either order, never interleaved. |
+| TURN-03 | Open | A proper action system replaces the interim turn rules. Don't build toward it yet. |
+
+Still open: the final cost of each hack, tool call, ability and skill; which abilities count as
+reusable skills; whether some AIs or upgrades have larger or smaller windows; the final compaction
+amount and whether upgrades change it.
+
+Built 2026-09-29 with placeholder costs: loading the network-movement skill is 10M, each ability
+use is 10M. The context meter is a ring that fills clockwise, blue, then yellow from 50%, then red
+from 80% (Bryson asked for Anthropic's indicator; the thresholds are Claude's).
+
 ## Open questions
 
-Questions 1–4 from the first list were answered above.
-
-5. Does the context window reset between battles, or carry over within a mission?
-6. Beyond how full the context is, does a node's difficulty also reduce the share of points
-   that count, as the legal-document example suggests? (Claude's reading, not confirmed.)
+Questions 1–4 from the first list were answered above. Question 5 (does context reset between
+battles) is answered by CTX-01, and question 6 (does node difficulty cut the yield) by HACK-01,
+both on 2026-09-29.
 
 <a id="shelved-the-hacking-minigame"></a>
 

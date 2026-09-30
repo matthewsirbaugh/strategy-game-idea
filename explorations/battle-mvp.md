@@ -44,7 +44,9 @@ Walls block movement and sight. A human at 0 HP is downed and out of the battle,
 can connect their AI there. If the Operator ends a move more than 2 tiles from the access point
 they connected through, the AI is pulled out. Breach progress stays on the node.
 
-**AI actions.** A connected AI takes one action per turn:
+**AI actions.** A connected AI takes one action per turn (changed 2026-09-29: it can now move
+and then act, and the AI's half can come before the Operator's; see
+[battle-core.md](battle-core.md#2026-09-29--context-as-a-battle-long-resource-and-interim-turn-rules-bryson)):
 
 - Move along network links to any node within 3 hops. Physical distance doesn't matter.
 - Hack the node it is on.

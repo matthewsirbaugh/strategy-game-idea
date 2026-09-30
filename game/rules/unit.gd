@@ -23,6 +23,9 @@ var disabled := false
 var agent_node := ""
 var entry := ""
 var context := 0
+# Reusable skills loaded into context: free to use again until compaction clears them.
+var skills := {}
+var agent_moved := false
 var agent_origin := ""
 var entry_origin := ""
 var ability_uses_left := -1

@@ -8,7 +8,6 @@ signal network_toggled(shown: bool)
 const PLAYER_COLOR := Color(0.22, 0.5, 0.85)
 const ENEMY_COLOR := Color(0.8, 0.28, 0.25)
 const LOG_LINES := 7
-const FULL_CONTEXT_COLOR := Color(1.0, 0.45, 0.4)
 const MENU_OFFSET := Vector2(40, 0)
 const SCREEN_MARGIN := 12.0
 
@@ -19,7 +18,8 @@ const SCREEN_MARGIN := 12.0
 @onready var _active_panel: Control = %ActivePanel
 @onready var _active_name: Label = %ActiveName
 @onready var _active_stats: Label = %ActiveStats
-@onready var _context: ProgressBar = %ContextBar
+@onready var _context_ring: ContextRing = %ContextRing
+@onready var _context_label: Label = %ContextLabel
 @onready var _hint: Label = %Hint
 @onready var _action_menu: Control = %ActionMenu
 @onready var _action_list: VBoxContainer = %ActionList
@@ -60,12 +60,13 @@ func show_turn(state: BattleState) -> void:
 
 func show_active(state: BattleState) -> void:
 	var unit := state.active
-	_context.value = unit.context
-	_context.modulate = FULL_CONTEXT_COLOR if unit.context >= BattleState.CONTEXT_MAX else Color.WHITE
+	_context_ring.fill = float(unit.context) / BattleState.CONTEXT_MAX
+	var skills := "    Network skill loaded" if unit.skills.has(BattleState.NETWORK_SKILL) else ""
+	_context_label.text = "Context  %dM / %dM tokens%s" % [unit.context, BattleState.CONTEXT_MAX, skills]
 	if state.phase == BattleState.Phase.HUMAN or unit.agent_node == "":
 		_active_name.text = unit.display_name
-		_active_stats.text = "HP %d/%d    Move %d    Damage %d    Range %d    Context %d" % [
-			unit.hp, unit.def.max_hp, unit.def.move, unit.def.damage, unit.def.attack_range, unit.context
+		_active_stats.text = "HP %d/%d    Move %d    Damage %d    Range %d" % [
+			unit.hp, unit.def.max_hp, unit.def.move, unit.def.damage, unit.def.attack_range
 		]
 		_hint.text = "Click %s for actions" % unit.display_name
 		return
@@ -74,7 +75,7 @@ func show_active(state: BattleState) -> void:
 	if node.goal > 0:
 		progress = "  (breached)" if state.breached.has(unit.agent_node) else "  %d/%d" % [state.breach.get(unit.agent_node, 0), node.goal]
 	_active_name.text = "%s  ·  AI" % unit.display_name
-	_active_stats.text = "On: %s%s    Context %d/%d" % [node.display_name, progress, unit.context, BattleState.CONTEXT_MAX]
+	_active_stats.text = "On: %s%s" % [node.display_name, progress]
 	_hint.text = "Click %s's AI for actions" % unit.display_name
 
 

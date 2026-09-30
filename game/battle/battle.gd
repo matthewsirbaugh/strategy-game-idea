@@ -194,22 +194,28 @@ func _human_actions(unit: Unit) -> Array:
 		actions.append({"id": "attack", "text": "Attack"})
 	if state.can_undo(unit):
 		actions.append({"id": "undo", "text": "Undo move"})
-	actions.append({"id": "end", "text": "AI phase" if state.can_connect(unit) else "End turn"})
+	if state.can_start_agent_phase(unit):
+		actions.append({"id": "agent", "text": "AI phase"})
+	actions.append({"id": "end", "text": "End turn"})
 	return actions
 
 
 func _agent_actions(unit: Unit) -> Array:
 	var actions := []
 	if not state.agent_destinations(unit).is_empty():
-		actions.append({"id": "network_move", "text": "Move"})
+		var cost := state.network_move_cost(unit)
+		actions.append({"id": "network_move", "text": "Move" + ("  (load skill: +%dM)" % cost if cost > 0 else "")})
 	if state.can_hack(unit):
-		actions.append({"id": "hack", "text": "Hack  +%d" % state.hack_yield(unit)})
+		var cost := state.node_def(unit.agent_node).context_cost
+		actions.append({"id": "hack", "text": "Hack  +%d  (+%dM)" % [state.hack_yield(unit), cost]})
 	if state.can_compact(unit):
-		actions.append({"id": "compact", "text": "Compact  (%d to %d)" % [unit.context, state.compacted(unit.context)]})
+		actions.append({"id": "compact", "text": "Compact  (%dM to %dM)" % [unit.context, state.compacted(unit.context)]})
 	if state.can_toggle_door(unit):
 		actions.append({"id": "door", "text": "Close door" if state.is_door_open(unit.agent_node) else "Open door"})
 	if unit.def.ability != UnitDef.Ability.NONE:
 		actions.append({"id": "ability", "text": _ability_label(unit), "enabled": state.can_use_ability(unit)})
+	if state.can_return_to_human(unit):
+		actions.append({"id": "human", "text": "Operator phase"})
 	actions.append({"id": "end", "text": "End turn"})
 	return actions
 
@@ -222,9 +228,10 @@ func _ability_label(unit: Unit) -> String:
 		return label + "  (ready in %d)" % (unit.ability_ready_round - state.round_number)
 	if unit.def.ability == UnitDef.Ability.PROBE and state.has_probe(unit.agent_node):
 		return label + "  (one here already)"
+	var cost := "  (+%dM)" % unit.def.ability_context_cost
 	if unit.ability_uses_left > 0:
-		return label + "  (%d left)" % unit.ability_uses_left
-	return label
+		return label + cost + "  (%d left)" % unit.ability_uses_left
+	return label + cost
 
 
 func _on_action(id: String) -> void:
@@ -241,8 +248,14 @@ func _on_action(id: String) -> void:
 			_hud.set_hint("Choose an enemy on red    ·    Right-click: back")
 		"undo":
 			_undo_move()
+		"agent":
+			_finish_human_phase()
+		"human":
+			_finish_agent_phase()
 		"end":
-			_end_player_turn()
+			state.end_turn(unit)
+			_hud.close_menu()
+			_next_turn()
 		"network_move":
 			_mode = Mode.NODE
 			_network.highlight(state.agent_destinations(unit), unit.agent_node)
@@ -292,12 +305,20 @@ func _finish_human_phase() -> void:
 		_next_turn()
 
 
+func _finish_agent_phase() -> void:
+	state.end_agent_phase(state.active)
+	_after_agent()
+
+
+# Space moves on to the other half of the turn if it's still open, and ends the turn otherwise.
 func _end_player_turn() -> void:
 	if _busy:
 		return
 	_hud.close_menu()
 	if state.phase == BattleState.Phase.HUMAN:
 		_finish_human_phase()
+	elif state.phase == BattleState.Phase.AGENT:
+		_finish_agent_phase()
 	else:
 		_next_turn()
 
@@ -318,7 +339,23 @@ func _agent_action(events: Array[Dictionary]) -> void:
 	_mode = Mode.IDLE
 	_clear_choices()
 	await _play(events)
-	_next_turn()
+	if state.phase == BattleState.Phase.AGENT and state.winner() == BattleState.Winner.NONE:
+		_busy = false
+		_open_menu()
+	else:
+		_after_agent()
+
+
+func _after_agent() -> void:
+	_busy = true
+	_mode = Mode.IDLE
+	_hud.close_menu()
+	_clear_choices()
+	if state.phase != BattleState.Phase.HUMAN or state.winner() != BattleState.Winner.NONE:
+		_next_turn()
+		return
+	await _set_network(false)
+	_begin_control()
 
 
 func _on_network_toggled(shown: bool) -> void:
@@ -387,6 +424,8 @@ func _play(events: Array[Dictionary]) -> void:
 				_hud.log_line("%s left the access point's range. The AI was pulled out" % unit.display_name)
 			"agent_move":
 				await _network.move_agent(unit, event["path"])
+				if event["loaded"]:
+					_hud.log_line("%s's AI loads network movement: +%dM tokens" % [unit.display_name, BattleState.NETWORK_SKILL_COST])
 			"hack":
 				var node: String = event["node"]
 				_float_text(_network.node_position(node) + Vector3(0, 1.0, 0), "+%d" % event["points"], Color.WHITE)
@@ -398,7 +437,8 @@ func _play(events: Array[Dictionary]) -> void:
 				if state.map.node_kind(event["node"]) == "cache":
 					_hud.log_line("Data secured. Get everyone to the exit!")
 			"compact":
-				_hud.log_line("%s's AI compacts its context: %d to %d" % [unit.display_name, event["before"], unit.context])
+				var cleared := ", skills unloaded" if event["skills_cleared"] else ""
+				_hud.log_line("%s's AI compacts its context: %dM to %dM tokens%s" % [unit.display_name, event["before"], unit.context, cleared])
 			"door":
 				_hud.log_line("Door %s" % ("opened" if event["open"] else "locked"))
 			"ability":

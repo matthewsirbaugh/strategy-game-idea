@@ -36,3 +36,5 @@ enum Ability { NONE, PROBE, LOCATE, CLOAK }
 # Rounds it lasts, for effects that wear off.
 @export var ability_duration := 0
 @export var ability_radius := 0
+# Millions of tokens each use adds to the context. A placeholder until the tuning pass.
+@export var ability_context_cost := 10

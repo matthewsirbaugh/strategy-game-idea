@@ -10,6 +10,7 @@ func _initialize() -> void:
 	_context_fills_and_caps()
 	_full_context_halves_the_yield()
 	_compaction_keeps_a_quarter()
+	_network_skill_loads_once()
 	_progress_survives_being_pulled_out()
 	print("hacking tests: " + ("all passed" if _failures == 0 else "%d failed" % _failures))
 	quit(1 if _failures > 0 else 0)
@@ -38,6 +39,20 @@ func _compaction_keeps_a_quarter() -> void:
 	alpha.context = 90
 	state.compact(_agent_turn(state, alpha))
 	_check(alpha.context == 23, "compacting 90 leaves 23, got %d" % alpha.context)
+
+
+func _network_skill_loads_once() -> void:
+	var state := _state()
+	var alpha := _connected_at(state, "a")
+	var cost := BattleState.NETWORK_SKILL_COST
+	state.agent_move(_agent_turn(state, alpha), "e")
+	_check(alpha.context == cost, "the first network move loads the skill, got %d" % alpha.context)
+	state.agent_move(_agent_turn(state, alpha), "a")
+	_check(alpha.context == cost, "moves are free once the skill is loaded, got %d" % alpha.context)
+	state.compact(_agent_turn(state, alpha))
+	state.agent_move(_agent_turn(state, alpha), "e")
+	var expected := state.compacted(cost) + cost
+	_check(alpha.context == expected, "compaction unloads the skill, so it's paid again: %d, got %d" % [expected, alpha.context])
 
 
 func _progress_survives_being_pulled_out() -> void:
@@ -80,6 +95,7 @@ func _connected_at(state: BattleState, node: String) -> Unit:
 # Gives the AI a fresh action, the way its next turn would.
 func _agent_turn(state: BattleState, unit: Unit) -> Unit:
 	state.phase = BattleState.Phase.AGENT
+	unit.agent_moved = false
 	return unit
 
 

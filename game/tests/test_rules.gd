@@ -19,6 +19,7 @@ func _initialize() -> void:
 	_guards_ignore_operators_they_cannot_see()
 	_guards_attack_operators_their_move_reveals()
 	_illegal_actions_change_nothing()
+	_either_half_can_go_first()
 	_undo_forgets_nothing_it_learned()
 	_broken_content_is_reported()
 	print("rules tests: " + ("all passed" if _failures == 0 else "%d failed" % _failures))
@@ -68,7 +69,26 @@ func _illegal_actions_change_nothing() -> void:
 	_refused(state, func() -> Array: return state.agent_move(alpha, "z"), "a network move of 4 hops with range 3")
 	_refused(state, func() -> Array: return state.hack(alpha), "hacking an access point")
 	state.agent_move(alpha, "e")
-	_refused(state, func() -> Array: return state.hack(alpha), "a second AI action in one turn")
+	_refused(state, func() -> Array: return state.agent_move(alpha, "a"), "a second network move")
+	_check(not state.hack(alpha).is_empty(), "the AI hacks after moving, in the same turn")
+	_refused(state, func() -> Array: return state.compact(alpha), "a second AI action in one turn")
+
+
+# The two halves of a turn run as blocks in either order, and a finished half doesn't reopen.
+func _either_half_can_go_first() -> void:
+	var state := _state(null, ["alpha"])
+	var alpha := state.begin_next_turn()
+	_place(state, "Alpha", Vector2i(6, 11))
+	state.end_human_phase(alpha)
+	_check(state.phase == BattleState.Phase.AGENT and alpha.agent_node == "a", "the AI can go before the Operator moves")
+	state.agent_move(alpha, "e")
+	state.hack(alpha)
+	_check(state.phase == BattleState.Phase.HUMAN, "the Operator's half follows the AI's")
+	_check(not state.can_start_agent_phase(alpha), "the AI's finished half doesn't reopen")
+	state.move(alpha, Vector2i(7, 11))
+	_check(alpha.moved and alpha.agent_node == "e", "the Operator moves after the AI, which stays connected")
+	state.undo_move(alpha)
+	_check(alpha.agent_node == "e", "undoing the Operator's move keeps the AI's network move")
 
 
 # Seeing that a guard has left its last-seen spot is information too, so that move can't be undone.
@@ -130,7 +150,7 @@ func _refused(state: BattleState, action: Callable, what: String) -> void:
 func _snapshot(state: BattleState) -> String:
 	var units := []
 	for u in state.units:
-		units.append([u.cell, u.hp, u.moved, u.acted, u.agent_node, u.entry, u.context, u.ability_uses_left, u.cloaked_until, u.located_until])
+		units.append([u.cell, u.hp, u.moved, u.acted, u.agent_moved, u.agent_node, u.entry, u.context, u.skills, u.ability_uses_left, u.cloaked_until, u.located_until])
 	return var_to_str([units, state.phase, state.active, state.breach, state.breached, state.known, state.visible_cells, state.vision_sources])
 
 
