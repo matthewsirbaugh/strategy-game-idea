@@ -9,8 +9,10 @@ func _init(start: Vector2i, max_cost: int, passable: Callable) -> void:
 	cost[start] = 0
 	_came_from[start] = start
 	var frontier: Array[Vector2i] = [start]
-	while not frontier.is_empty():
-		var current: Vector2i = frontier.pop_front()
+	var next_index := 0
+	while next_index < frontier.size():
+		var current := frontier[next_index]
+		next_index += 1
 		if cost[current] >= max_cost:
 			continue
 		for next in Grid.neighbors(current):

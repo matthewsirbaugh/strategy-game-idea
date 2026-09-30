@@ -29,6 +29,7 @@ var _last_seen := {}
 var _tethers := {}
 var _busy := true
 var _mode := Mode.IDLE
+var _choice_cells := {}
 var _network_shown := false
 var _network_moving := false
 
@@ -239,11 +240,14 @@ func _on_action(id: String) -> void:
 	match id:
 		"move":
 			_mode = Mode.MOVE
-			_grid.set_overlay("move", state.destinations(unit), MOVE_COLOR)
+			var cells := state.destinations(unit)
+			_set_choices(cells)
+			_grid.set_overlay("move", cells, MOVE_COLOR)
 			_hud.set_hint("Choose a blue tile    ·    Right-click: back")
 		"attack":
 			_mode = Mode.TARGET
 			var targets := state.attack_targets(unit, unit.cell).map(func(target: Unit) -> Vector2i: return target.cell)
+			_set_choices(targets)
 			_grid.set_overlay("attack", targets, ATTACK_COLOR)
 			_hud.set_hint("Choose an enemy on red    ·    Right-click: back")
 		"undo":
@@ -258,7 +262,9 @@ func _on_action(id: String) -> void:
 			_next_turn()
 		"network_move":
 			_mode = Mode.NODE
-			_network.highlight(state.agent_destinations(unit), unit.agent_node)
+			var nodes := state.agent_destinations(unit)
+			_set_choices(nodes.map(state.map.node_cell))
+			_network.highlight(nodes, unit.agent_node)
 			_hud.set_hint("Choose a ringed node    ·    Right-click: back")
 		"ability":
 			if unit.def.ability == UnitDef.Ability.LOCATE:
@@ -546,8 +552,16 @@ func _make_last_seen(unit: Unit) -> Node3D:
 
 
 func _clear_choices() -> void:
+	_choice_cells.clear()
 	for layer in CHOICE_LAYERS:
 		_grid.clear_overlay(layer)
+
+
+# Choices stay fixed while picking; the rules validate again when the action is taken.
+func _set_choices(cells: Array) -> void:
+	_choice_cells.clear()
+	for cell in cells:
+		_choice_cells[cell] = true
 
 
 func _float_text(at: Vector3, text: String, color: Color) -> void:
@@ -602,13 +616,8 @@ func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 			if state.phase == BattleState.Phase.AGENT:
 				return token == unit if token else state.map.node_at(cell) == unit.agent_node
 			return not _network_shown and cell == unit.cell
-		Mode.MOVE:
-			return state.can_move(unit, cell)
-		Mode.TARGET:
-			var target := state.unit_at(cell)
-			return target != null and state.can_attack(unit, target)
-		Mode.NODE:
-			return state.agent_destinations(unit).has(state.map.node_at(cell))
+		Mode.MOVE, Mode.TARGET, Mode.NODE:
+			return _choice_cells.has(cell)
 	return false
 
 

@@ -35,6 +35,7 @@ var _light_texture: ImageTexture
 var _lit := {}
 var _brightness := {}
 var _lit_since := {}
+var _changing := {}
 
 
 func build(state: BattleState) -> void:
@@ -48,6 +49,7 @@ func build(state: BattleState) -> void:
 	_light_texture = ImageTexture.create_from_image(_light_image)
 	RenderingServer.global_shader_parameter_set("fog_map", _light_texture)
 	RenderingServer.global_shader_parameter_set("fog_bounds", Vector4(-CELL, -CELL, (map.size.x + 2) * CELL, (map.size.y + 2) * CELL))
+	set_process(false)
 
 
 func _exit_tree() -> void:
@@ -65,24 +67,31 @@ func set_visible_cells(visible: Dictionary) -> void:
 	for cell in lit:
 		if not _lit.has(cell):
 			_lit_since[cell] = 0.0
+			_changing[cell] = true
+	for cell in _lit:
+		if not lit.has(cell):
+			_lit_since.erase(cell)
+			_changing[cell] = true
 	_lit = lit
+	set_process(not _changing.is_empty())
 
 
 func _process(delta: float) -> void:
 	if not _light_image:
 		return
 	var changed := false
-	for y in range(-1, map.size.y + 1):
-		for x in range(-1, map.size.x + 1):
-			var cell := Vector2i(x, y)
-			var current: float = _brightness.get(cell, 0.0)
-			var target := _target_brightness(cell, delta)
-			if not is_equal_approx(current, target):
-				_brightness[cell] = target
-				_light_image.set_pixel(x + 1, y + 1, Color(target, target, target))
-				changed = true
+	for cell: Vector2i in _changing.keys():
+		var current: float = _brightness.get(cell, 0.0)
+		var target := _target_brightness(cell, delta)
+		if not is_equal_approx(current, target):
+			_brightness[cell] = target
+			_light_image.set_pixel(cell.x + 1, cell.y + 1, Color(target, target, target))
+			changed = true
+		if not _lit_since.has(cell) and is_equal_approx(target, 1.0 if _lit.has(cell) else 0.0):
+			_changing.erase(cell)
 	if changed:
 		_light_texture.update(_light_image)
+	set_process(not _changing.is_empty())
 
 
 func _target_brightness(cell: Vector2i, delta: float) -> float:

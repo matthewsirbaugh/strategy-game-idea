@@ -72,6 +72,9 @@ var _ghosting: Array[Dictionary] = []
 # Props that stand in for wall tiles, by tile, and each of them once.
 var _standins := {}
 var _standin_models: Array[ToonModel] = []
+var _view_positions: Array[Vector3] = []
+var _occluders := {}
+var _ghosting_active := false
 var _ghost_all := false
 var _soft_shading := true
 var _neon_material: StandardMaterial3D
@@ -114,6 +117,7 @@ func update_nodes(state: BattleState) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_walls"):
 		_ghost_all = not _ghost_all
+		_ghosting_active = true
 	elif event.is_action_pressed("toggle_shading"):
 		_soft_shading = not _soft_shading
 		RenderingServer.global_shader_parameter_set("toon_softness", SOFT_SHADING if _soft_shading else HARD_SHADING)
@@ -123,14 +127,25 @@ func _process(delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	if not camera or _walls.is_empty():
 		return
-	var in_the_way := {}
+	var positions: Array[Vector3] = [camera.global_position]
 	for unit in watched:
 		if unit.is_visible_in_tree():
+			positions.append(unit.global_position)
+	if positions != _view_positions:
+		_view_positions = positions
+		_occluders.clear()
+		for i in range(1, positions.size()):
 			for height in SIGHT_HEIGHTS:
-				_mark_between(unit.global_position + Vector3(0, height, 0), camera.global_position, in_the_way)
+				_mark_between(positions[i] + Vector3(0, height, 0), positions[0], _occluders)
+		_ghosting_active = true
+	if not _ghosting_active:
+		return
+	_ghosting_active = false
 	var step := delta / GHOST_SECONDS
 	for cell in _walls:
-		_walls[cell].ghost = move_toward(_walls[cell].ghost, 1.0 if _ghost_all or in_the_way.has(cell) else 0.0, step)
+		var target := 1.0 if _ghost_all or _occluders.has(cell) else 0.0
+		_walls[cell].ghost = move_toward(_walls[cell].ghost, target, step)
+		_ghosting_active = _ghosting_active or _walls[cell].ghost != target
 	for piece in _ghosting:
 		var ghost := 0.0
 		for cell: Vector2i in piece.cells:
@@ -139,7 +154,11 @@ func _process(delta: float) -> void:
 			piece.ghost = ghost
 			piece.node.set_instance_shader_parameter("ghost", ghost)
 	for model in _standin_models:
-		model.ghost = move_toward(model.ghost, 1.0 if _ghost_all or in_the_way.has(model) else 0.0, step)
+		var target := 1.0 if _ghost_all or _occluders.has(model) else 0.0
+		var ghost := move_toward(model.ghost, target, step)
+		if ghost != model.ghost:
+			model.ghost = ghost
+		_ghosting_active = _ghosting_active or ghost != target
 
 
 # Walks the line from a point on a unit to the camera and marks every wall, or wall-standing prop,
@@ -157,8 +176,8 @@ func _mark_between(from: Vector3, to: Vector3, marks: Dictionary) -> void:
 			continue
 		if _walls.has(cell) and point.y < _walls[cell].top:
 			marks[cell] = true
-		elif _standins.has(cell) and point.y < _standins[cell].bounds().end.y:
-			marks[_standins[cell]] = true
+		elif _standins.has(cell) and point.y < _standins[cell].top:
+			marks[_standins[cell].model] = true
 		elif point.y > WALLS.building.height:
 			return
 
@@ -256,8 +275,9 @@ func _build_dressing(item: Dictionary) -> void:
 		else:
 			model = _add_prop(prop, middle, yaw, 0.0, tiles * GridView.CELL)
 		_standin_models.append(model)
+		var standin := {"model": model, "top": model.bounds().end.y}
 		for i in tiles:
-			_standins[cell + run * i] = model
+			_standins[cell + run * i] = standin
 	else:
 		_add_prop(prop, _grid.cell_to_world(cell), yaw, PROP_HEIGHTS.get(prop, 1.0))
 		if prop == "floodlight_pole":
