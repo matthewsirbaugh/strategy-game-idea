@@ -49,13 +49,18 @@ var _agent_done := false
 
 func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: UnitDef, node_defs: Array[NodeDef]) -> void:
 	map = p_map
-	for def in node_defs:
-		_node_defs[def.kind] = def
 	errors = validate(map, operators, node_defs)
+	if errors.is_empty():
+		if guard == null and not map.guard_numbers().is_empty():
+			errors.append(map.field_error("layout", "has guards but this battle has no guard UnitDef"))
+		if turret == null and map.node_ids().any(func(id: String) -> bool: return map.node_kind(id) == "turret"):
+			errors.append(map.field_error("node_kinds", "has a turret but this battle has no turret UnitDef"))
 	for error in errors:
 		push_error(error)
 	if not errors.is_empty():
 		return
+	for def in node_defs:
+		_node_defs[def.kind] = def
 	for link in map.links:
 		var ends := link.split("-")
 		_links.get_or_add(ends[0], []).append(ends[1])
@@ -78,8 +83,25 @@ func _init(p_map: MapData, operators: Array[UnitDef], guard: UnitDef, turret: Un
 
 # Why this content can't make a valid battle. Empty when it can.
 static func validate(p_map: MapData, operators: Array[UnitDef], node_defs: Array[NodeDef]) -> PackedStringArray:
+	if p_map == null:
+		return PackedStringArray(["Battle: map is missing"])
 	var result := p_map.validate()
-	var kinds := node_defs.map(func(def: NodeDef) -> String: return def.kind)
+	var kinds := {}
+	for i in node_defs.size():
+		var def := node_defs[i]
+		if def == null:
+			result.append("Battle: node_defs[%d] is missing" % i)
+		elif def.kind not in NodeDef.KINDS:
+			result.append("Battle: node_defs[%d] has unsupported kind '%s'" % [i, def.kind])
+		elif kinds.has(def.kind):
+			result.append("Battle: node_defs[%d] repeats kind '%s'" % [i, def.kind])
+		else:
+			kinds[def.kind] = true
+	if operators.is_empty():
+		result.append("Battle: operators is empty")
+	for i in operators.size():
+		if operators[i] == null:
+			result.append("Battle: operators[%d] is missing" % i)
 	var caches: Array[String] = []
 	for id in p_map.node_ids():
 		var kind := p_map.node_kind(id)
@@ -406,7 +428,7 @@ func can_connect(unit: Unit) -> bool:
 
 
 func can_start_agent_phase(unit: Unit) -> bool:
-	return _may_act(unit, Phase.HUMAN) and not _agent_done and can_connect(unit)
+	return _may_act(unit, Phase.HUMAN) and unit.is_player() and not _agent_done and can_connect(unit)
 
 
 func can_return_to_human(unit: Unit) -> bool:
@@ -416,7 +438,7 @@ func can_return_to_human(unit: Unit) -> bool:
 # Hands the turn to the AI if its half is still open, plugging it in near an access point.
 func end_human_phase(unit: Unit) -> Array[Dictionary]:
 	var events: Array[Dictionary] = []
-	if not _may_act(unit, Phase.HUMAN):
+	if not _may_act(unit, Phase.HUMAN) or not unit.is_player():
 		return events
 	_human_done = unit.moved or unit.acted
 	if not _agent_done and unit.agent_node == "":
@@ -625,7 +647,9 @@ func _add_context(unit: Unit, amount: int) -> void:
 
 
 func _may_act(unit: Unit, in_phase: Phase) -> bool:
-	return unit != null and unit == active and phase == in_phase
+	return unit != null and unit == active and phase == in_phase and phase != Phase.DONE \
+		and not unit.is_down() and not unit.disabled and winner() == Winner.NONE \
+		and (in_phase == Phase.HUMAN or unit.is_player())
 
 
 func _in_range(unit: Unit, target: Unit, from: Vector2i) -> bool:

@@ -40,11 +40,13 @@ func validate() -> PackedStringArray:
 	_parse()
 	var errors := _parse_errors.duplicate()
 	for id in _nodes:
-		if node_kinds.get(id, "") == "":
+		if node_kind(id) == "":
 			errors.append(field_error("node_kinds", "has no kind for node '%s' at %s" % [id, _xy(_nodes[id])]))
 	for id in node_kinds:
 		if not _nodes.has(id):
 			errors.append(field_error("node_kinds", "names node '%s', which isn't on the layout" % id))
+		if not node_kinds[id] is String:
+			errors.append(field_error("node_kinds", "kind for '%s' must be a string" % id))
 	for i in links.size():
 		var ends := links[i].split("-")
 		if ends.size() != 2 or ends[0] == ends[1]:
@@ -73,6 +75,8 @@ func validate() -> PackedStringArray:
 		if parts.size() not in [3, 4] or xy.size() != 2 or not xy[0].is_valid_int() or not xy[1].is_valid_int() \
 				or not FACINGS.has(parts[2]) or (parts.size() == 4 and not parts[3].is_valid_int()):
 			errors.append(field_error("dressing[%d]" % i, "'%s' should read 'name x,y facing', with an optional tile count" % dressing[i]))
+		elif parts.size() == 4 and parts[3].to_int() < 1:
+			errors.append(field_error("dressing[%d]" % i, "tile count must be positive"))
 	if _player_starts.is_empty():
 		errors.append(field_error("layout", "has no player start (P)"))
 	if _extraction.is_empty():
@@ -156,7 +160,7 @@ func node_cell(id: String) -> Vector2i:
 
 
 func node_kind(id: String) -> String:
-	return node_kinds.get(id, "")
+	return str(node_kinds.get(id, ""))
 
 
 func player_starts() -> Array[Vector2i]:

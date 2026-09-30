@@ -133,6 +133,8 @@ func agent_at(ray_origin: Vector3, ray_normal: Vector3) -> Unit:
 		if not agent.is_visible_in_tree():
 			continue
 		var depth := (agent.global_position - ray_origin).dot(ray_normal)
+		if depth < 0.0:
+			continue
 		var miss := agent.global_position.distance_to(ray_origin + ray_normal * depth)
 		if miss <= TOKEN_RADIUS and depth < best_depth:
 			best = _state.units[id]

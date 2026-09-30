@@ -19,6 +19,7 @@ func _initialize() -> void:
 	_guards_ignore_operators_they_cannot_see()
 	_guards_attack_operators_their_move_reveals()
 	_illegal_actions_change_nothing()
+	_inactive_units_cannot_act()
 	_either_half_can_go_first()
 	_undo_forgets_nothing_it_learned()
 	_broken_content_is_reported()
@@ -91,6 +92,23 @@ func _either_half_can_go_first() -> void:
 	_check(alpha.agent_node == "e", "undoing the Operator's move keeps the AI's network move")
 
 
+func _inactive_units_cannot_act() -> void:
+	var state := _state("P . X z", ["alpha"])
+	var alpha := state.begin_next_turn()
+	alpha.hp = 0
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving while downed")
+	alpha.hp = alpha.def.max_hp
+	alpha.disabled = true
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving while disabled")
+	alpha.disabled = false
+	state.cache_breached = true
+	alpha.cell = Vector2i(2, 0)
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving after victory")
+	state.cache_breached = false
+	state.end_turn(alpha)
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving after ending the turn")
+
+
 # Seeing that a guard has left its last-seen spot is information too, so that move can't be undone.
 func _undo_forgets_nothing_it_learned() -> void:
 	var state := _state(null, ["alpha"])
@@ -139,6 +157,19 @@ func _broken_content_is_reported() -> void:
 	_check(errors.contains("has 2 nodes of kind 'cache' (z, y), so the objective is ambiguous"), "two caches make the objective ambiguous, got: " + errors)
 	var renamed := _state(FOG_MAP.replace("z", "q"), ["alpha"], {"q": "cache"})
 	_check(renamed.errors.is_empty() and renamed.objective == "q", "the objective is whichever node is the cache")
+	_check(not BattleState.validate(null, operators, _node_defs()).is_empty(), "a missing map is reported")
+	var missing: Array[UnitDef] = [null]
+	var definitions: Array[NodeDef] = [null, _node_defs()[0], _node_defs()[0]]
+	errors = "\n".join(BattleState.validate(renamed.map, missing, definitions))
+	for expected in ["operators[0] is missing", "node_defs[0] is missing", "repeats kind 'access'"]:
+		_check(errors.contains(expected), "broken battle setup should report: " + expected)
+	map = MapData.new()
+	map.layout = "P X z"
+	map.node_kinds = {"z": 42}
+	map.dressing = PackedStringArray(["crates 0,0 south 0"])
+	errors = "\n".join(BattleState.validate(map, operators, _node_defs()))
+	_check(errors.contains("kind for 'z' must be a string"), "a malformed node kind is reported")
+	_check(errors.contains("tile count must be positive"), "zero-size dressing is reported")
 
 
 func _refused(state: BattleState, action: Callable, what: String) -> void:

@@ -131,6 +131,10 @@ func _on_button(event: InputEventMouseButton) -> void:
 
 
 func _on_drag(event: InputEventMouseMotion) -> void:
+	# A release during pause or outside the window may never reach this camera.
+	if (event.button_mask & (1 << (_drag_button - 1))) == 0:
+		_drag_button = MOUSE_BUTTON_NONE
+		return
 	if not _dragged and event.position.distance_to(_press_at) < drag_threshold:
 		return
 	_dragged = true

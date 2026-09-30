@@ -51,12 +51,13 @@ static func _investigate(state: BattleState, unit: Unit) -> Array[Dictionary]:
 	unit.alerted = false
 	unit.searching = true
 	var events: Array[Dictionary] = []
+	var start := unit.cell
 	var destination := _toward(state, unit, unit.lead)
 	if destination != unit.cell:
 		events.append_array(state.move(unit, destination))
 	if _notice(state, unit, events):
 		return events
-	if unit.cell == unit.lead or destination == unit.cell:
+	if unit.cell == unit.lead or unit.cell == start:
 		unit.has_lead = false
 		unit.searching = false
 		events.append({"type": "lost", "unit": unit})

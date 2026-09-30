@@ -1,6 +1,8 @@
 class_name NodeDef
 extends Resource
 
+const KINDS := ["access", "door", "camera", "turret", "cache"]
+
 @export var kind := ""
 @export var display_name := ""
 @export var goal := 0
