@@ -111,8 +111,9 @@ reads it later.
   that has already come back once. Never for coverage, and never "just because".
 - Verify by running and playing the build. Report which of the two actually happened.
 - After committing a change to the game, restart it so Bryson can play the new build: close any
-  running copy with `pkill -f "^godot --path"`, then start it with `godot --path game` from the
-  project root.
+  running copy with `pkill -f "^godot --path"`, run `godot --headless --path game --import` so
+  Godot registers any new `class_name` scripts (a pull can bring them in), then start it with
+  `godot --path game` from the project root.
 - Revisit this when the project moves from prototype toward a finished product.
 
 ## Not agreed yet

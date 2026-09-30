@@ -7,7 +7,8 @@ prototype lives in `game/`.
 
 Needs Godot 4.7 (`brew install --cask godot`).
 
-- Play: `godot --path game`
+- Play: `godot --path game`. After a pull, run `godot --headless --path game --import` first, or
+  scripts added elsewhere fail with "Identifier not declared".
 - Edit: open `game/project.godot` in the Godot editor, then press F5 to run.
 - Preview a character with the toon shader and its animations: `godot --path game res://preview/character_preview.tscn`
 - Test the hacking math: `godot --headless --path game -s tests/test_hacking.gd`
