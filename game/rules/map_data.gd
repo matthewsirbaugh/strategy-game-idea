@@ -9,7 +9,8 @@ extends Resource
 # Line N holds guard N+1's waypoints after its start tile, as "x,y x,y".
 @export var patrols := PackedStringArray()
 # Props with no rules role, one per line: "name x,y facing [tiles]", facing north, south, east or
-# west. The name is a folder in art/props/. The rules ignore these; the level view draws them.
+# west. The name is a folder in art/props/, or a sign in Signs.CATALOG. The rules ignore these;
+# the level view draws them.
 @export var dressing := PackedStringArray()
 # Indoors the floor and walls are the corporate interior; outdoors, paving and concrete. Only the
 # look changes.

@@ -3,17 +3,24 @@ extends Node3D
 
 const STEP_SECONDS := 0.12
 const TURRET_HEIGHT := 1.3
+# The turret is about this deep, so its own body never counts as hiding it.
+const TURRET_DEPTH := 1.2
 # A skinned mesh's bounds don't track its height reliably, so people get a fixed one.
 const PERSON_HEIGHT := 1.8
 const DOWNED_TINT := Color(0.4, 0.4, 0.45)
 const SHOT_SECONDS := 0.45
 const SILHOUETTE_ALPHA := 0.75
+# An Operator's pack glows softly in its color, so the team reads on a dark street and lights the
+# ground around it. Enemies carry none: a light would give them away in the fog.
+const PACK_LIGHT_ENERGY := 0.9
+const PACK_LIGHT_RANGE := 3.2
 
 var unit: Unit
 var _model := ToonModel.new()
 var _label := make_label(40, 0.0)
 var _alert := make_label(96, 0.0)
 var _flash: Tween
+var _pack_light: OmniLight3D
 
 
 # Must be in the tree first: the model is placed from world positions.
@@ -23,10 +30,17 @@ func setup(p_unit: Unit, at: Vector3) -> void:
 	add_child(_model)
 	_model.build(load(unit.def.model), load(unit.def.pack) if unit.def.pack else null)
 	add_child(_ring(unit.def.color))
+	if unit.def.kind == UnitDef.Kind.OPERATOR:
+		_pack_light = OmniLight3D.new()
+		_pack_light.light_color = unit.def.color
+		_pack_light.omni_range = PACK_LIGHT_RANGE
+		_pack_light.position = Vector3(0.0, 1.3, -0.3)
+		add_child(_pack_light)
 	_model.silhouette = Color(unit.def.color, SILHOUETTE_ALPHA)
 	var top := PERSON_HEIGHT
 	if unit.def.kind == UnitDef.Kind.TURRET:
 		_model.fit_height(TURRET_HEIGHT)
+		_model.hidden_by = TURRET_DEPTH
 		top = TURRET_HEIGHT
 	_label.position.y = top + 0.3
 	_alert.position.y = top + 0.75
@@ -44,6 +58,8 @@ func refresh() -> void:
 	elif unit.disabled:
 		status = "offline"
 	_model.tint = DOWNED_TINT if unit.is_down() or unit.disabled else Color.WHITE
+	if _pack_light:
+		_pack_light.light_energy = 0.0 if unit.is_down() else PACK_LIGHT_ENERGY
 	_label.text = "%s\n%s" % [unit.display_name, status]
 	_alert.text = "!" if unit.alerted else "?"
 	_alert.visible = (unit.alerted or unit.searching) and not unit.is_down()

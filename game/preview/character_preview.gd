@@ -1,6 +1,7 @@
 extends Node3D
-## Look-dev stage for character models: the toon shader, their clips, and the battle camera's
-## view. Run with `godot --path game res://preview/character_preview.tscn`.
+## Look-dev stage for character models: the toon shader under a key light and a clay rim light,
+## their clips, and the battle camera's view. Run with
+## `godot --path game res://preview/character_preview.tscn`.
 
 # Character folder in art/characters/ and the pack each one wears, if any.
 const CHARACTERS := {

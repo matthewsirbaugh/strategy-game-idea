@@ -34,6 +34,12 @@ var silhouette := Color.TRANSPARENT:
 	set(value):
 		silhouette = value
 		_set_instance("silhouette", value)
+# How far in front of the model, in metres, something has to be to count as hiding it. A bulky model
+# needs more, or its own front would hide its back.
+var hidden_by := 0.4:
+	set(value):
+		hidden_by = value
+		_set_instance("hidden_by", value)
 # The clip to fall back to when a one-shot clip ends; empty once the unit is down.
 var idle := "Neutral"
 var player: AnimationPlayer

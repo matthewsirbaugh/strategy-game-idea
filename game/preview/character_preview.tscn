@@ -5,6 +5,10 @@
 [sub_resource type="Environment" id="env"]
 background_mode = 1
 background_color = Color(0.93, 0.89, 0.8, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.72, 0.7, 0.82, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 4
 
 [sub_resource type="PlaneMesh" id="ground_mesh"]
 size = Vector2(12, 12)
@@ -26,6 +30,17 @@ environment = SubResource("env")
 [node name="Ground" type="MeshInstance3D" parent="."]
 mesh = SubResource("ground_mesh")
 surface_material_override/0 = SubResource("ground_material")
+
+[node name="Key" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8192, 0, -0.5736, -0.4698, 0.5736, -0.671, 0.329, 0.8192, 0.4698, 0, 4, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+shadow_enabled = true
+
+[node name="Rim" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 2.2, -1.6)
+light_color = Color(1, 0.42, 0.22, 1)
+light_energy = 2.5
+omni_range = 4.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 

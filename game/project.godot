@@ -79,6 +79,10 @@ toggle_walls={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"physical_keycode":72)]
 }
+toggle_shading={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":76)]
+}
 
 [rendering]
 
@@ -94,4 +98,8 @@ fog_map={
 fog_bounds={
 "type": "vec4",
 "value": Vector4(0, 0, 0, 0)
+}
+toon_softness={
+"type": "float",
+"value": 0.12
 }

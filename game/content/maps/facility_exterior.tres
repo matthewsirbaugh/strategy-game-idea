@@ -33,7 +33,7 @@ node_kinds = {
 }
 links = PackedStringArray("a-d", "a-e", "d-b", "b-f", "e-f", "f-t", "t-g", "g-z", "c-z", "c-g")
 patrols = PackedStringArray("8,9 7,9 7,11", "5,5 5,8 8,8", "14,5 14,7 11,7", "2,10 4,10 4,4", "14,10 14,6")
-dressing = PackedStringArray("guard_booth 5,12 south 2", "security_door 9,3 south", "security_door 10,3 south", "loading_dock 16,6 west", "delivery_van 13,11 south 3", "shipping_crates 12,8 south 2", "shipping_crates 12,9 south 2", "floodlight_pole 1,11 south", "floodlight_pole 11,11 south", "floodlight_pole 5,4 south", "floodlight_pole 15,4 south")
+dressing = PackedStringArray("guard_booth 5,12 south 2", "security_door 9,3 south", "security_door 10,3 south", "loading_dock 16,6 west", "delivery_van 13,11 south 3", "shipping_crates 12,8 south 2", "shipping_crates 12,9 south 2", "floodlight_pole 1,11 south", "floodlight_pole 11,11 south", "floodlight_pole 5,4 south", "floodlight_pole 15,4 south", "slogan_cleaner 11,12 south 2", "slogan_silence 13,12 south", "graffiti_obedient 14,12 south 2", "graffiti_obey 0,2 east 2", "slogan_quieter 0,9 east 2", "neon_banner 9,3 south 2", "neon_name 16,9 west", "paint_stop 7,13 south 2")
 node_facings = {
 "a": "south",
 "e": "north"

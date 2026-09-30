@@ -184,6 +184,61 @@ And to test it small first, per AGENTS.md: do all four on one **test patch**, th
 
 ## Findings
 
+### 2026-09-30 — Second environment pass: one lighting for everything (Claude; rendered, not played)
+
+Bryson: new shaders for the characters "to make everything cohesive"; fix the leftovers and
+anything else that could be better; make it as good as it can be, to judge how much more Godot
+can give.
+
+- **Characters and props** are lit by the scene now (`toon.gdshader`).
+  - Each light paints its side of a model in one soft band of its own color, the ambient light
+    is the shadow side, and grazing light leaves a rim.
+  - A faint edge glow holds silhouettes on the dark street.
+  - Operators carry a small light in their color on their packs; enemies don't, so the fog
+    still hides them.
+  - L switches soft and hard-edged bands for comparison. Soft is the default. The cel question
+    itself is still open.
+- **Walls and ground** are fully painted and procedural, with no photo textures left
+  (`wall.gdshader`, `ground.gdshader`; colors and wear in `art/surfaces.gd`).
+  - Walls: formwork panels, grime kept to its panel, streaks from the cap, a darker foot.
+  - Ground: paving whose joints are the grid; cracked asphalt; puddles that mirror and ripple.
+  - The purple caps and the drip rows are gone.
+- **Wall kit.**
+  - Fences on the perimeter walls: posts, wires and razor wire.
+  - Rooftop units on the building.
+  - Windows on the building above storefront height.
+  - Hazard bands now ghost with their wall, so they no longer hide units' legs.
+- **Signs** (`battle/signs.gd`, placed from the map's dressing lines).
+  - The concept art's slogans stenciled on the walls, and graffiti.
+  - The Anthropomorphic emblem traced as a neon banner.
+  - The name as vertical neon.
+  - STOP and lane paint on the road.
+  - The fonts (Barlow Condensed, Permanent Marker) are open-licensed and in `art/fonts/` with
+    their licenses.
+- **The city around the map** (`battle/city_backdrop.gd`).
+  - The street continues past the map with a far lane, curb and pavement.
+  - Low buildings on every side, with lit windows, shopfronts and neon shop signs.
+  - A skyline in the haze.
+  - It is not part of the battle, and thins out when the camera passes behind it.
+- **Atmosphere** (`battle/battle.tscn`).
+  - Volumetric haze, kept light: from the high camera, beams don't read as beams, and
+    thicker haze washed out close-ups.
+  - Ambient occlusion, the AgX tone mapper, a light grade.
+  - Less ambient and stronger floodlights, so light pools.
+- **Tile markings** are drawn as a bright border over a faint fill, like a projection on the
+  ground, instead of flat squares.
+- **Fixed.**
+  - The turret no longer shows as a flat orange shape: its own body counted as hiding it.
+    That was already happening before this pass.
+  - The controls line at the bottom of the screen no longer runs off both edges.
+- **Checked:**
+  - Rendered with Godot 4.7 on software Vulkan from many views, with fog of war on and off,
+    and with every wall ghosted.
+  - The indoor test map and the character preview load without errors.
+  - Both headless test suites pass.
+  - Not played, and the frame rate isn't known. It now runs about 30 lights: 4 floodlights with
+    shadows, the rest without.
+
 ### 2026-09-30 — First environment pass on the exterior map (Claude; rendered, not played)
 
 Built to [the style study](environment-style-study.md), across the whole exterior map. The

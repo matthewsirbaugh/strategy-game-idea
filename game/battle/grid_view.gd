@@ -21,6 +21,7 @@ const NODE_COLORS := {
 	"turret": Color(0.95, 0.55, 0.2),
 	"cache": Color(0.95, 0.3, 0.8),
 }
+const OVERLAY := preload("res://art/shaders/overlay.gdshader")
 const EXTRACTION_COLOR := Color(0.3, 1.0, 0.5, 0.3)
 const ACCESS_ZONE_COLOR := Color(0.2, 0.85, 1.0, 0.12)
 
@@ -39,7 +40,7 @@ var _lit_since := {}
 func build(state: BattleState) -> void:
 	map = state.map
 	_overlay_mesh.size = Vector2(CELL - TILE_GAP, CELL - TILE_GAP)
-	var extraction := _material(EXTRACTION_COLOR)
+	var extraction := _overlay_material(EXTRACTION_COLOR)
 	for cell in map.extraction():
 		_add_mesh(_overlay_mesh, extraction, cell_to_world(cell) + Vector3(0, EXTRACTION_Y, 0))
 	_light_image = Image.create(map.size.x + 2, map.size.y + 2, false, Image.FORMAT_R8)
@@ -133,7 +134,7 @@ func node_position(id: String, height := 0.0) -> Vector3:
 
 func set_overlay(layer: String, cells: Array, color: Color, height := OVERLAY_Y) -> void:
 	clear_overlay(layer)
-	var material := _material(color)
+	var material := _overlay_material(color)
 	var meshes: Array[MeshInstance3D] = []
 	for cell in cells:
 		meshes.append(_add_mesh(_overlay_mesh, material, cell_to_world(cell) + Vector3(0, height, 0)))
@@ -188,7 +189,14 @@ func _add_mesh(mesh: Mesh, material: Material, at: Vector3) -> MeshInstance3D:
 	return instance
 
 
-# Overlays are flat and unlit so they read the same in light and dark.
+static func _overlay_material(color: Color) -> ShaderMaterial:
+	var material := ShaderMaterial.new()
+	material.shader = OVERLAY
+	material.set_shader_parameter("color", color)
+	return material
+
+
+# Beams and markers are flat and unlit so they read the same in light and dark.
 static func _material(color: Color) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
 	material.albedo_color = color
