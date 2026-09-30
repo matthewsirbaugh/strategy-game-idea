@@ -184,6 +184,44 @@ And to test it small first, per AGENTS.md: do all four on one **test patch**, th
 
 ## Findings
 
+### 2026-09-30 — First environment pass on the exterior map (Claude; rendered, not played)
+
+Built to [the style study](environment-style-study.md), across the whole exterior map. The
+changes are in `game/art/shaders/world.gdshader`, `game/battle/level_view.gd` and
+`game/battle/battle.tscn`.
+
+- **Surfaces.** The photo textures are flattened toward their average color.
+  - Walls: darker at the base and lighter at the top, with a dark band at the foot and thin
+    seam lines every 1.5 m.
+  - Every tile shifts its texture, and slow large-scale noise varies the tone, so nothing
+    repeats evenly.
+- **Ground.** One continuous surface, with no gaps and no checkerboard. The floor seams are
+  drawn as faint light joints, so the grid still reads in the dark. Outdoors the ground is
+  wet, with puddles that reflect.
+- **Wall kit.**
+  - Every wall: a darker plinth and a lighter cap that overhangs.
+  - Perimeter walls: orange hazard stripes on a band at the foot, like 0A.
+  - Buildings: a second clay neon line at storefront height.
+- **Lights.**
+  - A wide spotlight with shadows under each floodlight pole.
+  - Clay neon light spilling off every other open wall face.
+  - Dim cool moonlight and indigo ambient light.
+  - Screen-space reflections on the wet ground.
+  - Light distance haze (called haze, not fog, which means fog of war).
+- **Rain.** Particle streaks over the map (`RAIN` in `level_view.gd` switches it off).
+- **Checked:**
+  - Rendered in the cloud container with Godot 4.7 on software Vulkan, from 5 camera views,
+    with fog of war on and off. Tuned until the yard outside vision read as well as before.
+  - Both headless test suites pass.
+  - Not played, and the frame rate isn't known: software rendering says nothing about
+    Bryson's Mac.
+- **Known gaps:**
+  - Characters and props still use the fixed-light toon shader, so they don't pick up the
+    new lights. That's the open cel-shading question.
+  - The wall faces still show some of the photo texture's drips.
+  - The caps read flat and a little purple under the moonlight.
+  - No neon signs, slogans or road markings yet.
+
 ### 2026-09-28 — Research (Claude)
 
 The sections above. Sources:

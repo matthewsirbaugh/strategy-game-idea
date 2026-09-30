@@ -23,14 +23,21 @@
 
 [sub_resource type="Environment" id="Env"]
 background_mode = 1
-background_color = Color(0.07, 0.08, 0.1, 1)
+background_color = Color(0.04, 0.04, 0.08, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.6, 0.65, 0.75, 1)
-ambient_light_energy = 0.6
+ambient_light_color = Color(0.56, 0.58, 0.72, 1)
+ambient_light_energy = 0.85
 tonemap_mode = 2
+ssr_enabled = true
+ssr_max_steps = 48
 glow_enabled = true
-glow_intensity = 0.9
-glow_hdr_threshold = 1.0
+glow_intensity = 1.0
+glow_bloom = 0.05
+glow_hdr_threshold = 0.9
+fog_enabled = true
+fog_light_color = Color(0.1, 0.1, 0.2, 1)
+fog_density = 0.008
+fog_sky_affect = 0.0
 
 [sub_resource type="PlaneMesh" id="HoverMesh"]
 size = Vector2(0.94, 0.94)
@@ -61,6 +68,8 @@ environment = SubResource("Env")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.8192, 0, -0.5736, -0.4698, 0.5736, -0.671, 0.329, 0.8192, 0.4698, 0, 10, 0)
+light_color = Color(0.76, 0.79, 0.92, 1)
+light_energy = 0.75
 shadow_enabled = true
 
 [node name="GridView" type="Node3D" parent="."]
