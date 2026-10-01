@@ -24,6 +24,12 @@ const NODE_COLORS := {
 const OVERLAY := preload("res://art/shaders/overlay.gdshader")
 const EXTRACTION_COLOR := Color(0.3, 1.0, 0.5, 0.3)
 const ACCESS_ZONE_COLOR := Color(0.2, 0.85, 1.0, 0.12)
+# The access zones' outer edge, drawn above the move tiles so both stay readable where they overlap.
+const ACCESS_EDGE_COLOR := Color(0.45, 1.0, 0.95)
+const ACCESS_EDGE_GLOW := 3.0
+const ACCESS_EDGE_WIDTH := 0.18
+const ACCESS_EDGE_Y := 0.02
+const SIDES := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
 
 var map: MapData
 var _overlay_mesh := PlaneMesh.new()
@@ -124,7 +130,7 @@ func show_access_zones(tether_range: int) -> void:
 	if tether_range == _zone_range:
 		return
 	_zone_range = tether_range
-	var zone: Array[Vector2i] = []
+	var zone := {}
 	for id in map.node_ids():
 		if map.node_kind(id) != "access":
 			continue
@@ -132,9 +138,34 @@ func show_access_zones(tether_range: int) -> void:
 		for x in range(center_cell.x - tether_range, center_cell.x + tether_range + 1):
 			for y in range(center_cell.y - tether_range, center_cell.y + tether_range + 1):
 				var cell := Vector2i(x, y)
-				if map.in_bounds(cell) and not map.is_wall(cell) and Grid.distance(cell, center_cell) <= tether_range and not zone.has(cell):
-					zone.append(cell)
-	set_overlay("access", zone, ACCESS_ZONE_COLOR, ACCESS_Y)
+				if map.in_bounds(cell) and not map.is_wall(cell) and Grid.distance(cell, center_cell) <= tether_range:
+					zone[cell] = true
+	set_overlay("access", zone.keys(), ACCESS_ZONE_COLOR, ACCESS_Y)
+	_outline("access_edge", zone)
+
+
+# Draws the border of a set of cells: a strip along every side that faces a cell outside the set,
+# inset so it reads as the inside edge of the zone. Opaque, so it covers the overlays beneath it.
+func _outline(layer: String, cells: Dictionary) -> void:
+	clear_overlay(layer)
+	var strip := PlaneMesh.new()
+	strip.size = Vector2(CELL, ACCESS_EDGE_WIDTH)
+	var material := StandardMaterial3D.new()
+	material.albedo_color = Color.BLACK
+	material.emission_enabled = true
+	material.emission = ACCESS_EDGE_COLOR
+	material.emission_energy_multiplier = ACCESS_EDGE_GLOW
+	var meshes: Array[MeshInstance3D] = []
+	for cell: Vector2i in cells:
+		for side: Vector2i in SIDES:
+			if cells.has(cell + side):
+				continue
+			var offset := Vector3(side.x, 0, side.y) * (CELL - ACCESS_EDGE_WIDTH) / 2.0
+			var edge := _add_mesh(strip, material, cell_to_world(cell) + offset + Vector3(0, ACCESS_EDGE_Y, 0))
+			if side.x != 0:
+				edge.rotation.y = PI / 2.0
+			meshes.append(edge)
+	_overlays[layer] = meshes
 
 
 func node_position(id: String, height := 0.0) -> Vector3:

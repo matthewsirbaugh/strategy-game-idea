@@ -621,8 +621,24 @@ func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 	return false
 
 
+# What moving here does for the AI, so a move can't land one tile outside an access zone unnoticed.
+func _tether_note(cell: Vector2i) -> String:
+	var unit := state.active
+	if _mode != Mode.MOVE or not state.can_move(unit, cell):
+		return ""
+	if unit.agent_node != "":
+		var stays := Grid.distance(cell, state.map.node_cell(unit.entry)) <= unit.def.tether_range
+		return "AI stays connected" if stays else "AI will be pulled out"
+	if state.agent_phase_open(unit) and state.access_point_in_reach(unit, cell) != "":
+		return "AI can plug in here"
+	return ""
+
+
 func _describe(cell: Vector2i) -> String:
 	var text := "Tile %d, %d" % [cell.x, cell.y]
+	var tether := _tether_note(cell)
+	if tether != "":
+		text += "    " + tether
 	var unit := state.unit_at(cell)
 	if unit and state.player_sees(unit):
 		text += "    %s  HP %d/%d" % [unit.display_name, unit.hp, unit.def.max_hp]

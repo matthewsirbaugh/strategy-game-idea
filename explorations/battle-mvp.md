@@ -102,6 +102,11 @@ range), end the turn and so on. The AI phase works the same way through the AI's
 network. Claude's additions: the menu reopens after a move, right-click steps back, and Undo move
 lives in the menu.
 
+**Access zones over move tiles** (Bryson, 2026-09-30). The blue move tiles hid the faint access
+zones, so a move could land one tile outside a zone unnoticed. Fixed the way XCOM 2 shows ranges:
+the zones get a glowing outline drawn above the move tiles, and hovering a move tile says "AI can
+plug in here" (or, when already connected, whether the AI stays connected or gets pulled out).
+
 **Signature abilities.** One per character, with placeholder names:
 
 | Ability | Effect | Uses |

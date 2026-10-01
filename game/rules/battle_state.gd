@@ -412,11 +412,11 @@ func _network_from(from: String) -> Dictionary:
 	return _network_searches[from]
 
 
-func access_point_in_reach(unit: Unit) -> String:
+func access_point_in_reach(unit: Unit, from: Vector2i = unit.cell) -> String:
 	var best := ""
 	var best_distance := 0
 	for id in map.node_ids():
-		var distance := Grid.distance(unit.cell, map.node_cell(id))
+		var distance := Grid.distance(from, map.node_cell(id))
 		if map.node_kind(id) == "access" and distance <= unit.def.tether_range and (best == "" or distance < best_distance):
 			best = id
 			best_distance = distance
@@ -428,7 +428,12 @@ func can_connect(unit: Unit) -> bool:
 
 
 func can_start_agent_phase(unit: Unit) -> bool:
-	return _may_act(unit, Phase.HUMAN) and unit.is_player() and not _agent_done and can_connect(unit)
+	return agent_phase_open(unit) and can_connect(unit)
+
+
+# The AI's half of the turn hasn't been played yet, whether or not it can connect from here.
+func agent_phase_open(unit: Unit) -> bool:
+	return _may_act(unit, Phase.HUMAN) and unit.is_player() and not _agent_done
 
 
 func can_return_to_human(unit: Unit) -> bool:
