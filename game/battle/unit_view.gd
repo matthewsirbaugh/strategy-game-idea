@@ -7,6 +7,7 @@ const TURRET_HEIGHT := 1.3
 const TURRET_DEPTH := 1.2
 # A skinned mesh's bounds don't track its height reliably, so people get a fixed one.
 const PERSON_HEIGHT := 1.8
+const PERSON_DEPTH := 0.75
 const DOWNED_TINT := Color(0.4, 0.4, 0.45)
 const SHOT_SECONDS := 0.45
 const SILHOUETTE_ALPHA := 0.75
@@ -37,6 +38,7 @@ func setup(p_unit: Unit, at: Vector3) -> void:
 		_pack_light.position = Vector3(0.0, 1.3, -0.3)
 		add_child(_pack_light)
 	_model.silhouette = Color(unit.def.color, SILHOUETTE_ALPHA)
+	_model.hidden_by = PERSON_DEPTH
 	var top := PERSON_HEIGHT
 	if unit.def.kind == UnitDef.Kind.TURRET:
 		_model.fit_height(TURRET_HEIGHT)
@@ -154,8 +156,11 @@ static func make_label(font_size: int, height: float) -> Label3D:
 	var label := Label3D.new()
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.no_depth_test = true
+	label.font = preload("res://art/fonts/BarlowCondensed-SemiBold.ttf")
 	label.font_size = font_size
-	label.outline_size = 12
+	label.outline_size = 6
+	label.modulate = Color(0.93, 0.95, 0.89)
+	label.outline_modulate = Color(0.025, 0.04, 0.05)
 	# Same size on screen at any zoom.
 	label.fixed_size = true
 	label.pixel_size = 0.0003

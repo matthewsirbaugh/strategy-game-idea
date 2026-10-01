@@ -66,8 +66,9 @@ func _ready() -> void:
 	var team := Vector3.ZERO
 	for cell in state.map.player_starts():
 		team += _grid.cell_to_world(cell) / state.map.player_starts().size()
-	_camera_rig.setup(team, _grid.extent())
+	_camera_rig.setup(team.lerp(_grid.center(), 0.28), _grid.extent())
 	_hud.action_chosen.connect(_on_action)
+	_hud.actions_requested.connect(_on_actions_requested)
 	_hud.menu_cancelled.connect(_on_menu_cancelled)
 	_hud.network_toggled.connect(_on_network_toggled)
 	_refresh_fog()
@@ -173,6 +174,15 @@ func _click(screen_position: Vector2) -> void:
 			_finish_human_phase()
 		Mode.NODE:
 			_agent_action(state.agent_move(unit, state.map.node_at(cell)))
+
+
+func _on_actions_requested() -> void:
+	if _busy or _network_moving or state.active == null or not state.active.is_player():
+		return
+	_busy = true
+	await _set_network(state.phase == BattleState.Phase.AGENT)
+	_busy = false
+	_open_menu()
 
 
 func _open_menu() -> void:
@@ -388,7 +398,7 @@ func _set_network(shown: bool) -> void:
 	hover.no_depth_test = shown
 	hover.render_priority = NetworkView.Order.RING if shown else 0
 	if shown:
-		await _camera_rig.overhead(_grid.center())
+		await _camera_rig.overhead(_network.framing_bounds())
 		await _network.fade_in()
 	else:
 		await _network.fade_out()
@@ -481,10 +491,10 @@ func _refresh_units() -> void:
 func _update_objective() -> void:
 	if not state.cache_breached:
 		var progress := [state.breach.get(state.objective, 0), state.node_def(state.objective).goal]
-		_hud.set_objective("Objective: breach the data cache  (%d/%d)" % progress)
+		_hud.set_objective("Breach the data cache   /   %d of %d" % progress)
 		return
 	var standing := state.living().filter(func(unit: Unit) -> bool: return unit.is_player()).size()
-	_hud.set_objective("Objective: get everyone to the exit  (%d/%d there)" % [state.extracted(), standing])
+	_hud.set_objective("Extract the team   /   %d of %d safe" % [state.extracted(), standing])
 
 
 func _walk(unit: Unit, path: Array) -> void:

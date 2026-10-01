@@ -15,9 +15,9 @@ global uniform float toon_softness;
 // model in shadow, the way anime lights a figure.
 const float TERMINATOR = 0.1;
 const float RIM_WIDTH = 0.3;
-const float RIM_STRENGTH = 0.9;
+const float RIM_STRENGTH = 0.12;
 // A faint edge that needs no light at all, so a figure still separates from a dark wall.
-const vec3 EDGE_GLOW = vec3(0.16, 0.18, 0.32);
+const vec3 EDGE_GLOW = vec3(0.018, 0.022, 0.035);
 
 uniform sampler2D albedo_texture : source_color, filter_linear_mipmap;
 // Per model, so every copy can share one material: tint greys out a downed unit, flash whitens a hit,

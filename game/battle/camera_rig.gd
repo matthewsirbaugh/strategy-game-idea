@@ -26,11 +26,12 @@ extends Node3D
 
 var _bounds_min := Vector3.ZERO
 var _bounds_max := Vector3.ZERO
-var _distance := 26.0
+var _distance := 32.0
 var _pitch := 50.0
 var _yaw := 0.0
 var _focus_tween: Tween
 var _before_overhead := {}
+var _overview_distance := 0.0
 var _drag_button := MOUSE_BUTTON_NONE
 var _press_at := Vector2.ZERO
 var _dragged := false
@@ -64,22 +65,32 @@ func focus(target: Vector3) -> void:
 
 
 # Tilts to look straight down on the whole field. restore_view() tilts back to where it was.
-func overhead(center: Vector3) -> void:
-	_before_overhead = {"position": position, "distance": _distance, "pitch": _pitch}
-	await _glide(center, overhead_distance, 90.0)
+func overhead(bounds: Rect2) -> void:
+	_before_overhead = {"position": position, "distance": _distance, "pitch": _pitch, "yaw": _yaw}
+	var viewport_size := _camera.get_viewport().get_visible_rect().size
+	var aspect := viewport_size.x / viewport_size.y
+	var frame_height := maxf(bounds.size.y / 0.5, bounds.size.x / (aspect * 0.72))
+	_overview_distance = maxf(overhead_distance, frame_height / (2.0 * tan(deg_to_rad(_camera.fov) / 2.0)))
+	var center := bounds.get_center()
+	# Leave the header and operator card outside the graph's initial frame.
+	var focus_point := Vector3(center.x - frame_height * 0.035, 0, center.y + frame_height * 0.12)
+	var north := _yaw + rad_to_deg(angle_difference(deg_to_rad(_yaw), 0.0))
+	await _glide(focus_point, _overview_distance, 90.0, north)
 
 
 func restore_view() -> void:
-	await _glide(_before_overhead["position"], _before_overhead["distance"], _before_overhead["pitch"])
+	await _glide(_before_overhead["position"], _before_overhead["distance"], _before_overhead["pitch"], _before_overhead["yaw"])
+	_overview_distance = 0.0
 
 
-func _glide(to_position: Vector3, to_distance: float, to_pitch: float) -> void:
+func _glide(to_position: Vector3, to_distance: float, to_pitch: float, to_yaw: float) -> void:
 	if _focus_tween:
 		_focus_tween.kill()
 	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(self, "position", to_position, overhead_seconds)
 	tween.tween_method(_set_distance, _distance, to_distance, overhead_seconds)
 	tween.tween_method(_set_pitch, _pitch, to_pitch, overhead_seconds)
+	tween.tween_method(_set_yaw, _yaw, to_yaw, overhead_seconds)
 	await tween.finished
 
 
@@ -154,13 +165,18 @@ func _pan_by(pixels: Vector2) -> void:
 
 
 func _set_distance(distance: float) -> void:
-	_distance = clampf(distance, min_distance, max_distance)
+	_distance = clampf(distance, min_distance, maxf(max_distance, _overview_distance))
 	_update_camera()
 
 
 func _set_pitch(pitch: float) -> void:
 	_pitch = pitch
 	_update_camera()
+
+
+func _set_yaw(yaw: float) -> void:
+	_yaw = yaw
+	rotation.y = deg_to_rad(yaw)
 
 
 func _update_camera() -> void:

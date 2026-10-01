@@ -35,6 +35,9 @@ const CATALOG := {
 	"neon_banner": {"emblem": "SENTIENCE\nSERVES\nORDER", "style": "neon", "size": Vector2(2.6, 5.0), "y": 5.7, "panel": true},
 	"neon_name": {"text": "A\nN\nT\nH\nR\nO\nP\nO\nM\nO\nR\nP\nH\nI\nC", "style": "neon", "size": Vector2(0.6, 7.2), "y": 4.9, "panel": true},
 	"paint_stop": {"text": "STOP", "style": "road", "size": Vector2(2.4, 1.1)},
+	"paint_loading": {"text": "LOADING / 01", "style": "road", "size": Vector2(3.8, 0.65)},
+	"paint_clear": {"text": "KEEP CLEAR", "style": "road", "size": Vector2(2.6, 0.5)},
+	"paint_service": {"text": "SERVICE\nACCESS", "style": "road", "size": Vector2(2.4, 1.0)},
 }
 
 # Art already drawn, or being drawn, by what it shows and at what size: the texture once it is

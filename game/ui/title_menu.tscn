@@ -1,28 +1,44 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://ui/title_menu.gd" id="1"]
+
 [ext_resource type="PackedScene" path="res://ui/settings_menu.tscn" id="2"]
 
-[node name="TitleMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1")
+[ext_resource type="Texture2D" path="res://art/ui/facility-title.png" id="3"]
 
-[node name="Background" type="ColorRect" parent="."]
+[ext_resource type="Shader" path="res://ui/menu_backdrop.gdshader" id="4"]
+
+[sub_resource type="ShaderMaterial" id="Backdrop"]
+shader = ExtResource("4")
+
+[node name="TitleMenu" type="Control"]
+script = ExtResource("1")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.06, 0.07, 0.09, 1)
 
-[node name="Main" type="CenterContainer" parent="."]
+[node name="Background" type="TextureRect" parent="."]
+material = SubResource("Backdrop")
+mouse_filter = 2
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 6
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Main" type="MarginContainer" parent="."]
 unique_name_in_owner = true
+theme_override_constants/margin_left = 90
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_top = 68
+theme_override_constants/margin_bottom = 60
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,40 +47,86 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Rows" type="VBoxContainer" parent="Main"]
-custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 theme_override_constants/separation = 14
 
+[node name="Eyebrow" type="Label" parent="Main/Rows"]
+layout_mode = 2
+theme_type_variation = &"Kicker"
+theme_override_colors/font_color = Color(0.95, 0.66, 0.46, 1)
+text = "O P E R A T O R   L I N K     /     S T A N D B Y"
+
+[node name="SpacerTop" type="Control" parent="Main/Rows"]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="Title" type="Label" parent="Main/Rows"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 56
+theme_type_variation = &"Heading"
+theme_override_font_sizes/font_size = 100
 text = "UNTITLED"
-horizontal_alignment = 1
+
+[node name="Accent" type="ColorRect" parent="Main/Rows"]
+custom_minimum_size = Vector2(64, 4)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+color = Color(0.91, 0.51, 0.32, 1)
 
 [node name="Subtitle" type="Label" parent="Main/Rows"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.55, 0.62, 0.7, 1)
-text = "Battle prototype"
-horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.79, 0.83, 0.79, 1)
+theme_override_font_sizes/font_size = 26
+text = "Prepare. Infiltrate. Adapt. Extract."
 
 [node name="Spacer" type="Control" parent="Main/Rows"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 
 [node name="NewGame" type="Button" parent="Main/Rows"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 58)
 layout_mode = 2
-text = "New game"
+size_flags_horizontal = 0
+text = "DEPLOY TO FACILITY     →"
+alignment = 0
 
 [node name="SettingsButton" type="Button" parent="Main/Rows"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 52)
 layout_mode = 2
-text = "Settings"
+size_flags_horizontal = 0
+text = "SETTINGS"
+alignment = 0
 
 [node name="Quit" type="Button" parent="Main/Rows"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 52)
 layout_mode = 2
-text = "Quit"
+size_flags_horizontal = 0
+text = "EXIT GAME"
+alignment = 0
+
+[node name="SpacerBottom" type="Control" parent="Main/Rows"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Footer" type="HBoxContainer" parent="Main/Rows"]
+layout_mode = 2
+
+[node name="Mission" type="Label" parent="Main/Rows/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Kicker"
+text = "01  /  FACILITY EXTERIOR
+BREACH THE CACHE. BRING EVERYONE HOME."
+
+[node name="Location" type="Label" parent="Main/Rows/Footer"]
+layout_mode = 2
+theme_type_variation = &"Kicker"
+text = "ANTHROPOMORPHIC
+PERIMETER ACCESS"
+horizontal_alignment = 2
 
 [node name="SettingsMenu" parent="." instance=ExtResource("2")]
 unique_name_in_owner = true

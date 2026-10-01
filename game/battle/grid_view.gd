@@ -26,8 +26,8 @@ const EXTRACTION_COLOR := Color(0.3, 1.0, 0.5, 0.3)
 const ACCESS_ZONE_COLOR := Color(0.2, 0.85, 1.0, 0.12)
 # The access zones' outer edge, drawn above the move tiles so both stay readable where they overlap.
 const ACCESS_EDGE_COLOR := Color(0.45, 1.0, 0.95)
-const ACCESS_EDGE_GLOW := 3.0
-const ACCESS_EDGE_WIDTH := 0.18
+const ACCESS_EDGE_GLOW := 1.8
+const ACCESS_EDGE_WIDTH := 0.075
 const ACCESS_EDGE_Y := 0.02
 const SIDES := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
 
@@ -175,6 +175,8 @@ func node_position(id: String, height := 0.0) -> Vector3:
 func set_overlay(layer: String, cells: Array, color: Color, height := OVERLAY_Y) -> void:
 	clear_overlay(layer)
 	var material := _overlay_material(color)
+	if layer == "access":
+		material.set_shader_parameter("border_strength", 0.12)
 	var meshes: Array[MeshInstance3D] = []
 	for cell in cells:
 		meshes.append(_add_mesh(_overlay_mesh, material, cell_to_world(cell) + Vector3(0, height, 0)))

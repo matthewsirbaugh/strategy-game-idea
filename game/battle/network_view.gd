@@ -1,24 +1,39 @@
 class_name NetworkView
 extends Node3D
 
-# The network as its own layer. When shown, the backdrop blurs and blue-washes the physical map,
-# and everything here draws on top of it. Depth testing is off, so render priority alone sets the
-# draw order within the layer.
+# The topology stays aligned with the physical devices beneath it. Render priority keeps
+# the diagram readable through world geometry without changing picking or network rules.
 
-enum Order { BACKDROP = 1, LINK, RIM, DISC, RING, AGENT_RIM, AGENT, LABEL_OUTLINE, LABEL }
+enum Order { BACKDROP = 1, LINK, PACKET, RIM, DISC, RING, ICON, AGENT_RIM, AGENT, LABEL_OUTLINE, LABEL }
 
 const BACKDROP_SHADER := preload("res://battle/network_backdrop.gdshader")
 const FLOOR_Y := 0.08
 const AGENT_Y := 0.3
-const TOKEN_RADIUS := 0.38
-const TOKEN_SPACING := 0.8
+const TOKEN_RADIUS := 0.46
+const TOKEN_SPACING := 1.0
 # How far below its node a label starts, in label pixels.
-const LABEL_DROP := 44.0
+const LABEL_DROP := 65.0
 const HOP_SECONDS := 0.15
-const INK := Color(0.07, 0.13, 0.3)
-const REACHABLE := Color(0.1, 0.45, 1.0)
-const CURRENT := Color(1.0, 1.0, 1.0)
-const BREACHED := Color(0.25, 0.85, 0.45)
+const INK := Color(0.035, 0.075, 0.095)
+const REACHABLE := Color(0.4, 0.87, 0.9)
+const CURRENT := Color(1.0, 0.94, 0.76)
+const BREACHED := Color(0.45, 0.93, 0.68)
+const FONT := preload("res://art/fonts/BarlowCondensed-SemiBold.ttf")
+const ICONS := {
+	"access": preload("res://art/ui/access.svg"),
+	"door": preload("res://art/ui/door.svg"),
+	"camera": preload("res://art/ui/camera.svg"),
+	"turret": preload("res://art/ui/turret.svg"),
+	"cache": preload("res://art/ui/cache.svg"),
+}
+const COLORS := {
+	"access": Color(0.4, 0.84, 0.88),
+	"door": Color(0.95, 0.68, 0.42),
+	"camera": Color(0.68, 0.71, 0.96),
+	"turret": Color(1.0, 0.46, 0.36),
+	"cache": Color(0.98, 0.84, 0.48),
+}
+const NAMES := {"access": "ACCESS", "door": "DOOR", "camera": "CAMERA", "turret": "SENTRY", "cache": "DATA CACHE"}
 
 # The fade in: the network appears over the still-sharp map, holds so it can be seen lining up,
 # then the map blurs away behind it.
@@ -32,19 +47,34 @@ var _agents := {}
 var _fading: Array[Array] = []
 var _labels: Array[Label3D] = []
 var _backdrop: ShaderMaterial
+var _icons: Array[Sprite3D] = []
+var _links: Array[Dictionary] = []
+var _diagram_environment: Environment
+var _previous_environment: Environment
 
 
 func build(state: BattleState, grid: GridView) -> void:
 	_state = state
 	_grid = grid
+	_diagram_environment = get_world_3d().environment.duplicate()
+	_diagram_environment.fog_enabled = false
+	_diagram_environment.volumetric_fog_enabled = false
+	_diagram_environment.glow_enabled = false
+	_diagram_environment.adjustment_enabled = false
+	_diagram_environment.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	add_child(_make_backdrop())
 	for link in state.map.links:
 		var ends := link.split("-")
-		var beam := GridView.make_beam(0.07, Color(INK, 0.85))
+		var from := node_position(ends[0])
+		var to := node_position(ends[1])
+		var beam := GridView.make_beam(0.035, Color(0.24, 0.5, 0.55, 0.7))
 		_draw_on_top(beam.material_override, Order.LINK)
-		_fading.append([beam.material_override, 0.85])
+		_fading.append([beam.material_override, 0.7])
 		add_child(beam)
-		GridView.place_beam(beam, node_position(ends[0]), node_position(ends[1]))
+		GridView.place_beam(beam, from, to)
+		var packet := _sphere(0.065, Color(0.48, 0.86, 0.86, 0.85), Order.PACKET)
+		add_child(packet)
+		_links.append({"ends": ends, "from": from, "to": to, "beam": beam, "packet": packet})
 	for id in state.map.node_ids():
 		_build_node(id)
 	for unit in state.units:
@@ -62,10 +92,16 @@ func fade_in() -> void:
 	tween.tween_method(_set_opacity, 0.0, 1.0, fade_seconds)
 	tween.tween_interval(lineup_seconds)
 	tween.tween_method(_set_backdrop, 0.0, 1.0, fade_seconds)
+	tween.tween_callback(func() -> void:
+		var camera := get_viewport().get_camera_3d()
+		_previous_environment = camera.environment
+		camera.environment = _diagram_environment
+	)
 	await tween.finished
 
 
 func fade_out() -> void:
+	get_viewport().get_camera_3d().environment = _previous_environment
 	var tween := create_tween()
 	tween.tween_method(_set_backdrop, 1.0, 0.0, fade_seconds)
 	tween.tween_method(_set_opacity, 1.0, 0.0, fade_seconds * 0.7)
@@ -81,21 +117,37 @@ func agent_position(unit: Unit) -> Vector3:
 	return _agent_position(unit, unit.agent_node)
 
 
+func framing_bounds() -> Rect2:
+	var bounds := Rect2(Vector2(node_position(_nodes.keys()[0]).x, node_position(_nodes.keys()[0]).z), Vector2.ZERO)
+	for id in _nodes:
+		var at := node_position(id)
+		bounds = bounds.expand(Vector2(at.x, at.z))
+	return bounds.grow(1.6)
+
+
 func refresh() -> void:
 	for id in _nodes:
 		var part: Dictionary = _nodes[id]
 		var def := _state.node_def(id)
 		var kind := _state.map.node_kind(id)
 		var label: Label3D = part["label"]
-		var disc: StandardMaterial3D = part["disc"]
-		label.text = def.display_name
-		var color: Color = GridView.NODE_COLORS[kind]
+		var color: Color = COLORS[kind]
+		label.text = "%s / %s" % [id.to_upper(), NAMES[kind]]
 		if _state.breached.has(id):
-			label.text += "\n" + _status(id, kind)
+			label.text += "\n" + _status(id, kind).to_upper()
 			color = BREACHED
 		elif def.goal > 0:
-			label.text += "\n%d/%d" % [_state.breach.get(id, 0), def.goal]
-		disc.albedo_color = Color(color, disc.albedo_color.a)
+			label.text += "\n%d / %d" % [_state.breach.get(id, 0), def.goal]
+		else:
+			label.text += "\nENTRY"
+		var rim: StandardMaterial3D = part["rim"]
+		rim.albedo_color = Color(color, rim.albedo_color.a)
+		var icon: Sprite3D = part["icon"]
+		icon.modulate = Color(color, icon.modulate.a)
+		var progress := 1.0 if _state.breached.has(id) else float(_state.breach.get(id, 0)) / maxf(def.goal, 1)
+		if part["progress_value"] != progress:
+			part["progress"].mesh = _arc_mesh(progress)
+			part["progress_value"] = progress
 	var sharing := {}
 	for id in _agents:
 		var unit: Unit = _state.units[id]
@@ -121,6 +173,21 @@ func highlight(reachable: Array, current: String) -> void:
 			ring.position = agent_position(_state.active) - Vector3(0, AGENT_Y, 0)
 		var material: StandardMaterial3D = ring.material_override
 		material.albedo_color = Color(CURRENT if id == current else REACHABLE, material.albedo_color.a)
+
+	for link in _links:
+		var emphasized: bool = (link.ends[0] == current or reachable.has(link.ends[0])) and (link.ends[1] == current or reachable.has(link.ends[1]))
+		var material: StandardMaterial3D = link.beam.material_override
+		material.albedo_color = Color(REACHABLE if emphasized else Color(0.24, 0.5, 0.55), material.albedo_color.a)
+
+
+func _process(_delta: float) -> void:
+	if not visible:
+		return
+	var clock := Time.get_ticks_msec() / 1000.0
+	for i in _links.size():
+		var link: Dictionary = _links[i]
+		var along: float = fposmod(clock * 1.8 + i * 2.1, link.from.distance_to(link.to)) / link.from.distance_to(link.to)
+		link.packet.position = link.from.lerp(link.to, along)
 
 
 # Hit-tests tokens where they're drawn: side by side on a shared node, they spill onto the
@@ -152,53 +219,86 @@ func move_agent(unit: Unit, path: Array) -> void:
 
 func _build_node(id: String) -> void:
 	var at := node_position(id)
-	_add_disc(at, 0.4, INK, Order.RIM)
-	var disc := _add_disc(at, 0.32, GridView.NODE_COLORS[_state.map.node_kind(id)], Order.DISC)
+	var kind := _state.map.node_kind(id)
+	var rim := _add_disc(at, 0.73, COLORS[kind], Order.RIM)
+	_add_disc(at, 0.66, INK, Order.DISC)
+	var progress := MeshInstance3D.new()
+	progress.material_override = _ink(BREACHED, Order.RING)
+	progress.position = at
+	add_child(progress)
 	var torus := TorusMesh.new()
-	torus.inner_radius = 0.46
-	torus.outer_radius = 0.56
+	torus.inner_radius = 0.91
+	torus.outer_radius = 0.98
 	var ring := MeshInstance3D.new()
 	ring.mesh = torus
 	ring.material_override = _ink(CURRENT, Order.RING)
 	ring.position = at
 	ring.visible = false
 	add_child(ring)
+	var icon := Sprite3D.new()
+	icon.texture = ICONS[kind]
+	icon.pixel_size = 0.018
+	icon.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	icon.no_depth_test = true
+	icon.render_priority = Order.ICON
+	icon.position = at + Vector3(0, 0.025, 0)
+	icon.modulate = COLORS[kind]
+	add_child(icon)
+	_icons.append(icon)
 	var label := Label3D.new()
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.no_depth_test = true
 	label.render_priority = Order.LABEL
 	label.outline_render_priority = Order.LABEL_OUTLINE
-	label.font_size = 44
-	label.outline_size = 16
-	label.pixel_size = 0.006
-	label.modulate = INK
-	label.outline_modulate = Color.WHITE
-	# Seen from straight above, height doesn't separate things on screen, so the label is shifted
-	# below its node in screen space instead.
+	label.font = FONT
+	label.font_size = 38
+	label.outline_size = 5
+	label.pixel_size = 0.015
+	label.modulate = Color(0.88, 0.95, 0.91)
+	label.outline_modulate = INK
 	label.position = at
 	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	label.offset = Vector2(0, -LABEL_DROP)
 	add_child(label)
 	_labels.append(label)
-	_nodes[id] = {"disc": disc, "ring": ring, "label": label}
+	_nodes[id] = {"rim": rim, "ring": ring, "label": label, "icon": icon,
+		"progress": progress, "progress_value": -1.0}
+
+
+func _arc_mesh(fill: float) -> ImmediateMesh:
+	var mesh := ImmediateMesh.new()
+	if fill <= 0.0:
+		return mesh
+	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
+	var steps := maxi(1, ceili(fill * 48))
+	for i in steps:
+		var start := -PI / 2.0 + TAU * fill * float(i) / steps
+		var end := -PI / 2.0 + TAU * fill * float(i + 1) / steps
+		var a := Vector3(cos(start), 0, sin(start))
+		var b := Vector3(cos(end), 0, sin(end))
+		for vertex in [a * 0.77, b * 0.77, a * 0.84, a * 0.84, b * 0.77, b * 0.84]:
+			mesh.surface_add_vertex(vertex)
+	mesh.surface_end()
+	return mesh
 
 
 # A token that covers the node it sits on, marked with its Operator's initial.
 func _build_agent(unit: Unit) -> Node3D:
 	var agent := Node3D.new()
-	agent.add_child(_sphere(TOKEN_RADIUS, Color.WHITE, Order.AGENT_RIM))
-	agent.add_child(_sphere(0.31, unit.def.color, Order.AGENT))
+	agent.add_child(_sphere(TOKEN_RADIUS, unit.def.color.lightened(0.3), Order.AGENT_RIM))
+	agent.add_child(_sphere(0.39, INK, Order.AGENT))
 	var initial := Label3D.new()
 	initial.text = unit.display_name.left(1)
 	initial.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	initial.no_depth_test = true
 	initial.render_priority = Order.LABEL
 	initial.outline_render_priority = Order.LABEL_OUTLINE
+	initial.font = FONT
 	initial.font_size = 64
-	initial.outline_size = 12
+	initial.outline_size = 4
 	initial.pixel_size = 0.006
-	initial.modulate = INK
-	initial.outline_modulate = Color.WHITE
+	initial.modulate = unit.def.color.lightened(0.4)
+	initial.outline_modulate = INK
 	agent.add_child(initial)
 	_labels.append(initial)
 	agent.visible = false
@@ -260,6 +360,8 @@ func _set_opacity(amount: float) -> void:
 	for entry in _fading:
 		var material: StandardMaterial3D = entry[0]
 		material.albedo_color.a = entry[1] * amount
+	for icon in _icons:
+		icon.modulate.a = amount
 	for label in _labels:
 		label.modulate.a = amount
 		label.outline_modulate.a = amount
@@ -274,7 +376,7 @@ func _status(id: String, kind: String) -> String:
 		"door":
 			return "open" if _state.is_door_open(id) else "locked"
 		"camera":
-			return "yours"
+			return "CONTROLLED"
 		"turret":
 			return "offline"
 		"cache":
@@ -294,4 +396,6 @@ static func _draw_on_top(material: StandardMaterial3D, order: int) -> void:
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.no_depth_test = true
+	material.disable_fog = true
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.render_priority = order
