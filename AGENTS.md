@@ -29,7 +29,8 @@ expects that plan to change as ideas surface while playing.
 
 ## Communication
 
-- Numbered questions and decision requests. Tables, bullets and diagrams where they earn their
+- Numbered questions and decision requests. Numbering runs continuously through a whole
+  message, so every item can be answered by its number alone. Tables, bullets and diagrams where they earn their
   place. No walls of text with bold phrases scattered through them.
 - Say what changed, what actually works, what is still uncertain, and what you need from
   Bryson. Report honestly when something was written but not run, or run but not played.
@@ -46,6 +47,7 @@ expects that plan to change as ideas surface while playing.
 | File | Holds |
 |---|---|
 | DESIGN.md | The game: intent, touchstones, constraints, decisions, open questions |
+| RULES.md | The rulebook: agreed rules only, V1 in progress |
 | AGENTS.md | This file: how we work |
 | CLAUDE.md | One line pointing Claude Code at this file |
 | EXPLORATIONS.md | The board: every open topic, its status and its next action |
