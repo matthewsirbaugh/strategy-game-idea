@@ -120,6 +120,20 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
   suits an AI moving around a network. It means investing in good environment models and
   objects so maps read as tactical spaces, not mazes of one repeated wall.
 
+## 2026-10-03 — Enemies, Operators and gear (Bryson)
+
+- North star: "more of a puzzle with RPG progression and a story, like Into the Breach if it were
+  a stealth game and had a story and proper upgrades."
+- Enemies have no HP. Enemy variety comes from mixing traits, alone or in combination: needs two
+  stuns, immune to the basic shot so it takes a specific gadget, wakes up faster, wakes nearby
+  guards.
+- Operators follow the Invisible Inc. model: one or two hits and they're downed. Getting spotted
+  is the real cost.
+- A stun lasts 4 turns by default, to be tuned. That leaves time for an Operator to tie the guard
+  up, which takes them out for the battle unless another enemy finds and unties them.
+- Gear is the Operators' upgrade path, alongside the AI's three pipelines. Upgrades should feel
+  like new abilities and options, not a bigger number.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

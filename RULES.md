@@ -53,10 +53,24 @@ published to Google Drive for sharing and comments.
 13. There is no battle-wide clock.
 14. Every guard's vision cone is visible at all times while the guard is outside the fog.
 
+## Enemies
+
+15. Enemies have no HP. A hit stuns them for 4 turns.
+16. An Operator can tie up a stunned enemy. A tied-up enemy is out of the battle unless another
+    enemy finds and unties them.
+17. Tougher enemies mix traits: they need two stuns, are immune to the basic shot, wake up
+    faster, or wake nearby guards.
+
 ## Defeat and recovery
 
-15. A downed Operator is out for the rest of the battle.
-16. A crashed AI is kicked back to its backpack, and its context is wiped.
+18. An Operator goes down after one or two hits. A downed Operator is out for the rest of the
+    battle.
+19. A crashed AI is kicked back to its backpack, and its context is wiped.
+
+## Progression
+
+20. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+    Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
 
