@@ -145,8 +145,8 @@ may demand?
 | CTX-06 | Open tuning | Every context number is a placeholder. Capacity, compaction and all costs get rescaled together later; keep the current proportions until then. |
 | HACK-01 | Rejected | A node's difficulty does not reduce the share of hack points that count. Context fullness stays the only efficiency modifier. |
 | HACK-02 | Open | Difficult hacking may get another mechanic later; none is chosen. |
-| TURN-01 | Decided, interim | The AI can move through the network and then take one other action (hack, compact, ability or door) in the same turn. |
-| TURN-02 | Decided, interim | The Operator's part (move, then optionally attack) and the AI's part run as two blocks in either order, never interleaved. |
+| TURN-01 | Replaced 2026-10-03, see rulebook.md | The AI can move through the network and then take one other action (hack, compact, ability or door) in the same turn. |
+| TURN-02 | Replaced 2026-10-03, see rulebook.md | The Operator's part (move, then optionally attack) and the AI's part run as two blocks in either order, never interleaved. |
 | TURN-03 | Open | A proper action system replaces the interim turn rules. Don't build toward it yet. |
 
 Still open: the final cost of each hack, tool call, ability and skill; which abilities count as

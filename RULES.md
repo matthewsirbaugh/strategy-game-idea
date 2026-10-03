@@ -20,8 +20,13 @@ published to Google Drive for sharing and comments.
 
 1. Each unit's turn has two halves: the Operator in the physical world, and the AI in the
    network.
-2. A unit can do several things in one turn.
+2. A unit can do several things in one turn. The Operator's and the AI's actions interleave
+   freely.
 3. Operators play carefully and stealth-first. They never get refunds.
+   - Operators spend AP on movement, from the same pool as their other actions.
+   - One shot per turn, outside the AP pool. It doesn't end the turn.
+   - Sprint gives extra AP and makes noise that guards can hear.
+   - An Operator can take an ambush stance and strike the first guard who comes close.
 4. AIs play aggressively. They start each turn with 2 AP, and moving through the network costs
    1 AP. Upgrades can raise this.
 5. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
@@ -46,11 +51,12 @@ published to Google Drive for sharing and comments.
     enemy in a zone.
 12. Cloak hides an Operator from surveillance, never from a guard's own eyes.
 13. There is no battle-wide clock.
+14. Every guard's vision cone is visible at all times while the guard is outside the fog.
 
 ## Defeat and recovery
 
-14. A downed Operator is out for the rest of the battle.
-15. A crashed AI is kicked back to its backpack, and its context is wiped.
+15. A downed Operator is out for the rest of the battle.
+16. A crashed AI is kicked back to its backpack, and its context is wiped.
 
 ## Not written yet
 

@@ -94,6 +94,32 @@ weapon), Rainbow Six Siege (cameras worth having because the level hides the key
   (a compromised piece lends its abilities for the turn) is liked, but it needs a way to make
   moving power between pieces intuitive in the UI.
 
+## 2026-10-03 — The Operator half (Bryson, after studying Invisible Inc.)
+
+Research in the chat: Invisible Inc. (AP spent only on movement and peeking, attacks free and
+capped at one per turn, sprint trades noise for AP, knockouts that wear off unless the guard is
+pinned, ambush stance, always-visible vision cones), XCOM 2 concealment, Mutant Year Zero
+silent takedowns, Desperados III and Shadow Tactics (readable cones, queued combos).
+
+- The lessons Bryson adopted: movement is the scarce resource, attacks are capped separately,
+  the rules are readable, risk dials, a non-lethal hit buys time and creates follow-up
+  decisions, and the player chooses when a fight starts.
+- HP-based combat trades a good puzzle for more RPG. The puzzle wins.
+- Operators spend AP from one pool on movement, so moving is part of the turn's whole economy.
+- One shot per turn, outside the AP pool, and it doesn't end the turn: it can come in the middle.
+- Sprint is in. It needs every guard's vision cone visible at all times while the guard is
+  outside the fog.
+- An ambush or overwatch stance is in.
+- The Operator's and the AI's AP interleave freely within a unit's turn. This replaces TURN-01
+  and TURN-02 in [battle-core.md](battle-core.md).
+- Gear: weapons and gadgets that restrain enemies non-lethally are equipment, gained outside
+  battle and used in it. Bryson's example: a drone with a small circle of vision, upgradable
+  with a single-use ability, such as stunning an enemy or hacking one small target (a goal-10
+  node at today's numbers).
+- Level design follows from this: medium-small maps, dense with things to manipulate, which
+  suits an AI moving around a network. It means investing in good environment models and
+  objects so maps read as tactical spaces, not mazes of one repeated wall.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or
