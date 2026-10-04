@@ -543,6 +543,13 @@ degrades every chip in two steps.
   too powerful. The V1 chip table is in RULES.md.
 - One action earns at most one refund, so Subagent can't snowball on its own.
 
+## 2026-10-04 — V1 setup draft (Claude, pending Bryson's markup)
+
+Claude drafted test loadouts, robot numbers and a placeholder table in the chat. Agreed so far:
+when Operators share a speed, the player picks which acts next. The rest waits for Bryson's
+markup before it goes into RULES.md. Bryson asked Claude to draft a placeholder test map on the
+facility exterior; level layout stays Bryson's call.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.

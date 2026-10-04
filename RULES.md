@@ -87,6 +87,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 
 1. Each round, every unit on the map takes a turn. Hidden enemies take theirs out of sight.
    When an enemy is revealed, it joins the turn order shown at the top of the screen.
+   When several Operators share a speed, the player picks which of them acts next.
 2. Each unit's turn has two halves: the Operator in the physical world, and the AI in the
    network.
 3. A unit can do several things in one turn. The Operator's and the AI's actions interleave
