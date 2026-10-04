@@ -45,7 +45,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Security hub | Network opposition that re-locks things |
 | Device | A physical object on a node: a camera, a door, a light, a car |
 | Device verb | What a Breached device can do: power, activate, lock |
-| Activate | Makes a device do its thing: a car drives, a phone rings, a camera shows a fake Operator |
+| Activate | Makes a powered device do its thing: a car drives, a phone rings |
 | Autonomous | A device that acts on its own, like a turret or drone. Breaching one gives type-specific controls |
 | Context | The AI's context window, a resource for the whole battle |
 | Compaction | Clearing most of the context. It takes an AI action and degrades loaded chips |
@@ -94,7 +94,8 @@ implementation follows. Numbers marked placeholder are for tuning.
      Operator who sprints can't shoot or set overwatch that turn.
    - Peeking through a door costs 1 AP. The Operator sees into the space beyond until their
      turn ends.
-   - Opening an unlocked door is free. Locking a door costs 1 AP.
+   - Opening an unlocked door is free. Locking a door costs 1 AP and needs the Operator at the
+     door. An AI can lock or unlock a Breached door remotely.
    - Deploying the AI to the network costs 1 AP.
    - Gadgets cost AP to use, depending on the gadget, and sit outside the one-shot limit. A
      flashbang costs 2 AP and blinds the guards in its blast radius for 3 turns.
@@ -170,13 +171,13 @@ implementation follows. Numbers marked placeholder are for tuning.
     - A guard who hears a sound walks to its source, looks around for one turn, then goes back to
       its patrol.
     - Each use of a verb makes one sound, a single moment.
-18. Every camera starts enemy-controlled and can spot Operators. A Breached camera sends the
-    enemy a spoofed feed by default: Operators don't appear on it, even right in front of it.
-    While it's powered on, it also gives the team its vision. Activating a Breached camera spoofs
-    an Operator on its feed, which draws guards toward the camera. Cameras see only in light; an upgraded camera with
-    night vision needs a higher-level hack.
+18. Every camera starts enemy-controlled and can spot Operators. A Breached camera is the team's
+    camera now, so it never reports the team's Operators or units to the enemy, even right in
+    front of it. While powered on, it gives the team its vision. Powering it off is a lure: a
+    camera going dark draws a guard to investigate. Cameras can't be activated. Cameras see only
+    in light; an upgraded camera with night vision needs a higher-level hack.
 19. Guards share vision through their cameras. That's their biggest strength and their biggest
-    weakness: a hacked camera feeds them false data.
+    weakness: a hacked camera stops reporting the team to them.
 20. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
@@ -371,8 +372,9 @@ progress, which persists across turns and even if the AI leaves. Hacking never f
 adds progress or, at worst, none. When progress reaches the node's goal, the node is Breached.
 
 **Breached.** A node whose goal has been reached. The team controls it and can use its device's
-verbs. A Breached camera sends the enemy a spoofed feed with no Operators on it, and while
-powered on gives the team its vision; other devices change only when a verb is used.
+verbs. A Breached camera becomes the team's camera: it never reports the team's Operators or
+units to the enemy, and while powered on it gives the team its vision. Other devices change only
+when a verb is used.
 
 **Hack power.** The breach progress one hack action adds: 10 in the current build
 (placeholder). Multiplier chips raise it against their category. When context is full, only
@@ -394,10 +396,12 @@ come with the network UI work.
 has a sound radius.
 
 **Device verb.** What a Breached device lets the AI do, drawn from one shared list: power,
-activate and lock. Power switches a device on or off. Activate makes it do its thing: a car or
-elevator moves, a phone rings with a fake call, a camera spoofs an Operator on its feed to draw
-guards. Lock locks or unlocks. There is no sense verb (a powered camera already gives vision) and
-no separate signal verb (activate covers it). Verbs aren't chips. There is no harm verb: a harmful effect comes from an
+activate and lock. Power switches a device on or off. Activate makes a powered device do its
+thing: a car or elevator moves, a phone rings with a fake call. A device has to be powered on
+before it can be activated. Cameras can't be activated; powering one off is the camera lure.
+Lock locks or unlocks; most doors are opened by Operators, while an AI locks and unlocks them
+remotely. There is no sense verb (a powered camera already gives vision) and no signal verb
+(activate covers it). No new verbs are planned. Verbs aren't chips. There is no harm verb: a harmful effect comes from an
 ordinary verb, like powering an electric fence. Every verb a Breached device has can be used,
 each once per turn, so an electric car can be powered on and activated in one turn but not
 powered on and off. Each AI gets its own uses in its own turn, so one AI can power a light off and

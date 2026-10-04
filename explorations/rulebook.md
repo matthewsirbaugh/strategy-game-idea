@@ -441,6 +441,14 @@ hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights i
   directly in front of it. Activating it spoofs an Operator on the feed, drawing enemies toward
   the camera.
 
+- Wording: not "spoof". A Breached camera simply doesn't alert the enemy to the team's Operators
+  and units, because it's no longer an enemy camera; we hacked it.
+- A device has to be powered on before it can be activated.
+- Cameras can't be activated. Powering a camera off is how it lures the enemy.
+- Doors: Operators open most doors; the AI unlocks and locks them. An Operator can also lock a
+  door, but has to be physically at it, while the AI can lock one remotely from the network.
+- No new verbs: power, activate, lock.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
