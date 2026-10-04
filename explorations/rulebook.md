@@ -435,6 +435,12 @@ hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights i
   camera, it sends the enemy an AI-generated video of an Operator, so they think someone is on
   camera who isn't. A phone powered on makes no sound; signal sends it a fake call.
 
+- Revised again: signal is dropped, and move becomes activate, which does what move did and
+  covers the phone case too. The verbs are now power, activate and lock.
+- A Breached camera sends a spoofed feed by default: Operators don't appear to the enemy, even
+  directly in front of it. Activating it spoofs an Operator on the feed, drawing enemies toward
+  the camera.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
