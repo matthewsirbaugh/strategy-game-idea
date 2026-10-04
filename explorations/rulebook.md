@@ -449,6 +449,19 @@ hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights i
   door, but has to be physically at it, while the AI can lock one remotely from the network.
 - No new verbs: power, activate, lock.
 
+## 2026-10-04 — Device sheets (Bryson)
+
+- Claude drafted 16 V1 devices with states, verbs, sound and goals (all placeholders). Bryson:
+  that covers V1; more can come in V2 without muddying the water. The sheet is in RULES.md under
+  Devices.
+- Cars accelerate forward or backward, the player's choice, until they hit something.
+- A powered-off electric fence is still a wall, just a harmless one.
+- A hub killing several cameras at once is wanted, especially for a mission that calls for it.
+  In a blackout the guards run their routes and search room to room, and the darkness applies to
+  both sides: Operators and guards each see only a small window, and everything else is greyed
+  out like the fog. The guards can't see you, and you can't see them.
+- An ad screen's flash is a visual lure: only guards who can see the screen respond.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.

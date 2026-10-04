@@ -63,6 +63,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Alerted | A guard that has seen an Operator directly: a full alert |
 | Searching | An alerted guard that lost track of the Operator |
 | Caution | A zone's heightened state after an alert, on a countdown |
+| Blackout | A power hub cutting the lights: both sides see only a small window |
 | Zone | An area of a map that shares alerts and caution, drawn by the map author |
 | Light and dark | Darkness shrinks the seen tier |
 | Sound radius | How far a device's sound carries to guards |
@@ -158,6 +159,36 @@ implementation follows. Numbers marked placeholder are for tuning.
       upgrades it had. A single-use ability is only available if it wasn't used before the
       breach.
 
+## Devices
+
+Every V1 device. All numbers are placeholders. Sound radius is in walking steps; "closest" draws
+the closest guard in range, "all" draws every guard in range.
+
+| Device | Verbs and effects | Sound | Goal |
+|---|---|---|---|
+| Light | Power: lights the tiles within its radius, or leaves them dark. Going dark draws a guard to investigate | None; going dark is a visual lure | 10 |
+| Camera | Power: on gives the team its vision; off is a lure. No activate. Never reports the team once Breached | None; going dark is a lure | 20 |
+| Night-vision camera | As a camera, but sees in the dark | As a camera | 30 |
+| Door | Lock: locked or unlocked, remotely. Operators open it by hand | None | 10 |
+| Automatic door | Power. Activate: opens or closes. Lock | 2, closest | 10 |
+| Phone | Power: on, silent. Activate: rings with a fake call | 4, closest | 10 |
+| Machine (generator, compressor) | Power: on starts it running | 5, closest | 10 |
+| Ad screen | Power: on lights a small area. Activate: flashes, a visual lure for guards who can see the screen | None | 10 |
+| Electric car | Power. Activate: accelerates forward or backward, the player's choice, until it hits something. A guard in its path is stunned | 1, closest | 20 |
+| Diesel truck | As an electric car | 10, all | 20 |
+| Electric fence | Power: on, it stuns anyone who moves into it. Off, it's a harmless wall | 1, closest, when switched | 20 |
+| Power hub | Power: switches every device on its circuit at once | 5, all | 30 |
+| Turret (autonomous) | Controls: target enemies, or hold. It picks the nearest enemy itself | Its shot: 5, all | 30 |
+| Enemy drone or dog bot (autonomous) | Joins the team's turn order with its own AP. Controls come with the robot design | Device-specific | 30 |
+| Access point | No verbs. Where the AI enters the network | None | None |
+| Data cache | No verbs. Breaching it is the objective | None | 60 |
+
+Rules every device follows:
+
+- A moving object that enters a guard's tile stuns them.
+- A device switched off by a power hub counts as switched off itself, so a hub that kills four
+  cameras makes four lures at once.
+
 ## Surveillance and stealth
 
 17. Operators move silently. Devices and objects make sound, and a guard who hears one goes to
@@ -192,50 +223,55 @@ implementation follows. Numbers marked placeholder are for tuning.
       and if it finds nothing goes back to its patrol.
 24. While the player plans a move, the tiles that would get the Operator noticed or seen are
     marked.
-25. Light controls visibility. In darkness a guard's seen tier shrinks to a short range and the
-    rest of its cone counts as noticed. A light that goes out draws a guard to investigate it.
-    Lights are a hacking target: cover for the Operators, and a lure.
-26. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
+25. Light controls visibility. A powered light lights the tiles within its radius; tiles with no
+    powered light are dark. In darkness a guard's seen tier shrinks to a short range and the rest
+    of its cone counts as noticed. Darkness limits the Operators too: in the dark they see only a
+    small window around them, and the rest is greyed out like the fog. A light that goes out draws
+    a guard to investigate it. Lights are a hacking target: cover for the Operators, and a lure.
+26. A blackout, when a power hub cuts the lights, sends the guards out along their routes,
+    searching room to room. Neither side can see far: the guards can't see you, and you can't see
+    them.
+27. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
     that guard's seen tier, the guard is alerted at once, but the Operator's turn carries on.
-27. An alerted guard acts on its own turn, never during the player's. If it loses track of the
+28. An alerted guard acts on its own turn, never during the player's. If it loses track of the
     Operator, it searches, then gives up and goes back to its patrol.
-28. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
+29. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
     caution, the noticed tier counts as seen. When the countdown ends, the zone settles back to
     normal.
 
 ## Enemies
 
-29. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+30. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (placeholder).
-30. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+31. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-31. A guard who finds a stunned or tied-up enemy raises an alert.
-32. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
+32. A guard who finds a stunned or tied-up enemy raises an alert.
+33. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
     up and putting down are free. While carrying, the Operator can only move, with no movement
     penalty.
-33. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
+34. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
     trunk, a locker, a closet or a trash can. Putting a body down on a receptacle's tile puts it
     inside, hidden.
-34. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
+35. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
     make noise instead, and a guard passing within its sound radius comes to let them out.
     Guards don't otherwise search receptacles.
-35. For now there is one standard enemy, with no special traits, so the rules can be tuned
+36. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
 ## Defeat and recovery
 
-36. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
+37. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
     armor takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-37. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
+38. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
     compacted as if it had compacted itself, and loses its next turn while it reboots. After
     that, its Operator can deploy it again for 1 AP, or leave it out.
 
 ## Robots
 
-38. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-39. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
+39. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
+40. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-40. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+41. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
     - A robot relays from within tether range of an access point, like an Operator. Its link to
@@ -245,13 +281,13 @@ implementation follows. Numbers marked placeholder are for tuning.
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
-41. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+42. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
 ## Progression
 
-42. In V1, every Operator has the same stats. They differ only in personality.
-43. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+43. In V1, every Operator has the same stats. They differ only in personality.
+44. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
@@ -484,11 +520,19 @@ returns to its patrol. Cloak can make an Operator drop off its radar.
 visible countdown. During caution, the noticed tier counts as seen. When the countdown ends, the
 zone settles back to normal.
 
+**Blackout.** A power hub cutting the lights on its circuit. Each light and camera it kills counts
+as switched off, so each is its own lure. The guards go out along their routes, searching room to
+room, and darkness limits both sides: guards can't see the Operators, and the Operators can't
+see the guards. Some missions may call for a blackout on purpose.
+
 **Zone.** A named area of a map, drawn by the map author, roughly one per room or yard. Camera
 alerts and caution act on zones.
 
-**Light and dark.** Light controls visibility. In darkness a guard's seen tier shrinks to a
-short range and the rest of the cone counts as noticed. Ordinary cameras see only in light;
+**Light and dark.** Light controls visibility. A powered light lights the tiles within its radius;
+every other tile is dark. In darkness a guard's seen tier shrinks to a short range and the rest of
+the cone counts as noticed. Operators in the dark see only a small window around them, with the
+rest greyed out like the fog. Open: whether someone standing in the dark can see into a lit
+area beyond their window. Ordinary cameras see only in light;
 night-vision cameras see in the dark and take a higher-level hack. A light that goes out draws a
 guard to investigate.
 
