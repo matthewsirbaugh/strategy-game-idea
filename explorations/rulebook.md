@@ -277,7 +277,6 @@ and banking in Triangle Strategy and Octopath.
   if compaction takes context below its own size (if it takes 10, compacting to 9 unloads it).
   This replaces CTX-05.
 - Chips are locked for the whole battle. Compute sharing needs the Operators adjacent.
-
 - Clarified the same day: two of the characters already had their AIs, whose personalities are
   set. The protagonist meets his new partner AI at the start of the game, as he joins the
   resistance, and that's how the mechanics are taught. His AI starts fairly generic. After a
