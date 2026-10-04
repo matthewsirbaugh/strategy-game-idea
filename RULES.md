@@ -60,7 +60,9 @@ published to Google Drive for sharing and comments.
     carries at most 3. There's no randomness: every chip it carries can be used.
 11. Using a chip loads it into context, which costs context and no AP. The player can see which
     chips are loaded and which aren't yet, and inspect any chip to see what it does.
-12. AIs start general. Chips, post-training and memory give them their specialties. AIs have no
+12. Chips, post-training and memory give AIs their specialties. The protagonist's new partner AI
+    starts general; after the tutorial battle, the player answers a series of questions that set
+    its starting abilities and specialization. AIs have no
     internet: they know only their training data and what's on their chips.
     - A hacking chip multiplies the AI's hack power against what it covers, by 1.5×. Its context
       cost is high enough that loading every chip on the first turn isn't the obvious play.
