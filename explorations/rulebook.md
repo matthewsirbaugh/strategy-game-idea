@@ -475,6 +475,16 @@ daemons (crash, context spike, re-lock, tip-off; a "?" marker revealed by Ping) 
   change, or at least its real density has to be seen first: several enemy types on today's
   maps would mean an enemy on every other node. Held until Bryson playtests.
 
+## 2026-10-04 — Circuits, separate networks, revealing a network (Bryson)
+
+- Circuits as Claude proposed: a hub's circuit is a list in the map data; a device is on at most
+  one; a dead circuit can't power its devices; the network view draws lines from the hub, and
+  hovering the hub highlights its devices.
+- A map can hold several networks that don't connect. An AI is on one at a time. The vault idea
+  is a separate, air-gapped network.
+- No survey action (option b of three): an AI connecting to a network unlocks that network on the
+  map, but doesn't show the other networks connecting other devices on the map.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
