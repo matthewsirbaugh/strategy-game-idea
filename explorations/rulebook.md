@@ -461,6 +461,7 @@ hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights i
   both sides: Operators and guards each see only a small window, and everything else is greyed
   out like the fog. The guards can't see you, and you can't see them.
 - An ad screen's flash is a visual lure: only guards who can see the screen respond.
+- Anyone in the dark can still see into a lit area beyond their small window.
 
 ## V2: after implementation and playtesting
 

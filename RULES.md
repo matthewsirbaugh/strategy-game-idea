@@ -226,7 +226,8 @@ Rules every device follows:
 25. Light controls visibility. A powered light lights the tiles within its radius; tiles with no
     powered light are dark. In darkness a guard's seen tier shrinks to a short range and the rest
     of its cone counts as noticed. Darkness limits the Operators too: in the dark they see only a
-    small window around them, and the rest is greyed out like the fog. A light that goes out draws
+    small window around them, and the rest is greyed out like the fog, though they can still see
+    into lit areas beyond it. A light that goes out draws
     a guard to investigate it. Lights are a hacking target: cover for the Operators, and a lure.
 26. A blackout, when a power hub cuts the lights, sends the guards out along their routes,
     searching room to room. Neither side can see far: the guards can't see you, and you can't see
@@ -531,8 +532,8 @@ alerts and caution act on zones.
 **Light and dark.** Light controls visibility. A powered light lights the tiles within its radius;
 every other tile is dark. In darkness a guard's seen tier shrinks to a short range and the rest of
 the cone counts as noticed. Operators in the dark see only a small window around them, with the
-rest greyed out like the fog. Open: whether someone standing in the dark can see into a lit
-area beyond their window. Ordinary cameras see only in light;
+rest greyed out like the fog. Anyone standing in the dark can still see into a lit area beyond
+their window, so darkness is a vantage point as well as cover. Ordinary cameras see only in light;
 night-vision cameras see in the dark and take a higher-level hack. A light that goes out draws a
 guard to investigate.
 
