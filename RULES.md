@@ -52,6 +52,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Chip | A skill on a retro-futuristic disk, loaded into context when used |
 | Loaded | A chip currently in context and usable |
 | Movement chip | The free chip for moving through the network |
+| Linked node | A node directly connected to another by a network link |
 | Pulled out | The AI drops out of the network and keeps its context |
 | Crashed | Knocked out of the network by opposition: a forced compaction and a lost turn |
 | Fog | Map areas the team has no vision on |
@@ -138,6 +139,25 @@ implementation follows. Numbers marked placeholder are for tuning.
     - Compaction degrades chips, defined chip by chip. A multiplier chip drops from 2× to 1.5×,
       then unloads and has to be loaded again.
     - The movement chip only unloads if a compaction takes context below its own cost.
+
+### The V1 chips
+
+All numbers are placeholders. Loading a chip costs its context once; an active chip then costs
+1 AP per use, with no uses-per-battle or cooldowns. Each compaction degrades a loaded chip one
+step: to its weaker form, then unloaded.
+
+| Chip | Type | Effect | Degraded | Load |
+|---|---|---|---|---|
+| Movement | Passive, free | Moving through the network. Doesn't count toward the cap of 3 | Unloads only if compaction takes context below its cost | 10 |
+| Locate | Active | Reveals one unseen enemy's live position for 2 turns | 1 turn | 10 |
+| Predict | Active | Shows the next turn of 2 guards the team can see: their path, and who they'll aim at | 1 guard | 15 |
+| Extended thinking | Active | This turn's next hack adds double hack power and costs double context | 1.5× | 10 |
+| Subagent | Active | This turn's next hack also adds the same progress to one linked node | Half progress to the linked node | 20 |
+| Surveillance exploit | Passive | 2× hack power against cameras | 1.5× | 20 |
+| Weapons exploit | Passive | 2× hack power against turrets, enemy robots and electric fences | 1.5× | 20 |
+| Infrastructure exploit | Passive | 2× hack power against lights, doors, phones, machines, ad screens, vehicles and power hubs | 1.5× | 20 |
+
+The three device categories, Surveillance, Weapon Systems and Infrastructure, are placeholders.
 
 ## The network
 

@@ -536,6 +536,12 @@ degrades every chip in two steps.
 - Surveillance, Weapon Systems and Infrastructure are the right placeholder categories, exactly
   the split Bryson had in mind.
 
+- What makes Locate work (Claude's reading): useful every turn, answers a real question, maps onto
+  something real AI does, and sets up other plays. Claude drafted Predict, Voice clone, Extended
+  thinking and Fork in that mold.
+- Kept: Locate, Predict, Extended thinking, and Fork renamed Subagent. Voice clone is dropped as
+  too powerful. The V1 chip table is in RULES.md.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
