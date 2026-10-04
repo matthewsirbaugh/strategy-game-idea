@@ -306,6 +306,24 @@ and banking in Triangle Strategy and Octopath.
   place plain multipliers are allowed" stays out of it: that's a principle that can be broken,
   not a restriction.
 
+## 2026-10-04 — Stealth and detection (Bryson, after a study of stealth games)
+
+Research in the chat: Invisible Inc. (two-tier cones, where the noticed tier draws a guard to
+investigate), Mark of the Ninja (show everything the character would know; Nels Anderson's
+rules), XCOM 2 (red detection tiles while planning a move), Metal Gear Solid (alert phases,
+caution), Thief and Splinter Cell (light as visibility, lights as lures), Shadow Tactics and
+Hitman (evidence, restricted zones).
+
+- Cones have two tiers, noticed and seen.
+- Moves preview which tiles would get the Operator noticed or seen, as in XCOM 2.
+- Light controls visibility, and that's a big part of hacking. Splinter Cell is the lesson:
+  lights work both as a lure and to hide the Operators.
+- After an alert, the area stays on caution for a while before settling.
+- A found stunned or tied-up guard raises an alert. That calls for a dragging system that isn't
+  unintuitive: no AP cost. An Operator next to the body drags it along with normal movement, or
+  pushes it ahead and steps forward with it.
+- No sound. Detection is visibility only.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

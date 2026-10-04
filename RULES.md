@@ -85,42 +85,56 @@ published to Google Drive for sharing and comments.
 
 ## Surveillance and stealth
 
-16. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
+16. Detection is visibility only. There is no sound.
+17. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
     threat and gives the team its vision.
-17. A camera that spots an Operator alerts guards that someone is in the area, and the closest
+18. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
-18. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
+19. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
     from the cameras and the enemy network a guard's search relies on, so an Operator behind
     cover and cloaked drops off the radar.
-19. There is no battle-wide clock.
-20. Every guard's vision cone is visible at all times while the guard is outside the fog.
-21. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
-    that guard's cone, the guard is alerted at once, but the Operator's turn carries on.
-22. An alerted guard acts on its own turn, never during the player's. If it loses track of the
+20. There is no battle-wide clock.
+21. Every guard's vision cone is visible at all times while the guard is outside the fog. A cone
+    has two tiers:
+    - Seen, the core: the guard is alerted.
+    - Noticed, the outer part: the guard marks the spot, goes there to investigate on its turn,
+      and if it finds nothing goes back to its patrol.
+22. While the player plans a move, the tiles that would get the Operator noticed or seen are
+    marked.
+23. Light controls visibility. Darkness shortens a guard's cone, and a light that goes out draws
+    a guard to investigate it. Lights are a hacking target: cover for the Operators, and a lure.
+24. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
+    that guard's seen tier, the guard is alerted at once, but the Operator's turn carries on.
+25. An alerted guard acts on its own turn, never during the player's. If it loses track of the
     Operator, it searches, then gives up and goes back to its patrol.
+26. After an alert, the area stays on caution for a while, with guards more watchful, before it
+    settles.
 
 ## Enemies
 
-23. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+27. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (a placeholder for testing).
-24. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+28. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-25. For now there is one standard enemy, with no special traits, so the rules can be tuned
+29. A guard who finds a stunned or tied-up enemy raises an alert.
+30. An Operator next to a stunned or tied-up enemy can move them at no extra AP: drag them along
+    behind with normal movement, or push them ahead and step forward with them.
+31. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
 ## Defeat and recovery
 
-26. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy armor
+32. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy armor
     takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-27. A crashed AI is kicked back to its backpack, and its context is wiped.
+33. A crashed AI is kicked back to its backpack, and its context is wiped.
 
 ## Robots
 
-28. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-29. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
+34. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
+35. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-30. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+36. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
     - A robot relays from within tether range of an access point, like an Operator. Its link to
@@ -130,13 +144,13 @@ published to Google Drive for sharing and comments.
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
-31. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+37. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
 ## Progression
 
-32. In V1, every Operator has the same stats. They differ only in personality.
-33. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+38. In V1, every Operator has the same stats. They differ only in personality.
+39. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
