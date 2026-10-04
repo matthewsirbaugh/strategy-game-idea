@@ -190,6 +190,19 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
   upgrade changes that. Two so far: a drone, and a dog bot like Boston Dynamics' Spot.
 - Peeking needs its own aside: Bryson isn't sure what it is or how it would work here.
 
+## 2026-10-03 — Peeking, overwatch, robots as relays (Bryson)
+
+- Peeking (option a of three, after an aside on Invisible Inc.'s peek): through doors only, 1 AP,
+  and the Operator sees into the space beyond until their turn ends.
+- Overwatch fires at the first enemy that moves into the Operator's line of fire. It should be
+  something the player controls, as in Bryson's example: a drone lures a guard down a hallway,
+  an Operator in overwatch shoots him, and an Operator ties him up next turn.
+- A downed robot is gone for the rest of the battle and rebuilt afterwards.
+- Robots never hack on their own. Bryson confirmed dropping that entirely: a robot is a relay
+  for the Operator's AI instead, so it can be sent behind enemy lines for intelligence and
+  access. Its fragility is the counterweight.
+- Gadgets sit outside the one-shot limit. They cost AP and count as an Operator action.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

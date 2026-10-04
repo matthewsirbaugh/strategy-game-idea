@@ -32,11 +32,14 @@ published to Google Drive for sharing and comments.
      actions.
    - One shot per turn, outside the AP pool. It doesn't end the turn.
    - Overwatch uses that shot. It's a disposition: the Operator can still move afterwards if they
-     have AP, and when their turn ends they are in overwatch.
+     have AP, and when their turn ends they are in overwatch. It fires at the first enemy that
+     moves into the Operator's line of fire.
    - Sprint gives extra AP and makes noise that guards can hear.
+   - Peeking through a door costs 1 AP. The Operator sees into the space beyond until their
+     turn ends.
    - Opening an unlocked door is free. Locking a door costs 1 AP.
    - Deploying the AI to the network costs 1 AP.
-   - Gadgets cost AP to use, depending on the gadget. A flashbang costs 2 AP and blinds the
+   - Gadgets cost AP to use, depending on the gadget, and sit outside the one-shot limit. A flashbang costs 2 AP and blinds the
      guards in its blast radius for 3 turns.
 5. AIs play aggressively. They start each turn with 2 AP, and moving through the network costs
    1 AP. Upgrades can raise this.
@@ -90,8 +93,11 @@ published to Google Drive for sharing and comments.
 23. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
 24. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-25. Robots scout, distract enemies, and can carry a simple hack or a single-use stun.
-26. One hit downs a robot, and no upgrade changes that.
+25. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+    own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
+    sends access behind enemy lines.
+26. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+    the battle and rebuilt afterwards.
 
 ## Progression
 
