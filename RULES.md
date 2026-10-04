@@ -34,7 +34,8 @@ published to Google Drive for sharing and comments.
    - Overwatch uses that shot. It's a disposition: the Operator can still move afterwards if they
      have AP, and when their turn ends they are in overwatch. It fires at the first enemy that
      moves into the Operator's line of fire.
-   - Sprint: 3 tiles for 2 AP. On 8 AP an Operator can move up to 12 tiles in a turn.
+   - Sprint: 3 tiles for 2 AP. On 8 AP an Operator can move up to 12 tiles in a turn, but an
+     Operator who sprints can't shoot or set overwatch that turn.
    - Peeking through a door costs 1 AP. The Operator sees into the space beyond until their
      turn ends.
    - Opening an unlocked door is free. Locking a door costs 1 AP.

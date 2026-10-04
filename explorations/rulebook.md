@@ -213,6 +213,8 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
 - Connecting through a robot costs the same 1 AP. A robot ends its turn on an access point, and
   on their next turn any Operator can choose to send their AI in through it.
 - Sprint adds no AP and makes no noise. It's 3 tiles for 2 AP, so 8 AP moves up to 12 tiles.
+- As written, sprint beat walking in every case. The catch (option b of four): an Operator who
+  sprints can't shoot or set overwatch that turn. Move far, or keep your shot ready.
 - The AI's AP is separate from the Operator's, because autonomy is the point of an AI. Whether it
   should be the same kind of AP system is open: study which system gives the most dynamic,
   combo-able network phase. This is the next topic.
