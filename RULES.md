@@ -74,7 +74,6 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Zone | An area of a map that shares alerts and caution, drawn by the map author |
 | Light and dark | Darkness shrinks the seen tier |
 | Sound radius | How far a device's sound carries to guards |
-| Cloak | A chip that erases an Operator from surveillance |
 | Stunned | An enemy knocked out by a shot, skipping turns |
 | Tied up | A stunned enemy restrained, out of the battle unless freed |
 | Carry | Holding a stunned or tied-up enemy over the shoulder |
@@ -121,7 +120,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 
 ## Skills
 
-10. Every AI skill is a chip, Cloak included. Chips are set before the battle and locked for its
+10. Every AI skill is a chip. Chips are set before the battle and locked for its
     length. Each AI carries at most 3, plus the movement chip, which is free and doesn't count
     toward the cap but still has to be loaded. There's no randomness: every chip an AI carries
     can be used.
@@ -134,9 +133,9 @@ implementation follows. Numbers marked placeholder are for tuning.
     - The other two AIs arrive with set personalities and starting specialties. Any AI can be
       reshaped into anything over the game.
     - Chips do many different things. One possible kind multiplies hack power against a category
-      of device, for example 1.5×. Context costs are high enough that loading every chip on the
+      of device, for example 2×. Context costs are high enough that loading every chip on the
       first turn isn't the obvious play.
-    - Compaction degrades chips, defined chip by chip. A multiplier chip drops from 1.5× to 1.25×,
+    - Compaction degrades chips, defined chip by chip. A multiplier chip drops from 2× to 1.5×,
       then unloads and has to be loaded again.
     - The movement chip only unloads if a compaction takes context below its own cost.
 
@@ -226,38 +225,35 @@ Rules every device follows:
 21. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
-22. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
-    from the cameras and the enemy network a guard's search relies on, so an Operator behind
-    cover and cloaked drops off the radar.
-23. There is no battle-wide clock.
-24. Every guard's vision cone is visible at all times while the guard is outside the fog. A cone
+22. There is no battle-wide clock.
+23. Every guard's vision cone is visible at all times while the guard is outside the fog. A cone
     has two tiers:
     - Seen, the core: the guard is alerted.
     - Noticed, the outer part: the guard marks the spot, goes there to investigate on its turn,
       and if it finds nothing goes back to its patrol.
-25. While the player plans a move, the tiles that would get the Operator noticed or seen are
+24. While the player plans a move, the tiles that would get the Operator noticed or seen are
     marked.
-26. Light controls visibility. A powered light lights the tiles within its radius; tiles with no
+25. Light controls visibility. A powered light lights the tiles within its radius; tiles with no
     powered light are dark. In darkness a guard's seen tier shrinks to a short range and the rest
     of its cone counts as noticed. Darkness limits the Operators too: in the dark they see only a
     small window around them, and the rest is greyed out like the fog, though they can still see
     into lit areas beyond it. A light that goes out draws
     a guard to investigate it. Lights are a hacking target: cover for the Operators, and a lure.
-27. A blackout, when a power hub cuts the lights, sends the guards out along their routes,
+26. A blackout, when a power hub cuts the lights, sends the guards out along their routes,
     searching room to room. Neither side can see far: the guards can't see you, and you can't see
     them.
-28. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
+27. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
     that guard's seen tier, the guard is alerted at once, but the Operator's turn carries on.
-29. An alerted guard acts on its own turn, never during the player's. If it loses track of the
+28. An alerted guard acts on its own turn, never during the player's. If it loses track of the
     Operator, it searches, then gives up and goes back to its patrol.
-30. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
+29. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
     caution, the noticed tier counts as seen. When the countdown ends, the zone settles back to
     normal.
 
 ## Enemies
 
-31. A guard moves up to 4 tiles on its turn (placeholder), with no AP.
-32. An alerted guard doesn't shoot on sight. On its turn it moves, then aims at a unit it can see,
+30. A guard moves up to 4 tiles on its turn (placeholder), with no AP.
+31. An alerted guard doesn't shoot on sight. On its turn it moves, then aims at a unit it can see,
     shown as a line. At the start of its next turn it fires, but only if that unit is still in the
     line. The player gets a full turn to break it: move, close a door, cut the lights, or stun the
     guard.
@@ -265,40 +261,40 @@ Rules every device follows:
       Operator.
     - On its next turn the guard fires first, if the shot is still valid, then moves and aims
       again as usual.
-33. A guard's range is the length of its seen tier, and it needs line of sight. Its shot always
+32. A guard's range is the length of its seen tier, and it needs line of sight. Its shot always
     hits.
-34. Guards shoot robots too, but aim at an Operator when both are in sight.
-35. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+33. Guards shoot robots too, but aim at an Operator when both are in sight.
+34. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (placeholder).
-36. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+35. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-37. A guard who finds a stunned or tied-up enemy raises an alert.
-38. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
+36. A guard who finds a stunned or tied-up enemy raises an alert.
+37. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
     up and putting down are free. While carrying, the Operator can only move, with no movement
     penalty.
-39. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
+38. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
     trunk, a locker, a closet or a trash can. Putting a body down on a receptacle's tile puts it
     inside, hidden.
-40. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
+39. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
     make noise instead, and a guard passing within its sound radius comes to let them out.
     Guards don't otherwise search receptacles.
-41. For now there is one standard enemy, with no special traits, so the rules can be tuned
+40. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
 ## Defeat and recovery
 
-42. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
+41. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
     armor takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-43. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
+42. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
     compacted as if it had compacted itself, and loses its next turn while it reboots. After
     that, its Operator can deploy it again for 1 AP, or leave it out.
 
 ## Robots
 
-44. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-45. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
+43. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
+44. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-46. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+45. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
     - A robot relays from within tether range of an access point, like an Operator. Its link to
@@ -308,28 +304,28 @@ Rules every device follows:
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
-47. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+46. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
 ## Missions
 
-48. A battle can have several phases, each on its own map. The facility mission is one battle in
+47. A battle can have several phases, each on its own map. The facility mission is one battle in
     two phases: outside, then inside.
-49. At a handover between phases, context, loaded chips, downed Operators, armor that's been hit,
+48. At a handover between phases, context, loaded chips, downed Operators, armor that's been hit,
     and robots travelling with the team carry across. Guards, caution and the fog reset with the
     new map.
-50. Win: complete the objective, then get every Operator still standing to extraction. Downed
+49. Win: complete the objective, then get every Operator still standing to extraction. Downed
     Operators can be left behind; for now their escape is handwaved.
-51. Lose: all three Operators downed. The player restarts the current phase, with exactly the
+50. Lose: all three Operators downed. The player restarts the current phase, with exactly the
     conditions they entered it with.
-52. Maps hold optional caches. A cache can hold a new skill chip, a blueprint for something the
+51. Maps hold optional caches. A cache can hold a new skill chip, a blueprint for something the
     team can 3D-print, such as a gadget, or a small to large amount of cryptocurrency. Caches are
     left out of the V1 test map, since progression is V2.
 
 ## Progression
 
-53. In V1, every Operator has the same stats. They differ only in personality.
-54. Progression is V2. V1 tests the systems with fixed loadouts, not how they progress. The
+52. In V1, every Operator has the same stats. They differ only in personality.
+53. Progression is V2. V1 tests the systems with fixed loadouts, not how they progress. The
     direction: Operators upgrade through gear, and AIs through hardware, harness and
     post-training, and upgrades add abilities and options rather than bigger numbers.
 
@@ -524,12 +520,12 @@ part of the action economy. When full, hacks count for half.
 **Compaction.** The AI spends 1 AP (placeholder) to clear most of its context (in the current
 build it keeps 25%). Compaction degrades loaded chips, defined chip by chip.
 
-**Chip.** A skill on a retro-futuristic disk. Every AI skill is a chip, Cloak included. An AI
+**Chip.** A skill on a retro-futuristic disk. Every AI skill is a chip. An AI
 carries at most 3, plus the movement chip, set before the battle and locked for its length.
 Using a chip loads it into context, which costs context but no AP. The player can see which chips
 are loaded and inspect any chip. A multiplier chip, one possible kind, raises hack power against
-a category of device (for example 1.5×), degrades to 1.25× on the first compaction, and unloads
-on the second.
+a category of device (for example 2×), degrades to 1.5× on the first compaction, and unloads on
+the second.
 
 **Loaded.** A chip currently in context and usable. A chip that has been unloaded has to be
 loaded again, paying its context cost again.
@@ -583,7 +579,7 @@ an Operator when both are in sight. The shot hits the first unit in the line, so
 body-block for an Operator. On its next turn the guard fires first, then moves and aims again.
 
 **Searching.** An alerted guard that lost track of the Operator. It searches, then gives up and
-returns to its patrol. Cloak can make an Operator drop off its radar.
+returns to its patrol.
 
 **Caution.** After an alert, the zone stays on caution for 3 rounds (placeholder), with a
 visible countdown. During caution, the noticed tier counts as seen. When the countdown ends, the
@@ -613,10 +609,6 @@ small sound draws only the closest guard in range, a big one every guard in rang
 player uses a device verb, the sound area is drawn and the visible guards who would respond are
 marked; guards in the fog respond too, unseen. In V1, each use of a verb makes one sound, a
 single moment.
-
-**Cloak.** A chip that hides an Operator from surveillance: it edits them out of the cameras and
-the enemy network a guard's search relies on. It never hides an Operator from a guard's own
-eyes. An alerted guard that can't currently see a cloaked Operator loses track of them.
 
 ### Bodies
 

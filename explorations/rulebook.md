@@ -521,6 +521,21 @@ chances, ruled out).
 - The shot hits the first unit in the line, so a robot can body-block for an Operator.
 - On its next turn the guard fires first, if still valid, then moves and aims again.
 
+## 2026-10-04 — The V1 chips (Bryson)
+
+Claude drafted six chips from the old abilities plus multipliers: Cloak, Probe, Locate, and
+Surveillance, Weapons and Infrastructure exploits (1.5×). Shared rules: loading costs context
+once (CTX-04), an active chip costs 1 AP per use, no uses-per-battle or cooldowns, and compaction
+degrades every chip in two steps.
+
+- Multipliers are 2×, degrading to 1.5×, then unloading.
+- Cloak is dropped entirely; with Breached cameras never reporting the team, it isn't useful
+  anymore.
+- Probe is dropped; borrowing a device's sensors felt too contrived.
+- Locate stays: "an awesome ability you would want to use every turn. We need more like that."
+- Surveillance, Weapon Systems and Infrastructure are the right placeholder categories, exactly
+  the split Bryson had in mind.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
