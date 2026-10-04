@@ -383,7 +383,24 @@ Hitman (evidence, restricted zones).
 - Compaction: Claude picked 1 AP as the default, at Bryson's request. Bryson judges it in
   playtesting.
 
+## 2026-10-04 — The sound session (Bryson, after research)
+
+Research in the chat: Hitman (only the closest NPC investigates; Instinct mode highlights what
+can be interacted with), Shadow Tactics (Yuki's flute pulls every guard in range; tougher enemies
+only glance), Mark of the Ninja (every sound drawn as a ring), Watch Dogs (device hacks as lures).
+
+- Who responds is set by the device (option c of three): a small sound draws the closest guard in
+  range, a big one every guard in range.
+- Sound radius is counted in walking steps (option b of two): around walls, through open doors,
+  stopped by closed ones, drawn as highlighted tiles.
+- Before using a device verb, the sound area is shown and the visible guards who would respond
+  are marked. Guards in the fog respond too, unseen.
+- A guard who hears a sound walks to the source, looks around for one turn, and returns to its
+  patrol.
+
 ## V2: after implementation and playtesting
+
+- Repeated lures: a guard lured to the same spot twice grows suspicious.
 
 - AP generation with a maximum: for example, generate 8 a turn up to a cap of 12. Spend a little
   on positioning one turn, then have 12 for an elaborate play the next.

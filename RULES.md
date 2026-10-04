@@ -139,8 +139,15 @@ implementation follows. Numbers marked placeholder are for tuning.
 ## Surveillance and stealth
 
 16. Operators move silently. Devices and objects make sound, and a guard who hears one goes to
-    investigate it. Only seeing an Operator directly causes a full alert. The details are being
-    worked out.
+    investigate it. Only seeing an Operator directly causes a full alert.
+    - Each device has a sound radius, counted in walking steps like a movement range: around
+      walls, through open doors, and stopped by closed ones.
+    - The device decides who responds. A small sound draws only the closest guard in range; a
+      big one, like a diesel truck, draws every guard in range.
+    - Before the player uses a device verb, its sound area is shown, and the visible guards who
+      would respond are marked. Guards in the fog respond too, unseen.
+    - A guard who hears a sound walks to its source, looks around for one turn, then goes back to
+      its patrol.
 17. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
     threat and gives the team its vision. Cameras see only in light; an upgraded camera with
     night vision needs a higher-level hack.
@@ -417,7 +424,7 @@ the spot and investigates it on its next turn. In darkness, everything beyond th
 tier counts as noticed.
 
 **Investigate.** A guard goes to a marked spot: a noticed position, a sound, or a light that
-went out. If it finds nothing, it returns to its patrol. Hearing a sound causes an
+went out. It looks around for one turn, and if it finds nothing, it returns to its patrol. Hearing a sound causes an
 investigation, never a full alert.
 
 **Alerted.** A guard that has seen an Operator directly, by its own eyes or through a camera
@@ -437,8 +444,12 @@ guard to investigate.
 
 **Sound radius.** Devices and objects make sound when used; Operators don't. Each has its own
 radius, for example about 1 tile for an electric car, about 5 for a typical object, about 10 for
-a diesel truck. A guard within the radius investigates. Open: walls, which guards respond, and
-how the radius is previewed.
+a diesel truck. The radius is counted in walking steps, like a movement range: it goes around
+walls and through open doors, and a closed door stops it. Each device also sets who responds: a
+small sound draws only the closest guard in range, a big one every guard in range. Before the
+player uses a device verb, the sound area is drawn and the visible guards who would respond are
+marked; guards in the fog respond too, unseen. Open: whether a device that keeps running (a
+machine left on) keeps drawing guards, or each sound is a single moment.
 
 **Cloak.** A chip that hides an Operator from surveillance: it edits them out of the cameras and
 the enemy network a guard's search relies on. It never hides an Operator from a guard's own
