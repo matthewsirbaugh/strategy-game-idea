@@ -136,8 +136,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 ## The network
 
 13. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
-14. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
-    trigger when a node is Breached, and security hubs that re-lock things.
+14. The network will have its own opposition, such as ICE, daemons and security hubs. It's
+    deferred to V2, until playtesting shows how dense the network is.
 15. Breaching a device gives the AI access to its verbs. Devices and other non-autonomous
     systems share one list: power, activate and lock.
     - Activate makes a device do its thing: a car or an elevator moves, a phone rings with a fake
@@ -425,9 +425,10 @@ pieces. Jump is the first agreed form.
 
 **Jump.** A compromised node extends the AI's reach that turn.
 
-**ICE, daemon, security hub.** The network's own opposition. ICE blocks a route until it's
-broken. A daemon triggers when a node is Breached. A security hub re-locks things. Their details
-come with the network UI work.
+**ICE, daemon, security hub.** The network's own opposition, deferred to V2. The working ideas:
+ICE blocks a route until it's broken, a daemon triggers when a node is Breached, and a security
+hub re-locks things. Nothing is designed until playtesting shows how dense the network is; with
+today's maps, several enemy types would mean one on every other node.
 
 **Device.** A physical object tied to a node: a camera, a door, a light, a car, a machine. Each
 has a sound radius.

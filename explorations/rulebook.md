@@ -463,9 +463,23 @@ hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights i
 - An ad screen's flash is a visual lure: only guards who can see the screen respond.
 - Anyone in the dark can still see into a lit area beyond their small window.
 
+## 2026-10-04 — Network opposition deferred (Bryson)
+
+Research in the chat: Shadowrun Returns (white and black ICE, escalating with alertness),
+Invisible Inc. (firewalls, hidden daemons that hit resources), Hacknet (ports that need specific
+tools), Midnight Protocol (ICE as a hazard). Claude offered options for ICE (wall, patrol, both),
+daemons (crash, context spike, re-lock, tip-off; a "?" marker revealed by Ping) and security hubs
+(re-lock on caution).
+
+- Bryson isn't feeling any of them; they're V2 material. The network's topology may need to
+  change, or at least its real density has to be seen first: several enemy types on today's
+  maps would mean an enemy on every other node. Held until Bryson playtests.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
+- Network opposition (ICE, daemons, security hubs), once playtesting shows the network's density
+  and whether its topology should change. Options from 2026-10-04 are in the dated entry above.
 - Manual control for devices with continuous noise, such as a boom box. Once Breached, its verbs
   are available every turn: switch it on for one turn, free, or leave it running.
 
