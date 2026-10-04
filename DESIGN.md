@@ -96,9 +96,14 @@ locked yet, are in
 - Hidden information. Fog of war like StarCraft: the whole map is visible, but only what you
   have vision on is live. Hacks can reveal, hide and spoof information.
 - Three playable characters, with a stable roster through the game, like Persona.
-- Each character has one bespoke ability theme with many abilities in it that synergize in
-  different ways, developed through hardware, harness and post-training upgrades. It is broad
-  enough that no two players play alike. Builds change tactics, not just numbers.
+- Operators share the same stats in V1 and differ in personality. AIs specialize through skill
+  chips and post-training. Two arrive with set personalities and starting specialties; the
+  protagonist's new AI starts generic and is shaped by a questionnaire after the tutorial. Any AI
+  can be reshaped into anything. Builds change tactics, not just numbers. Replaces the bespoke
+  ability theme per character. (2026-10-04)
+- Design principle: add a cost only when something is game-breakingly overpowered, like a free
+  peek in Invisible Inc. Otherwise a cost just limits where a thing is useful. Principles like this
+  one can be broken when that makes the game better. (2026-10-04)
 - No permadeath.
 - The game is 3D, and it should be good looking. The models and textures in the game now are
   alpha placeholder art, there to judge the look in play; final art comes later. (2026-09-28)

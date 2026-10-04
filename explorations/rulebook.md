@@ -298,6 +298,13 @@ and banking in Triangle Strategy and Octopath.
 - Linking for shared compute costs nothing: standing adjacent is enough. Principle: add a cost
   only when something is game-breakingly overpowered, like a free peek in Invisible Inc.
   Otherwise a cost just limits the places a thing is useful.
+- "Memory" was the context window, not a new memory system; it's out of rule 12.
+- How compaction degrades a chip is defined chip by chip.
+- All existing abilities (Probe, Locate, Cloak, their uses and cooldowns) get reworked as new
+  chips are created, so the whole set is coherent with the updated rules.
+- The DESIGN.md decision on character abilities is replaced (2026-10-04). "The network is the one
+  place plain multipliers are allowed" stays out of it: that's a principle that can be broken,
+  not a restriction.
 
 ## Parked for playtesting, outside V1
 

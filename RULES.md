@@ -62,7 +62,7 @@ published to Google Drive for sharing and comments.
     carries can be used.
 11. Using a chip loads it into context, which costs context and no AP. The player can see which
     chips are loaded and which aren't yet, and inspect any chip to see what it does.
-12. Chips, post-training and memory give AIs their specialties. AIs have no internet: they know
+12. Chips and post-training give AIs their specialties. AIs have no internet: they know
     only their training data and what's on their chips.
     - The protagonist's new partner AI starts general. After the tutorial battle, the player
       answers a series of questions that set its starting abilities and specialization.
@@ -71,8 +71,8 @@ published to Google Drive for sharing and comments.
     - Chips do many different things. One possible kind multiplies hack power against a category
       of device, for example 1.5×. Context costs are high enough that loading every chip on the
       first turn isn't the obvious play.
-    - Each compaction degrades a multiplier chip: 1.5× drops to 1.25×, then the chip unloads and
-      has to be loaded again.
+    - Compaction degrades chips, defined chip by chip. A multiplier chip drops from 1.5× to 1.25×,
+      then unloads and has to be loaded again.
     - The network-movement chip only unloads if a compaction takes context below its own cost.
 
 ## The network
