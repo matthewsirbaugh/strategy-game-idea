@@ -87,6 +87,9 @@ Decided 2026-09-23 unless dated otherwise. The reasoning, and the working models
 locked yet, are in
 [the battle core exploration](explorations/battle-core.md).
 
+- North star: more of a puzzle with RPG progression and a story, like Into the Breach if it were
+  a stealth game with a story and proper upgrades. A puzzle, not a statistical back-and-forth.
+  The rules are in [RULES.md](RULES.md). (2026-10-03)
 - Hacking is how the team uses the environment, completes objectives and gathers battlefield
   information, such as enemy weaknesses and locations. It resolves through stats, not a
   minigame, and is as deterministic as possible.

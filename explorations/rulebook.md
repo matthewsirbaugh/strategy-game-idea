@@ -134,6 +134,26 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
 - Gear is the Operators' upgrade path, alongside the AI's three pipelines. Upgrades should feel
   like new abilities and options, not a bigger number.
 
+## 2026-10-03 — Armor, the warning beat, turns and stuns (Bryson)
+
+- Every Operator starts at one hit. Basic armor absorbs one more. Heavy armor absorbs two, but
+  costs 1 AP because it's heavier and slows the Operator down.
+- The warning beat, in Bryson's example: an Operator moves forward, and the move stops when it
+  reveals a guard. The guard is alerted at once if the Operator is in its cone, but it's still the
+  player's turn. The Operator sprints behind cover, and their AI spends an action to cloak them,
+  so they drop off the radar. If the guard can't reach them on its next turn, the Operator moves
+  around the other side of the cover, the guard loses track, gives up the search and goes back to
+  its patrol.
+- Tying up costs 2 AP, adjacent only.
+- A round is every unit on the map taking a turn. Hidden enemies take theirs out of sight and join
+  the turn-order display once revealed. An Operator's turn lasts until their AP is spent or they
+  end it.
+- A stun lasts a number of turns, not rounds, and drops from 4 to 3 for testing. The stunned enemy
+  stays in place with no vision. The point is time to tie them up without stuns being
+  overpowered.
+- The Into the Breach comparison is about being a puzzle rather than a statistical back-and-forth.
+  It isn't about copying its mechanics.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

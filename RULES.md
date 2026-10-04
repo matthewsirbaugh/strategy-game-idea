@@ -14,62 +14,71 @@ published to Google Drive for sharing and comments.
 | Breached | A node that has been hacked. The AI's team controls it |
 | Context | The AI's context window. It lasts the whole battle, and every hack, tool call and ability adds to it |
 | AP | Action points. Each action costs AP |
-| Downed | An Operator at 0 HP, out of the battle |
+| Round | Every unit on the map takes one turn |
+| Turn | One unit acting. An Operator's turn lasts until their AP is spent or they end it |
+| Downed | An Operator who has taken their last hit, out of the battle |
 
 ## Turns
 
-1. Each unit's turn has two halves: the Operator in the physical world, and the AI in the
+1. Each round, every unit on the map takes a turn. Hidden enemies take theirs out of sight.
+   When an enemy is revealed, it joins the turn order shown at the top of the screen.
+2. Each unit's turn has two halves: the Operator in the physical world, and the AI in the
    network.
-2. A unit can do several things in one turn. The Operator's and the AI's actions interleave
+3. A unit can do several things in one turn. The Operator's and the AI's actions interleave
    freely.
-3. Operators play carefully and stealth-first. They never get refunds.
+4. Operators play carefully and stealth-first. They never get refunds.
    - Operators spend AP on movement, from the same pool as their other actions.
    - One shot per turn, outside the AP pool. It doesn't end the turn.
    - Sprint gives extra AP and makes noise that guards can hear.
    - An Operator can take an ambush stance and strike the first guard who comes close.
-4. AIs play aggressively. They start each turn with 2 AP, and moving through the network costs
+5. AIs play aggressively. They start each turn with 2 AP, and moving through the network costs
    1 AP. Upgrades can raise this.
-5. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
+6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not.
-6. Context is not part of the action economy. It's the AI's battle-long resource, and the only
+7. Context is not part of the action economy. It's the AI's battle-long resource, and the only
    limit on chaining refunds.
 
 ## The network
 
-7. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
-8. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
+8. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
+9. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
    trigger when a node is Breached, and security hubs that re-lock things.
-9. Breaching a device lets the AI use its verbs. Every device mixes from a short list, such as
-   power, sense, move, lock, signal and harm.
+10. Breaching a device lets the AI use its verbs. Every device mixes from a short list, such as
+    power, sense, move, lock, signal and harm.
 
 ## Surveillance and stealth
 
-10. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
+11. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
     threat and gives the team its vision.
-11. A camera that spots an Operator alerts guards that someone is in the area, and the closest
+12. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
-12. Cloak hides an Operator from surveillance, never from a guard's own eyes.
-13. There is no battle-wide clock.
-14. Every guard's vision cone is visible at all times while the guard is outside the fog.
+13. Cloak hides an Operator from surveillance, never from a guard's own eyes.
+14. There is no battle-wide clock.
+15. Every guard's vision cone is visible at all times while the guard is outside the fog.
+16. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
+    that guard's cone, the guard is alerted at once, but the Operator's turn carries on.
+17. An alerted guard acts on its own turn, never during the player's. If it loses track of the
+    Operator, it searches, then gives up and goes back to its patrol.
 
 ## Enemies
 
-15. Enemies have no HP. A hit stuns them for 4 turns.
-16. An Operator can tie up a stunned enemy. A tied-up enemy is out of the battle unless another
-    enemy finds and unties them.
-17. Tougher enemies mix traits: they need two stuns, are immune to the basic shot, wake up
+18. Enemies have no HP. A hit stuns them, and they stay in place without vision. The duration
+    is 3 for testing.
+19. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+    the battle unless another enemy finds and unties them.
+20. Tougher enemies mix traits: they need two stuns, are immune to the basic shot, wake up
     faster, or wake nearby guards.
 
 ## Defeat and recovery
 
-18. An Operator goes down after one or two hits. A downed Operator is out for the rest of the
-    battle.
-19. A crashed AI is kicked back to its backpack, and its context is wiped.
+21. An Operator goes down after one hit. Armor adds hits: basic armor takes one, and heavy armor
+    takes two but costs 1 AP. A downed Operator is out for the rest of the battle.
+22. A crashed AI is kicked back to its backpack, and its context is wiped.
 
 ## Progression
 
-20. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+23. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
