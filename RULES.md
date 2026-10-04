@@ -61,6 +61,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Noticed | The cone's outer tier. An Operator here draws an investigation |
 | Investigate | A guard going to check a spot, then returning to patrol |
 | Alerted | A guard that has seen an Operator directly: a full alert |
+| Aim | An alerted guard's line on a unit; it fires next turn if the unit is still in it |
 | Searching | An alerted guard that lost track of the Operator |
 | Caution | A zone's heightened state after an alert, on a countdown |
 | Blackout | A power hub cutting the lights: both sides see only a small window |
@@ -255,37 +256,45 @@ Rules every device follows:
 
 ## Enemies
 
-31. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+31. A guard moves up to 4 tiles on its turn (placeholder), with no AP.
+32. An alerted guard doesn't shoot on sight. On its turn it moves, then aims at a unit it can see,
+    shown as a line. At the start of its next turn it fires, but only if that unit is still in the
+    line. The player gets a full turn to break it: move, close a door, cut the lights, or stun the
+    guard.
+33. A guard's range is the length of its seen tier, and it needs line of sight. Its shot always
+    hits.
+34. Guards shoot robots too, but aim at an Operator when both are in sight.
+35. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (placeholder).
-32. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+36. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-33. A guard who finds a stunned or tied-up enemy raises an alert.
-34. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
+37. A guard who finds a stunned or tied-up enemy raises an alert.
+38. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
     up and putting down are free. While carrying, the Operator can only move, with no movement
     penalty.
-35. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
+39. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
     trunk, a locker, a closet or a trash can. Putting a body down on a receptacle's tile puts it
     inside, hidden.
-36. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
+40. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
     make noise instead, and a guard passing within its sound radius comes to let them out.
     Guards don't otherwise search receptacles.
-37. For now there is one standard enemy, with no special traits, so the rules can be tuned
+41. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
 ## Defeat and recovery
 
-38. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
+42. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
     armor takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-39. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
+43. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
     compacted as if it had compacted itself, and loses its next turn while it reboots. After
     that, its Operator can deploy it again for 1 AP, or leave it out.
 
 ## Robots
 
-40. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-41. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
+44. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
+45. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-42. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+46. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
     - A robot relays from within tether range of an access point, like an Operator. Its link to
@@ -295,28 +304,28 @@ Rules every device follows:
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
-43. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+47. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
 ## Missions
 
-44. A battle can have several phases, each on its own map. The facility mission is one battle in
+48. A battle can have several phases, each on its own map. The facility mission is one battle in
     two phases: outside, then inside.
-45. At a handover between phases, context, loaded chips, downed Operators, armor that's been hit,
+49. At a handover between phases, context, loaded chips, downed Operators, armor that's been hit,
     and robots travelling with the team carry across. Guards, caution and the fog reset with the
     new map.
-46. Win: complete the objective, then get every Operator still standing to extraction. Downed
+50. Win: complete the objective, then get every Operator still standing to extraction. Downed
     Operators can be left behind; for now their escape is handwaved.
-47. Lose: all three Operators downed. The player restarts the current phase, with exactly the
+51. Lose: all three Operators downed. The player restarts the current phase, with exactly the
     conditions they entered it with.
-48. Maps hold optional caches. A cache can hold a new skill chip, a blueprint for something the
+52. Maps hold optional caches. A cache can hold a new skill chip, a blueprint for something the
     team can 3D-print, such as a gadget, or a small to large amount of cryptocurrency. Caches are
     left out of the V1 test map, since progression is V2.
 
 ## Progression
 
-49. In V1, every Operator has the same stats. They differ only in personality.
-50. Progression is V2. V1 tests the systems with fixed loadouts, not how they progress. The
+53. In V1, every Operator has the same stats. They differ only in personality.
+54. Progression is V2. V1 tests the systems with fixed loadouts, not how they progress. The
     direction: Operators upgrade through gear, and AIs through hardware, harness and
     post-training, and upgrades add abilities and options rather than bigger numbers.
 
@@ -376,7 +385,9 @@ the tutorial; the other two arrive with set personalities and starting specialti
 **Guard.** The standard enemy in V1, with no special traits. It has no HP. It patrols, can be
 noticed by or see Operators through its cone, shares vision with the cameras its side controls,
 investigates sounds and noticed spots, and acts only on what it knows. It never acts during the
-player's turn.
+player's turn. It moves up to 4 tiles a turn (placeholder), with no AP. Its range is the length
+of its seen tier, so in darkness it shrinks too, and it needs line of sight. It never shoots on
+sight: see Aim.
 
 **Gadget.** Equipment an Operator brings into battle and uses at an AP cost that depends on the
 gadget. Using a gadget is an Operator action and doesn't use up the turn's shot. Example: a
@@ -558,6 +569,13 @@ investigation, never a full alert.
 
 **Alerted.** A guard that has seen an Operator directly, by its own eyes or through a camera
 alert. It acts on its own turn only. If it loses track of the Operator, it starts searching.
+
+**Aim.** What an alerted guard does instead of shooting on sight. On its turn it moves, then aims
+at one unit it can see within range, shown as a line from the guard to that unit. At the start of
+its next turn it fires at that unit if the unit is still in the line, and the shot always hits.
+Otherwise the aim lapses. The player gets a full turn to break the line: move out of it, close a
+door, cut the lights, or stun the guard, which ends the aim. Guards aim at robots too, but choose
+an Operator when both are in sight. Open: what happens when a different unit steps into the line.
 
 **Searching.** An alerted guard that lost track of the Operator. It searches, then gives up and
 returns to its patrol. Cloak can make an Operator drop off its radar.

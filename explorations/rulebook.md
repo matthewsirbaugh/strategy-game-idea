@@ -506,6 +506,19 @@ XCOM 2 (loot, choosing extraction).
   V2. V1 tests the systems, not how they progress.
 - Caches are cut from the V1 test map; their rewards do nothing until progression exists.
 
+## 2026-10-04 — The guard's turn (Bryson, after research)
+
+Research in the chat: Invisible Inc. (a spotting guard goes into overwatch; the agent has 1 AP
+to break line of sight; guards always hit), Into the Breach (telegraphed attacks), XCOM 2 (hit
+chances, ruled out).
+
+- Aim, then fire (option b of three): an alerted guard moves, aims at a unit it can see, shown as
+  a line, and fires at the start of its next turn only if the unit is still in the line. The
+  player gets a full turn to break it.
+- Guards move a flat 4 tiles (placeholder), with no AP.
+- A guard's range is its seen tier, with line of sight.
+- Guards shoot robots too, and prefer Operators when both are in line.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
