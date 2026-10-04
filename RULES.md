@@ -48,20 +48,26 @@ published to Google Drive for sharing and comments.
    The AI's action system is under review.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not.
-7. AIs can share compute while their Operators stand close together, physically linked: each AP
-   one AI gives up, another AI gains.
+7. AIs can share compute while their Operators stand adjacent, physically linked: each AP one AI
+   gives up, another AI gains.
 8. Context is not part of the action economy. It's the AI's battle-long resource, and the only
    limit on chaining refunds.
 9. Hacking never fails. An action makes progress, or at worst none.
 
 ## Skills
 
-10. An AI's skills come on data chips, set before the battle. Each AI carries at most 3. There's
-    no randomness: every chip it carries can be used.
+10. An AI's skills come on data chips, set before the battle and locked for its length. Each AI
+    carries at most 3. There's no randomness: every chip it carries can be used.
 11. Using a chip loads it into context, which costs context and no AP. The player can see which
     chips are loaded and which aren't yet, and inspect any chip to see what it does.
-12. Skills specialize an AI, for example in hacking particular kinds of devices. AIs have no
+12. AIs start general. Chips, post-training and memory give them their specialties. AIs have no
     internet: they know only their training data and what's on their chips.
+    - A hacking chip multiplies the AI's hack power against what it covers, by 1.5×. Its context
+      cost is high enough that loading every chip on the first turn isn't the obvious play.
+    - Each compaction degrades a loaded chip: 1.5× drops to 1.25×, then the chip unloads and has
+      to be loaded again.
+    - The network-movement skill is the exception. It only unloads if a compaction takes context
+      below the movement skill's own cost.
 
 ## The network
 

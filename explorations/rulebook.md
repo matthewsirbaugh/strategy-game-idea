@@ -260,6 +260,24 @@ and banking in Triangle Strategy and Octopath.
   They physically link, like daisy-chaining Mac Minis.
 - There's no failure in hacking, only progress. A complete failure just means no progress.
 
+## 2026-10-03 — Who specializes how, and chips that degrade (Bryson)
+
+- Revised: AIs start out fairly general. Chips, post-training and the context/memory file system
+  give them their specialties.
+- Operators have physical strengths and weaknesses, plus abilities and skills of their own from
+  their backgrounds. Like Elden Ring, where any character can become anything and the start only
+  sets stats and loadout: the player might choose aspects of each character to specialize them
+  early, or leave everyone roughly equal by default and specialize over the game once they know
+  the mechanics. A direction, not settled.
+- A hacking chip is a plain 1.5× multiplier: hack for 10 becomes hack for 15. Bryson relaxes "no
+  bigger numbers" for the network specifically, because it gives a reason to load chips. Their
+  context cost is nontrivial, so loading everything on turn one isn't the play.
+- Compaction degrades chips: 1.5× becomes 1.25× after the first compaction, and the second
+  removes it, so it has to be loaded again. The movement skill is the exception: it only reloads
+  if compaction takes context below its own size (if it takes 10, compacting to 9 unloads it).
+  This replaces CTX-05.
+- Chips are locked for the whole battle. Compute sharing needs the Operators adjacent.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

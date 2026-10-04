@@ -141,7 +141,7 @@ may demand?
 | CTX-02 | Decided | The setting's standard window is 100 million tokens, shown in millions. The prototype's 0–100 meter reads as 0–100M. |
 | CTX-03 | Decided | Hacking, tool calls and AI abilities generally add tokens to the context. |
 | CTX-04 | Decided | Repeated utility operations, such as moving through the network, pay a one-time loading cost, then reuse is free. |
-| CTX-05 | Decided | Compaction clears loaded skills, so their loading cost is paid again after compacting. |
+| CTX-05 | Replaced 2026-10-03, see RULES.md rule 12 | Compaction clears loaded skills, so their loading cost is paid again after compacting. |
 | CTX-06 | Open tuning | Every context number is a placeholder. Capacity, compaction and all costs get rescaled together later; keep the current proportions until then. |
 | HACK-01 | Rejected | A node's difficulty does not reduce the share of hack points that count. Context fullness stays the only efficiency modifier. |
 | HACK-02 | Open | Difficult hacking may get another mechanic later; none is chosen. |
