@@ -315,13 +315,13 @@ Rules every device follows:
 ## Progression
 
 49. In V1, every Operator has the same stats. They differ only in personality.
-50. Operators upgrade through gear, and AIs through hardware, harness and post-training. The
-    harness is V2.
-    Upgrades add abilities and options rather than bigger numbers.
+50. Progression is V2. V1 tests the systems with fixed loadouts, not how they progress. The
+    direction: Operators upgrade through gear, and AIs through hardware, harness and
+    post-training, and upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
 
-Enemy AIs and network opposition (V2), and progression. The order of work is in [the rulebook exploration](explorations/rulebook.md#order-of-work).
+Enemy AIs, network opposition and progression, all V2. The order of work is in [the rulebook exploration](explorations/rulebook.md#order-of-work).
 
 ## Definitions in full
 

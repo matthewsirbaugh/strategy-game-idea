@@ -499,10 +499,19 @@ XCOM 2 (loot, choosing extraction).
   small to large amount of cryptocurrency.
 - Losing restarts the current phase, with exactly the conditions the team entered it with.
 
+## 2026-10-04 — Progression deferred (Bryson)
+
+- Claude noted that the specialization triangle is what post-training was meant to be, and
+  proposed V1 hardware (AP, context size, tether range). Bryson: progression as a whole goes to
+  V2. V1 tests the systems, not how they progress.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
 - How downed Operators left behind escape.
+- Progression as a whole: hardware (Claude's proposal: more AP, a bigger context window, a longer
+  tether; no raw hack power), post-training, how chips and hardware are acquired, prices, and
+  the questionnaire's effect on the protagonist's AI.
 - The harness, and AI specialization as a rock-paper-scissors triangle like Fire Emblem's: each
   AI has a natural bonus against one device category and a natural resistance against another,
   which reduces how much it hacks each turn. The harness can double the natural bonus, cancel the
