@@ -503,6 +503,10 @@ XCOM 2 (loot, choosing extraction).
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
 - How downed Operators left behind escape.
+- The harness, and AI specialization as a rock-paper-scissors triangle like Fire Emblem's: each
+  AI has a natural bonus against one device category and a natural resistance against another,
+  which reduces how much it hacks each turn. The harness can double the natural bonus, cancel the
+  resistance, or add a second bonus for the third category. (Bryson, 2026-10-04.)
 - Network opposition (ICE, daemons, security hubs), once playtesting shows the network's density
   and whether its topology should change. Options from 2026-10-04 are in the dated entry above.
 - Manual control for devices with continuous noise, such as a boom box. Once Breached, its verbs

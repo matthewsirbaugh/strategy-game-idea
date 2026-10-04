@@ -315,7 +315,8 @@ Rules every device follows:
 ## Progression
 
 49. In V1, every Operator has the same stats. They differ only in personality.
-50. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+50. Operators upgrade through gear, and AIs through hardware, harness and post-training. The
+    harness is V2.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
