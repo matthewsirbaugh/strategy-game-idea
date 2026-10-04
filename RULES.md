@@ -112,7 +112,8 @@ implementation follows. Numbers marked placeholder are for tuning.
    does compacting (placeholder). The AI's action system is under review.
    Unspent AP doesn't carry over, for Operators or AIs.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
-   Finishing the last part of a breach that took several turns does not.
+   Finishing the last part of a breach that took several turns does not. One action earns at
+   most one refund.
 7. AIs can share compute while their Operators stand adjacent, physically linked: each AP one AI
    gives up, another AI gains.
 8. Context is not part of the action economy. It's the AI's battle-long resource, and the only
@@ -152,7 +153,7 @@ step: to its weaker form, then unloaded.
 | Locate | Active | Reveals one unseen enemy's live position for 2 turns | 1 turn | 10 |
 | Predict | Active | Shows the next turn of 2 guards the team can see: their path, and who they'll aim at | 1 guard | 15 |
 | Extended thinking | Active | This turn's next hack adds double hack power and costs double context | 1.5× | 10 |
-| Subagent | Active | This turn's next hack also adds the same progress to one linked node | Half progress to the linked node | 20 |
+| Subagent | Active | This turn's next hack also adds the same progress to one linked node. One action earns at most one refund, even if both nodes are Breached | Half progress to the linked node | 20 |
 | Surveillance exploit | Passive | 2× hack power against cameras | 1.5× | 20 |
 | Weapons exploit | Passive | 2× hack power against turrets, enemy robots and electric fences | 1.5× | 20 |
 | Infrastructure exploit | Passive | 2× hack power against lights, doors, phones, machines, ad screens, vehicles and power hubs | 1.5× | 20 |

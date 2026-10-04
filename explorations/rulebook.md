@@ -541,6 +541,7 @@ degrades every chip in two steps.
   thinking and Fork in that mold.
 - Kept: Locate, Predict, Extended thinking, and Fork renamed Subagent. Voice clone is dropped as
   too powerful. The V1 chip table is in RULES.md.
+- One action earns at most one refund, so Subagent can't snowball on its own.
 
 ## V2: after implementation and playtesting
 
