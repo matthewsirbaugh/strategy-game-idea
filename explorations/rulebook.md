@@ -369,6 +369,13 @@ Hitman (evidence, restricted zones).
 - ICE, daemons and enemy AIs can crash an AI. Revised: a crashed AI goes back to the backpack or
   its original access point and keeps its context, because the context lives in the backpack.
   This reverses "context wiped" from 2026-10-02.
+- What a crash costs, settled after comparing three options (keep context, wipe it, or a forced
+  compaction, each with a one-turn reboot): a forced compaction. Keeping context is a pure tempo
+  loss. Wiping it is a better reset than compaction, so players would crash on purpose. A forced
+  compaction is never better than compacting on purpose, keeps a silver lining, matches how real
+  agents resume from a summary, and adds no new mechanic. Bryson: "the best middle ground." The
+  crashed AI goes back to the backpack; after the reboot turn the Operator can deploy it again
+  for 1 AP or cut their losses.
 - Caution lasts 3 rounds for V1.
 - Guards don't search receptacles. The exception: a guard inside one who isn't tied up and is no
   longer stunned makes noise, which guards walking by within the sound area can hear.

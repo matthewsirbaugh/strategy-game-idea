@@ -51,7 +51,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Loaded | A chip currently in context and usable |
 | Movement chip | The free chip for moving through the network |
 | Pulled out | The AI drops out of the network and keeps its context |
-| Crashed | The AI is knocked out of the network by opposition, keeping its context |
+| Crashed | Knocked out of the network by opposition: a forced compaction and a lost turn |
 | Fog | Map areas the team has no vision on |
 | Last-known position | Where an unseen enemy was last seen |
 | Cone | A guard's or camera's field of vision, in two tiers |
@@ -194,8 +194,9 @@ implementation follows. Numbers marked placeholder are for tuning.
 
 35. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
     armor takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-36. ICE, daemons and enemy AIs can crash an AI. A crashed AI is knocked back out of the network
-    and keeps its context, which lives in the backpack.
+36. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
+    compacted as if it had compacted itself, and loses its next turn while it reboots. After
+    that, its Operator can deploy it again for 1 AP, or leave it out.
 
 ## Robots
 
@@ -389,10 +390,12 @@ cost.
 **Pulled out.** The AI drops out of the network but keeps its context: when its Operator moves
 beyond the tether, or when its relay is hit.
 
-**Crashed.** The AI is knocked back out of the network by ICE, a daemon or an enemy AI. It keeps
-its context, because the context lives in the backpack. Open: whether it returns to the
-backpack or to the access point it entered through, and what separates a crash from being
-pulled out.
+**Crashed.** The AI is knocked out of the network by ICE, a daemon or an enemy AI. It goes back
+to its backpack, takes a forced compaction (25% of context stays, loaded chips degrade), and
+loses its next turn while it reboots. Then its Operator can deploy it again for 1 AP, or cut
+their losses. A crash is always worse than compacting on purpose (a whole turn instead of 1 AP,
+at a moment the player didn't choose), so it can never be used as a better reset. Being pulled
+out costs none of this: only the disconnection.
 
 ### Stealth
 
