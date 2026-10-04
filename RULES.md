@@ -34,15 +34,16 @@ published to Google Drive for sharing and comments.
    - Overwatch uses that shot. It's a disposition: the Operator can still move afterwards if they
      have AP, and when their turn ends they are in overwatch. It fires at the first enemy that
      moves into the Operator's line of fire.
-   - Sprint gives extra AP and makes noise that guards can hear.
+   - Sprint: 3 tiles for 2 AP. On 8 AP an Operator can move up to 12 tiles in a turn.
    - Peeking through a door costs 1 AP. The Operator sees into the space beyond until their
      turn ends.
    - Opening an unlocked door is free. Locking a door costs 1 AP.
    - Deploying the AI to the network costs 1 AP.
-   - Gadgets cost AP to use, depending on the gadget, and sit outside the one-shot limit. A flashbang costs 2 AP and blinds the
-     guards in its blast radius for 3 turns.
-5. AIs play aggressively. They start each turn with 2 AP, and moving through the network costs
-   1 AP. Upgrades can raise this.
+   - Gadgets cost AP to use, depending on the gadget, and sit outside the one-shot limit. A
+     flashbang costs 2 AP and blinds the guards in its blast radius for 3 turns.
+5. AIs play aggressively, on their own AP, separate from the Operator's: the AI's autonomy is the
+   point. For now they start each turn with 2 AP, and moving through the network costs 1 AP.
+   The AI's action system is under review.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not.
 7. Context is not part of the action economy. It's the AI's battle-long resource, and the only
@@ -79,8 +80,8 @@ published to Google Drive for sharing and comments.
     3 turns (a placeholder for testing).
 19. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-20. Tougher enemies mix traits: they need two stuns, are immune to the basic shot, wake up
-    faster, or wake nearby guards.
+20. For now there is one standard enemy, with no special traits, so the rules can be tuned
+    before enemy types are added.
 
 ## Defeat and recovery
 
@@ -96,6 +97,13 @@ published to Google Drive for sharing and comments.
 25. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
+    - A robot relays from within tether range of an access point, like an Operator. Its link to
+      the Operators has no range limit.
+    - A robot that ends its turn at an access point lets any Operator, on their next turn, spend
+      1 AP to send their AI in through it.
+    - An AI connects through one Operator or robot at a time.
+    - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
+      and keeps its context.
 26. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 

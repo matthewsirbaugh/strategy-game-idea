@@ -203,6 +203,23 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
   access. Its fragility is the counterweight.
 - Gadgets sit outside the one-shot limit. They cost AP and count as an Operator action.
 
+## 2026-10-03 — Relays, sprint, and narrowing down (Bryson)
+
+- A robot relays like an Operator's tether, from near an access point. If it's hit while there,
+  the connection is severed at once; the AI is pulled out and keeps its context.
+- The robot's link back to the Operators has no range limit. Add one only if that proves
+  overpowered.
+- An AI connects through one Operator or robot at a time.
+- Connecting through a robot costs the same 1 AP. A robot ends its turn on an access point, and
+  on their next turn any Operator can choose to send their AI in through it.
+- Sprint adds no AP and makes no noise. It's 3 tiles for 2 AP, so 8 AP moves up to 12 tiles.
+- The AI's AP is separate from the Operator's, because autonomy is the point of an AI. Whether it
+  should be the same kind of AP system is open: study which system gives the most dynamic,
+  combo-able network phase. This is the next topic.
+- Enemy types and their traits go on the back burner. One vanilla standard enemy until the rules
+  are tuned. Bryson didn't like the stun variants (noise wakes them, passing guards wake them,
+  shorter counts for heavy enemies).
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or
