@@ -65,6 +65,11 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Caution | A zone's heightened state after an alert, on a countdown |
 | Blackout | A power hub cutting the lights: both sides see only a small window |
 | Circuit | The devices one power hub feeds |
+| Phase | One map within a battle |
+| Handover | Moving from one phase's map to the next |
+| Extraction | Getting the standing Operators out once the objective is done |
+| Cache | An optional find on a map: a chip, a blueprint, or cryptocurrency |
+| Blueprint | Plans for something the team can 3D-print, like a gadget |
 | Zone | An area of a map that shares alerts and caution, drawn by the map author |
 | Light and dark | Darkness shrinks the seen tier |
 | Sound radius | How far a device's sound carries to guards |
@@ -293,16 +298,29 @@ Rules every device follows:
 43. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
+## Missions
+
+44. A battle can have several phases, each on its own map. The facility mission is one battle in
+    two phases: outside, then inside.
+45. At a handover between phases, context, loaded chips, downed Operators, armor that's been hit,
+    and robots travelling with the team carry across. Guards, caution and the fog reset with the
+    new map.
+46. Win: complete the objective, then get every Operator still standing to extraction. Downed
+    Operators can be left behind; for now their escape is handwaved.
+47. Lose: all three Operators downed. The player restarts the current phase, with exactly the
+    conditions they entered it with.
+48. Maps hold optional caches. A cache can hold a new skill chip, a blueprint for something the
+    team can 3D-print, such as a gadget, or a small to large amount of cryptocurrency.
+
 ## Progression
 
-44. In V1, every Operator has the same stats. They differ only in personality.
-45. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+49. In V1, every Operator has the same stats. They differ only in personality.
+50. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
 
-Combat, stealth and detection in full, hacking depth, enemy AIs, mission structure and
-progression. The order of work is in [the rulebook exploration](explorations/rulebook.md#order-of-work).
+Enemy AIs and network opposition (V2), and progression. The order of work is in [the rulebook exploration](explorations/rulebook.md#order-of-work).
 
 ## Definitions in full
 
@@ -313,7 +331,19 @@ hasn't been decided; an implementation should flag it rather than guess.
 
 **Battle.** One mission, from start to extraction, including every phase, area and map in it.
 Context, stuns, caution and downed Operators all last at most one battle. Robots that went down
-are rebuilt after it. Open: how a multi-map battle hands over from one map to the next.
+are rebuilt after it.
+
+**Phase and handover.** A battle can have several phases, each on its own map; the facility
+mission is one battle in two phases. At a handover, context, loaded chips, downed Operators,
+armor that's been hit, and robots travelling with the team carry across. Guards, caution and the
+fog reset with the new map. If all three Operators go down, the player restarts the current
+phase with exactly the conditions they entered it with.
+
+**Extraction.** Once the objective is complete, every Operator still standing has to reach the
+extraction tiles to win. Downed Operators can be left behind; their escape is handwaved for now.
+
+**Cache.** An optional find on a map. It can hold a new skill chip, a blueprint for something the
+team can 3D-print (such as a gadget), or a small to large amount of cryptocurrency.
 
 **Round.** Every unit on the map takes one turn, in turn order. Hidden enemies take their turns
 out of sight. A round ends when the last unit in the order has acted.

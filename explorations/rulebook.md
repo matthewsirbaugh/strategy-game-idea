@@ -485,9 +485,24 @@ daemons (crash, context spike, re-lock, tip-off; a "?" marker revealed by Ping) 
 - No survey action (option b of three): an AI connecting to a network unlocks that network on the
   map, but doesn't show the other networks connecting other devices on the map.
 
+## 2026-10-04 — Mission structure (Bryson, after research)
+
+Research in the chat: Invisible Inc. (exit elevator, dragging downed agents out, rescuing those
+left behind), Hitman (routes, optional challenges, unlocks), Into the Breach (bonus objectives),
+XCOM 2 (loot, choosing extraction).
+
+- The facility mission is one battle with two phases.
+- At a handover, context, loaded chips, downed Operators, hit armor and robots with the team
+  carry across; guards, caution and the fog reset.
+- Downed Operators can be left behind. Their escape is handwaved for now, sorted out in V2.
+- Optional caches: new skills, blueprints for things the team can 3D-print like gadgets, or a
+  small to large amount of cryptocurrency.
+- Losing restarts the current phase, with exactly the conditions the team entered it with.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
+- How downed Operators left behind escape.
 - Network opposition (ICE, daemons, security hubs), once playtesting shows the network's density
   and whether its topology should change. Options from 2026-10-04 are in the dated entry above.
 - Manual control for devices with continuous noise, such as a boom box. Once Breached, its verbs
