@@ -174,6 +174,22 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
   on movement should be an intentional positioning choice, because the same AP could go to any
   number of other actions.
 
+## 2026-10-03 — Operator AP, overwatch, gadgets and robots (Bryson)
+
+- Operators start with 8 AP, to see how it plays.
+- Opening an unlocked door is free; locking one costs 1 AP. Deploying the AI to the network costs
+  1 AP.
+- Overwatch belongs to the weapon economy, one per turn. It's a disposition, almost a status: the
+  Operator can still move after setting it if they have AP, and when the turn ends they're in
+  overwatch.
+- Gadgets cost different amounts of AP. Example: a flashbang costs 2 AP and blinds the guards in
+  its blast radius for 3 turns.
+- Robots are gadgets with a high deployment cost (3 AP) and then their own action economy: an AP
+  pool, a speed that puts them in the turn order, and vision shared with the Operators. They
+  scout, distract, and can carry a simple hack or a single-use stun. One hit downs them, and no
+  upgrade changes that. Two so far: a drone, and a dog bot like Boston Dynamics' Spot.
+- Peeking needs its own aside: Bryson isn't sure what it is or how it would work here.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or
