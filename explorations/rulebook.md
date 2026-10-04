@@ -347,6 +347,29 @@ Hitman (evidence, restricted zones).
 - Carrying replaces dragging: an Operator picks up a tied-up guard over their shoulder. While
   carrying, they can only move, but there's no movement penalty.
 
+## 2026-10-04 — Vocabulary, caution, carrying (Bryson)
+
+- Hearing a sound means investigating, not a full alert. "Alerted" stays reserved for a full
+  alert.
+- A standing rule: whenever something new is defined or an in-game term is used, put the
+  definition at the top of the message. RULES.md defines every term twice, briefly in a glossary
+  and in full with edge cases, so the AI implementing the rules understands them deeply. Now in
+  AGENTS.md.
+- Caution for V1 is option (a), as in Metal Gear: a zone stays on caution for a few rounds with a
+  visible countdown, the noticed tier counts as seen, then it resets.
+- Picking up and putting down a body are both free. Putting a body down on a receptacle's tile
+  puts it inside, hidden.
+- A stunned enemy can be carried too, not only a tied-up one. One that isn't tied up can make
+  noise when it wakes and draw another guard to let it out.
+
+## V2: after implementation and playtesting
+
+- Caution as escalation through a chain of command (from option b, Shadow Tactics). Intelligent
+  guards wouldn't see several suspicious things, or even an intruder, and then forget about it
+  without telling a manager or leader. The leader pieces the separate reports together, decides
+  there's a real intruder, and puts the area on high alert. Bryson finds this the most
+  intriguing option, but V1 stays simple.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

@@ -30,8 +30,11 @@ expects that plan to change as ideas surface while playing.
 ## Communication
 
 - Numbered questions and decision requests. Numbering runs continuously through a whole
-  message, so every item can be answered by its number alone. Tables, bullets and diagrams where they earn their
-  place. No walls of text with bold phrases scattered through them.
+  message, so every item can be answered by its number alone. Tables, bullets and diagrams
+  where they earn their place. No walls of text with bold phrases scattered through them.
+- Shared vocabulary. When a message defines something new or uses an in-game term, put its
+  definition at the top of the message. RULES.md holds every term twice: a brief glossary
+  entry, and a full definition with edge cases for whoever implements it.
 - Say what changed, what actually works, what is still uncertain, and what you need from
   Bryson. Report honestly when something was written but not run, or run but not played.
 - Separate what Bryson said, what you inferred, what you recommend, and what is
