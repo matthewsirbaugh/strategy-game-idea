@@ -400,6 +400,21 @@ only glance), Mark of the Ninja (every sound drawn as a ring), Watch Dogs (devic
 - In V1 each sound is a single moment.
 - Zones are named areas the map author draws, roughly one per room or yard.
 
+## 2026-10-04 — Hacking depth: verbs and autonomous things (Bryson, after research)
+
+Research in the chat: Breath of the Wild's chemistry engine (states, elements, multiplicative
+gameplay), Divinity: Original Sin 2 (surfaces combining), Watch Dogs (camera hopping, families of
+hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights interactables).
+
+- Harm is dropped. Powering an electric fence has the same effect, so a harm verb shouldn't exist.
+- Devices and non-autonomous systems share one verb list: power, sense, move, lock, signal.
+- Autonomous things (turrets, drones, dog bots) give manual control through a layout specific to
+  their type. A turret's: the player doesn't choose targets, but can tell it, independently and
+  for free, to target enemies and shoot or to target nothing.
+- V1: every verb of a Breached device can be used, each once per turn. An electric car can be
+  powered on and moved in one turn, not powered on and off. The player's options grow as they
+  hack more things, and it stays self-limiting.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.

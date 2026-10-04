@@ -44,7 +44,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Daemon | A trap that triggers when a node is Breached |
 | Security hub | Network opposition that re-locks things |
 | Device | A physical object on a node: a camera, a door, a light, a car |
-| Device verb | What a Breached device can do: power, sense, move, lock, signal, harm |
+| Device verb | What a Breached device can do: power, sense, move, lock, signal |
+| Autonomous | A device that acts on its own, like a turret or drone. Breaching one gives type-specific controls |
 | Context | The AI's context window, a resource for the whole battle |
 | Compaction | Clearing most of the context. It takes an AI action and degrades loaded chips |
 | Chip | A skill on a retro-futuristic disk, loaded into context when used |
@@ -134,12 +135,18 @@ implementation follows. Numbers marked placeholder are for tuning.
 13. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
 14. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
     trigger when a node is Breached, and security hubs that re-lock things.
-15. Breaching a device lets the AI use its verbs. Every device mixes from a short list, such as
-    power, sense, move, lock, signal and harm.
+15. Breaching a device lets the AI use its verbs. Devices and other non-autonomous systems share
+    one list: power, sense, move, lock and signal.
+    - Every verb a Breached device has can be used, but each verb only once per turn. An electric
+      car can be powered on and moved in the same turn, but not powered on and off.
+16. Breaching something autonomous, such as a turret, drone or dog bot, gives manual control
+    through a set of controls specific to its type. A Breached turret doesn't let the player
+    pick targets, but they can tell it, for free, either to target enemies and shoot or to
+    target nothing.
 
 ## Surveillance and stealth
 
-16. Operators move silently. Devices and objects make sound, and a guard who hears one goes to
+17. Operators move silently. Devices and objects make sound, and a guard who hears one goes to
     investigate it. Only seeing an Operator directly causes a full alert.
     - Each device has a sound radius, counted in walking steps like a movement range: around
       walls, through open doors, and stopped by closed ones.
@@ -150,69 +157,69 @@ implementation follows. Numbers marked placeholder are for tuning.
     - A guard who hears a sound walks to its source, looks around for one turn, then goes back to
       its patrol.
     - Each use of a verb makes one sound, a single moment.
-17. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
+18. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
     threat and gives the team its vision. Cameras see only in light; an upgraded camera with
     night vision needs a higher-level hack.
-18. Guards share vision through their cameras. That's their biggest strength and their biggest
+19. Guards share vision through their cameras. That's their biggest strength and their biggest
     weakness: a hacked camera feeds them false data, so they see nothing wrong.
-19. A camera that spots an Operator alerts guards that someone is in the area, and the closest
+20. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
-20. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
+21. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
     from the cameras and the enemy network a guard's search relies on, so an Operator behind
     cover and cloaked drops off the radar.
-21. There is no battle-wide clock.
-22. Every guard's vision cone is visible at all times while the guard is outside the fog. A cone
+22. There is no battle-wide clock.
+23. Every guard's vision cone is visible at all times while the guard is outside the fog. A cone
     has two tiers:
     - Seen, the core: the guard is alerted.
     - Noticed, the outer part: the guard marks the spot, goes there to investigate on its turn,
       and if it finds nothing goes back to its patrol.
-23. While the player plans a move, the tiles that would get the Operator noticed or seen are
+24. While the player plans a move, the tiles that would get the Operator noticed or seen are
     marked.
-24. Light controls visibility. In darkness a guard's seen tier shrinks to a short range and the
+25. Light controls visibility. In darkness a guard's seen tier shrinks to a short range and the
     rest of its cone counts as noticed. A light that goes out draws a guard to investigate it.
     Lights are a hacking target: cover for the Operators, and a lure.
-25. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
+26. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
     that guard's seen tier, the guard is alerted at once, but the Operator's turn carries on.
-26. An alerted guard acts on its own turn, never during the player's. If it loses track of the
+27. An alerted guard acts on its own turn, never during the player's. If it loses track of the
     Operator, it searches, then gives up and goes back to its patrol.
-27. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
+28. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
     caution, the noticed tier counts as seen. When the countdown ends, the zone settles back to
     normal.
 
 ## Enemies
 
-28. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+29. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (placeholder).
-29. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+30. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-30. A guard who finds a stunned or tied-up enemy raises an alert.
-31. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
+31. A guard who finds a stunned or tied-up enemy raises an alert.
+32. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
     up and putting down are free. While carrying, the Operator can only move, with no movement
     penalty.
-32. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
+33. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
     trunk, a locker, a closet or a trash can. Putting a body down on a receptacle's tile puts it
     inside, hidden.
-33. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
+34. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
     make noise instead, and a guard passing within its sound radius comes to let them out.
     Guards don't otherwise search receptacles.
-34. For now there is one standard enemy, with no special traits, so the rules can be tuned
+35. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
 ## Defeat and recovery
 
-35. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
+36. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
     armor takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-36. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
+37. ICE, daemons and enemy AIs can crash an AI. A crashed AI goes back to its backpack, is
     compacted as if it had compacted itself, and loses its next turn while it reboots. After
     that, its Operator can deploy it again for 1 AP, or leave it out.
 
 ## Robots
 
-37. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-38. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
+38. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
+39. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-39. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+40. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
     - A robot relays from within tether range of an access point, like an Operator. Its link to
@@ -222,13 +229,13 @@ implementation follows. Numbers marked placeholder are for tuning.
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
-40. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+41. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
 ## Progression
 
-41. In V1, every Operator has the same stats. They differ only in personality.
-42. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+42. In V1, every Operator has the same stats. They differ only in personality.
+43. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
@@ -369,9 +376,16 @@ come with the network UI work.
 **Device.** A physical object tied to a node: a camera, a door, a light, a car, a machine. Each
 has a sound radius.
 
-**Device verb.** What a Breached device lets the AI do, drawn from a short shared list such as
-power, sense, move, lock, signal and harm. Verbs aren't chips. Open: the final list and what each
-verb does.
+**Device verb.** What a Breached device lets the AI do, drawn from one shared list: power, sense,
+move, lock and signal. Verbs aren't chips. There is no harm verb: a harmful effect comes from an
+ordinary verb, like powering an electric fence. Every verb a Breached device has can be used,
+each once per turn, so an electric car can be powered on and moved in one turn but not powered
+on and off. The more devices the team holds, the more options it has each turn.
+
+**Autonomous.** Something that acts on its own, like a turret, a drone or a dog bot. Breaching
+one gives manual control through controls specific to its type, not the shared verbs. A Breached
+turret: the player can't pick its targets, but can tell it, for free, either to target enemies
+and shoot or to target nothing.
 
 ### Context and chips
 
