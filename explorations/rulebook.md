@@ -504,6 +504,7 @@ XCOM 2 (loot, choosing extraction).
 - Claude noted that the specialization triangle is what post-training was meant to be, and
   proposed V1 hardware (AP, context size, tether range). Bryson: progression as a whole goes to
   V2. V1 tests the systems, not how they progress.
+- Caches are cut from the V1 test map; their rewards do nothing until progression exists.
 
 ## V2: after implementation and playtesting
 

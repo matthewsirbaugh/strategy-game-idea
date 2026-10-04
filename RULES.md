@@ -310,7 +310,8 @@ Rules every device follows:
 47. Lose: all three Operators downed. The player restarts the current phase, with exactly the
     conditions they entered it with.
 48. Maps hold optional caches. A cache can hold a new skill chip, a blueprint for something the
-    team can 3D-print, such as a gadget, or a small to large amount of cryptocurrency.
+    team can 3D-print, such as a gadget, or a small to large amount of cryptocurrency. Caches are
+    left out of the V1 test map, since progression is V2.
 
 ## Progression
 
