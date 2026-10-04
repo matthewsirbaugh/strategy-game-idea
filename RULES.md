@@ -53,7 +53,9 @@ published to Google Drive for sharing and comments.
 12. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
-13. Cloak hides an Operator from surveillance, never from a guard's own eyes.
+13. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
+    from the cameras and the enemy network a guard's search relies on, so an Operator behind
+    cover and cloaked drops off the radar.
 14. There is no battle-wide clock.
 15. Every guard's vision cone is visible at all times while the guard is outside the fog.
 16. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
@@ -63,8 +65,8 @@ published to Google Drive for sharing and comments.
 
 ## Enemies
 
-18. Enemies have no HP. A hit stuns them, and they stay in place without vision. The duration
-    is 3 for testing.
+18. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+    3 turns (a placeholder for testing).
 19. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
 20. Tougher enemies mix traits: they need two stuns, are immune to the basic shot, wake up
@@ -72,8 +74,8 @@ published to Google Drive for sharing and comments.
 
 ## Defeat and recovery
 
-21. An Operator goes down after one hit. Armor adds hits: basic armor takes one, and heavy armor
-    takes two but costs 1 AP. A downed Operator is out for the rest of the battle.
+21. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy armor
+    takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
 22. A crashed AI is kicked back to its backpack, and its context is wiped.
 
 ## Progression

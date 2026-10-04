@@ -154,6 +154,26 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
 - The Into the Breach comparison is about being a puzzle rather than a statistical back-and-forth.
   It isn't about copying its mechanics.
 
+## 2026-10-03 — Clarifications and the end-game feeling (Bryson)
+
+- Cloak works in the warning-beat example because the Operator is behind cover: it erases them
+  from the cameras and the enemy network the guard's search relies on.
+- A stun counts the stunned enemy's own turns, so 3 turns is roughly 3 rounds.
+- Heavy armor means three hits in total.
+- An alerted guard acts on its own turn, never during the player's (rule 17 as worded).
+- An early upgrade: a predictive algorithm that shows what each enemy intends to do next turn,
+  given the current situation.
+- What hacking is for: gather intelligence on enemies, keep yourself hidden, and use the
+  environment to stay hidden on the way to the goal, incapacitate enemies, or open shortcuts. The
+  map itself should feel manipulable if the player's hacking is strong enough. By the end of the
+  game, the player enters a new level, surveys it, and is already planning how to chain abilities
+  into a combo.
+- So the visuals and the UI have to make clear what can be manipulated and how. Some cases are
+  easy (a light switch, a self-driving car rolling into a guard); harder ones need real thought.
+- Map size: not as small as Into the Breach's 8×8, but small and dense. Spending most of your AP
+  on movement should be an intentional positioning choice, because the same AP could go to any
+  number of other actions.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or
