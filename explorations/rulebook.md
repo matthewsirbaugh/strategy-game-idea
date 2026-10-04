@@ -518,6 +518,8 @@ chances, ruled out).
 - Guards move a flat 4 tiles (placeholder), with no AP.
 - A guard's range is its seen tier, with line of sight.
 - Guards shoot robots too, and prefer Operators when both are in line.
+- The shot hits the first unit in the line, so a robot can body-block for an Operator.
+- On its next turn the guard fires first, if still valid, then moves and aims again.
 
 ## V2: after implementation and playtesting
 

@@ -261,6 +261,10 @@ Rules every device follows:
     shown as a line. At the start of its next turn it fires, but only if that unit is still in the
     line. The player gets a full turn to break it: move, close a door, cut the lights, or stun the
     guard.
+    - The shot hits the first unit in the line, so a robot can step in and take it for an
+      Operator.
+    - On its next turn the guard fires first, if the shot is still valid, then moves and aims
+      again as usual.
 33. A guard's range is the length of its seen tier, and it needs line of sight. Its shot always
     hits.
 34. Guards shoot robots too, but aim at an Operator when both are in sight.
@@ -575,7 +579,8 @@ at one unit it can see within range, shown as a line from the guard to that unit
 its next turn it fires at that unit if the unit is still in the line, and the shot always hits.
 Otherwise the aim lapses. The player gets a full turn to break the line: move out of it, close a
 door, cut the lights, or stun the guard, which ends the aim. Guards aim at robots too, but choose
-an Operator when both are in sight. Open: what happens when a different unit steps into the line.
+an Operator when both are in sight. The shot hits the first unit in the line, so a robot can
+body-block for an Operator. On its next turn the guard fires first, then moves and aims again.
 
 **Searching.** An alerted guard that lost track of the Operator. It searches, then gives up and
 returns to its patrol. Cloak can make an Operator drop off its radar.
