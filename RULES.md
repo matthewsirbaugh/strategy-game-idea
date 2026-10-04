@@ -17,6 +17,7 @@ published to Google Drive for sharing and comments.
 | Round | Every unit on the map takes one turn |
 | Turn | One unit acting. An Operator's turn lasts until their AP is spent or they end it |
 | Downed | An Operator who has taken their last hit, out of the battle |
+| Skill chip | A retro-futuristic disk holding a skill, loaded into the AI's context when used |
 | Gadget | Equipment an Operator uses in battle, at an AP cost. Robots are gadgets |
 
 ## Turns
@@ -47,56 +48,67 @@ published to Google Drive for sharing and comments.
    The AI's action system is under review.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not.
-7. AIs can share compute: one AI gives up AP so another AI can do more that turn.
+7. AIs can share compute while their Operators stand close together, physically linked: each AP
+   one AI gives up, another AI gains.
 8. Context is not part of the action economy. It's the AI's battle-long resource, and the only
    limit on chaining refunds.
+9. Hacking never fails. An action makes progress, or at worst none.
+
+## Skills
+
+10. An AI's skills come on data chips, set before the battle. Each AI carries at most 3. There's
+    no randomness: every chip it carries can be used.
+11. Using a chip loads it into context, which costs context and no AP. The player can see which
+    chips are loaded and which aren't yet, and inspect any chip to see what it does.
+12. Skills specialize an AI, for example in hacking particular kinds of devices. AIs have no
+    internet: they know only their training data and what's on their chips.
 
 ## The network
 
-9. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
-10. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
+13. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
+14. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
    trigger when a node is Breached, and security hubs that re-lock things.
-11. Breaching a device lets the AI use its verbs. Every device mixes from a short list, such as
+15. Breaching a device lets the AI use its verbs. Every device mixes from a short list, such as
     power, sense, move, lock, signal and harm.
 
 ## Surveillance and stealth
 
-12. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
+16. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
     threat and gives the team its vision.
-13. A camera that spots an Operator alerts guards that someone is in the area, and the closest
+17. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
-14. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
+18. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
     from the cameras and the enemy network a guard's search relies on, so an Operator behind
     cover and cloaked drops off the radar.
-15. There is no battle-wide clock.
-16. Every guard's vision cone is visible at all times while the guard is outside the fog.
-17. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
+19. There is no battle-wide clock.
+20. Every guard's vision cone is visible at all times while the guard is outside the fog.
+21. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
     that guard's cone, the guard is alerted at once, but the Operator's turn carries on.
-18. An alerted guard acts on its own turn, never during the player's. If it loses track of the
+22. An alerted guard acts on its own turn, never during the player's. If it loses track of the
     Operator, it searches, then gives up and goes back to its patrol.
 
 ## Enemies
 
-19. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+23. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (a placeholder for testing).
-20. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+24. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-21. For now there is one standard enemy, with no special traits, so the rules can be tuned
+25. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
 ## Defeat and recovery
 
-22. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy armor
+26. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy armor
     takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-23. A crashed AI is kicked back to its backpack, and its context is wiped.
+27. A crashed AI is kicked back to its backpack, and its context is wiped.
 
 ## Robots
 
-24. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-25. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
+28. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
+29. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-26. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+30. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
     - A robot relays from within tether range of an access point, like an Operator. Its link to
@@ -106,12 +118,12 @@ published to Google Drive for sharing and comments.
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
-27. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+31. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
 ## Progression
 
-28. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+32. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet

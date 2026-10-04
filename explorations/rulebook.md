@@ -243,6 +243,23 @@ and banking in Triangle Strategy and Octopath.
 - No planning mode. The AI acts one action at a time, interleaved with its Operator. Making the
   human plan every step is the opposite of the fantasy: the AI does lots of things.
 
+## 2026-10-03 — Skill chips (Bryson)
+
+- A full loadout, no randomness. Retro-futurism: skills come on a futuristic floppy disk, loaded
+  into the AI's context, holding all the information it needs to perform the action.
+- A firm cap of 3 chips per AI. Enough for variety and specialization, and the cap is strategic
+  substance: one AI can't specialize in several things. Bryson imagines skills that make an AI
+  better at hacking specific things.
+- AIs have no internet access. They know only what they recall from training and what's on
+  their chips.
+- No Program Advance in V1. Playtesting might show it adds fun, but on its face it isn't enough of
+  a value-add.
+- Loading a chip costs context only.
+- Device verbs are not skills. That would be too limiting and cumbersome.
+- Shared compute is 1 AP given for 1 AP received, only while the Operators stand close together.
+  They physically link, like daisy-chaining Mac Minis.
+- There's no failure in hacking, only progress. A complete failure just means no progress.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or
