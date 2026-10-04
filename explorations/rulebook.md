@@ -415,6 +415,20 @@ hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights i
   powered on and moved in one turn, not powered on and off. The player's options grow as they
   hack more things, and it stays self-limiting.
 
+- Once per turn means per AI turn (option a): each AI uses a device's verbs in its own turn.
+  Unlocking devices stays a continual benefit, and the player has a reason to set up big combos,
+  with access to every device hacked so far.
+- Verbs are free in AP and cost context.
+- An AI connected to a network can use every hacked device on it, without being on its node.
+- A hacked turret picks the nearest enemy: guards and anything they control, robots, drones,
+  even other turrets. Hack one of two neighbouring turrets to shoot the other; the other only
+  treats it as hostile after the first hit, and shoots back once it recovers from the stun.
+- A hacked enemy robot joins the turn order with its own AP. It has its base version, or any
+  upgrade it had. A one-time ability is only usable if the robot hadn't used it before the hack.
+- States and verbs as the backbone (the chemistry-engine approach) is a foregone conclusion: it's
+  what defining the verbs means.
+- Bryson wants to review the verb list's names and functions.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.

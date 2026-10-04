@@ -138,11 +138,21 @@ implementation follows. Numbers marked placeholder are for tuning.
 15. Breaching a device lets the AI use its verbs. Devices and other non-autonomous systems share
     one list: power, sense, move, lock and signal.
     - Every verb a Breached device has can be used, but each verb only once per turn. An electric
-      car can be powered on and moved in the same turn, but not powered on and off.
+      car can be powered on and moved in the same turn, but not powered on and off. Each AI gets
+      its own uses in its own turn.
+    - Verbs cost no AP, but each use costs context.
+    - An AI connected to a network can use every Breached device on that network, wherever the AI
+      is on it.
 16. Breaching something autonomous, such as a turret, drone or dog bot, gives manual control
     through a set of controls specific to its type. A Breached turret doesn't let the player
     pick targets, but they can tell it, for free, either to target enemies and shoot or to
     target nothing.
+    - A Breached turret set to shoot fires on its own turn at the nearest enemy: guards and
+      anything under their control, including robots and other turrets. An enemy turret doesn't
+      treat it as hostile until it's hit, and shoots back once it recovers from the stun.
+    - A Breached enemy robot joins the team's turn order with its own AP, and keeps whatever
+      upgrades it had. A single-use ability is only available if it wasn't used before the
+      breach.
 
 ## Surveillance and stealth
 
@@ -332,7 +342,8 @@ nothing.
 ### The network
 
 **Network.** The layer of nodes and links over the physical map. An AI moves along links,
-unconstrained by physical distance.
+unconstrained by physical distance. An AI connected to a network can use every Breached device on
+it without moving to that device's node. Open: whether a map can hold several separate networks.
 
 **Node.** Anything on the network an AI can move to or hack: access points, devices, and network
 opposition.
@@ -380,12 +391,19 @@ has a sound radius.
 move, lock and signal. Verbs aren't chips. There is no harm verb: a harmful effect comes from an
 ordinary verb, like powering an electric fence. Every verb a Breached device has can be used,
 each once per turn, so an electric car can be powered on and moved in one turn but not powered
-on and off. The more devices the team holds, the more options it has each turn.
+on and off. Each AI gets its own uses in its own turn, so one AI can power a light off and
+another power it back on later in the round. Verbs cost no AP but cost context, and an AI
+anywhere on the device's network can use them. The more devices the team holds, the more options
+it has each turn. The names and functions of the verbs are under review.
 
 **Autonomous.** Something that acts on its own, like a turret, a drone or a dog bot. Breaching
 one gives manual control through controls specific to its type, not the shared verbs. A Breached
 turret: the player can't pick its targets, but can tell it, for free, either to target enemies
-and shoot or to target nothing.
+and shoot or to target nothing. Set to shoot, it fires on its own turn at the nearest enemy:
+guards and anything they control, including robots and other turrets. An enemy turret doesn't
+recognize a Breached turret as hostile until it's hit, then shoots back once it recovers from
+the stun. A Breached enemy robot joins the team's turn order with its own AP and keeps its
+upgrades; a single-use ability is available only if it hadn't been used before the breach.
 
 ### Context and chips
 
