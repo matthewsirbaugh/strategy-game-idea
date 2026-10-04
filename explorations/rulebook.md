@@ -283,6 +283,22 @@ and banking in Triangle Strategy and Octopath.
   tutorial battle, the player answers a series of questions, like the opening of Pokémon Mystery
   Dungeon, that set the AI's characteristics, starting abilities and specialization.
 
+## 2026-10-04 — Chips revisited, identical Operators (Bryson)
+
+- The two existing AIs arrive with set starting specialties, but can be shaped into anything,
+  as in Elden Ring.
+- For V1, every Operator has exactly the same in-game stats; the only difference is personality.
+  The value of Operator builds can't be gauged yet. Playtesting may change this. This sets aside
+  the Elden Ring idea for Operators from 2026-10-03.
+- Correction: every AI skill is a chip. Cloak is a chip. Movement is the one free chip: it
+  doesn't count toward the cap of 3, but it still has to be loaded. The 1.5× multiplier is one
+  example of a kind of chip, not what every chip is.
+- Chip categories are a side assignment. Bryson's starting guess: Surveillance, Weapon Systems,
+  and Infrastructure. Nothing is solid yet; explore the options.
+- Linking for shared compute costs nothing: standing adjacent is enough. Principle: add a cost
+  only when something is game-breakingly overpowered, like a free peek in Invisible Inc.
+  Otherwise a cost just limits the places a thing is useful.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

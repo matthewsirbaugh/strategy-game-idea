@@ -56,20 +56,24 @@ published to Google Drive for sharing and comments.
 
 ## Skills
 
-10. An AI's skills come on data chips, set before the battle and locked for its length. Each AI
-    carries at most 3. There's no randomness: every chip it carries can be used.
+10. Every AI skill is a chip, Cloak included. Chips are set before the battle and locked for its
+    length. Each AI carries at most 3, plus the network-movement chip, which is free and doesn't
+    count toward the cap but still has to be loaded. There's no randomness: every chip an AI
+    carries can be used.
 11. Using a chip loads it into context, which costs context and no AP. The player can see which
     chips are loaded and which aren't yet, and inspect any chip to see what it does.
-12. Chips, post-training and memory give AIs their specialties. The protagonist's new partner AI
-    starts general; after the tutorial battle, the player answers a series of questions that set
-    its starting abilities and specialization. AIs have no
-    internet: they know only their training data and what's on their chips.
-    - A hacking chip multiplies the AI's hack power against what it covers, by 1.5×. Its context
-      cost is high enough that loading every chip on the first turn isn't the obvious play.
-    - Each compaction degrades a loaded chip: 1.5× drops to 1.25×, then the chip unloads and has
-      to be loaded again.
-    - The network-movement skill is the exception. It only unloads if a compaction takes context
-      below the movement skill's own cost.
+12. Chips, post-training and memory give AIs their specialties. AIs have no internet: they know
+    only their training data and what's on their chips.
+    - The protagonist's new partner AI starts general. After the tutorial battle, the player
+      answers a series of questions that set its starting abilities and specialization.
+    - The other two AIs arrive with set personalities and starting specialties. Any AI can be
+      reshaped into anything over the game.
+    - Chips do many different things. One possible kind multiplies hack power against a category
+      of device, for example 1.5×. Context costs are high enough that loading every chip on the
+      first turn isn't the obvious play.
+    - Each compaction degrades a multiplier chip: 1.5× drops to 1.25×, then the chip unloads and
+      has to be loaded again.
+    - The network-movement chip only unloads if a compaction takes context below its own cost.
 
 ## The network
 
@@ -131,7 +135,8 @@ published to Google Drive for sharing and comments.
 
 ## Progression
 
-32. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+32. In V1, every Operator has the same stats. They differ only in personality.
+33. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
