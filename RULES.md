@@ -61,6 +61,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Alerted | A guard that has seen an Operator directly: a full alert |
 | Searching | An alerted guard that lost track of the Operator |
 | Caution | A zone's heightened state after an alert, on a countdown |
+| Zone | An area of a map that shares alerts and caution, drawn by the map author |
 | Light and dark | Darkness shrinks the seen tier |
 | Sound radius | How far a device's sound carries to guards |
 | Cloak | A chip that erases an Operator from surveillance |
@@ -148,6 +149,7 @@ implementation follows. Numbers marked placeholder are for tuning.
       would respond are marked. Guards in the fog respond too, unseen.
     - A guard who hears a sound walks to its source, looks around for one turn, then goes back to
       its patrol.
+    - Each use of a verb makes one sound, a single moment.
 17. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
     threat and gives the team its vision. Cameras see only in light; an upgraded camera with
     night vision needs a higher-level hack.
@@ -435,7 +437,10 @@ returns to its patrol. Cloak can make an Operator drop off its radar.
 
 **Caution.** After an alert, the zone stays on caution for 3 rounds (placeholder), with a
 visible countdown. During caution, the noticed tier counts as seen. When the countdown ends, the
-zone settles back to normal. Open: what defines a zone.
+zone settles back to normal.
+
+**Zone.** A named area of a map, drawn by the map author, roughly one per room or yard. Camera
+alerts and caution act on zones.
 
 **Light and dark.** Light controls visibility. In darkness a guard's seen tier shrinks to a
 short range and the rest of the cone counts as noticed. Ordinary cameras see only in light;
@@ -448,8 +453,8 @@ a diesel truck. The radius is counted in walking steps, like a movement range: i
 walls and through open doors, and a closed door stops it. Each device also sets who responds: a
 small sound draws only the closest guard in range, a big one every guard in range. Before the
 player uses a device verb, the sound area is drawn and the visible guards who would respond are
-marked; guards in the fog respond too, unseen. Open: whether a device that keeps running (a
-machine left on) keeps drawing guards, or each sound is a single moment.
+marked; guards in the fog respond too, unseen. In V1, each use of a verb makes one sound, a
+single moment.
 
 **Cloak.** A chip that hides an Operator from surveillance: it edits them out of the cameras and
 the enemy network a guard's search relies on. It never hides an Operator from a guard's own

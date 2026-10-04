@@ -397,10 +397,14 @@ only glance), Mark of the Ninja (every sound drawn as a ring), Watch Dogs (devic
   are marked. Guards in the fog respond too, unseen.
 - A guard who hears a sound walks to the source, looks around for one turn, and returns to its
   patrol.
+- In V1 each sound is a single moment.
+- Zones are named areas the map author draws, roughly one per room or yard.
 
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
+- Manual control for devices with continuous noise, such as a boom box. Once Breached, its verbs
+  are available every turn: switch it on for one turn, free, or leave it running.
 
 - AP generation with a maximum: for example, generate 8 a turn up to a cap of 12. Spend a little
   on positioning one turn, then have 12 for an elaborate play the next.
