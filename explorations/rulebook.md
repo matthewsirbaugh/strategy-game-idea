@@ -362,7 +362,24 @@ Hitman (evidence, restricted zones).
 - A stunned enemy can be carried too, not only a tied-up one. One that isn't tied up can make
   noise when it wakes and draw another guard to let it out.
 
+## 2026-10-04 — Closing the open edge cases (Bryson)
+
+- Overwatch drops at the start of the Operator's next turn, so they can choose again.
+- No AP carry-over in V1 (V2 idea below).
+- ICE, daemons and enemy AIs can crash an AI. Revised: a crashed AI goes back to the backpack or
+  its original access point and keeps its context, because the context lives in the backpack.
+  This reverses "context wiped" from 2026-10-02.
+- Caution lasts 3 rounds for V1.
+- Guards don't search receptacles. The exception: a guard inside one who isn't tied up and is no
+  longer stunned makes noise, which guards walking by within the sound area can hear.
+- A stunned guard who wakes up unfound, and wasn't tied up, raises an alert.
+- Compaction: Claude picked 1 AP as the default, at Bryson's request. Bryson judges it in
+  playtesting.
+
 ## V2: after implementation and playtesting
+
+- AP generation with a maximum: for example, generate 8 a turn up to a cap of 12. Spend a little
+  on positioning one turn, then have 12 for an elaborate play the next.
 
 - Caution as escalation through a chain of command (from option b, Shadow Tactics). Intelligent
   guards wouldn't see several suspicious things, or even an intruder, and then forget about it

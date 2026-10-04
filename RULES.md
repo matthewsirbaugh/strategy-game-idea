@@ -51,7 +51,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Loaded | A chip currently in context and usable |
 | Movement chip | The free chip for moving through the network |
 | Pulled out | The AI drops out of the network and keeps its context |
-| Crashed | The AI is kicked back to its backpack and loses its context |
+| Crashed | The AI is knocked out of the network by opposition, keeping its context |
 | Fog | Map areas the team has no vision on |
 | Last-known position | Where an unseen enemy was last seen |
 | Cone | A guard's or camera's field of vision, in two tiers |
@@ -86,7 +86,7 @@ implementation follows. Numbers marked placeholder are for tuning.
    - One shot per turn, outside the AP pool. It doesn't end the turn.
    - Overwatch uses that shot. It's a disposition: the Operator can still move afterwards if they
      have AP, and when their turn ends they are in overwatch. It fires at the first enemy that
-     moves into the Operator's line of fire.
+     moves into the Operator's line of fire, and drops at the start of the Operator's next turn.
    - Sprint: 3 tiles for 2 AP. On 8 AP an Operator can move up to 12 tiles in a turn, but an
      Operator who sprints can't shoot or set overwatch that turn.
    - Peeking through a door costs 1 AP. The Operator sees into the space beyond until their
@@ -96,8 +96,9 @@ implementation follows. Numbers marked placeholder are for tuning.
    - Gadgets cost AP to use, depending on the gadget, and sit outside the one-shot limit. A
      flashbang costs 2 AP and blinds the guards in its blast radius for 3 turns.
 5. AIs play aggressively, on their own AP, separate from the Operator's: the AI's autonomy is the
-   point. For now they start each turn with 2 AP, and moving through the network costs 1 AP.
-   The AI's action system is under review.
+   point. For now they start each turn with 2 AP. Moving through the network costs 1 AP, and so
+   does compacting (placeholder). The AI's action system is under review.
+   Unspent AP doesn't carry over, for Operators or AIs.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not.
 7. AIs can share compute while their Operators stand adjacent, physically linked: each AP one AI
@@ -166,7 +167,7 @@ implementation follows. Numbers marked placeholder are for tuning.
     that guard's seen tier, the guard is alerted at once, but the Operator's turn carries on.
 26. An alerted guard acts on its own turn, never during the player's. If it loses track of the
     Operator, it searches, then gives up and goes back to its patrol.
-27. After an alert, the zone goes on caution for a few rounds, with a visible countdown. During
+27. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
     caution, the noticed tier counts as seen. When the countdown ends, the zone settles back to
     normal.
 
@@ -183,8 +184,9 @@ implementation follows. Numbers marked placeholder are for tuning.
 32. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
     trunk, a locker, a closet or a trash can. Putting a body down on a receptacle's tile puts it
     inside, hidden.
-33. A stunned enemy who wasn't tied up can make noise when they wake, even from a receptacle, and
-    draw another guard to let them out.
+33. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
+    make noise instead, and a guard passing within its sound radius comes to let them out.
+    Guards don't otherwise search receptacles.
 34. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
@@ -192,7 +194,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 
 35. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy
     armor takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-36. A crashed AI is kicked back to its backpack, and its context is wiped.
+36. ICE, daemons and enemy AIs can crash an AI. A crashed AI is knocked back out of the network
+    and keeps its context, which lives in the backpack.
 
 ## Robots
 
@@ -283,7 +286,7 @@ AP because it slows them down.
 
 **AP.** Action points. Operators start each turn with 8. AIs have their own, separate pool,
 currently 2 per turn, with moving through the network costing 1; the AI's system is under
-review. Open: whether unspent AP carries over.
+review. Unspent AP doesn't carry over in V1.
 
 **Shot.** The Operator's weapon: one per turn, outside the AP pool, and it doesn't end the turn,
 so the Operator can keep moving and acting after it. It stuns. Sprinting gives up the shot for
@@ -291,9 +294,9 @@ that turn. Setting overwatch uses it.
 
 **Overwatch.** The shot held as a disposition. The Operator sets it at any point in their turn,
 can still spend remaining AP afterwards, and is in overwatch when the turn ends. It fires at the
-first enemy that moves into the Operator's line of fire. It's meant for controlled setups: lure
-a guard into a hallway, stun it from overwatch, tie it up next turn. Open: when overwatch lapses
-if nothing triggers it.
+first enemy that moves into the Operator's line of fire. If nothing triggers it, it drops at the
+start of the Operator's next turn, so they can choose again. It's meant for controlled setups:
+lure a guard into a hallway, stun it from overwatch, tie it up next turn.
 
 **Sprint.** Moving 3 tiles for 2 AP instead of 3. It adds no AP and makes no noise. An Operator
 who sprints can't shoot or set overwatch that turn. On 8 AP, sprinting moves up to 12 tiles.
@@ -366,9 +369,8 @@ verb does.
 It lasts the whole battle and resets afterwards. Hacking, chips and abilities add to it. It isn't
 part of the action economy. When full, hacks count for half.
 
-**Compaction.** The AI spends an action to clear most of its context (in the current build it
-keeps 25%). Compaction degrades loaded chips, defined chip by chip. Open: its AP cost under the
-new AI action system.
+**Compaction.** The AI spends 1 AP (placeholder) to clear most of its context (in the current
+build it keeps 25%). Compaction degrades loaded chips, defined chip by chip.
 
 **Chip.** A skill on a retro-futuristic disk. Every AI skill is a chip, Cloak included. An AI
 carries at most 3, plus the movement chip, set before the battle and locked for its length.
@@ -387,8 +389,10 @@ cost.
 **Pulled out.** The AI drops out of the network but keeps its context: when its Operator moves
 beyond the tether, or when its relay is hit.
 
-**Crashed.** The AI is kicked back to its backpack and its context is wiped. It's the AI's
-equivalent of being downed, but not permanent. Open: what can crash an AI.
+**Crashed.** The AI is knocked back out of the network by ICE, a daemon or an enemy AI. It keeps
+its context, because the context lives in the backpack. Open: whether it returns to the
+backpack or to the access point it entered through, and what separates a crash from being
+pulled out.
 
 ### Stealth
 
@@ -419,9 +423,9 @@ alert. It acts on its own turn only. If it loses track of the Operator, it start
 **Searching.** An alerted guard that lost track of the Operator. It searches, then gives up and
 returns to its patrol. Cloak can make an Operator drop off its radar.
 
-**Caution.** After an alert, the zone stays on caution for a few rounds, with a visible
-countdown. During caution, the noticed tier counts as seen. When the countdown ends, the zone
-settles back to normal. Open: the length, and what defines a zone.
+**Caution.** After an alert, the zone stays on caution for 3 rounds (placeholder), with a
+visible countdown. During caution, the noticed tier counts as seen. When the countdown ends, the
+zone settles back to normal. Open: what defines a zone.
 
 **Light and dark.** Light controls visibility. In darkness a guard's seen tier shrinks to a
 short range and the rest of the cone counts as noticed. Ordinary cameras see only in light;
@@ -440,9 +444,9 @@ eyes. An alerted guard that can't currently see a cloaked Operator loses track o
 ### Bodies
 
 **Stunned.** An enemy hit by a shot. It stays in place without vision and skips its next 3 turns
-(placeholder). A guard who finds it raises an alert. An enemy that wasn't tied up can make noise
-when it wakes, even from a receptacle, drawing another guard to let it out. Open: whether a
-waking guard that wasn't found raises an alert on its own.
+(placeholder). A guard who finds it raises an alert. If it wakes without having been tied up, it
+raises an alert itself. If it wakes inside a receptacle, it makes noise instead, and a guard
+passing within its sound radius comes to let it out.
 
 **Tied up.** A stunned enemy restrained by an adjacent Operator for 2 AP. It's out of the battle
 unless another enemy finds and unties it. A guard who finds it raises an alert.
@@ -453,8 +457,8 @@ putting down are free. While carrying, the Operator can only move, with no movem
 **Receptacle.** A place a body fits: a dumpster, a car's trunk, a locker, a closet, a trash can.
 Putting a carried body down on the receptacle's tile puts it inside.
 
-**Hidden.** A body out of every enemy's sight, or inside a receptacle. Open: whether searching
-guards check receptacles.
+**Hidden.** A body out of every enemy's sight, or inside a receptacle. Guards don't search
+receptacles; the only way a hidden body is found from inside one is by waking and making noise.
 
 **Downed.** An Operator who has taken their last hit. They're out for the rest of the battle;
 nothing carries over afterwards. If every Operator is downed, the battle is lost.
