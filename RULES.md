@@ -44,7 +44,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Daemon | A trap that triggers when a node is Breached |
 | Security hub | Network opposition that re-locks things |
 | Device | A physical object on a node: a camera, a door, a light, a car |
-| Device verb | What a Breached device can do: power, sense, move, lock, signal |
+| Device verb | What a Breached device can do: power, move, lock, signal |
+| Signal | The lure verb: a fake signal sent to a device |
 | Autonomous | A device that acts on its own, like a turret or drone. Breaching one gives type-specific controls |
 | Context | The AI's context window, a resource for the whole battle |
 | Compaction | Clearing most of the context. It takes an AI action and degrades loaded chips |
@@ -135,8 +136,11 @@ implementation follows. Numbers marked placeholder are for tuning.
 13. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
 14. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
     trigger when a node is Breached, and security hubs that re-lock things.
-15. Breaching a device lets the AI use its verbs. Devices and other non-autonomous systems share
-    one list: power, sense, move, lock and signal.
+15. Breaching a device does nothing by itself: it gives the AI access to the device's verbs.
+    Devices and other non-autonomous systems share one list: power, move, lock and signal.
+    - Signal is always a fake signal sent to a device, and works as a lure. Through a camera, it
+      sends the enemy an AI-generated video of an Operator who isn't there. To a phone, it sends
+      a fake call that rings. Powering a phone on makes no sound.
     - Every verb a Breached device has can be used, but each verb only once per turn. An electric
       car can be powered on and moved in the same turn, but not powered on and off. Each AI gets
       its own uses in its own turn.
@@ -167,11 +171,11 @@ implementation follows. Numbers marked placeholder are for tuning.
     - A guard who hears a sound walks to its source, looks around for one turn, then goes back to
       its patrol.
     - Each use of a verb makes one sound, a single moment.
-18. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
-    threat and gives the team its vision. Cameras see only in light; an upgraded camera with
+18. Every camera starts enemy-controlled and can spot Operators. A Breached camera that is
+    powered on gives the team its vision. Cameras see only in light; an upgraded camera with
     night vision needs a higher-level hack.
 19. Guards share vision through their cameras. That's their biggest strength and their biggest
-    weakness: a hacked camera feeds them false data, so they see nothing wrong.
+    weakness: a hacked camera can feed them false data.
 20. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
@@ -366,7 +370,8 @@ progress, which persists across turns and even if the AI leaves. Hacking never f
 adds progress or, at worst, none. When progress reaches the node's goal, the node is Breached.
 
 **Breached.** A node whose goal has been reached. The team controls it and can use its device's
-verbs. A Breached camera stops spotting Operators and gives the team its vision.
+verbs. Breaching does nothing by itself. A Breached camera that is powered on gives the team its
+vision.
 
 **Hack power.** The breach progress one hack action adds: 10 in the current build
 (placeholder). Multiplier chips raise it against their category. When context is full, only
@@ -387,8 +392,10 @@ come with the network UI work.
 **Device.** A physical object tied to a node: a camera, a door, a light, a car, a machine. Each
 has a sound radius.
 
-**Device verb.** What a Breached device lets the AI do, drawn from one shared list: power, sense,
-move, lock and signal. Verbs aren't chips. There is no harm verb: a harmful effect comes from an
+**Device verb.** What a Breached device lets the AI do, drawn from one shared list: power,
+move, lock and signal. There is no sense verb: a powered camera already gives vision. Signal is
+always a fake signal sent to a device, a lure: an AI-generated video of an Operator sent through a
+camera, or a fake call that makes a phone ring. Verbs aren't chips. There is no harm verb: a harmful effect comes from an
 ordinary verb, like powering an electric fence. Every verb a Breached device has can be used,
 each once per turn, so an electric car can be powered on and moved in one turn but not powered
 on and off. Each AI gets its own uses in its own turn, so one AI can power a light off and

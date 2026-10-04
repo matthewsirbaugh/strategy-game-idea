@@ -429,6 +429,12 @@ hacks), Cyberpunk 2077 (Ping reveals the network), Hitman (Instinct highlights i
   what defining the verbs means.
 - Bryson wants to review the verb list's names and functions.
 
+- Revised: breaching doesn't automatically do anything. It gives access to the device's verbs.
+- Sense is dropped. A camera is on when you hack it, so you get its vision; power covers it.
+- Signal is specifically a lure: always a fake or spoofed signal sent to a device. Through a
+  camera, it sends the enemy an AI-generated video of an Operator, so they think someone is on
+  camera who isn't. A phone powered on makes no sound; signal sends it a fake call.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
