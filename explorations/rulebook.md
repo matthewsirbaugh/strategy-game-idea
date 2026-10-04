@@ -222,6 +222,27 @@ silent takedowns, Desperados III and Shadow Tactics (readable cones, queued comb
   are tuned. Bryson didn't like the stun variants (noise wakes them, passing guards wake them,
   shorter counts for heavy enemies).
 
+## 2026-10-03 — The AI's action system: skills as cards (Bryson)
+
+Research in the chat: Gears Tactics executions (+1 AP to every other squad member), Shin Megami
+Tensei's Press Turn (efficiency costs half a turn, failure costs extra), Persona 5's Baton Pass,
+Slay the Spire and Midnight Protocol (energy plus a deck), Transistor's Turn() and Functions,
+and banking in Triangle Strategy and Octopath.
+
+- Lean into cards, like the battle chips in Mega Man Battle Network. The player sees what the AI
+  can do this turn from its preloaded, predetermined skills.
+- New skills are created in the upgrade sections outside battle.
+- The player can see which skills are loaded in context and which are available but not yet
+  loaded, and can look closer at any skill to see what it does.
+- Missing and important: an easy way to get information on skills and abilities. The menus also
+  need an aesthetic overhaul; they feel plain.
+- No Press Turn. It's compelling, but it may overcomplicate things without a clear strategic
+  throughline.
+- Shared compute is in: one AI gives up compute it would have used so another AI runs faster
+  and does more that turn.
+- No planning mode. The AI acts one action at a time, interleaved with its Operator. Making the
+  human plan every step is the opposite of the fantasy: the AI does lots of things.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

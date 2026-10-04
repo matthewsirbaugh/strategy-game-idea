@@ -47,55 +47,56 @@ published to Google Drive for sharing and comments.
    The AI's action system is under review.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not.
-7. Context is not part of the action economy. It's the AI's battle-long resource, and the only
+7. AIs can share compute: one AI gives up AP so another AI can do more that turn.
+8. Context is not part of the action economy. It's the AI's battle-long resource, and the only
    limit on chaining refunds.
 
 ## The network
 
-8. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
-9. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
+9. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
+10. The network has its own opposition: ICE that blocks a route until it's broken, daemons that
    trigger when a node is Breached, and security hubs that re-lock things.
-10. Breaching a device lets the AI use its verbs. Every device mixes from a short list, such as
+11. Breaching a device lets the AI use its verbs. Every device mixes from a short list, such as
     power, sense, move, lock, signal and harm.
 
 ## Surveillance and stealth
 
-11. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
+12. Every camera starts enemy-controlled and can spot Operators. Breaching it disables the
     threat and gives the team its vision.
-12. A camera that spots an Operator alerts guards that someone is in the area, and the closest
+13. A camera that spots an Operator alerts guards that someone is in the area, and the closest
     guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
     enemy in a zone.
-13. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
+14. Cloak hides an Operator from surveillance, never from a guard's own eyes. It erases them
     from the cameras and the enemy network a guard's search relies on, so an Operator behind
     cover and cloaked drops off the radar.
-14. There is no battle-wide clock.
-15. Every guard's vision cone is visible at all times while the guard is outside the fog.
-16. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
+15. There is no battle-wide clock.
+16. Every guard's vision cone is visible at all times while the guard is outside the fog.
+17. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
     that guard's cone, the guard is alerted at once, but the Operator's turn carries on.
-17. An alerted guard acts on its own turn, never during the player's. If it loses track of the
+18. An alerted guard acts on its own turn, never during the player's. If it loses track of the
     Operator, it searches, then gives up and goes back to its patrol.
 
 ## Enemies
 
-18. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
+19. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (a placeholder for testing).
-19. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
+20. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-20. For now there is one standard enemy, with no special traits, so the rules can be tuned
+21. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
 ## Defeat and recovery
 
-21. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy armor
+22. An Operator goes down after one hit. Armor adds hits: basic armor takes one more, and heavy armor
     takes two more but costs 1 AP. A downed Operator is out for the rest of the battle.
-22. A crashed AI is kicked back to its backpack, and its context is wiped.
+23. A crashed AI is kicked back to its backpack, and its context is wiped.
 
 ## Robots
 
-23. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-24. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
+24. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
+25. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
     is shared with the Operators, so it lifts the fog.
-25. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
+26. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
     - A robot relays from within tether range of an access point, like an Operator. Its link to
@@ -105,12 +106,12 @@ published to Google Drive for sharing and comments.
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
-26. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
+27. One hit downs a robot, and no upgrade changes that. A downed robot is gone for the rest of
     the battle and rebuilt afterwards.
 
 ## Progression
 
-27. Operators upgrade through gear, and AIs through hardware, harness and post-training.
+28. Operators upgrade through gear, and AIs through hardware, harness and post-training.
     Upgrades add abilities and options rather than bigger numbers.
 
 ## Not written yet
