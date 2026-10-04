@@ -324,6 +324,29 @@ Hitman (evidence, restricted zones).
   pushes it ahead and steps forward with it.
 - No sound. Detection is visibility only.
 
+## 2026-10-04 — Sound returns, cameras, hiding and carrying (Bryson)
+
+- No "no sound" rule. What Bryson described next is a sound system; it just doesn't apply to the
+  Operators, who are assumed to move silently.
+- Darkness (option a of three): the seen tier shrinks to a short range and the rest of the cone
+  counts as noticed. Same effect as "only noticed in the dark", but it meshes better with the
+  other systems.
+- All cameras see only in light. An upgraded camera with night vision needs a higher-level hack.
+- What makes the game work: guards share vision through the cameras. It's their biggest strength
+  and their biggest weakness, because false data from our hacked cameras is why none of them
+  see anything wrong.
+- Distraction: lights, opening a door, moving a car, switching on a machine that does nothing on
+  its own but draws a guard within range. Every object has a sound radius, depending on the
+  object: around 5 tiles for a typical one, about 1 for an electric car, about 10 for a diesel
+  truck. Guards who hear something head toward it. Only seeing an Operator directly causes a
+  full alert. Why the change: opening a door right next to a guard who acts as if nothing
+  happened breaks immersion. Bryson wants a full session to iron this out.
+- Caution: Bryson asked for research into how other games handle it before deciding.
+- Hiding a body: out of sight is enough, and there are receptacles too (a dumpster, a car's
+  trunk, a gym locker, a closet, a trash can). Tossing a body in is a free action when adjacent.
+- Carrying replaces dragging: an Operator picks up a tied-up guard over their shoulder. While
+  carrying, they can only move, but there's no movement penalty.
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or
