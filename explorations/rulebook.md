@@ -1,6 +1,6 @@
 # Rulebook V1
 
-- Status: open, started 2026-10-02.
+- Status: V1 complete and handed off for implementation planning (2026-10-04). V2 items below.
 - Output: `RULES.md` at the root is the working copy. Once V1 is done, it's published to Google
   Drive as a document for sharing and comments (Bryson, 2026-10-02).
 - Scope: the whole game, not only battle: upgrades, enemies, abilities, the Operators' own
@@ -543,12 +543,15 @@ degrades every chip in two steps.
   too powerful. The V1 chip table is in RULES.md.
 - One action earns at most one refund, so Subagent can't snowball on its own.
 
-## 2026-10-04 — V1 setup draft (Claude, pending Bryson's markup)
+## 2026-10-04 — V1 setup and the hand-off
 
 Claude drafted test loadouts, robot numbers and a placeholder table in the chat. Agreed so far:
-when Operators share a speed, the player picks which acts next. The rest waits for Bryson's
-markup before it goes into RULES.md. Bryson asked Claude to draft a placeholder test map on the
-facility exterior; level layout stays Bryson's call.
+when Operators share a speed, the player picks which acts next. Bryson then approved the whole
+draft, and it's in RULES.md under V1 setup. He asked Claude to draft a placeholder test map on the
+facility exterior (level layout stays his call) and to write all the documentation: another AI
+will draft an implementation plan from it, and a third will implement it. The hand-off is
+[v1-implementation-brief.md](v1-implementation-brief.md), with the test map, the changes from the
+current build, and the defaults Claude filled in that Bryson hasn't reviewed.
 
 ## V2: after implementation and playtesting
 

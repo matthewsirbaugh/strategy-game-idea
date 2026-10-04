@@ -53,6 +53,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Loaded | A chip currently in context and usable |
 | Movement chip | The free chip for moving through the network |
 | Linked node | A node directly connected to another by a network link |
+| Hop | One move along a network link |
+| Loadout | What a unit brings into a battle: armor, gear, chips |
 | Pulled out | The AI drops out of the network and keeps its context |
 | Crashed | Knocked out of the network by opposition: a forced compaction and a lost turn |
 | Fog | Map areas the team has no vision on |
@@ -350,6 +352,59 @@ Rules every device follows:
 53. Progression is V2. V1 tests the systems with fixed loadouts, not how they progress. The
     direction: Operators upgrade through gear, and AIs through hardware, harness and
     post-training, and upgrades add abilities and options rather than bigger numbers.
+
+## V1 setup
+
+The fixed loadouts and numbers the V1 test plays with. Every number is a placeholder for tuning.
+Agreed by Bryson on 2026-10-04.
+
+### Loadouts
+
+Each Operator carries one robot or two gadgets.
+
+| Operator | Armor | Gear | AI chips, plus movement | Plays as |
+|---|---|---|---|---|
+| Protagonist | Basic: 2 hits | Drone | Locate, Predict, Surveillance exploit | Scout: information and camera control |
+| Operator B | Heavy: 3 hits, 7 AP | Two flashbangs | Extended thinking, Infrastructure exploit, Weapons exploit | Breacher: one-action breaches and refund chains |
+| Operator C | None: 1 hit | Dog bot | Subagent, Extended thinking, Infrastructure exploit | Fixer: wide network reach and relays |
+
+### Robots
+
+| Robot | AP | Speed | Vision | Special |
+|---|---|---|---|---|
+| Drone | 6 | 7 | 6 | Flies over low obstacles such as crates and vehicles, never over walls |
+| Dog bot | 8 | 5 | 4 | Carries the single-use stun |
+
+### Numbers
+
+| Number | Value |
+|---|---|
+| Operator AP | 8 |
+| Sprint | 3 tiles for 2 AP |
+| Peek, lock a door, deploy the AI | 1 AP each |
+| Tie up | 2 AP |
+| Deploy a robot | 3 AP |
+| Flashbang | 2 AP, radius 2, blinds for 3 turns |
+| Heavy armor | −1 AP |
+| AI AP | 2 |
+| AI move | 1 AP reaches any node within 3 hops |
+| Compaction | 1 AP, keeps 25% |
+| Context window | 0–100 (100M in the setting) |
+| Full-context yield | 50% of hack power |
+| Hack power | 10 |
+| Context per hack | Goal 10: 10. Goal 20: 15. Goal 30: 20. Goal 60: 30 |
+| Context per verb use | 5 |
+| Tether | 2 tiles |
+| Speed | Operators 6, guards 5, turrets 3, drone 7, dog bot 5 |
+| Guard move | 4 tiles |
+| Guard cone | 90° wide; seen tier 5 tiles, noticed tier out to 8 |
+| Camera cone | 90° wide; seen tier 6 tiles, noticed tier out to 9 |
+| In darkness | Seen tier 2 tiles; an Operator's window is 2 tiles |
+| Light radius | 3 for a light, 2 for an ad screen |
+| Stun | 3 turns |
+| Caution | 3 rounds |
+| Sound radii and breach goals | As in [Devices](#devices) |
+| Chip load costs | As in [The V1 chips](#the-v1-chips) |
 
 ## Not written yet
 
