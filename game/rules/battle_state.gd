@@ -67,7 +67,7 @@ var discovered := {}
 # Guards Predict is following until their next turn ends.
 var predicted := {}
 var camera_views := {}
-# The data cache this mission is about: the one node of kind "cache" on the map.
+# The Prime Data Cache this mission is about: the one node of kind "cache" on the map.
 var objective := ""
 var cache_breached := false
 var lit := {}
@@ -301,7 +301,7 @@ func upcoming() -> Array[Unit]:
 
 
 func _shown_in_order(unit: Unit) -> bool:
-	return unit.is_player() or unit.is_turret() or revealed.has(unit.id)
+	return unit.is_player() or revealed.has(unit.id)
 
 
 # Operators who share the active Operator's speed and haven't acted yet this round. The player
@@ -535,14 +535,13 @@ func _update_known() -> void:
 			known.erase(unit.id)
 
 
-# The team shares its vision. Turrets are structures, always on the map; everyone else needs live
-# vision, or Locate.
+# The team shares its vision. An enemy, turrets included, needs live vision, or Locate.
 func player_sees(unit: Unit) -> bool:
 	if unit.is_player():
 		return true
 	if unit.down or unit.carried_by >= 0 or unit.receptacle != "":
 		return false
-	return unit.is_turret() or visible_cells.has(unit.cell) or unit.located > 0
+	return visible_cells.has(unit.cell) or unit.located > 0
 
 
 # Enemies plan around the team's units they have in view, and the team around the enemies it sees.
@@ -644,7 +643,7 @@ func _shared(cell: Vector2i, unit: Unit) -> bool:
 func _visible_enemies() -> Array[Unit]:
 	var result: Array[Unit] = []
 	for unit in units:
-		if not unit.is_player() and not unit.is_turret() and not unit.is_out() and player_sees(unit):
+		if not unit.is_player() and not unit.is_out() and player_sees(unit):
 			result.append(unit)
 	return result
 

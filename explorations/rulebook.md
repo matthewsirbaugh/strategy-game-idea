@@ -649,7 +649,30 @@ with, the handover data (`BattleState.carry_over`), and a crash response that no
 triggers yet. Placeholder art: robots, the car, truck, generator, phone, hub, ad screen and
 dumpsters are boxes until their models exist.
 
+## 2026-10-04 — Answers after the cleanup pass (Bryson)
+
+- Turrets follow the rule: an enemy turret the team can't see is hidden, like any enemy, and
+  shows in the turn order once revealed. (The build had kept turrets always visible.)
+- Rule 21's zones, where every enemy investigates a camera report, are V2.
+- Switching a device off, or locking it, makes no sound. Turning off a car, for example, stops the
+  noise it makes. A light going out is a visual lure, not a sound: "it is explicitly not the sound
+  that attracts, it's the fact that a light that was on is off." It draws one guard, who walks
+  back afterwards like any lure. Bryson isn't sure whether that lure should also follow the sound
+  rules' reach. This replaces reading 7's hub sound on switching off.
+- A speed tie between the team and the enemy goes to the team, for V1. V2 reworks the speed
+  system for the turn order queue.
+- The level's main data cache is the Prime Data Cache. Optional ones are Secondary Data Caches,
+  such as a 3D print for a new gadget or a new skill, and Tertiary Data Caches, such as a small
+  amount of cryptocurrency.
+- The unused prop models (reception desk, delivery van, vault door) are deleted for now; folders
+  can be made again when needed.
+- Splitting `battle.gd` into menus, event-log text and the controller: agreed.
+
 ## V2: after implementation and playtesting
+
+- Rework the speed system for the turn order queue (Bryson, 2026-10-04).
+- Zones where every enemy investigates a camera report, such as deep inside an enemy
+  headquarters (RULES.md rule 21).
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
 - How downed Operators left behind escape.

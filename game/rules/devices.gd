@@ -64,7 +64,9 @@ static func use(state: BattleState, unit: Unit, id: String, verb: String, direct
 			device.locked = not device.locked
 	events.push_front({"type": "verb", "unit": unit, "node": id, "verb": verb})
 	state.refresh()
-	if def.sound_radius > 0 and verb not in def.silent_verbs:
+	# Switching on and activating make the device's sound. Switching off and locking are silent.
+	var makes_sound: bool = verb == "activate" or (verb == "power" and device.powered)
+	if def.sound_radius > 0 and makes_sound and verb not in def.silent_verbs:
 		events.append(sound(state, id, state.node_cell(id), def.sound_radius, def.sound_all))
 	for lure_id in lures:
 		var lure := _lure(state, lure_id, verb == "activate")

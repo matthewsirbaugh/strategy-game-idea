@@ -72,7 +72,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 | Phase | One map within a battle |
 | Handover | Moving from one phase's map to the next |
 | Extraction | Getting the standing Operators out once the objective is done |
-| Cache | An optional find on a map: a chip, a blueprint, or cryptocurrency |
+| Prime Data Cache | The level's main objective: breaching it completes the objective |
+| Secondary and Tertiary Data Caches | Optional finds on a map: a blueprint or a skill chip, or a little cryptocurrency |
 | Blueprint | Plans for something the team can 3D-print, like a gadget |
 | Zone | An area of a map that shares alerts and caution, drawn by the map author |
 | Light and dark | Darkness shrinks the seen tier |
@@ -89,7 +90,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 
 1. Each round, every unit on the map takes a turn. Hidden enemies take theirs out of sight.
    When an enemy is revealed, it joins the turn order shown at the top of the screen.
-   When several Operators share a speed, the player picks which of them acts next.
+   When several Operators share a speed, the player picks which of them acts next. On a speed tie
+   between the team and the enemy, the team acts first.
    An Operator's turn ends when the player ends it, or when both the Operator's and the AI's AP
    are spent.
 2. Each unit's turn has two halves: the Operator in the physical world, and the AI in the
@@ -228,7 +230,7 @@ the closest guard in range, "all" draws every guard in range.
 | Turret (autonomous) | Controls: target enemies, or hold. It picks the nearest enemy itself | Its shot: 5, all | 30 |
 | Enemy drone or dog bot (autonomous) | Joins the team's turn order with its own AP. Controls come with the robot design | Device-specific | 30 |
 | Access point | No verbs. Where the AI enters the network | None | None |
-| Data cache | No verbs. Breaching it is the objective | None | 60 |
+| Prime Data Cache | No verbs. Breaching it is the objective | None | 60 |
 
 Rules every device follows:
 
@@ -254,6 +256,10 @@ Rules every device follows:
     - A guard who hears a sound walks to its source, looks around for one turn, then goes back to
       its patrol. A guard already investigating, or alerted, ignores new lures.
     - Each use of a verb makes one sound, a single moment.
+    - A device makes its sound when it's switched on or activated. Switching it off or locking it
+      is silent: switching off a running car or machine stops its noise.
+    - A light or camera going dark isn't a sound. What draws the guard is seeing that something
+      that was on is off: one guard investigates, then goes back to its patrol, like any lure.
 19. Every camera starts enemy-controlled and can spot Operators. A Breached camera is the team's
     camera now, so it never reports the team's Operators or units to the enemy, even right in
     front of it. While powered on, it gives the team its vision. Powering it off is a lure: a
@@ -262,8 +268,8 @@ Rules every device follows:
 20. Guards share vision through their cameras. That's their biggest strength and their biggest
     weakness: a hacked camera stops reporting the team to them.
 21. A camera that spots an Operator sends the closest guard to investigate the spot. It never
-    causes a full alert. In some areas, such as deep inside an enemy headquarters, every enemy in
-    the zone investigates.
+    causes a full alert. In V2, some areas, such as deep inside an enemy headquarters, will send
+    every enemy in the zone to investigate.
 22. There is no battle-wide clock.
 23. Every guard's vision cone is visible at all times while the guard is outside the fog. A cone
     has two tiers:
@@ -368,9 +374,10 @@ Rules every device follows:
     Operators can be left behind; for now their escape is handwaved.
 50. Lose: all three Operators downed. The player restarts the current phase, with exactly the
     conditions they entered it with.
-51. Maps hold optional caches. A cache can hold a new skill chip, a blueprint for something the
-    team can 3D-print, such as a gadget, or a small to large amount of cryptocurrency. Caches are
-    left out of the V1 test map, since progression is V2.
+51. A level's main objective is its Prime Data Cache. Maps can also hold optional caches: a
+    Secondary Data Cache holds something like a blueprint the team can 3D-print for a new gadget,
+    or a new skill chip; a Tertiary Data Cache holds something like a small amount of
+    cryptocurrency. Optional caches are left out of the V1 test map, since progression is V2.
 
 ## Progression
 
@@ -463,8 +470,10 @@ phase with exactly the conditions they entered it with.
 **Extraction.** Once the objective is complete, every Operator still standing has to reach the
 extraction tiles to win. Downed Operators can be left behind; their escape is handwaved for now.
 
-**Cache.** An optional find on a map. It can hold a new skill chip, a blueprint for something the
-team can 3D-print (such as a gadget), or a small to large amount of cryptocurrency.
+**Data caches.** The Prime Data Cache is a level's main objective: breaching it completes the
+objective. Optional caches come in two grades. A Secondary Data Cache holds something like a
+blueprint the team can 3D-print for a new gadget, or a new skill chip. A Tertiary Data Cache holds
+something like a small amount of cryptocurrency.
 
 **Round.** Every unit on the map takes one turn, in turn order. Hidden enemies take their turns
 out of sight. A round ends when the last unit in the order has acted.
@@ -589,7 +598,7 @@ when a verb is used.
 half of it counts (current build).
 
 **Goal.** The breach progress a node needs. Current placeholders: door 10, camera 20, turret 30,
-data cache 60.
+Prime Data Cache 60.
 
 **Lily pad.** Any Breached node used as a stepping stone for the next play; not only enemy
 pieces. Jump is the first agreed form.

@@ -827,7 +827,7 @@ func _refresh_scan() -> void:
 	var unit := state.active
 	for id in _scan_labels:
 		var label: Label3D = _scan_labels[id]
-		label.visible = _scan and not _network_shown
+		label.visible = _scan and not _network_shown and not _hidden_turret(id)
 		if not label.visible:
 			continue
 		var def := state.node_def(id)
@@ -863,9 +863,14 @@ func _refresh_scan() -> void:
 		_grid.clear_overlay("scan_receptacles")
 
 
+# A turret the team can't see stays hidden, scan or not.
+func _hidden_turret(id: String) -> bool:
+	return state.units.any(func(unit: Unit) -> bool: return unit.node == id and not state.player_sees(unit))
+
+
 func _update_objective() -> void:
 	if not state.cache_breached:
-		_hud.set_objective("Breach the data cache   /   %d of %d" % [state.progress.get(state.objective, 0), state.node_def(state.objective).goal])
+		_hud.set_objective("Breach the Prime Data Cache   /   %d of %d" % [state.progress.get(state.objective, 0), state.node_def(state.objective).goal])
 		return
 	var standing := state.operators().filter(func(unit: Unit) -> bool: return not unit.down).size()
 	_hud.set_objective("Extract the team   /   %d of %d at extraction" % [state.extracted(), standing])

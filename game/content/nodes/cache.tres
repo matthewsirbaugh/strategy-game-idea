@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1")
 kind = "cache"
-display_name = "Data cache"
+display_name = "Prime Data Cache"
 goal = 60
 context_cost = 30
