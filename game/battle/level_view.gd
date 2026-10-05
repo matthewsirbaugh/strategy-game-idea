@@ -43,11 +43,11 @@ const GROUND_SIZE := 400.0
 const RAIN_MARGIN := 10.0
 const PROP_PATH := "res://art/props/%s/%s.glb"
 # Heights in metres, a little bigger than life where a prop has to read from far off.
-const PROP_HEIGHTS := {"access_point": 1.2, "security_camera": 0.6, "server_rack": 2.2, "vault_door": 2.6,
-	"loading_dock": 2.8, "delivery_van": 2.6, "shipping_crates": 1.6, "floodlight_pole": 6.0,
+const PROP_HEIGHTS := {"access_point": 1.2, "security_camera": 0.6, "server_rack": 2.2,
+	"loading_dock": 2.8, "shipping_crates": 1.6, "floodlight_pole": 6.0,
 	"guard_booth": 2.6, "security_door": 2.4}
 # These hang on a wall face; any other prop placed on a wall tile stands in for the wall.
-const MOUNTED := ["vault_door", "loading_dock", "security_door", "access_point", "security_camera"]
+const MOUNTED := ["loading_dock", "security_door", "access_point", "security_camera"]
 # Wall stand-ins sized by height rather than stretched to fill their tiles.
 const KEEP_HEIGHT := ["guard_booth"]
 const CAMERA_MOUNT_Y := 2.1
