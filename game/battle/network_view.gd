@@ -4,9 +4,10 @@ extends Node3D
 # The topology stays aligned with the physical devices beneath it. A network stays hidden until an
 # AI first connects to it; access points always show, since they're panels on the map. Lines from
 # a power hub run to every device on its circuit. Render priority keeps the diagram readable
-# through world geometry without changing picking or network rules.
+# through world geometry without changing picking or network rules. The team and the enemies the
+# team can see show as flat markers on their tiles, under the network.
 
-enum Order { BACKDROP = 1, CIRCUIT, LINK, PACKET, RIM, DISC, RING, ICON, AGENT_RIM, AGENT, LABEL_OUTLINE, LABEL }
+enum Order { BACKDROP = 1, MARKER, MARKER_TEXT, CIRCUIT, LINK, PACKET, RIM, DISC, RING, ICON, AGENT_RIM, AGENT, LABEL_OUTLINE, LABEL }
 
 const BACKDROP_SHADER := preload("res://battle/network_backdrop.gdshader")
 const FLOOR_Y := 0.08
@@ -23,6 +24,9 @@ const CURRENT := Color(1.0, 0.94, 0.76)
 const BREACHED := Color(0.45, 0.93, 0.68)
 const CIRCUIT := Color(1.0, 0.68, 0.28)
 const UNPOWERED := 0.45
+const ENEMY := Color(0.91, 0.48, 0.36)
+const ALERTED := Color(1.0, 0.3, 0.24)
+const MARKER_RADIUS := 0.48
 const FONT := preload("res://art/fonts/BarlowCondensed-SemiBold.ttf")
 const ICONS := {
 	"access": preload("res://art/ui/access.svg"),
@@ -66,6 +70,7 @@ var _state: BattleState
 var _grid: GridView
 var _nodes := {}
 var _agents := {}
+var _markers := {}
 var _fading: Array[Array] = []
 var _labels: Array[Label3D] = []
 var _backdrop: ShaderMaterial
@@ -173,6 +178,8 @@ func refresh() -> void:
 		var shown := is_shown(wire.hub)
 		GridView.place_beam(wire.beam, node_position(wire.hub), node_position(wire.member))
 		wire.beam.visible = shown and wire.beam.visible
+	for unit in _state.units:
+		_refresh_marker(unit)
 	var sharing := {}
 	for id in _agents:
 		var unit: Unit = _state.units[id]
@@ -221,6 +228,68 @@ func _refresh_node(id: String) -> void:
 	if part["progress_value"] != progress:
 		part["progress"].mesh = _arc_mesh(progress)
 		part["progress_value"] = progress
+
+
+# Robots and units deployed mid-battle get their marker the first time they show.
+func _refresh_marker(unit: Unit) -> void:
+	var shown := unit.on_map() and not unit.is_turret() and (unit.is_player() or _state.player_sees(unit))
+	if not shown:
+		if _markers.has(unit.id):
+			_markers[unit.id].visible = false
+		return
+	if not _markers.has(unit.id):
+		_markers[unit.id] = _build_marker(unit)
+	var marker: Node3D = _markers[unit.id]
+	marker.visible = true
+	marker.position = _grid.cell_to_world(unit.cell) + Vector3(0, FLOOR_Y * 0.5, 0)
+	if not unit.is_player():
+		var fill: StandardMaterial3D = marker.get_meta("fill")
+		var alerted := unit.task == Unit.Task.ALERTED and not unit.down and unit.stun <= 0
+		fill.albedo_color = Color(ALERTED if alerted else ENEMY, fill.albedo_color.a)
+
+
+# A disc with the initial for the team, a diamond for an enemy.
+func _build_marker(unit: Unit) -> Node3D:
+	var marker := Node3D.new()
+	var shape: MeshInstance3D
+	var color: Color
+	if unit.is_player():
+		color = unit.def.color.lightened(0.25)
+		var disc := CylinderMesh.new()
+		disc.top_radius = MARKER_RADIUS
+		disc.bottom_radius = MARKER_RADIUS
+		disc.height = 0.01
+		shape = MeshInstance3D.new()
+		shape.mesh = disc
+	else:
+		color = ENEMY
+		var plane := PlaneMesh.new()
+		plane.size = Vector2.ONE * MARKER_RADIUS * 1.5
+		shape = MeshInstance3D.new()
+		shape.mesh = plane
+		shape.rotation.y = PI / 4.0
+	shape.material_override = _ink(Color(color, 0.85), Order.MARKER)
+	marker.set_meta("fill", shape.material_override)
+	marker.add_child(shape)
+	var initial := Label3D.new()
+	initial.text = unit.display_name.get_slice(" ", 1)
+	if unit.is_operator():
+		initial.text = unit.display_name.left(1)
+	elif unit.is_robot():
+		initial.text = unit.def.display_name.left(1)
+	initial.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	initial.no_depth_test = true
+	initial.render_priority = Order.MARKER_TEXT
+	initial.font = FONT
+	initial.font_size = 64
+	initial.pixel_size = 0.0095
+	initial.modulate = INK
+	initial.outline_size = 0
+	initial.position.y = 0.05
+	marker.add_child(initial)
+	_labels.append(initial)
+	add_child(marker)
+	return marker
 
 
 # The current ring circles the active AI's own token, so it stays readable when AIs share a node.

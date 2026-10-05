@@ -125,7 +125,7 @@ anchor_right = 1.0
 offset_left = -294.0
 offset_right = -24.0
 offset_top = 132.0
-offset_bottom = 290.0
+offset_bottom = 320.0
 mouse_filter = 2
 
 [node name="Margin" type="MarginContainer" parent="Root/NetworkLegend"]
@@ -152,6 +152,7 @@ layout_mode = 2
 text = "Device symbols / AI initials
 Mint: breached   /   White: selected
 Amber lines: a power hub's circuit
+Discs: team  /  Diamonds: seen enemies
 Unknown networks stay hidden"
 theme_override_font_sizes/font_size = 18
 
