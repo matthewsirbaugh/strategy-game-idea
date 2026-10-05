@@ -94,7 +94,7 @@ size_flags_vertical = 4
 focus_mode = 0
 toggle_mode = true
 text = "SCAN   [I]"
-tooltip_text = "Show every device: what it is, its state, and what the team can do with it"
+tooltip_text = "Mark every device the team has Breached, with its state. Hover a mark for details"
 
 [node name="NetworkToggle" type="Button" parent="Root/Header/Margin/Columns"]
 unique_name_in_owner = true

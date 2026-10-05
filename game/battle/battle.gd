@@ -27,6 +27,8 @@ const PACK_Y := 1.3
 const CHEST_Y := 1.3
 const TERMINAL_Y := 1.0
 const PICK_RADIUS := 0.45
+# Screen pixels around a scan badge that count as hovering it.
+const BADGE_RADIUS := 30.0
 const BEAM_Y := 0.35
 const PICK_LAYERS: Array[String] = ["pick_safe", "pick_noticed", "pick_seen"]
 const PREVIEW_LAYERS: Array[String] = ["preview_area", "preview_responders"]
@@ -38,7 +40,7 @@ var state: BattleState
 var _views := {}
 var _last_seen := {}
 var _tethers := {}
-var _scan_labels := {}
+var _scan_badges := {}
 var _beams: Array[MeshInstance3D] = []
 var _busy := true
 var _mode := Mode.IDLE
@@ -77,11 +79,7 @@ func _ready() -> void:
 	for unit in state.units:
 		_add_view(unit)
 	for id in state.devices:
-		var label := UnitView.make_label(34, 0.0)
-		label.modulate = Color(0.75, 1.0, 0.95)
-		label.visible = false
-		add_child(label)
-		_scan_labels[id] = label
+		_scan_badges[id] = _make_badge(state.map.node_kind(id))
 	var team := Vector3.ZERO
 	for cell in state.map.player_starts():
 		team += _grid.cell_to_world(cell) / state.map.player_starts().size()
@@ -574,45 +572,67 @@ func _set_scan(shown: bool) -> void:
 	_refresh_scan()
 
 
-# Hitman's Instinct, for devices: what each one is, its state, and what the team can do with it.
+# What the team controls: a badge over every Breached device with its state. Hovering a badge
+# shows the device's full card.
 func _refresh_scan() -> void:
-	var unit := state.active
-	for id in _scan_labels:
-		var label: Label3D = _scan_labels[id]
-		label.visible = _scan and not _network_shown and not _hidden_turret(id)
-		if not label.visible:
+	for id in _scan_badges:
+		var badge: Node3D = _scan_badges[id]
+		badge.visible = _scan and not _network_shown and state.breached.has(id) and state.map.node_kind(id) != "access" and not _hidden_turret(id)
+		if not badge.visible:
 			continue
-		var def := state.node_def(id)
-		var device: Dictionary = state.devices[id]
-		var lines: Array[String] = ["%s %s" % [def.display_name.to_upper(), id.to_upper()]]
-		var known := state.revealed_networks.has(state.map.network_of(id))
-		if def.kind == "access":
-			lines.append("AI entry · " + state.map.network_of(id))
-		elif not known:
-			lines.append("network unknown")
-		elif state.breached.has(id):
-			var verbs := ", ".join(def.verbs) if not def.verbs.is_empty() else ("controls: target or hold" if def.kind == "turret" else "secured")
-			lines.append("BREACHED   " + verbs)
-		elif def.goal > 0:
-			lines.append("Hack %d / %d   %s" % [state.progress.get(id, 0), def.goal, def.category])
-		var status: Array[String] = []
-		if def.verbs.has("power"):
-			status.append("on" if device.powered else "off")
-		if def.kind in NodeDef.DOORS:
-			status.append(("open" if device.open else "shut") + (", locked" if device.locked else ""))
-		if def.sound_radius > 0:
-			status.append("sound %d%s" % [def.sound_radius, " all" if def.sound_all else ""])
-		if state.map.hub_of(id) != "":
-			status.append("circuit " + state.map.hub_of(id).to_upper())
-		if not status.is_empty():
-			lines.append("  ·  ".join(status))
-		label.text = "\n".join(lines)
-		label.position = _grid.cell_to_world(state.node_cell(id)) + Vector3(0, _level.device_height(id) + 0.6, 0)
-	if unit and _scan:
-		var spots := state.map.receptacle_places().keys().map(state.receptacle_cell)
-		_grid.set_overlay("scan_receptacles", spots, PLACE_COLOR, 0.025)
-	else:
-		_grid.clear_overlay("scan_receptacles")
+		var status := NetworkView.status(state, id)
+		badge.get_node("State").text = "%s   %s" % [id.to_upper(), status if status != "" else "BREACHED"]
+		badge.position = _grid.cell_to_world(state.node_cell(id)) + Vector3(0, _level.device_height(id) + 0.6, 0)
+
+
+func _make_badge(kind: String) -> Node3D:
+	var badge := Node3D.new()
+	var ring := Gradient.new()
+	ring.offsets = PackedFloat32Array([0.0, 0.8, 0.84, 0.94, 0.97])
+	ring.colors = PackedColorArray([Color(NetworkView.INK, 0.92), Color(NetworkView.INK, 0.92), NetworkView.BREACHED, NetworkView.BREACHED, Color(NetworkView.BREACHED, 0.0)])
+	var disc_texture := GradientTexture2D.new()
+	disc_texture.gradient = ring
+	disc_texture.fill = GradientTexture2D.FILL_RADIAL
+	disc_texture.fill_from = Vector2(0.5, 0.5)
+	disc_texture.fill_to = Vector2(1.0, 0.5)
+	disc_texture.width = 96
+	disc_texture.height = 96
+	var disc := _badge_sprite(disc_texture, 1)
+	var icon := _badge_sprite(NetworkView.ICONS[kind], 2)
+	icon.modulate = NetworkView.COLORS[kind]
+	var label := UnitView.make_label(28, 0.0)
+	label.name = "State"
+	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	label.offset = Vector2(0, -72)
+	label.modulate = Color(0.8, 1.0, 0.9)
+	label.render_priority = 4
+	label.outline_render_priority = 3
+	for part in [disc, icon, label]:
+		badge.add_child(part)
+	badge.visible = false
+	add_child(badge)
+	return badge
+
+
+func _badge_sprite(texture: Texture2D, order: int) -> Sprite3D:
+	var sprite := Sprite3D.new()
+	sprite.texture = texture
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.no_depth_test = true
+	sprite.fixed_size = true
+	sprite.pixel_size = 0.0006 * 64.0 / texture.get_width()
+	sprite.render_priority = order
+	return sprite
+
+
+# The device whose scan badge is under the cursor, if any.
+func _badge_at(screen_position: Vector2) -> String:
+	var camera := get_viewport().get_camera_3d()
+	for id in _scan_badges:
+		var badge: Node3D = _scan_badges[id]
+		if badge.visible and not camera.is_position_behind(badge.position) and camera.unproject_position(badge.position).distance_to(screen_position) < BADGE_RADIUS:
+			return id
+	return ""
 
 
 # A turret the team can't see stays hidden, scan or not.
@@ -819,6 +839,10 @@ func _on_hover_changed(cell: Variant) -> void:
 func _pointed_cell(screen_position: Vector2, token: Unit) -> Variant:
 	if token:
 		return state.node_cell(token.ai_node)
+	if _scan and not _network_shown and _mode != Mode.PICK:
+		var device := _badge_at(screen_position)
+		if device != "":
+			return state.node_cell(device)
 	var cell: Variant = _cell_at(screen_position)
 	if cell != null and not _network_shown:
 		var picked := _unit_at_screen(screen_position)
