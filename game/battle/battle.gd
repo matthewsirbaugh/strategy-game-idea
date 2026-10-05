@@ -88,7 +88,6 @@ func _ready() -> void:
 	_camera_rig.setup(team.lerp(_grid.center(), 0.28), _grid.extent())
 	_hud.action_chosen.connect(_on_action)
 	_hud.action_hovered.connect(_on_action_hovered)
-	_hud.actions_requested.connect(_on_actions_requested)
 	_hud.menu_cancelled.connect(func() -> void: _mode = Mode.IDLE)
 	_hud.network_toggled.connect(_on_network_toggled)
 	_hud.scan_toggled.connect(_set_scan)
@@ -214,12 +213,6 @@ func _on_operator_chosen(id: int) -> void:
 
 
 # --- Menus ---------------------------------------------------------------------------------------
-
-func _on_actions_requested() -> void:
-	if _busy or _network_moving or not state.is_player_controlled(state.active):
-		return
-	_open_menu()
-
 
 func _open_menu(actions: Array = [], title := "") -> void:
 	var unit := state.active
@@ -398,10 +391,16 @@ func _click(screen_position: Vector2) -> void:
 	var token := _token_at(screen_position)
 	var cell: Variant = _pointed_cell(screen_position, token)
 	if cell == null or not _is_choice(cell, token):
+		if _mode == Mode.IDLE and not _busy and _hud.viewed() != state.active:
+			_hud.view_unit(state, null)
 		return
 	var unit := state.active
+	var teammate := _teammate_at(cell, token)
 	match _mode:
+		Mode.IDLE when teammate != null:
+			_hud.view_unit(state, teammate)
 		Mode.IDLE:
+			_hud.view_unit(state, null)
 			var node := state.node_at(cell) if _network_shown else ""
 			if node != "" and token == null and state.verb_options(unit).any(func(option: Dictionary) -> bool: return option.node == node):
 				_open_menu(BattleMenus.device_actions(state, unit, node), "%s %s" % [state.node_def(node).display_name.to_upper(), node.to_upper()])
@@ -418,6 +417,8 @@ func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 		return false
 	match _mode:
 		Mode.IDLE:
+			if _teammate_at(cell, token) != null:
+				return true
 			if _network_shown:
 				if token:
 					return token == unit
@@ -428,6 +429,16 @@ func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 		Mode.PICK:
 			return _choices.has(cell)
 	return false
+
+
+# Clicking a teammate who isn't acting shows their panel instead of a menu.
+func _teammate_at(cell: Vector2i, token: Unit) -> Unit:
+	var other := token
+	if other == null and not _network_shown:
+		other = state.unit_at(cell)
+	if other == null or other == state.active or other.down or not state.is_player_controlled(other):
+		return null
+	return other
 
 
 # --- What happened -------------------------------------------------------------------------------

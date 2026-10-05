@@ -3,7 +3,6 @@ extends CanvasLayer
 
 signal action_chosen(id: String)
 signal action_hovered(id: String)
-signal actions_requested
 signal menu_cancelled
 signal network_toggled(shown: bool)
 signal scan_toggled(shown: bool)
@@ -27,7 +26,6 @@ const CHIP_UNLOADED := Color(0.55, 0.62, 0.64)
 @onready var _context_ring: ContextRing = %ContextRing
 @onready var _context_label: Label = %ContextLabel
 @onready var _chips: HBoxContainer = %Chips
-@onready var _hint: Label = %Hint
 @onready var _action_menu: Control = %ActionMenu
 @onready var _action_list: VBoxContainer = %ActionList
 @onready var _network_toggle: Button = %NetworkToggle
@@ -43,12 +41,15 @@ const CHIP_UNLOADED := Color(0.55, 0.62, 0.64)
 var _inspect: PanelContainer
 var _inspect_text: Label
 var _card: Dictionary
+var _controls_text: String
+# The team member the panel shows: the active unit, or a teammate the player clicked.
+var _viewed: Unit
 
 
 func _ready() -> void:
 	_network_toggle.toggled.connect(network_toggled.emit)
 	_scan_toggle.toggled.connect(scan_toggled.emit)
-	%ActionsButton.pressed.connect(actions_requested.emit)
+	_controls_text = %Controls.text
 	_restart.pressed.connect(SceneRouter.restart_battle)
 	%ChangeLoadout.pressed.connect(SceneRouter.goto_loadout)
 	_quit.pressed.connect(SceneRouter.goto_title)
@@ -83,64 +84,73 @@ func show_turn(state: BattleState) -> void:
 	var active := state.active
 	_active_panel.visible = active != null and state.is_player_controlled(active)
 	if _active_panel.visible:
-		show_active(state)
+		if _viewed == null or _viewed.down or not _viewed.on_map() or not state.is_player_controlled(_viewed):
+			_viewed = active
+		_show_unit(state, _viewed)
+	set_hint("")
 
 
-func show_active(state: BattleState) -> void:
-	var unit := state.active
+# Shows a teammate's resources without giving them the turn. null goes back to the active unit.
+func view_unit(state: BattleState, unit: Unit) -> void:
+	_viewed = unit
+	show_turn(state)
+
+
+func viewed() -> Unit:
+	return _viewed
+
+
+func _show_unit(state: BattleState, unit: Unit) -> void:
 	var accent := unit.def.color.lightened(0.2)
+	var acting := unit == state.active
 	_initial.text = unit.display_name.left(1)
 	_initial.add_theme_color_override("font_color", accent)
 	var badge_style := StyleBoxFlat.new()
-	badge_style.bg_color = Color(accent, 0.12)
-	badge_style.border_color = accent
+	badge_style.bg_color = Color(accent, 0.12 if acting else 0.05)
+	badge_style.border_color = accent if acting else Color(accent, 0.5)
 	badge_style.set_border_width_all(1)
-	badge_style.border_width_bottom = 3
+	badge_style.border_width_bottom = 3 if acting else 1
 	_badge.add_theme_stylebox_override("panel", badge_style)
-	if unit.is_robot():
-		_show_robot(state, unit)
-		return
-	_phase_label.text = "OPERATOR + AI / YOUR TURN" + ("   ·   " + unit.role.to_upper() if unit.role != "" else "")
+	# AP refills when a turn starts, so a waiting teammate shows what they'll start with.
+	var turn := "YOUR TURN" if acting else "WAITING  ·  AP AT TURN START"
+	var ap := unit.ap if acting else (unit.def.ap if unit.is_robot() else unit.base_ap)
+	var ai_ap := unit.ai_ap if acting else (0 if unit.rebooting > 0 else BattleState.AI_AP + unit.incoming)
 	_active_name.text = unit.display_name
-	var shot := "READY"
+	if unit.is_robot():
+		_phase_label.text = "ROBOT  ·  " + turn
+		var stun := "        STUN  ready" if unit.stun_charges > 0 else ("        STUN  used" if unit.def.stun_charges > 0 else "")
+		_active_stats.text = "AP  %s  %d/%d%s" % [_pips(ap, unit.def.ap), ap, unit.def.ap, stun]
+		%ContextRow.visible = false
+		_show_chips(state, null)
+		return
+	_phase_label.text = (unit.role.get_slice(":", 0).to_upper() if unit.role != "" else "OPERATOR") + "  ·  " + turn
+	var shot := "ready"
 	if unit.overwatch:
-		shot = "OVERWATCH"
+		shot = "overwatch"
 	elif unit.sprinted:
-		shot = "GIVEN UP (SPRINTED)"
+		shot = "given up"
 	elif unit.shot_used:
-		shot = "USED"
+		shot = "used"
 	var gear := ""
 	if unit.robot_def:
-		gear = unit.robot_def.display_name.to_upper() + ("  deployed" if unit.robot >= 0 and not state.units[unit.robot].down else "  lost" if unit.robot >= 0 else "  ready")
+		var deployed := unit.robot >= 0 and not state.units[unit.robot].down
+		gear = "%s  %s" % [unit.robot_def.display_name.to_upper(), "out" if deployed else "lost" if unit.robot >= 0 else "ready"]
 	elif unit.flashbangs > 0:
-		gear = "FLASHBANG ×%d" % unit.flashbangs
-	var ai := "in the backpack"
+		gear = "FLASHBANG  ×%d" % unit.flashbangs
+	var ai := "backpack"
 	if unit.connected():
-		ai = "on %s (%s)%s" % [unit.ai_node.to_upper(), state.map.network_of(unit.ai_node), "  via relay" if unit.relay >= 0 else ""]
+		ai = unit.ai_node.to_upper() + ("  via relay" if unit.relay >= 0 else "")
 	elif unit.rebooting > 0:
 		ai = "rebooting"
-	_active_stats.text = "AP  %s  %d/%d        SHOT  %s\nAI AP  %s  %d%s        ARMOR  %s\nAI %s        %s" % [
-		_pips(unit.ap, unit.base_ap), unit.ap, unit.base_ap, shot,
-		_pips(unit.ai_ap, maxi(unit.ai_ap, BattleState.AI_AP)), unit.ai_ap, "  (+%d next turn)" % unit.incoming if unit.incoming > 0 else "",
-		"■".repeat(unit.max_hits - unit.hits) + "□".repeat(unit.hits), ai, gear]
-	_context_ring.visible = true
+	_active_stats.text = "AP  %s  %d/%d        AI AP  %s  %d%s\nARMOR  %s        SHOT  %s        AI  %s%s" % [
+		_pips(ap, unit.base_ap), ap, unit.base_ap,
+		_pips(ai_ap, maxi(ai_ap, BattleState.AI_AP)), ai_ap, "  incl. +%d shared" % unit.incoming if unit.incoming > 0 and not acting else "",
+		"■".repeat(unit.max_hits - unit.hits) + "□".repeat(unit.hits), shot, ai, "        " + gear if gear != "" else ""]
+	%ContextRow.visible = true
 	_context_ring.fill = float(unit.context) / BattleState.CONTEXT_MAX
 	_context_label.text = "CONTEXT   %dM / %dM" % [unit.context, BattleState.CONTEXT_MAX]
 	_context_label.tooltip_text = "Context used: %d million of %d million tokens. Hacks, chips and verbs fill it; Compact frees space but degrades loaded chips." % [unit.context, BattleState.CONTEXT_MAX]
 	_show_chips(state, unit)
-	_hint.text = "Select %s on the map, or open Actions. Space ends the turn." % unit.display_name
-
-
-func _show_robot(state: BattleState, unit: Unit) -> void:
-	_phase_label.text = "ROBOT / YOUR TURN"
-	_active_name.text = unit.display_name
-	var stun := "   STUN ready" if unit.stun_charges > 0 else ("   STUN used" if unit.def.stun_charges > 0 else "")
-	_active_stats.text = "AP  %s  %d/%d%s\nRelays an AI from within %d tiles of an access point" % [
-		_pips(unit.ap, unit.def.ap), unit.ap, unit.def.ap, stun, BattleState.TETHER]
-	_context_ring.visible = false
-	_context_label.text = ""
-	_show_chips(state, null)
-	_hint.text = "Select the robot on the map, or open Actions."
 
 
 func _pips(left: int, total: int) -> String:
@@ -243,8 +253,10 @@ func set_objective(text: String) -> void:
 	_objective.text = text
 
 
+# What the player is being asked to do, in the footer; empty shows the controls again.
 func set_hint(text: String) -> void:
-	_hint.text = text
+	%Controls.text = text if text != "" else _controls_text
+	%Controls.add_theme_color_override("font_color", Color(1.0, 0.86, 0.6) if text != "" else Color(0.65, 0.74, 0.74))
 
 
 func close_menu() -> void:

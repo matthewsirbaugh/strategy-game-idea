@@ -161,21 +161,21 @@ layout_mode = 1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_right = 600.0
-offset_top = -330.0
+offset_right = 544.0
+offset_top = -250.0
 offset_bottom = -66.0
 grow_vertical = 0
 
 [node name="Margin" type="MarginContainer" parent="Root/ActivePanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 18
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_top = 18
-theme_override_constants/margin_bottom = 18
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_bottom = 14
 
 [node name="Rows" type="VBoxContainer" parent="Root/ActivePanel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Identity" type="HBoxContainer" parent="Root/ActivePanel/Margin/Rows"]
 layout_mode = 2
@@ -183,7 +183,7 @@ theme_override_constants/separation = 14
 
 [node name="Badge" type="PanelContainer" parent="Root/ActivePanel/Margin/Rows/Identity"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 60)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 
 [node name="Initial" type="Label" parent="Root/ActivePanel/Margin/Rows/Identity/Badge"]
@@ -192,7 +192,7 @@ text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
 unique_name_in_owner = true
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 28
 
 [node name="NameRows" type="VBoxContainer" parent="Root/ActivePanel/Margin/Rows/Identity"]
 layout_mode = 2
@@ -210,22 +210,16 @@ theme_override_font_sizes/font_size = 16
 layout_mode = 2
 text = ""
 unique_name_in_owner = true
-theme_override_font_sizes/font_size = 32
-
-[node name="ActionsButton" type="Button" parent="Root/ActivePanel/Margin/Rows/Identity"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
-text = "ACTIONS  →"
-focus_mode = 0
+theme_override_font_sizes/font_size = 28
 
 [node name="ActiveStats" type="Label" parent="Root/ActivePanel/Margin/Rows"]
 layout_mode = 2
 text = ""
 unique_name_in_owner = true
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 19
 
 [node name="ContextRow" type="HBoxContainer" parent="Root/ActivePanel/Margin/Rows"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 
@@ -246,13 +240,6 @@ theme_override_font_sizes/font_size = 19
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 6
-
-[node name="Hint" type="Label" parent="Root/ActivePanel/Margin/Rows"]
-layout_mode = 2
-text = ""
-theme_override_colors/font_color = Color(0.69, 0.78, 0.77, 1)
-unique_name_in_owner = true
-theme_override_font_sizes/font_size = 18
 
 [node name="LogPanel" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
@@ -307,8 +294,9 @@ offset_bottom = -14.0
 mouse_filter = 2
 
 [node name="Controls" type="Label" parent="Root/Footer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "CLICK  Actions     /     SPACE  End turn     /     N  Network     /     I  Scan     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
+text = "CLICK  Actions or a teammate     /     SPACE  End turn     /     N  Network     /     I  Scan     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
 horizontal_alignment = 1
 vertical_alignment = 1
 mouse_filter = 2

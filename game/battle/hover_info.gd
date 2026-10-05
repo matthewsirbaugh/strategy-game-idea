@@ -74,7 +74,7 @@ static func _unit(state: BattleState, unit: Unit) -> Dictionary:
 		elif unit.rebooting > 0:
 			ai = "AI rebooting"
 		lines.append({"text": ai, "color": MUTED})
-		return {"kicker": "OPERATOR" + ("  ·  " + unit.role.to_upper() if unit.role != "" else ""), "title": unit.display_name,
+		return {"kicker": "OPERATOR" + ("  ·  " + unit.role.get_slice(":", 0).to_upper() if unit.role != "" else ""), "title": unit.display_name,
 			"initial": unit.display_name.left(1), "color": unit.def.color.lightened(0.2), "lines": lines}
 	if unit.is_robot():
 		if unit.down:
