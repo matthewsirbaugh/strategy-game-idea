@@ -86,10 +86,10 @@ static func sound(state: BattleState, source: String, cell: Vector2i, radius: in
 # who can see them; a camera's feed going dark draws the closest guard wherever it is.
 static func _lure(state: BattleState, id: String, flash: bool) -> Dictionary:
 	var kind := state.map.node_kind(id)
-	if not flash and kind not in ["light", "camera", "nvcamera"]:
+	if not flash and kind != "light" and kind not in NodeDef.CAMERAS:
 		return {}
 	var cell := state.node_cell(id)
-	var responders := Perception.responders_to(state, cell, 999, false, kind != "camera" and kind != "nvcamera")
+	var responders := Perception.responders_to(state, cell, 999, false, kind not in NodeDef.CAMERAS)
 	for guard in responders:
 		Perception.investigate(state, guard, cell)
 	return {"type": "lure", "unit": null, "node": id, "cell": cell, "responders": responders}

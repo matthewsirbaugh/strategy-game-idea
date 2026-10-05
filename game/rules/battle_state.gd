@@ -38,8 +38,6 @@ const DARK_RANGE := 2
 const WAKE_SOUND := 4
 const DOG_STUN_COST := 1
 
-const DOORS := ["door", "autodoor"]
-const VEHICLES := ["car", "truck"]
 const MOVEMENT := "movement"
 const LOCATE := "locate"
 const PREDICT := "predict"
@@ -491,9 +489,9 @@ func blocks_walk(cell: Vector2i, flying := false) -> bool:
 	var id := node_at(cell)
 	if id != "":
 		var kind := map.node_kind(id)
-		if kind in DOORS:
+		if kind in NodeDef.DOORS:
 			return not devices[id].open
-		return kind not in VEHICLES or not flying
+		return kind not in NodeDef.VEHICLES or not flying
 	return map.is_low(cell) and not flying
 
 
@@ -504,9 +502,9 @@ func blocks_sight(cell: Vector2i, high := false) -> bool:
 	var id := node_at(cell)
 	if id != "":
 		var kind := map.node_kind(id)
-		if kind in DOORS:
+		if kind in NodeDef.DOORS:
 			return not devices[id].open
-		if kind in VEHICLES:
+		if kind in NodeDef.VEHICLES:
 			return not high
 		return map.in_wall(cell)
 	return map.is_low(cell) and not high
@@ -845,7 +843,7 @@ func peek_options(unit: Unit) -> Array[String]:
 	var result: Array[String] = []
 	if not _hands_free(unit) or unit.ap < PEEK_COST:
 		return result
-	for id in _adjacent_nodes(unit.cell, DOORS):
+	for id in _adjacent_nodes(unit.cell, NodeDef.DOORS):
 		if not devices[id].open and not unit.peeks.has(id):
 			result.append(id)
 	return result
@@ -967,18 +965,16 @@ func put_down(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
 
 
 func receptacle_at(cell: Vector2i) -> String:
-	for line in map.receptacles:
-		var parts := line.split(" ", false)
-		if parts[0] == "dumpster" and MapData._cell(parts[1]) == cell:
-			return "dumpster:" + parts[1]
-		if parts[0] == "trunk" and node_cell(parts[1]) == cell:
-			return "trunk:" + parts[1]
+	for key in map.receptacle_places():
+		if receptacle_cell(key) == cell:
+			return key
 	return ""
 
 
+# Where a receptacle is now: a trunk goes where its vehicle drove.
 func receptacle_cell(key: String) -> Vector2i:
-	var parts := key.split(":")
-	return node_cell(parts[1]) if parts[0] == "trunk" else MapData._cell(parts[1])
+	var place: Variant = map.receptacle_places()[key]
+	return node_cell(place) if place is String else place
 
 
 func flashbang_cells(unit: Unit) -> Array[Vector2i]:
@@ -1430,7 +1426,7 @@ func verb_options(unit: Unit) -> Array[Dictionary]:
 		if not breached.has(id) or map.network_of(id) != map.network_of(unit.ai_node):
 			continue
 		for verb in node_def(id).verbs:
-			var directions := [1, -1] if verb == "activate" and map.node_kind(id) in VEHICLES else [1]
+			var directions := [1, -1] if verb == "activate" and map.node_kind(id) in NodeDef.VEHICLES else [1]
 			for direction in directions:
 				result.append({"node": id, "verb": verb, "direction": direction,
 					"enabled": Devices.can_use(self, unit, id, verb, direction)})

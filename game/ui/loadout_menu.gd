@@ -26,7 +26,7 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 56)
 	rows.add_child(title)
 	var note := Label.new()
-	note.text = "Each Operator carries armor, one robot or two flashbangs, and up to 3 chips plus the movement chip."
+	note.text = "Each Operator carries armor, one robot or %d flashbangs, and up to %d chips plus the movement chip." % [Loadout.FLASHBANGS, Loadout.MAX_CHIPS]
 	note.add_theme_color_override("font_color", Color(0.79, 0.83, 0.79))
 	rows.add_child(note)
 	_columns = HBoxContainer.new()
@@ -80,9 +80,10 @@ func _column(operator: UnitDef, loadout: Loadout) -> Control:
 	role.theme_type_variation = &"Kicker"
 	rows.add_child(role)
 	rows.add_child(_choice("ARMOR", Loadout.ARMOR_NAMES, loadout.armor, func(index: int) -> void: loadout.armor = index as Loadout.Armor,
-		["No armor: down after 1 hit", "Basic: 2 hits", "Heavy: 3 hits, but 7 AP a turn"]))
+		["No armor: down after %d hit" % Loadout.HITS[0], "Basic: %d hits" % Loadout.HITS[1],
+			"Heavy: %d hits, but %d AP a turn" % [Loadout.HITS[2], operator.ap - Loadout.HEAVY_AP_COST]]))
 	rows.add_child(_choice("GEAR", Loadout.GEAR_NAMES, loadout.gear, func(index: int) -> void: loadout.gear = index as Loadout.Gear,
-		["Drone: 6 AP, speed 7, flies over low obstacles", "Dog bot: 8 AP, carries a single-use stun", "Flashbangs: 2 AP each, thrown up to 5 tiles"]))
+		_gear_tips()))
 	var chips_title := Label.new()
 	chips_title.text = "CHIPS  (up to %d)" % Loadout.MAX_CHIPS
 	chips_title.theme_type_variation = &"Kicker"
@@ -114,7 +115,15 @@ func _column(operator: UnitDef, loadout: Loadout) -> Control:
 	return panel
 
 
-# With 3 chips picked, the rest can't be ticked until one comes off.
+func _gear_tips() -> Array:
+	var drone := _session.content.drone
+	var dog := _session.content.dog_bot
+	return ["%s: %d AP, speed %d, flies over low obstacles" % [drone.display_name, drone.ap, drone.speed],
+		"%s: %d AP, carries a single-use stun" % [dog.display_name, dog.ap],
+		"Flashbangs: %d AP each, thrown up to %d tiles" % [BattleState.FLASHBANG_COST, BattleState.FLASHBANG_RANGE]]
+
+
+# With the most chips picked, the rest can't be ticked until one comes off.
 func _limit(boxes: Array[CheckBox], loadout: Loadout) -> void:
 	for box in boxes:
 		box.disabled = not box.button_pressed and loadout.chips.size() >= Loadout.MAX_CHIPS

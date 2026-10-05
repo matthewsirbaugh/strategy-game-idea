@@ -5,7 +5,6 @@ class_name Perception
 
 enum Tier { NONE, NOTICED, SEEN }
 
-const CAMERAS := ["camera", "nvcamera"]
 
 
 static func compute_lit(state: BattleState) -> Dictionary:
@@ -37,7 +36,7 @@ static func viewers(state: BattleState) -> Array[Dictionary]:
 			result.append({"unit": unit, "origin": unit.cell, "facing": unit.facing, "seen": unit.def.seen_range,
 				"noticed": unit.def.noticed_range, "dark": false, "high": false, "camera": false})
 	for id in state.devices:
-		if state.map.node_kind(id) in CAMERAS and state.devices[id].powered and not state.breached.has(id):
+		if state.map.node_kind(id) in NodeDef.CAMERAS and state.devices[id].powered and not state.breached.has(id):
 			result.append(camera_viewer(state, id))
 	return result
 
@@ -96,7 +95,7 @@ static func team_vision(state: BattleState) -> Dictionary:
 		for door in state.active.peeks:
 			_add_sight(state, result, state.node_cell(door), state.active.def.sight, false)
 	for id in state.devices:
-		if state.map.node_kind(id) in CAMERAS and state.breached.has(id) and state.devices[id].powered:
+		if state.map.node_kind(id) in NodeDef.CAMERAS and state.breached.has(id) and state.devices[id].powered:
 			var viewer := camera_viewer(state, id)
 			for cell in cone_cells(state, viewer):
 				result[cell] = true
@@ -261,7 +260,7 @@ static func _carries_sound(state: BattleState, cell: Vector2i) -> bool:
 	var id := state.node_at(cell)
 	if id == "":
 		return true
-	if state.map.node_kind(id) in BattleState.DOORS:
+	if state.map.node_kind(id) in NodeDef.DOORS:
 		return state.devices[id].open
 	return not state.map.in_wall(cell)
 

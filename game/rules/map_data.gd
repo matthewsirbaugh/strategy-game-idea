@@ -36,7 +36,6 @@ extends Resource
 
 const FACINGS := {"south": 0.0, "east": PI / 2.0, "north": PI, "west": -PI / 2.0}
 const STATE_WORDS := ["on", "off", "locked", "open"]
-const VEHICLES := ["car", "truck"]
 
 var size := Vector2i.ZERO
 var _parsed := false
@@ -54,6 +53,7 @@ var _zone_of_cell := {}
 var _zone_of_node := {}
 var _network_of := {}
 var _circuit_of := {}
+var _receptacles := {}
 
 
 # Everything that would corrupt a battle, each naming this resource and the field at fault.
@@ -107,7 +107,7 @@ func validate() -> PackedStringArray:
 			errors.append(field_error("receptacles[%d]" % i, "'%s' should read 'dumpster x,y' or 'trunk id'" % receptacles[i]))
 		elif parts[0] == "dumpster" and (_cell(parts[1]) == null or not _low.has(_cell(parts[1]))):
 			errors.append(field_error("receptacles[%d]" % i, "'%s' should stand on a low obstacle (=)" % receptacles[i]))
-		elif parts[0] == "trunk" and node_kind(parts[1]) not in VEHICLES:
+		elif parts[0] == "trunk" and node_kind(parts[1]) not in NodeDef.VEHICLES:
 			errors.append(field_error("receptacles[%d]" % i, "'%s' should name a car or truck node" % receptacles[i]))
 	for id in node_states:
 		if not _nodes.has(id) or not node_states[id] is String or node_states[id] not in STATE_WORDS:
@@ -287,6 +287,13 @@ func zone_at(cell: Vector2i) -> String:
 	return _zone_of_cell.get(cell, "")
 
 
+# Each receptacle by key, "dumpster:x,y" or "trunk:id": the dumpster's tile, or the id of the
+# vehicle the trunk rides on.
+func receptacle_places() -> Dictionary:
+	_parse()
+	return _receptacles
+
+
 func player_starts() -> Array[Vector2i]:
 	_parse()
 	return _player_starts
@@ -346,6 +353,12 @@ func _parse() -> void:
 			else:
 				for cell in _zone_cells(token):
 					_zone_of_cell[cell] = zone
+	for line in receptacles:
+		var parts := line.split(" ", false)
+		if parts.size() == 2 and parts[0] == "dumpster" and _cell(parts[1]) != null:
+			_receptacles["dumpster:" + parts[1]] = _cell(parts[1])
+		elif parts.size() == 2 and parts[0] == "trunk":
+			_receptacles["trunk:" + parts[1]] = parts[1]
 
 
 func _read_tile(tile: String, cell: Vector2i) -> void:

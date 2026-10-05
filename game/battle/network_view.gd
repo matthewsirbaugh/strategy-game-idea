@@ -441,7 +441,7 @@ func _status(id: String) -> String:
 		"cache":
 			if _state.breached.has(id):
 				words.append("SECURED")
-	if _state.node_def(id).verbs.has("power") and _state.map.node_kind(id) not in BattleState.DOORS:
+	if _state.node_def(id).verbs.has("power") and _state.map.node_kind(id) not in NodeDef.DOORS:
 		words.push_front("ON" if device.powered else "OFF")
 	return "   ".join(words)
 

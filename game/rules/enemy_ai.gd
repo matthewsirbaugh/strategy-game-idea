@@ -26,9 +26,7 @@ static func _guard(state: BattleState, guard: Unit) -> Array[Dictionary]:
 	match guard.task:
 		Unit.Task.ALERTED:
 			_chase(state, guard, events)
-		Unit.Task.SEARCHING:
-			_check_spot(state, guard, events)
-		Unit.Task.INVESTIGATE:
+		Unit.Task.SEARCHING, Unit.Task.INVESTIGATE:
 			_check_spot(state, guard, events)
 		_:
 			_patrol(state, guard, events)

@@ -129,13 +129,13 @@ func update_nodes(state: BattleState) -> void:
 			if state.breached.has(id):
 				color = BREACHED_COLOR if device.powered or not state.node_def(id).verbs.has("power") else BREACHED_COLOR.darkened(0.5)
 			model.tint = color
-			if kind in BattleState.DOORS:
+			if kind in NodeDef.DOORS:
 				model.visible = not device.open
 		for light: Light3D in parts.get("lights", []):
 			light.visible = device.powered
 		for glow: GeometryInstance3D in parts.get("glows", []):
 			glow.visible = device.powered
-		if kind in BattleState.VEHICLES and not parts.get("moving", false):
+		if kind in NodeDef.VEHICLES and not parts.get("moving", false):
 			parts.root.position = _grid.cell_to_world(device.cell)
 
 
@@ -257,7 +257,7 @@ func _build_device(id: String, filled: Dictionary) -> void:
 		return
 	var cell := map.node_cell(id)
 	var at := _grid.cell_to_world(cell)
-	var set_in_wall := map.in_wall(cell) and kind not in BattleState.DOORS
+	var set_in_wall := map.in_wall(cell) and kind not in NodeDef.DOORS
 	var facing := map.node_facing(id)
 	if set_in_wall and not filled.has(cell):
 		_add_wall(cell, _wall_style(_wall_beside(cell) + cell))
@@ -390,11 +390,10 @@ func _ad_screen(root: Node3D) -> MeshInstance3D:
 
 # Dumpsters, where the map keeps them.
 func _build_receptacles() -> void:
-	for line in map.receptacles:
-		var parts := line.split(" ", false)
-		if parts[0] != "dumpster":
+	for place: Variant in map.receptacle_places().values():
+		if place is String:
 			continue
-		var cell: Vector2i = MapData._cell(parts[1])
+		var cell: Vector2i = place
 		var root := _place_root(_grid.cell_to_world(cell), Vector2i(0, 1))
 		_toon_body(root, [[Vector3(1.35, 1.0, 1.0), Vector3(0, 0.5, 0), Color(0.16, 0.32, 0.22)],
 			[Vector3(1.4, 0.08, 1.05), Vector3(0, 1.04, -0.02), Color(0.1, 0.2, 0.14)]])

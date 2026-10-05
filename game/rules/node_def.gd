@@ -3,6 +3,9 @@ extends Resource
 
 const KINDS := ["access", "door", "autodoor", "camera", "nvcamera", "turret", "cache", "light", "phone",
 	"machine", "adscreen", "car", "truck", "hub"]
+const DOORS := ["door", "autodoor"]
+const VEHICLES := ["car", "truck"]
+const CAMERAS := ["camera", "nvcamera"]
 
 @export var kind := ""
 @export var display_name := ""

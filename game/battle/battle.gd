@@ -249,7 +249,7 @@ func _operator_actions(unit: Unit) -> Array:
 	if not state.move_costs(unit).is_empty():
 		actions.append({"id": "move", "text": "Move   1 AP a tile", "tip": "Tiles that would get you noticed are amber, seen red"})
 	if not state.move_costs(unit, true).is_empty():
-		actions.append({"id": "sprint", "text": "Sprint   3 tiles for 2 AP", "tip": "Gives up this turn's shot. Cut short, it costs what walking would have"})
+		actions.append({"id": "sprint", "text": "Sprint   %d tiles for %d AP" % [BattleState.SPRINT_TILES, BattleState.SPRINT_COST], "tip": "Gives up this turn's shot. Cut short, it costs what walking would have"})
 	if not state.shot_targets(unit).is_empty():
 		actions.append({"id": "shoot", "text": "Shoot   free, once a turn", "tip": "Range %d, line of sight. A hit stuns an enemy for %d turns" % [unit.def.shot_range, BattleState.STUN_TURNS]})
 	if state.can_shoot(unit):
@@ -258,20 +258,21 @@ func _operator_actions(unit: Unit) -> Array:
 		var cost := "   %d AP" % BattleState.LOCK_COST if option.action == "lock" else "   free"
 		actions.append({"id": "door:%s:%s" % [option.node, option.action], "text": "%s door %s%s" % [option.action.capitalize(), option.node.to_upper(), cost]})
 	for id in state.peek_options(unit):
-		actions.append({"id": "peek:" + id, "text": "Peek through %s   1 AP" % id.to_upper(), "tip": "See past the door until your turn ends"})
+		actions.append({"id": "peek:" + id, "text": "Peek through %s   %d AP" % [id.to_upper(), BattleState.PEEK_COST], "tip": "See past the door until your turn ends"})
 	for option in state.deploy_options(unit):
 		var via: String = "" if option.relay < 0 else " via " + state.units[option.relay].def.display_name.to_lower()
-		actions.append({"id": "deploy:%s:%d" % [option.access, option.relay], "text": "Deploy AI at %s%s   1 AP" % [option.access.to_upper(), via]})
+		actions.append({"id": "deploy:%s:%d" % [option.access, option.relay], "text": "Deploy AI at %s%s   %d AP" % [option.access.to_upper(), via, BattleState.DEPLOY_AI_COST]})
 	for body in state.tie_targets(unit):
-		actions.append({"id": "tie:%d" % body.id, "text": "Tie up %s   2 AP" % body.display_name})
+		actions.append({"id": "tie:%d" % body.id, "text": "Tie up %s   %d AP" % [body.display_name, BattleState.TIE_COST]})
 	for body in state.pickup_targets(unit):
 		actions.append({"id": "pickup:%d" % body.id, "text": "Pick up %s   free" % body.display_name, "tip": "While carrying you can only move"})
 	if not state.putdown_cells(unit).is_empty():
 		actions.append({"id": "putdown", "text": "Put down %s   free" % state.units[unit.carrying].display_name, "tip": "On a dumpster or trunk, it's hidden inside"})
 	if not state.flashbang_cells(unit).is_empty():
-		actions.append({"id": "flashbang", "text": "Flashbang   2 AP  (%d left)" % unit.flashbangs, "tip": "Thrown up to 5 tiles; blinds guards within 2 for 3 turns"})
+		actions.append({"id": "flashbang", "text": "Flashbang   %d AP  (%d left)" % [BattleState.FLASHBANG_COST, unit.flashbangs],
+			"tip": "Thrown up to %d tiles; blinds guards within %d for %d turns" % [BattleState.FLASHBANG_RANGE, BattleState.FLASHBANG_RADIUS, BattleState.BLIND_TURNS]})
 	if not state.robot_cells(unit).is_empty():
-		actions.append({"id": "robot", "text": "Deploy %s   3 AP" % unit.robot_def.display_name.to_lower(), "tip": "It acts from next round"})
+		actions.append({"id": "robot", "text": "Deploy %s   %d AP" % [unit.robot_def.display_name.to_lower(), BattleState.ROBOT_COST], "tip": "It acts from next round"})
 	for other in state.share_targets(unit):
 		actions.append({"id": "share:%d" % other.id, "text": "Give %s's AI 1 AP" % other.display_name, "tip": "Shared compute: it arrives on their next turn, and lapses if unused"})
 	actions.append({"id": "ai", "text": "AI   →", "tip": "The AI's own actions, on its own AP"})
@@ -353,7 +354,7 @@ func _robot_actions(unit: Unit) -> Array:
 	if not state.move_costs(unit).is_empty():
 		actions.append({"id": "move", "text": "Move   1 AP a tile"})
 	if not state.dog_stun_targets(unit).is_empty():
-		actions.append({"id": "dog_stun", "text": "Stun   1 AP, once a battle"})
+		actions.append({"id": "dog_stun", "text": "Stun   %d AP, once a battle" % BattleState.DOG_STUN_COST})
 	actions.append({"id": "end", "text": "End turn"})
 	return actions
 
@@ -465,8 +466,7 @@ func _predict_menu(unit: Unit) -> Array:
 func _on_predict(unit: Unit, id: int) -> void:
 	if id >= 0:
 		_predict_picks.append(state.units[id])
-	var room: int = state.chip_count(unit, BattleState.PREDICT) if unit.chips[BattleState.PREDICT] > 0 else int(state.chip_def(BattleState.PREDICT).strength)
-	if id < 0 or _predict_picks.size() >= room or _predict_menu(unit).size() <= 2:
+	if id < 0 or _predict_picks.size() >= state.chip_count(unit, BattleState.PREDICT) or _predict_menu(unit).size() <= 2:
 		var picks := _predict_picks.duplicate()
 		_predict_picks.clear()
 		_act(state.use_chip(unit, BattleState.PREDICT, picks))
@@ -846,7 +846,7 @@ func _refresh_scan() -> void:
 		var status: Array[String] = []
 		if def.verbs.has("power"):
 			status.append("on" if device.powered else "off")
-		if def.kind in BattleState.DOORS:
+		if def.kind in NodeDef.DOORS:
 			status.append(("open" if device.open else "shut") + (", locked" if device.locked else ""))
 		if def.sound_radius > 0:
 			status.append("sound %d%s" % [def.sound_radius, " all" if def.sound_all else ""])
@@ -857,10 +857,7 @@ func _refresh_scan() -> void:
 		label.text = "\n".join(lines)
 		label.position = _grid.cell_to_world(state.node_cell(id)) + Vector3(0, _level.device_height(id) + 0.6, 0)
 	if unit and _scan:
-		var spots: Array[Vector2i] = []
-		for line in state.map.receptacles:
-			var key := line.replace(" ", ":")
-			spots.append(state.receptacle_cell(key))
+		var spots := state.map.receptacle_places().keys().map(state.receptacle_cell)
 		_grid.set_overlay("scan_receptacles", spots, PLACE_COLOR, 0.025)
 	else:
 		_grid.clear_overlay("scan_receptacles")
