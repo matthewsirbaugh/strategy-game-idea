@@ -4,6 +4,9 @@
 - Status: scope and architecture agreed by Bryson, 2026-09-23. All five milestones built
   2026-09-24, with fixes on 2026-09-27. Art, the free camera and the lit fog went in on
   2026-09-28 (Findings). Graduating toward an Alpha; Bryson's playtest answers still feed it.
+- 2026-10-04: the V1 build replaced the MVP's rules, map and stats. The current rules are in
+  [RULES.md](../RULES.md), what V1 built in the [V1 brief](v1-implementation-brief.md), and the
+  code's structure in [README.md](../README.md). Sections marked below are kept as history.
 - Engine: Godot 4 (Bryson, 2026-09-23), set up for the long term rather than as a throwaway.
 
 ## The question it answers
@@ -31,6 +34,8 @@ The table is the scope as agreed. Since then, at Bryson's request, the models an
 replaced the greybox (2026-09-28), ahead of the playtest.
 
 ## Rules
+
+> 2026-10-04: superseded by V1. The current rules are in [RULES.md](../RULES.md).
 
 All numbers are starting points for tuning, not balance decisions.
 
@@ -120,6 +125,10 @@ extraction zone. Lose: all three Operators downed.
 
 ## Facility exterior map
 
+> 2026-10-04: superseded by V1. The test map now follows the
+> [V1 brief](v1-implementation-brief.md), and `mvp.tres` is gone: the tests build small maps of
+> their own.
+
 Since 2026-09-28 the battle plays `game/content/maps/facility_exterior.tres`, the first part of
 the facility mission, laid out from the exterior establishing shot (0A) at Bryson's request.
 The MVP map below stays as the map the rules tests run on.
@@ -170,6 +179,9 @@ open will be a terminal (Bryson, 2026-09-28).
 
 ## Map sketch
 
+> 2026-10-04: history. `game/content/maps/mvp.tres` was deleted in the V1 build. The map legend
+> now lives in `game/rules/map_data.gd`.
+
 Claude's placeholder, drawn 2026-09-24 at Bryson's request. Level layout is Bryson's call, so
 mark it up freely. The live copy is `game/content/maps/mvp.tres`; editing its layout changes
 the game directly.
@@ -216,6 +228,8 @@ and the exit (top left) is at the top.
 
 ## Placeholder stats
 
+> 2026-10-04: superseded by V1. The current numbers are in [RULES.md, V1 setup](../RULES.md#v1-setup).
+
 Placeholders for tuning (Bryson, 2026-09-24: "placeholder numbers are fine"). Distances are in
 tiles with no diagonals. Attacks beyond 1 tile need line of sight, and damage is deterministic.
 
@@ -233,11 +247,17 @@ is alerted and acts on its next turn rather than shooting immediately.
 
 ## Menus
 
+> 2026-10-04: the title's first button now reads "Deploy to facility" and opens the loadout
+> screen; the pause menu says "Restart phase".
+
 - Title: New game, Settings, Quit.
 - Settings: master volume, window mode (windowed, fullscreen), vsync. Saved between sessions.
 - Pause during battle: Resume, Settings, Restart battle, Quit to title.
 
 ## Architecture (agreed 2026-09-23)
+
+> 2026-10-04: the decisions below stand, but abilities became chips and loadouts, gathered in
+> `content/battle.tres`. The current structure is in [README.md](../README.md).
 
 | Decision | Proposal | Why |
 |---|---|---|

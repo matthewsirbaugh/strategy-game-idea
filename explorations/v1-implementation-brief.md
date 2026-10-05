@@ -3,6 +3,9 @@
 - Written: 2026-10-04, by Claude, at the end of the rulebook sessions.
 - Purpose: a hand-off. Another AI drafts an implementation plan from this, and a third
   implements it. Bryson reviews the plan before anything is built.
+- Status, 2026-10-04: done. Astra planned it, Bryson reviewed the plan, and V1 is built (commit
+  9277c4b). "Current build" below means the build before V1. Readings and choices from the build
+  are in [rulebook.md](rulebook.md).
 - Source of truth for the rules: [RULES.md](../RULES.md). This brief doesn't restate them. It
   says what V1 includes, what changes from the current build, the test map, and the defaults
   Claude filled in that Bryson hasn't reviewed.
@@ -37,7 +40,8 @@ number is a placeholder he'll tune by playing.
 
 ## What changes from the current build
 
-The current build (`game/`) predates the rulebook. The main differences:
+The current build (`game/`) predates the rulebook. The main differences (2026-10-04: all built in
+V1, so "current build" here is the pre-V1 build):
 
 | Area | Current build | V1 |
 |---|---|---|

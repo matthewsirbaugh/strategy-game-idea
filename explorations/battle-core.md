@@ -3,6 +3,8 @@
 - Feeds: [DESIGN.md decisions](../DESIGN.md#decisions); core idea questions 22–25.
 - Status: open. Several conclusions graduated to DESIGN.md on 2026-09-23. The battle structure,
   hack resolution and stat axes below are working models, not locked.
+- 2026-10-04: the V1 rules in [RULES.md](../RULES.md) now cover turns, compaction and hacking,
+  and V1 is built. Where this file differs, RULES.md is current.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md), which owns the current next action.
 - Renamed on 2026-09-23 from "Hacking gameplay: repeatable escalating attempts". The minigame
   work this thread started with is [shelved](#shelved-the-hacking-minigame) and kept below for
@@ -53,6 +55,9 @@ Bryson's critique of it, went into the DESIGN.md touchstones.
 
 ## Working model: battle structure
 
+> 2026-10-04: RULES.md now covers this for V1. Where they differ, [RULES.md](../RULES.md) is
+> current.
+
 Bryson's first ideas, not locked.
 
 - Normal battles might be 3 against 5.
@@ -69,6 +74,9 @@ Bryson's first ideas, not locked.
   an enemy that successfully hacks you believe you are somewhere else.
 
 ## Working model: hack resolution
+
+> 2026-10-04: RULES.md now covers this for V1. Where they differ, [RULES.md](../RULES.md) is
+> current.
 
 Bryson's model, not locked.
 
@@ -147,7 +155,7 @@ may demand?
 | HACK-02 | Open | Difficult hacking may get another mechanic later; none is chosen. |
 | TURN-01 | Replaced 2026-10-03, see rulebook.md | The AI can move through the network and then take one other action (hack, compact, ability or door) in the same turn. |
 | TURN-02 | Replaced 2026-10-03, see rulebook.md | The Operator's part (move, then optionally attack) and the AI's part run as two blocks in either order, never interleaved. |
-| TURN-03 | Open | A proper action system replaces the interim turn rules. Don't build toward it yet. |
+| TURN-03 | Done 2026-10-04, see RULES.md | A proper action system replaces the interim turn rules. Don't build toward it yet. |
 
 Still open: the final cost of each hack, tool call, ability and skill; which abilities count as
 reusable skills; whether some AIs or upgrades have larger or smaller windows; the final compaction
