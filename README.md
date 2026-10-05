@@ -25,8 +25,8 @@ restarting after a loss keeps what was picked there.
 Battle camera: left-drag, WASD or the arrow keys pan; right-drag (or Option-drag, or middle-drag) orbits; Q
 and E turn; the wheel or a pinch zooms; H ghosts every wall; L switches the characters and props
 between soft and hard-edged shading, to compare them. A click without a drag selects, and a
-right-click without a drag steps back. In battle, N switches to the network, I scans every device,
-and Space ends the turn. Esc pauses.
+right-click without a drag steps back. In battle, clicking a teammate shows their panel, N switches to the network, I marks every
+Breached device, and Space ends the turn. Esc pauses.
 
 ## How `game/` is organized
 
@@ -57,7 +57,7 @@ the task. Historical findings, concept art and binary assets need not be loaded 
 | Guard and turret turns, aim and fire | [enemy_ai.gd](game/rules/enemy_ai.gd) | `Perception.sweep`, `BattleState.step` |
 | Map parsing, zones, networks, circuits, receptacles | [map_data.gd](game/rules/map_data.gd) | [reach.gd](game/rules/reach.gd), [grid.gd](game/rules/grid.gd) |
 | Loadouts and restarting a phase | [battle_session.gd](game/rules/battle_session.gd) | `ui/loadout_menu.gd`, `autoload/scene_router.gd` |
-| Actions, menus, picking, previews, event playback | [battle.gd](game/battle/battle.gd) | [battle_menus.gd](game/battle/battle_menus.gd), [battle_log.gd](game/battle/battle_log.gd), [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
+| Actions, menus, picking, previews, event playback | [battle.gd](game/battle/battle.gd) | [battle_menus.gd](game/battle/battle_menus.gd), [battle_log.gd](game/battle/battle_log.gd), [hover_info.gd](game/battle/hover_info.gd), [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
 | Camera and mouse gestures | [camera_rig.gd](game/battle/camera_rig.gd) | `battle.gd` input and picking functions, `project.godot` input actions |
 | Fog, overlays and wall visibility | [grid_view.gd](game/battle/grid_view.gd), [level_view.gd](game/battle/level_view.gd) | `art/shaders/fog.gdshaderinc`, `ghost.gdshaderinc` |
 | Character rendering and animation | [unit_view.gd](game/battle/unit_view.gd), [toon_model.gd](game/art/toon_model.gd) | [character_rig.gd](game/art/characters/character_rig.gd), `preview/` |

@@ -1,7 +1,8 @@
 # Visual polish: interface and Network mode
 
 - Status: open; implemented for Bryson's review.
-- Next action: play this pass, especially the Network view and its return to the physical map.
+- Next action: play the 2026-10-05 pass (hover card, unit panel, scan badges, network markers,
+  nested menus). The broader aesthetic overhaul of the menus is still open.
 - Inherits the [house style](art-pipeline.md#house-style) and the facility's approved clay-orange
   and cream direction in [environment-art.md](environment-art.md).
 
@@ -31,6 +32,30 @@ its appearance is still awaiting Bryson's review.
   stencils in the yard. Walkable tiles, cover, patrols, and mission rules are unchanged.
 - Lower rim-light intensity on models and a larger self-occlusion tolerance on human silhouettes,
   plus character labels matching the interface font.
+
+## 2026-10-05 — Playtest feedback: panel, scan, network markers, menus (Bryson)
+
+Bryson, after playing V1:
+- The Operator panel (bottom left) should be condensed to essential information, with no
+  options in it. It should follow the Operator clicked: as in other tactics games, clicking a
+  teammate whose turn it isn't shows their status and resources, with no actions.
+- Scan shows every object. It should show only what the team has hacked (fully Breached), drawn
+  in the interface's style with the device icons, not white text.
+- In the network view, the team and the enemies the team can see should show through the blurred
+  map as colored symbols. Enemies out of sight don't show, not even where they were last seen.
+- Nest the menus; both the Operator's and the AI's are too long. Grouping agreed: Operator Shoot,
+  Interact, Gear, AI; AI Hack, Chips, Devices.
+- The hover info in the top left is a favorite: lean into it and make it look better.
+
+Built the same day, one commit each, in this order: hover card, unit panel, scan badges, network
+markers, nested menus. Verified with `tools/check.sh` and scripted screenshots on the container's
+OpenGL renderer; not played. Claude's choices, open to change:
+- The hover card leads with a unit, then a device, then a hiding place; the tile goes in its
+  footer. It works on scan badges and on network nodes and AI tokens.
+- A waiting teammate's panel shows the AP they'll start their turn with. Clicking anything that
+  isn't a teammate returns the panel to the active unit. Pick hints moved to the footer bar.
+- Hiding places no longer show under Scan; the hover card still names them.
+- A group with one action stays inline. "Act with Bravo first" folds into Switch Operator.
 
 ## Source and art provenance
 
