@@ -57,6 +57,14 @@ text = ""
 unique_name_in_owner = true
 theme_override_font_sizes/font_size = 23
 
+[node name="CautionLabel" type="Label" parent="Root/Header/Margin/Columns/Mission"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = ""
+theme_override_colors/font_color = Color(1, 0.62, 0.36, 1)
+theme_override_font_sizes/font_size = 18
+
 [node name="Turns" type="VBoxContainer" parent="Root/Header/Margin/Columns"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -77,6 +85,16 @@ layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 mouse_filter = 2
+
+[node name="ScanToggle" type="Button" parent="Root/Header/Margin/Columns"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+toggle_mode = true
+text = "SCAN   [I]"
+tooltip_text = "Show every device: what it is, its state, and what the team can do with it"
 
 [node name="NetworkToggle" type="Button" parent="Root/Header/Margin/Columns"]
 unique_name_in_owner = true
@@ -121,10 +139,10 @@ visible = false
 layout_mode = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -254.0
+offset_left = -294.0
 offset_right = -24.0
 offset_top = 132.0
-offset_bottom = 230.0
+offset_bottom = 290.0
 mouse_filter = 2
 
 [node name="Margin" type="MarginContainer" parent="Root/NetworkLegend"]
@@ -149,7 +167,9 @@ theme_override_font_sizes/font_size = 16
 [node name="Legend" type="Label" parent="Root/NetworkLegend/Margin/Rows"]
 layout_mode = 2
 text = "Device symbols / AI initials
-Mint: breached   /   White: selected"
+Mint: breached   /   White: selected
+Amber lines: a power hub's circuit
+Unknown networks stay hidden"
 theme_override_font_sizes/font_size = 18
 
 [node name="ActivePanel" type="PanelContainer" parent="Root"]
@@ -158,8 +178,8 @@ layout_mode = 1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_right = 520.0
-offset_top = -264.0
+offset_right = 600.0
+offset_top = -330.0
 offset_bottom = -66.0
 grow_vertical = 0
 
@@ -222,13 +242,6 @@ text = ""
 unique_name_in_owner = true
 theme_override_font_sizes/font_size = 20
 
-[node name="Health" type="ProgressBar" parent="Root/ActivePanel/Margin/Rows"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 5)
-layout_mode = 2
-show_percentage = false
-mouse_filter = 2
-
 [node name="ContextRow" type="HBoxContainer" parent="Root/ActivePanel/Margin/Rows"]
 layout_mode = 2
 theme_override_constants/separation = 12
@@ -245,6 +258,11 @@ layout_mode = 2
 text = ""
 unique_name_in_owner = true
 theme_override_font_sizes/font_size = 19
+
+[node name="Chips" type="HBoxContainer" parent="Root/ActivePanel/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Hint" type="Label" parent="Root/ActivePanel/Margin/Rows"]
 layout_mode = 2
@@ -307,7 +325,7 @@ mouse_filter = 2
 
 [node name="Controls" type="Label" parent="Root/Footer"]
 layout_mode = 2
-text = "CLICK  Actions     /     SPACE  Next phase or end turn     /     N  Network     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
+text = "CLICK  Actions     /     SPACE  End turn     /     N  Network     /     I  Scan     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
 horizontal_alignment = 1
 vertical_alignment = 1
 mouse_filter = 2
@@ -335,6 +353,7 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="ActionTitle" type="Label" parent="Root/ActionMenu/Margin/Rows"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "AVAILABLE ACTIONS"
 theme_type_variation = &"Kicker"
@@ -389,6 +408,11 @@ theme_override_font_sizes/font_size = 48
 unique_name_in_owner = true
 layout_mode = 2
 text = "REDEPLOY"
+
+[node name="ChangeLoadout" type="Button" parent="Root/Result/Panel/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CHANGE LOADOUT"
 
 [node name="QuitToTitle" type="Button" parent="Root/Result/Panel/Margin/Rows"]
 unique_name_in_owner = true

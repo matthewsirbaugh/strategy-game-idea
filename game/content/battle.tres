@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="BattleContent" load_steps=38 format=3]
+
+[ext_resource type="Script" path="res://rules/battle_content.gd" id="1"]
+[ext_resource type="Script" path="res://rules/unit_def.gd" id="2"]
+[ext_resource type="Script" path="res://rules/loadout.gd" id="3"]
+[ext_resource type="Script" path="res://rules/node_def.gd" id="4"]
+[ext_resource type="Script" path="res://rules/chip_def.gd" id="5"]
+[ext_resource type="Resource" path="res://content/units/alpha.tres" id="6"]
+[ext_resource type="Resource" path="res://content/units/bravo.tres" id="7"]
+[ext_resource type="Resource" path="res://content/units/charlie.tres" id="8"]
+[ext_resource type="Resource" path="res://content/loadouts/alpha.tres" id="9"]
+[ext_resource type="Resource" path="res://content/loadouts/bravo.tres" id="10"]
+[ext_resource type="Resource" path="res://content/loadouts/charlie.tres" id="11"]
+[ext_resource type="Resource" path="res://content/units/guard.tres" id="12"]
+[ext_resource type="Resource" path="res://content/units/turret.tres" id="13"]
+[ext_resource type="Resource" path="res://content/units/drone.tres" id="14"]
+[ext_resource type="Resource" path="res://content/units/dog_bot.tres" id="15"]
+[ext_resource type="Resource" path="res://content/nodes/access.tres" id="16"]
+[ext_resource type="Resource" path="res://content/nodes/door.tres" id="17"]
+[ext_resource type="Resource" path="res://content/nodes/autodoor.tres" id="18"]
+[ext_resource type="Resource" path="res://content/nodes/camera.tres" id="19"]
+[ext_resource type="Resource" path="res://content/nodes/nvcamera.tres" id="20"]
+[ext_resource type="Resource" path="res://content/nodes/turret.tres" id="21"]
+[ext_resource type="Resource" path="res://content/nodes/cache.tres" id="22"]
+[ext_resource type="Resource" path="res://content/nodes/light.tres" id="23"]
+[ext_resource type="Resource" path="res://content/nodes/phone.tres" id="24"]
+[ext_resource type="Resource" path="res://content/nodes/machine.tres" id="25"]
+[ext_resource type="Resource" path="res://content/nodes/adscreen.tres" id="26"]
+[ext_resource type="Resource" path="res://content/nodes/car.tres" id="27"]
+[ext_resource type="Resource" path="res://content/nodes/truck.tres" id="28"]
+[ext_resource type="Resource" path="res://content/nodes/hub.tres" id="29"]
+[ext_resource type="Resource" path="res://content/chips/movement.tres" id="30"]
+[ext_resource type="Resource" path="res://content/chips/locate.tres" id="31"]
+[ext_resource type="Resource" path="res://content/chips/predict.tres" id="32"]
+[ext_resource type="Resource" path="res://content/chips/extended_thinking.tres" id="33"]
+[ext_resource type="Resource" path="res://content/chips/subagent.tres" id="34"]
+[ext_resource type="Resource" path="res://content/chips/surveillance_exploit.tres" id="35"]
+[ext_resource type="Resource" path="res://content/chips/weapons_exploit.tres" id="36"]
+[ext_resource type="Resource" path="res://content/chips/infrastructure_exploit.tres" id="37"]
+
+[resource]
+script = ExtResource("1")
+operators = Array[ExtResource("2")]([ExtResource("6"), ExtResource("7"), ExtResource("8")])
+loadouts = Array[ExtResource("3")]([ExtResource("9"), ExtResource("10"), ExtResource("11")])
+guard = ExtResource("12")
+turret = ExtResource("13")
+drone = ExtResource("14")
+dog_bot = ExtResource("15")
+node_defs = Array[ExtResource("4")]([ExtResource("16"), ExtResource("17"), ExtResource("18"), ExtResource("19"), ExtResource("20"), ExtResource("21"), ExtResource("22"), ExtResource("23"), ExtResource("24"), ExtResource("25"), ExtResource("26"), ExtResource("27"), ExtResource("28"), ExtResource("29")])
+chips = Array[ExtResource("5")]([ExtResource("30"), ExtResource("31"), ExtResource("32"), ExtResource("33"), ExtResource("34"), ExtResource("35"), ExtResource("36"), ExtResource("37")])

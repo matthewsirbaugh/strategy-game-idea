@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NodeDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/node_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+kind = "adscreen"
+display_name = "Ad screen"
+goal = 10
+context_cost = 10
+category = "infrastructure"
+verbs = PackedStringArray("power", "activate")
+light_radius = 2
+starts_powered = true

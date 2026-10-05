@@ -13,7 +13,7 @@ func _ready() -> void:
 	_root.hide()
 	_resume.pressed.connect(_close)
 	_settings_button.pressed.connect(_open_settings)
-	_restart.pressed.connect(SceneRouter.goto_battle)
+	_restart.pressed.connect(SceneRouter.restart_battle)
 	_quit_to_title.pressed.connect(SceneRouter.goto_title)
 	_settings.closed.connect(_close_settings)
 

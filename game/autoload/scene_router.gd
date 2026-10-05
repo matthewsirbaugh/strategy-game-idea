@@ -1,14 +1,29 @@
 extends Node
 
 const TITLE := "res://ui/title_menu.tscn"
+const LOADOUT := "res://ui/loadout_menu.tscn"
 const BATTLE := "res://battle/battle.tscn"
+
+# The battle being set up or played: its map, content, loadouts and what carries into the phase.
+# Restarting the phase builds it again from this.
+var session: BattleSession
 
 
 func goto_title() -> void:
 	_go(TITLE)
 
 
-func goto_battle() -> void:
+func goto_loadout() -> void:
+	_go(LOADOUT)
+
+
+func goto_battle(next: BattleSession = null) -> void:
+	if next:
+		session = next
+	_go(BATTLE)
+
+
+func restart_battle() -> void:
 	_go(BATTLE)
 
 

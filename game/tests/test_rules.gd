@@ -1,124 +1,172 @@
 extends SceneTree
 
-# Rules that are easy to break quietly: guards playing fair with the fog, and the rules refusing
-# actions the menus would never offer.
+# Rules that are easy to break quietly: when a turn ends, donated compute, aim lines, guards playing
+# fair with the fog, the rules refusing actions the menus would never offer, broken content, and
+# restarting a phase exactly.
 # Run: godot --headless --path game -s tests/test_rules.gd
 
-# The guard (1) sees an Operator 5 tiles west (P). The walls at x=6 hide the tiles behind them,
-# and the one at 4,2 hides 3,1 until the guard steps west.
-const FOG_MAP := "X . . . . . # . z
-. . . . . . # . .
-. . . . # . # . .
-P . . . . 1 . . .
-P . . . . . . . ."
+# A guard (1) at the end of a corridor, facing west down it, already in sight.
+const CORRIDOR := ". . . . . . . . . X
+. . P . . . . 1 . z
+. . . . . . . . . ."
+
+# The guard (1) hides behind the wall at x=4 until someone walks to x=3 on the bottom row.
+const CORNER := ". . . . # . . X
+. . . . # . 1 z
+. . P . . . . ."
 
 var _failures := 0
 
 
 func _initialize() -> void:
+	_turn_ends_when_both_pools_are_spent()
+	_donated_compute_waits_for_the_next_turn()
+	_a_sprint_cut_short_costs_what_walking_would()
+	_aim_lines_are_fixed_when_the_guard_aims()
+	_predict_matches_the_guards_real_turn()
 	_guards_ignore_operators_they_cannot_see()
-	_guards_attack_operators_their_move_reveals()
 	_illegal_actions_change_nothing()
-	_inactive_units_cannot_act()
-	_either_half_can_go_first()
-	_undo_forgets_nothing_it_learned()
 	_broken_content_is_reported()
+	_the_test_map_keeps_its_shape()
+	_restarting_rebuilds_the_phase_exactly()
 	print("rules tests: " + ("all passed" if _failures == 0 else "%d failed" % _failures))
 	quit(1 if _failures > 0 else 0)
 
 
-# Adding, removing or moving an Operator the guard can't see must not change its plan.
+# The Operator's AP running out doesn't end the turn while the AI has AP, and a refund on the
+# AI's last action keeps the turn open.
+func _turn_ends_when_both_pools_are_spent() -> void:
+	var state := _state("P a n . X\n. . . . z", {"a": "access", "n": "light", "z": "cache"}, ["a-n"])
+	var alpha := state.begin_next_turn()
+	state.deploy_ai(alpha, "a")
+	alpha.ap = 1
+	state.move(alpha, Vector2i(0, 1))
+	_check(alpha.ap == 0 and not state.turn_over, "spending the Operator's last AP leaves the turn open for the AI")
+	state.ai_move(alpha, "n")
+	var events := state.hack(alpha)
+	_check(not events.is_empty() and events[0].refund and alpha.ai_ap == 1, "a one-action breach refunds its AP")
+	_check(not state.turn_over, "a refunded last action doesn't end the turn")
+	state.compact(alpha)
+	_check(state.turn_over, "the turn ends once both pools are spent")
+
+
+func _donated_compute_waits_for_the_next_turn() -> void:
+	var state := _state("P P a X\n. . . z", {"a": "access", "z": "cache"}, [], 2)
+	var alpha := state.begin_next_turn()
+	var bravo := _unit(state, "Bravo")
+	state.share_compute(alpha, bravo)
+	_check(alpha.ai_ap == 1 and bravo.incoming == 1 and bravo.ai_ap == 0, "donated AP leaves the donor at once and waits for the receiver")
+	state.end_turn(alpha)
+	state.begin_next_turn()
+	_check(state.active == bravo and bravo.ai_ap == 3, "the receiver gets it on its next turn, got %d" % bravo.ai_ap)
+	state.end_turn(bravo)
+	state.begin_next_turn()
+	state.end_turn(alpha)
+	state.begin_next_turn()
+	_check(bravo.ai_ap == 2, "unused donated AP lapses after that turn, got %d" % bravo.ai_ap)
+
+
+func _a_sprint_cut_short_costs_what_walking_would() -> void:
+	var state := _state(CORNER)
+	var alpha := state.begin_next_turn()
+	var events := state.move(alpha, Vector2i(5, 2), true)
+	_check(alpha.cell == Vector2i(3, 2) and events.any(func(event: Dictionary) -> bool: return event.type == "revealed"),
+		"revealing the guard stops the sprint where it showed up, at %s" % alpha.cell)
+	_check(alpha.ap == alpha.base_ap - 1 and alpha.sprinted, "one tile of a cut-short sprint costs 1 AP, left %d" % alpha.ap)
+
+
+# The line runs from the guard through its target's tile, out to its range, and stays put. A
+# target that moves along it is still hit; one that steps off it isn't; a robot in front takes it.
+func _aim_lines_are_fixed_when_the_guard_aims() -> void:
+	for case in ["along", "off", "robot"]:
+		var state := _state(CORRIDOR)
+		var alpha := state.begin_next_turn()
+		var guard := _unit(state, "Guard 1")
+		guard.facing = Vector2(-1, 0)
+		state.move(alpha, Vector2i(3, 1))
+		_check(guard.task == Unit.Task.ALERTED, "walking into the seen tier alerts the guard at once")
+		state.end_turn(alpha)
+		state.begin_next_turn()
+		state.take_automatic_turn()
+		_check(guard.aim.get("cells", []) == [Vector2i(6, 1), Vector2i(5, 1), Vector2i(4, 1), Vector2i(3, 1), Vector2i(2, 1)],
+			"the aim line runs through Alpha out to range 5, got %s" % [guard.aim.get("cells", [])])
+		state.begin_next_turn()
+		match case:
+			"along":
+				state.move(alpha, Vector2i(2, 1))
+			"off":
+				state.move(alpha, Vector2i(3, 0))
+			"robot":
+				state.deploy_robot(alpha, Vector2i(4, 1))
+		state.end_turn(alpha)
+		state.begin_next_turn()
+		var fired := state.take_automatic_turn().filter(func(event: Dictionary) -> bool: return event.type == "fire")
+		match case:
+			"along":
+				_check(fired.size() == 1 and fired[0].target == alpha and alpha.hits == 1, "a target moving along the line is still hit")
+			"off":
+				_check(fired.is_empty() and alpha.hits == 0, "stepping off the line breaks the aim")
+			"robot":
+				var drone := state.units[alpha.robot]
+				_check(fired.size() == 1 and fired[0].target == drone and drone.down and alpha.hits == 0,
+					"a robot in front takes the shot for the Operator")
+
+
+func _predict_matches_the_guards_real_turn() -> void:
+	var state := _state(null)
+	for unit in state.units:
+		if not unit.is_guard():
+			continue
+		var predicted := state.prediction(unit)
+		state.active = unit
+		var path: Array[Vector2i] = [unit.cell]
+		for event in EnemyAI.take_turn(state, unit):
+			if event.type == "move" and event.unit == unit:
+				path.append_array(event.path)
+		_check(predicted.path == path, "Predict shows %s's real path: %s, then %s" % [unit.display_name, predicted.path, path])
+
+
+# Adding, removing or moving an Operator the guard can't see must not change its turn.
 func _guards_ignore_operators_they_cannot_see() -> void:
-	var plans: Array[String] = []
-	for hidden in [null, Vector2i(7, 1), Vector2i(8, 1)]:
-		var state := _state(FOG_MAP, ["alpha"] if hidden == null else ["alpha", "bravo"])
-		if hidden != null:
-			_place(state, "Bravo", hidden)
-		var guard := _guard_to_act(state)
-		var options := state.destinations(guard)
-		options.sort()
-		plans.append("%s -> %s" % [options, _summary(EnemyAI.take_turn(state, guard))])
-	_check(plans[0].ends_with("-> moved to (3, 3), attacked Alpha"), "the guard closes in on the Operator it sees, got %s" % plans[0])
-	_check(plans[1] == plans[0], "a hidden Operator changed the guard's plan: %s vs %s" % [plans[1], plans[0]])
-	_check(plans[2] == plans[0], "moving the hidden Operator changed the guard's plan: %s vs %s" % [plans[2], plans[0]])
-
-
-func _guards_attack_operators_their_move_reveals() -> void:
-	var state := _state(FOG_MAP, ["bravo", "alpha"])
-	_place(state, "Alpha", Vector2i(3, 1))
-	var guard := _guard_to_act(state)
-	_check(state.seen_enemies(guard).size() == 1, "the guard should start seeing only Bravo")
-	var summary := _summary(EnemyAI.take_turn(state, guard))
-	_check(summary == "moved to (3, 3), attacked Alpha", "the guard shoots the weaker Operator its move revealed, got %s" % summary)
+	var turns: Array[String] = []
+	for hidden: Variant in [null, Vector2i(7, 0), Vector2i(7, 2)]:
+		var state := _state(CORNER.replace(". . P", "P . P"), {"z": "cache"}, [], 2, func(map: MapData) -> void:
+			map.patrols = PackedStringArray(["3,1 2,1"]))
+		var bravo := _unit(state, "Bravo")
+		if hidden == null:
+			bravo.down = true
+		else:
+			bravo.cell = hidden
+		state.refresh()
+		var guard := _unit(state, "Guard 1")
+		state.active = guard
+		turns.append(str(EnemyAI.take_turn(state, guard).map(func(event: Dictionary) -> String: return "%s %s" % [event.type, event.get("path", "")])))
+	_check(turns[0].contains("move"), "the guard walks its patrol, got %s" % turns[0])
+	_check(turns[1] == turns[0], "a hidden Operator changed the guard's turn: %s vs %s" % [turns[1], turns[0]])
+	_check(turns[2] == turns[0], "moving the hidden Operator changed the guard's turn: %s vs %s" % [turns[2], turns[0]])
 
 
 # Each one is a direct call the menus would never make.
 func _illegal_actions_change_nothing() -> void:
-	var state := _state(null, ["alpha", "bravo"])
+	var state := _state(null)
 	var alpha := state.begin_next_turn()
 	var bravo := _unit(state, "Bravo")
-	var guard_2 := _unit(state, "Guard 2")
-	var guard_4 := _unit(state, "Guard 4")
-	_refused(state, func() -> Array: return state.move(bravo, Vector2i(9, 9)), "moving out of turn")
-	_refused(state, func() -> Array: return state.attack(alpha, guard_2), "attacking from 11 tiles with range 3")
-	state.move(alpha, Vector2i(6, 11))
-	_refused(state, func() -> Array: return state.move(alpha, Vector2i(7, 11)), "a second move")
-	state.attack(alpha, guard_4)
-	_refused(state, func() -> Array: return state.attack(alpha, guard_4), "a second attack")
-	state.end_human_phase(alpha)
-	_check(alpha.agent_node == "a", "Alpha's AI connects at the access point")
-	_refused(state, func() -> Array: return state.agent_move(alpha, "z"), "a network move of 4 hops with range 3")
+	var guard := _unit(state, "Guard 1")
+	_refused(state, func() -> Array: return state.move(bravo, Vector2i(3, 14)), "moving out of turn")
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(19, 13)), "walking further than the AP allow")
+	_refused(state, func() -> Array: return state.shoot(alpha, guard), "shooting a guard out of range and out of sight")
+	_refused(state, func() -> Array: return state.ai_move(alpha, "e"), "a network move before the AI is deployed")
+	_refused(state, func() -> Array: return state.deploy_ai(alpha, "a"), "deploying at an access point beyond the tether")
+	state.move(alpha, Vector2i(3, 13))
+	state.deploy_ai(alpha, "a")
 	_refused(state, func() -> Array: return state.hack(alpha), "hacking an access point")
-	state.agent_move(alpha, "e")
-	_refused(state, func() -> Array: return state.agent_move(alpha, "a"), "a second network move")
-	_check(not state.hack(alpha).is_empty(), "the AI hacks after moving, in the same turn")
-	_refused(state, func() -> Array: return state.compact(alpha), "a second AI action in one turn")
-
-
-# The two halves of a turn run as blocks in either order, and a finished half doesn't reopen.
-func _either_half_can_go_first() -> void:
-	var state := _state(null, ["alpha"])
-	var alpha := state.begin_next_turn()
-	_place(state, "Alpha", Vector2i(6, 11))
-	state.end_human_phase(alpha)
-	_check(state.phase == BattleState.Phase.AGENT and alpha.agent_node == "a", "the AI can go before the Operator moves")
-	state.agent_move(alpha, "e")
-	state.hack(alpha)
-	_check(state.phase == BattleState.Phase.HUMAN, "the Operator's half follows the AI's")
-	_check(not state.can_start_agent_phase(alpha), "the AI's finished half doesn't reopen")
-	state.move(alpha, Vector2i(7, 11))
-	_check(alpha.moved and alpha.agent_node == "e", "the Operator moves after the AI, which stays connected")
-	state.undo_move(alpha)
-	_check(alpha.agent_node == "e", "undoing the Operator's move keeps the AI's network move")
-
-
-func _inactive_units_cannot_act() -> void:
-	var state := _state("P . X z", ["alpha"])
-	var alpha := state.begin_next_turn()
-	alpha.hp = 0
-	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving while downed")
-	alpha.hp = alpha.def.max_hp
-	alpha.disabled = true
-	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving while disabled")
-	alpha.disabled = false
-	state.cache_breached = true
-	alpha.cell = Vector2i(2, 0)
-	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving after victory")
-	state.cache_breached = false
+	_refused(state, func() -> Array: return state.ai_move(alpha, "b"), "a network move onto another network")
+	_refused(state, func() -> Array: return state.use_verb(alpha, "d", "lock"), "using a verb on a device that isn't Breached")
+	state.set_overwatch(alpha)
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(3, 14), true), "sprinting after setting overwatch")
+	_refused(state, func() -> Array: return state.set_overwatch(alpha), "a second overwatch in one turn")
 	state.end_turn(alpha)
-	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 0)), "moving after ending the turn")
-
-
-# Seeing that a guard has left its last-seen spot is information too, so that move can't be undone.
-func _undo_forgets_nothing_it_learned() -> void:
-	var state := _state(null, ["alpha"])
-	var alpha := state.begin_next_turn()
-	var guard_3 := _unit(state, "Guard 3")
-	state.known[guard_3.id] = guard_3.cell
-	_place(state, "Guard 3", Vector2i(11, 0))
-	state.move(alpha, Vector2i(9, 9))
-	_check(not state.known.has(guard_3.id), "Alpha sees Guard 3's post is empty")
-	_check(not state.can_undo(alpha), "a move that cleared a last-seen marker can't be undone")
+	_refused(state, func() -> Array: return state.move(alpha, Vector2i(1, 13)), "moving after ending the turn")
 
 
 func _broken_content_is_reported() -> void:
@@ -128,8 +176,13 @@ func _broken_content_is_reported() -> void:
 	map.links = PackedStringArray(["a-b", "a"])
 	map.patrols = PackedStringArray(["1,1 9,9", "7;7"])
 	map.dressing = PackedStringArray(["crates 2,1 up"])
-	var operators: Array[UnitDef] = [load("res://content/units/alpha.tres"), load("res://content/units/bravo.tres")]
-	var errors := "\n".join(BattleState.validate(map, operators, _node_defs()))
+	map.networks = {"Lab": "q"}
+	map.circuits = {"q": "a"}
+	map.zones = {"Yard": "0,0-1,1 9;9"}
+	map.receptacles = PackedStringArray(["dumpster 0,1", "trunk q"])
+	map.node_states = {"q": "melted"}
+	var content: BattleContent = load("res://content/battle.tres")
+	var errors := "\n".join(BattleState.validate(map, content, content.loadouts))
 	for expected in [
 		"Unsaved map: layout row 1 has 4 tiles, but row 0 has 5",
 		"layout has node 'a' at 2,0 and again at 4,0",
@@ -144,32 +197,48 @@ func _broken_content_is_reported() -> void:
 		"patrols[1] is for guard 2, who isn't on the layout",
 		"patrols[1] waypoint '7;7' should be 'x,y'",
 		"dressing[0] 'crates 2,1 up' should read 'name x,y facing'",
-		"layout has 1 player starts (P) for 2 Operators",
+		"networks Lab has no access point",
+		"networks puts node 'a' on no network",
+		"circuits 'q' isn't a power hub",
+		"zones Yard has '9;9', which is no node",
+		"zones leaves tile 2,1 in no zone",
+		"receptacles[0] 'dumpster 0,1' should stand on a low obstacle",
+		"receptacles[1] 'trunk q' should name a car or truck node",
+		"node_states 'q: melted' should name a node",
+		"layout has 1 player starts (P) for 3 Operators",
 		"node_kinds has no node of kind 'cache', so the mission has no objective",
 	]:
 		_check(errors.contains(expected), "broken content should report: " + expected)
-	_check(BattleState.validate(load("res://content/maps/mvp.tres"), operators, _node_defs()).is_empty(), "the MVP map is valid")
-	_check(BattleState.validate(load("res://content/maps/facility_exterior.tres"), operators, _node_defs()).is_empty(), "the facility exterior map is valid")
-	var two_caches := MapData.new()
-	two_caches.layout = "X z y P P"
-	two_caches.node_kinds = {"z": "cache", "y": "cache"}
-	errors = "\n".join(BattleState.validate(two_caches, operators, _node_defs()))
-	_check(errors.contains("has 2 nodes of kind 'cache' (z, y), so the objective is ambiguous"), "two caches make the objective ambiguous, got: " + errors)
-	var renamed := _state(FOG_MAP.replace("z", "q"), ["alpha"], {"q": "cache"})
-	_check(renamed.errors.is_empty() and renamed.objective == "q", "the objective is whichever node is the cache")
-	_check(not BattleState.validate(null, operators, _node_defs()).is_empty(), "a missing map is reported")
-	var missing: Array[UnitDef] = [null]
-	var definitions: Array[NodeDef] = [null, _node_defs()[0], _node_defs()[0]]
-	errors = "\n".join(BattleState.validate(renamed.map, missing, definitions))
-	for expected in ["operators[0] is missing", "node_defs[0] is missing", "repeats kind 'access'"]:
-		_check(errors.contains(expected), "broken battle setup should report: " + expected)
-	map = MapData.new()
-	map.layout = "P X z"
-	map.node_kinds = {"z": 42}
-	map.dressing = PackedStringArray(["crates 0,0 south 0"])
-	errors = "\n".join(BattleState.validate(map, operators, _node_defs()))
-	_check(errors.contains("kind for 'z' must be a string"), "a malformed node kind is reported")
-	_check(errors.contains("tile count must be positive"), "zero-size dressing is reported")
+	var loadout: Loadout = content.loadouts[0].duplicate()
+	loadout.chips = PackedStringArray(["locate", "locate", "predict", "cloak"])
+	var loadouts: Array[Loadout] = [loadout]
+	errors = "\n".join(BattleState.validate(load("res://content/maps/facility_exterior.tres"), content, loadouts))
+	for expected in ["1 loadouts for 3 Operators", "carries 4 chips; the most is 3", "has chip 'locate', which isn't a chip it can carry once",
+			"has chip 'cloak'"]:
+		_check(errors.contains(expected), "a broken loadout should report: " + expected)
+
+
+# The brief's map, as the level depends on it: two networks that don't touch, the cache 4 hops
+# from b and 1 from c, and a hub whose circuit reaches a light on the other network.
+func _the_test_map_keeps_its_shape() -> void:
+	var state := _state(null)
+	_check(state.errors.is_empty(), "the test map is valid: %s" % state.errors)
+	var from_b: Dictionary = state._network_search("b").hops
+	_check(from_b.get("z") == 4 and state._network_search("c").hops.get("z") == 1, "the cache is 4 hops from b and 1 from c")
+	_check(not state._network_search("a").hops.has("z"), "the street network doesn't reach the facility")
+	_check(state.map.network_of("i") == "Street" and state.map.hub_of("i") == "w", "light i is on the street network and hub w's circuit")
+
+
+func _restarting_rebuilds_the_phase_exactly() -> void:
+	var session := BattleSession.from_presets(load("res://content/maps/facility_exterior.tres"), load("res://content/battle.tres"))
+	var first := session.start()
+	var entry := _snapshot(first)
+	var alpha := first.begin_next_turn()
+	first.move(alpha, Vector2i(3, 13))
+	first.deploy_ai(alpha, "a")
+	first.ai_move(alpha, "e")
+	_check(not first.hack(alpha).is_empty(), "the first phase plays on")
+	_check(_snapshot(session.start()) == entry, "a restart starts from exactly the conditions the phase began with")
 
 
 func _refused(state: BattleState, action: Callable, what: String) -> void:
@@ -181,30 +250,33 @@ func _refused(state: BattleState, action: Callable, what: String) -> void:
 func _snapshot(state: BattleState) -> String:
 	var units := []
 	for u in state.units:
-		units.append([u.cell, u.hp, u.moved, u.acted, u.agent_moved, u.agent_node, u.entry, u.context, u.skills, u.ability_uses_left, u.cloaked_until, u.located_until])
-	return var_to_str([units, state.phase, state.active, state.breach, state.breached, state.known, state.visible_cells, state.vision_sources])
+		units.append([u.cell, u.team, u.ap, u.ai_ap, u.incoming, u.hits, u.shot_used, u.sprinted, u.overwatch, u.ai_node,
+			u.context, u.chips, u.task, u.aim, u.stun, u.tied, u.carrying, u.robot, u.located, u.facing])
+	return var_to_str([units, state.round_number, state.active.id if state.active else -1, state.turn_over, state.devices,
+		state.progress, state.breached, state.known, state.visible_cells, state.caution, state.revealed_networks])
 
 
-# A null layout means the MVP map.
-func _state(layout: Variant, operator_names: Array, node_kinds := {"z": "cache"}) -> BattleState:
-	var map: MapData = load("res://content/maps/mvp.tres")
+# A null layout means the facility exterior with the V1 loadouts. Other layouts play in light.
+func _state(layout: Variant, node_kinds := {"z": "cache"}, links := [], operators := 1, setup := Callable()) -> BattleState:
+	var map: MapData = load("res://content/maps/facility_exterior.tres")
+	var base: BattleContent = load("res://content/battle.tres")
+	var content := base
 	if layout != null:
 		map = MapData.new()
 		map.layout = layout
 		map.node_kinds = node_kinds
-	var operators: Array[UnitDef] = []
-	for operator_name in operator_names:
-		operators.append(load("res://content/units/%s.tres" % operator_name))
-	return BattleState.new(
-		map, operators, load("res://content/units/guard.tres"), load("res://content/units/turret.tres"), _node_defs()
-	)
-
-
-func _node_defs() -> Array[NodeDef]:
-	var nodes: Array[NodeDef] = []
-	for kind in ["access", "door", "camera", "turret", "cache"]:
-		nodes.append(load("res://content/nodes/%s.tres" % kind))
-	return nodes
+		map.links = PackedStringArray(links)
+		content = BattleContent.new()
+		for field in ["guard", "turret", "drone", "dog_bot", "node_defs", "chips"]:
+			content.set(field, base.get(field))
+		content.operators = base.operators.slice(0, operators)
+		content.loadouts = base.loadouts.slice(0, operators)
+	if setup.is_valid():
+		setup.call(map)
+	var loadouts: Array[Loadout] = []
+	for loadout in content.loadouts:
+		loadouts.append(loadout.duplicate())
+	return BattleState.new(map, content, loadouts)
 
 
 func _unit(state: BattleState, unit_name: String) -> Unit:
@@ -212,27 +284,6 @@ func _unit(state: BattleState, unit_name: String) -> Unit:
 		if unit.display_name == unit_name:
 			return unit
 	return null
-
-
-func _place(state: BattleState, unit_name: String, cell: Vector2i) -> void:
-	_unit(state, unit_name).cell = cell
-	state.refresh_vision()
-
-
-func _guard_to_act(state: BattleState) -> Unit:
-	state.active = _unit(state, "Guard 1")
-	return state.active
-
-
-func _summary(events: Array[Dictionary]) -> String:
-	var parts: Array[String] = []
-	for event in events:
-		match event["type"]:
-			"move":
-				parts.append("moved to %s" % event["unit"].cell)
-			"attack":
-				parts.append("attacked %s" % event["target"].display_name)
-	return ", ".join(parts)
 
 
 func _check(condition: bool, what: String) -> void:

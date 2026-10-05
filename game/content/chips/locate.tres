@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ChipDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/chip_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "locate"
+display_name = "Locate"
+type = 2
+load_cost = 10
+strength = 2.0
+degraded_strength = 1.0
+effect = "Reveals one unseen enemy's live position for 2 of its turns."
+degraded_effect = "1 turn."

@@ -1,7 +1,8 @@
 class_name LevelView
 extends Node3D
-## The level as a place: ground, walls and buildings, the props that stand for its nodes and dress
-## it, its signs and lights, and outdoors the rain and the city around it. Walls and wall-standing
+## The level as a place: ground, walls and buildings, the props that stand for its devices and dress
+## it, its signs and lights, and outdoors the rain and the city around it. Devices follow the rules'
+## state: lights go out, doors open, vehicles drive. Walls and wall-standing
 ## props between the camera and the player's units ghost out, thinned to a dot pattern, the way
 ## Diablo and Baldur's Gate 3 keep the party in view; H ghosts every wall. L switches the models
 ## between soft and hard-edged shading, to compare them.
@@ -54,6 +55,12 @@ const CAMERA_MOUNT_Y := 2.1
 const PANEL_MOUNT_Y := 0.6
 const CAMERA_POLE_HEIGHT := 2.2
 const BREACHED_COLOR := Color(0.35, 1.0, 0.6)
+const UNPOWERED_COLOR := Color(0.45, 0.45, 0.5)
+const NIGHT_VISION_COLOR := Color(0.75, 1.0, 0.8)
+const SCREEN_COLOR := Color(0.3, 0.88, 0.95)
+const HUB_COLOR := Color(1.0, 0.75, 0.3)
+const VEHICLE_SECONDS := 0.07
+const AD_WORDS := ["OBEY", "BUY", "SERVE", "SMILE"]
 # The two shadings L switches between, as toon.gdshader's softness; soft is the project default.
 const SOFT_SHADING := 0.12
 const HARD_SHADING := 0.015
@@ -63,7 +70,6 @@ var map: MapData
 var watched: Array[Node3D] = []
 var _grid: GridView
 var _signs := Signs.new()
-var _nodes := {}
 # Each wall tile: its top, how ghosted it is now, and whether a fence runs along it.
 var _walls := {}
 # What ghosts with the walls: each block, the hazard band on its face, and each sign on a wall,
@@ -78,6 +84,8 @@ var _ghosting_active := false
 var _ghost_all := false
 var _soft_shading := true
 var _neon_material: StandardMaterial3D
+# Each device's parts, by node id: its model, and the lights and glowing parts that follow its power.
+var _devices := {}
 
 
 func build(state: BattleState, grid: GridView) -> void:
@@ -88,9 +96,11 @@ func build(state: BattleState, grid: GridView) -> void:
 	RenderingServer.global_shader_parameter_set("toon_softness", SOFT_SHADING)
 	_neon_material = _glow(NEON, 2.5)
 	_build_ground()
+	var filled := _filled_cells()
 	for id in map.node_ids():
-		_build_node(id)
-	# After the nodes, since some are set into walls and the fence runs over them too.
+		_build_device(id, filled)
+	_build_receptacles()
+	# After the devices, since some are set into walls and the fence runs over them too.
 	_build_fences()
 	_build_rooftops()
 	for item in map.dressing_items():
@@ -105,13 +115,43 @@ func build(state: BattleState, grid: GridView) -> void:
 	update_nodes(state)
 
 
-# The physical side of a breach: a door opens, a hacked camera or cache turns the player's color.
+# Devices as the rules have them: powered or not, open or shut, Breached, and where vehicles are.
 func update_nodes(state: BattleState) -> void:
-	for id in _nodes:
-		if state.breached.has(id):
-			_nodes[id].tint = BREACHED_COLOR
-		if map.node_kind(id) == "door":
-			_nodes[id].visible = not state.is_door_open(id)
+	for id in _devices:
+		var parts: Dictionary = _devices[id]
+		var device: Dictionary = state.devices[id]
+		var kind := map.node_kind(id)
+		var model: ToonModel = parts.get("model")
+		if model:
+			var color := NIGHT_VISION_COLOR if kind == "nvcamera" else Color.WHITE
+			if state.node_def(id).verbs.has("power") and not device.powered:
+				color = UNPOWERED_COLOR
+			if state.breached.has(id):
+				color = BREACHED_COLOR if device.powered or not state.node_def(id).verbs.has("power") else BREACHED_COLOR.darkened(0.5)
+			model.tint = color
+			if kind in BattleState.DOORS:
+				model.visible = not device.open
+		for light: Light3D in parts.get("lights", []):
+			light.visible = device.powered
+		for glow: GeometryInstance3D in parts.get("glows", []):
+			glow.visible = device.powered
+		if kind in BattleState.VEHICLES and not parts.get("moving", false):
+			parts.root.position = _grid.cell_to_world(device.cell)
+
+
+# Drives a vehicle along its path, a tile at a time.
+func drive(id: String, path: Array) -> void:
+	var parts: Dictionary = _devices[id]
+	parts.moving = true
+	var tween := create_tween()
+	for cell: Vector2i in path:
+		tween.tween_property(parts.root, "position", _grid.cell_to_world(cell), VEHICLE_SECONDS)
+	await tween.finished
+	parts.moving = false
+
+
+func device_height(id: String) -> float:
+	return _devices[id].get("height", 1.0) if _devices.has(id) else 1.0
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -209,40 +249,153 @@ func _wall_style(cell: Vector2i) -> String:
 	return "indoor" if map.indoors else "perimeter"
 
 
-func _build_node(id: String) -> void:
+func _build_device(id: String, filled: Dictionary) -> void:
 	var kind := map.node_kind(id)
 	if kind == "turret":
 		return
 	var cell := map.node_cell(id)
 	var at := _grid.cell_to_world(cell)
-	var set_in_wall := map.in_wall(cell) and kind != "door"
+	var set_in_wall := map.in_wall(cell) and kind not in BattleState.DOORS
 	var facing := map.node_facing(id)
-	if set_in_wall:
+	if set_in_wall and not filled.has(cell):
 		_add_wall(cell, _wall_style(_wall_beside(cell) + cell))
-	var model: ToonModel
+	var parts := {"lights": [], "glows": [], "height": 1.2}
 	match kind:
 		"access":
 			# Set into a wall it's a panel. In the open it stands on the floor until the terminal
 			# model exists.
 			if set_in_wall:
-				model = _hang("access_point", cell, facing, PANEL_MOUNT_Y)
+				parts.model = _hang("access_point", cell, facing, PANEL_MOUNT_Y)
 			else:
-				model = _add_prop("access_point", at, _yaw_toward(Vector3(facing.x, 0, facing.y)), PROP_HEIGHTS["access_point"])
-		"camera":
+				parts.model = _add_prop("access_point", at, _yaw_toward(Vector3(facing.x, 0, facing.y)), PROP_HEIGHTS["access_point"])
+		"camera", "nvcamera":
+			parts.height = CAMERA_MOUNT_Y
 			if set_in_wall:
-				model = _hang("security_camera", cell, facing, CAMERA_MOUNT_Y)
+				parts.model = _hang("security_camera", cell, facing, CAMERA_MOUNT_Y)
 			else:
 				_add_pole(at, CAMERA_POLE_HEIGHT)
-				model = _add_prop("security_camera", at + Vector3(0, CAMERA_POLE_HEIGHT, 0), _yaw_toward(_grid.center() - at), PROP_HEIGHTS["security_camera"])
+				parts.model = _add_prop("security_camera", at + Vector3(0, CAMERA_POLE_HEIGHT, 0), _yaw_toward(Vector3(facing.x, 0, facing.y)), PROP_HEIGHTS["security_camera"])
 		"door":
 			var spans_x := map.is_wall(cell + Vector2i(1, 0)) or map.is_wall(cell + Vector2i(-1, 0))
-			model = _add_prop("security_door", at, 0.0 if spans_x else PI / 2.0, 0.0, GridView.CELL)
+			parts.model = _add_prop("security_door", at, 0.0 if spans_x else PI / 2.0, 0.0, GridView.CELL)
+		"autodoor":
+			parts.model = _add_prop("loading_dock", at, _yaw_toward(Vector3(facing.x, 0, facing.y)), 0.0, GridView.CELL)
 		"cache":
+			parts.height = 2.0
 			if set_in_wall:
-				model = _hang("server_rack", cell, facing, 0.0)
+				parts.model = _hang("server_rack", cell, facing, 0.0)
 			else:
-				model = _add_prop("server_rack", at, 0.0, PROP_HEIGHTS["server_rack"])
-	_nodes[id] = model
+				parts.model = _add_prop("server_rack", at, 0.0, PROP_HEIGHTS["server_rack"])
+		"light":
+			parts.height = FLOODLIGHT_HEAD_Y
+			parts.model = _add_prop("floodlight_pole", at, 0.0, PROP_HEIGHTS["floodlight_pole"])
+			parts.lights.append(_add_floodlight(at))
+		"phone":
+			parts.root = _mount(cell, facing, 1.3)
+			parts.model = _toon_body(parts.root, [[Vector3(0.3, 0.4, 0.1), Vector3.ZERO, Color(0.12, 0.13, 0.15)]])
+			parts.glows.append(_glow_quad(parts.root, Vector2(0.2, 0.16), Vector3(0, 0.06, 0.052), SCREEN_COLOR, 2.0))
+		"hub":
+			parts.height = 1.6
+			parts.root = _mount(cell, facing, 1.0)
+			parts.model = _toon_body(parts.root, [[Vector3(1.0, 1.3, 0.3), Vector3.ZERO, Color(0.25, 0.27, 0.3)],
+				[Vector3(0.9, 0.12, 0.34), Vector3(0, 0.45, 0), Color(0.9, 0.55, 0.1)]])
+			parts.glows.append(_glow_quad(parts.root, Vector2(0.5, 0.3), Vector3(0, 0.1, 0.17), HUB_COLOR, 3.0))
+		"adscreen":
+			parts.height = 2.4
+			parts.root = _mount(cell, facing, 2.4)
+			parts.model = _toon_body(parts.root, [[Vector3(1.4, 0.9, 0.12), Vector3.ZERO, Color(0.06, 0.06, 0.07)]])
+			parts.glows.append(_ad_screen(parts.root))
+			var glow := OmniLight3D.new()
+			glow.light_color = SCREEN_COLOR
+			glow.light_energy = 1.6
+			glow.omni_range = 3.0 * GridView.CELL
+			glow.position = Vector3(0, -0.6, 0.8)
+			parts.root.add_child(glow)
+			parts.lights.append(glow)
+		"machine":
+			parts.root = _place_root(at, facing)
+			parts.model = _toon_body(parts.root, [[Vector3(1.2, 1.0, 0.9), Vector3(0, 0.5, 0), Color(0.3, 0.33, 0.24)],
+				[Vector3(0.5, 0.35, 0.5), Vector3(0.2, 1.15, 0), Color(0.18, 0.18, 0.2)]])
+			parts.glows.append(_glow_quad(parts.root, Vector2(0.18, 0.18), Vector3(-0.35, 0.75, 0.46), Color(0.4, 1.0, 0.4), 3.0))
+		"car":
+			parts.root = _place_root(at, facing)
+			parts.model = _toon_body(parts.root, [[Vector3(1.2, 0.55, 1.42), Vector3(0, 0.45, 0), Color(0.15, 0.55, 0.6)],
+				[Vector3(1.0, 0.45, 0.75), Vector3(0, 0.95, -0.1), Color(0.08, 0.12, 0.14)]])
+			parts.glows.append(_glow_quad(parts.root, Vector2(0.9, 0.08), Vector3(0, 0.55, 0.72), Color(0.6, 0.95, 1.0), 3.0))
+		"truck":
+			parts.height = 2.2
+			parts.root = _place_root(at, facing)
+			parts.model = _toon_body(parts.root, [[Vector3(1.35, 1.9, 0.95), Vector3(0, 1.05, -0.24), Color(0.62, 0.6, 0.55)],
+				[Vector3(1.3, 1.2, 0.5), Vector3(0, 0.75, 0.48), Color(0.75, 0.42, 0.12)]])
+			parts.glows.append(_glow_quad(parts.root, Vector2(1.0, 0.1), Vector3(0, 0.45, 0.74), Color(1.0, 0.85, 0.6), 3.0))
+	if not parts.has("root") and parts.get("model"):
+		parts.root = parts.model.get_parent_node_3d()
+	_devices[id] = parts
+
+
+# A node for a stand-in device on a wall face, facing out from the wall at a height.
+func _mount(cell: Vector2i, facing: Vector2i, height: float) -> Node3D:
+	return _place_root(_grid.cell_to_world(cell) + Vector3(facing.x, 0, facing.y) * (GridView.CELL / 2.0 + 0.16) + Vector3(0, height, 0), facing)
+
+
+func _place_root(at: Vector3, facing: Vector2i) -> Node3D:
+	var root := Node3D.new()
+	root.position = at
+	root.rotation.y = _yaw_toward(Vector3(facing.x, 0, facing.y))
+	add_child(root)
+	return root
+
+
+# Boxes as [size, offset, color], drawn with the same toon look as the models.
+func _toon_body(root: Node3D, boxes: Array) -> ToonModel:
+	var body := Node3D.new()
+	for box: Array in boxes:
+		var mesh := BoxMesh.new()
+		mesh.size = box[0]
+		var part := MeshInstance3D.new()
+		part.mesh = mesh
+		part.set_surface_override_material(0, ToonModel.flat(box[2]))
+		part.position = box[1]
+		body.add_child(part)
+	var model := ToonModel.new()
+	root.add_child(model)
+	model.adopt(body)
+	return model
+
+
+func _glow_quad(root: Node3D, size: Vector2, at: Vector3, color: Color, energy: float) -> MeshInstance3D:
+	var quad := QuadMesh.new()
+	quad.size = size
+	var glow := _add_mesh(quad, _glow(color, energy), Vector3.ZERO)
+	remove_child(glow)
+	root.add_child(glow)
+	glow.position = at
+	return glow
+
+
+func _ad_screen(root: Node3D) -> MeshInstance3D:
+	var screen := _glow_quad(root, Vector2(1.25, 0.75), Vector3(0, 0, 0.065), SCREEN_COLOR, 1.6)
+	var words := Label3D.new()
+	words.text = AD_WORDS[hash(root.position) % AD_WORDS.size()]
+	words.font = preload("res://art/fonts/BarlowCondensed-Bold.ttf")
+	words.font_size = 96
+	words.pixel_size = 0.004
+	words.modulate = Color(1.0, 0.95, 0.85)
+	words.position = Vector3(0, 0, 0.01)
+	screen.add_child(words)
+	return screen
+
+
+# Dumpsters, where the map keeps them.
+func _build_receptacles() -> void:
+	for line in map.receptacles:
+		var parts := line.split(" ", false)
+		if parts[0] != "dumpster":
+			continue
+		var cell: Vector2i = MapData._cell(parts[1])
+		var root := _place_root(_grid.cell_to_world(cell), Vector2i(0, 1))
+		_toon_body(root, [[Vector3(1.35, 1.0, 1.0), Vector3(0, 0.5, 0), Color(0.16, 0.32, 0.22)],
+			[Vector3(1.4, 0.08, 1.05), Vector3(0, 1.04, -0.02), Color(0.1, 0.2, 0.14)]])
 
 
 # A sign goes on the face of its wall tile, or flat on a floor tile. On a wall tile a mounted prop
@@ -268,7 +421,7 @@ func _build_dressing(item: Dictionary) -> void:
 				_ghosting.append({"node": piece, "cells": covered, "ghost": 0.0})
 	elif _walls.has(cell) and prop in MOUNTED:
 		_hang(prop, cell, facing, 0.0)
-	elif map.is_wall(cell):
+	elif map.is_wall(cell) or map.in_wall(cell):
 		var model: ToonModel
 		if prop in KEEP_HEIGHT:
 			model = _add_prop(prop, middle, yaw, PROP_HEIGHTS[prop])
@@ -278,10 +431,10 @@ func _build_dressing(item: Dictionary) -> void:
 		var standin := {"model": model, "top": model.bounds().end.y}
 		for i in tiles:
 			_standins[cell + run * i] = standin
+	elif map.is_low(cell):
+		_add_prop(prop, middle, yaw, 0.0, tiles * GridView.CELL)
 	else:
 		_add_prop(prop, _grid.cell_to_world(cell), yaw, PROP_HEIGHTS.get(prop, 1.0))
-		if prop == "floodlight_pole":
-			_add_floodlight(_grid.cell_to_world(cell))
 
 
 # Wall tiles that a prop stands in for, so no wall block is built there.
@@ -289,7 +442,7 @@ func _filled_cells() -> Dictionary:
 	var cells := {}
 	for item in map.dressing_items():
 		var cell: Vector2i = item.cell
-		if item.prop in MOUNTED or Signs.has(item.prop) or not map.is_wall(cell):
+		if item.prop in MOUNTED or Signs.has(item.prop) or not (map.is_wall(cell) or map.in_wall(cell)):
 			continue
 		for i: int in item.tiles:
 			cells[cell + _run_direction(item.yaw) * i] = true
@@ -407,7 +560,7 @@ func _add_neon_lights(cell: Vector2i, y: float) -> void:
 
 # A wide cone straight down from the pole's head, with shadows, and a beam that shows in the haze.
 # Its reflection is kept low, so wet ground under it shines without a blinding spot.
-func _add_floodlight(at: Vector3) -> void:
+func _add_floodlight(at: Vector3) -> SpotLight3D:
 	var light := SpotLight3D.new()
 	light.light_color = FLOODLIGHT
 	light.light_energy = 7.0
@@ -419,6 +572,7 @@ func _add_floodlight(at: Vector3) -> void:
 	light.shadow_enabled = true
 	add_child(light)
 	light.look_at_from_position(at + Vector3(0, FLOODLIGHT_HEAD_Y, 0), at + Vector3(0.01, 0, 0.3))
+	return light
 
 
 # Sized to a height, or to a width when one is given.

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/unit_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Drone"
+kind = 3
+speed = 7
+ap = 6
+sight = 6
+flies = true
+color = Color(0.55, 0.95, 0.85, 1)

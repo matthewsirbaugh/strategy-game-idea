@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ChipDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/chip_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "movement"
+display_name = "Movement"
+type = 0
+load_cost = 10
+strength = 1.0
+degraded_strength = 1.0
+effect = "Moving through the network. Free, and doesn't count toward the cap of 3. Loads on the first move."
+degraded_effect = "Doesn't degrade. Unloads only if a compaction takes context below its cost."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ChipDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/chip_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "extended_thinking"
+display_name = "Extended thinking"
+type = 2
+load_cost = 10
+strength = 2.0
+degraded_strength = 1.5
+effect = "This turn's next hack adds double hack power and costs double context."
+degraded_effect = "1.5× power for 1.5× context."

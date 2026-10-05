@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Loadout" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/loadout.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+armor = 2
+gear = 2
+chips = PackedStringArray("extended_thinking", "infrastructure_exploit", "weapons_exploit")
+role = "Breacher: one-action breaches and refund chains"

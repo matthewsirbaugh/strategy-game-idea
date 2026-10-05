@@ -1,7 +1,8 @@
 class_name GridView
 extends Node3D
 ## The grid as the player reads it: where tiles are in the world, the colored overlays that show
-## choices, and the fog, drawn as light that comes on where the team can see.
+## choices, cones and previews, and the fog, drawn as light that comes on where the team can see.
+## A dark tile the team can see is dimmer than a lit one.
 
 # One tile is this many metres across, so people and props sit at real scale.
 const CELL := 1.5
@@ -9,18 +10,11 @@ const TILE_GAP := 0.06
 const EXTRACTION_Y := 0.005
 const ACCESS_Y := 0.007
 const OVERLAY_Y := 0.012
-const PROBE_Y := 2.3
 const LIGHT_OFF_SECONDS := 0.35
+const DARK_BRIGHTNESS := 0.5
 # A tile comes on like a fluorescent tube: how lit it is (0 to 1) over its first moments in view.
 const FLICKER := [[0.06, 0.9], [0.11, 0.0], [0.17, 0.75], [0.22, 0.0], [0.3, 1.0]]
 
-const NODE_COLORS := {
-	"access": Color(0.2, 0.85, 1.0),
-	"camera": Color(1.0, 0.82, 0.3),
-	"door": Color(0.85, 0.55, 0.2),
-	"turret": Color(0.95, 0.55, 0.2),
-	"cache": Color(0.95, 0.3, 0.8),
-}
 const OVERLAY := preload("res://art/shaders/overlay.gdshader")
 const EXTRACTION_COLOR := Color(0.3, 1.0, 0.5, 0.3)
 const ACCESS_ZONE_COLOR := Color(0.2, 0.85, 1.0, 0.12)
@@ -38,7 +32,7 @@ var _zone_range := -1
 # The fog map covers the map plus a one-tile ring, so the building's outer wall darkens too.
 var _light_image: Image
 var _light_texture: ImageTexture
-var _lit := {}
+var _targets := {}
 var _brightness := {}
 var _lit_since := {}
 var _changing := {}
@@ -47,9 +41,7 @@ var _changing := {}
 func build(state: BattleState) -> void:
 	map = state.map
 	_overlay_mesh.size = Vector2(CELL - TILE_GAP, CELL - TILE_GAP)
-	var extraction := _overlay_material(EXTRACTION_COLOR)
-	for cell in map.extraction():
-		_add_mesh(_overlay_mesh, extraction, cell_to_world(cell) + Vector3(0, EXTRACTION_Y, 0))
+	set_overlay("extraction", map.extraction(), EXTRACTION_COLOR, EXTRACTION_Y)
 	_light_image = Image.create(map.size.x + 2, map.size.y + 2, false, Image.FORMAT_R8)
 	_light_image.fill(Color.BLACK)
 	_light_texture = ImageTexture.create_from_image(_light_image)
@@ -62,23 +54,26 @@ func _exit_tree() -> void:
 	RenderingServer.global_shader_parameter_set("fog_bounds", Vector4.ZERO)
 
 
-# Tiles the team can see are lit, and so is any wall beside one; everything else goes dark.
-func set_visible_cells(visible: Dictionary) -> void:
-	var lit := {}
-	for cell in visible:
-		lit[cell] = true
+# Tiles the team can see are lit, dimmer where they're dark, and so is any wall beside one;
+# everything else goes dark.
+func set_visibility(state: BattleState) -> void:
+	var targets := {}
+	for cell in state.visible_cells:
+		var brightness := 1.0 if state.is_lit(cell) else DARK_BRIGHTNESS
+		targets[cell] = maxf(targets.get(cell, 0.0), brightness)
 		for direction in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 1), Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1)]:
-			if not map.in_bounds(cell + direction) or map.is_wall(cell + direction):
-				lit[cell + direction] = true
-	for cell in lit:
-		if not _lit.has(cell):
+			var beside: Vector2i = cell + direction
+			if not map.in_bounds(beside) or map.is_wall(beside):
+				targets[beside] = maxf(targets.get(beside, 0.0), brightness)
+	for cell in targets:
+		if not _targets.has(cell):
 			_lit_since[cell] = 0.0
-			_changing[cell] = true
-	for cell in _lit:
-		if not lit.has(cell):
+		_changing[cell] = true
+	for cell in _targets:
+		if not targets.has(cell):
 			_lit_since.erase(cell)
 			_changing[cell] = true
-	_lit = lit
+	_targets = targets
 	set_process(not _changing.is_empty())
 
 
@@ -93,7 +88,7 @@ func _process(delta: float) -> void:
 			_brightness[cell] = target
 			_light_image.set_pixel(cell.x + 1, cell.y + 1, Color(target, target, target))
 			changed = true
-		if not _lit_since.has(cell) and is_equal_approx(target, 1.0 if _lit.has(cell) else 0.0):
+		if not _lit_since.has(cell) and is_equal_approx(target, _targets.get(cell, 0.0)):
 			_changing.erase(cell)
 	if changed:
 		_light_texture.update(_light_image)
@@ -101,28 +96,18 @@ func _process(delta: float) -> void:
 
 
 func _target_brightness(cell: Vector2i, delta: float) -> float:
-	if not _lit.has(cell):
+	var full: float = _targets.get(cell, 0.0)
+	if full == 0.0:
 		_lit_since.erase(cell)
 		return move_toward(_brightness.get(cell, 0.0), 0.0, delta / LIGHT_OFF_SECONDS)
 	if not _lit_since.has(cell):
-		return 1.0
+		return move_toward(_brightness.get(cell, 0.0), full, delta / LIGHT_OFF_SECONDS)
 	_lit_since[cell] += delta
 	for step in FLICKER:
 		if _lit_since[cell] < step[0]:
-			return step[1]
+			return step[1] * full
 	_lit_since.erase(cell)
-	return 1.0
-
-
-# A dropped probe: a small glowing marker floating over the node it watches from.
-func add_probe(cell: Vector2i) -> void:
-	var mesh := SphereMesh.new()
-	mesh.radius = 0.14
-	mesh.height = 0.28
-	var material := _material(Color(0.45, 1.0, 0.95))
-	material.emission_enabled = true
-	material.emission = Color(0.45, 1.0, 0.95)
-	_add_mesh(mesh, material, cell_to_world(cell) + Vector3(0, PROBE_Y, 0))
+	return full
 
 
 # Where an Operator with this tether range can stand to plug its AI in.
@@ -140,7 +125,7 @@ func show_access_zones(tether_range: int) -> void:
 				var cell := Vector2i(x, y)
 				if map.in_bounds(cell) and not map.is_wall(cell) and Grid.distance(cell, center_cell) <= tether_range:
 					zone[cell] = true
-	set_overlay("access", zone.keys(), ACCESS_ZONE_COLOR, ACCESS_Y)
+	set_overlay("access", zone.keys(), ACCESS_ZONE_COLOR, ACCESS_Y, 0.12)
 	_outline("access_edge", zone)
 
 
@@ -155,38 +140,39 @@ func _outline(layer: String, cells: Dictionary) -> void:
 	material.emission_enabled = true
 	material.emission = ACCESS_EDGE_COLOR
 	material.emission_energy_multiplier = ACCESS_EDGE_GLOW
-	var meshes: Array[MeshInstance3D] = []
+	var transforms: Array[Transform3D] = []
 	for cell: Vector2i in cells:
 		for side: Vector2i in SIDES:
 			if cells.has(cell + side):
 				continue
 			var offset := Vector3(side.x, 0, side.y) * (CELL - ACCESS_EDGE_WIDTH) / 2.0
-			var edge := _add_mesh(strip, material, cell_to_world(cell) + offset + Vector3(0, ACCESS_EDGE_Y, 0))
-			if side.x != 0:
-				edge.rotation.y = PI / 2.0
-			meshes.append(edge)
-	_overlays[layer] = meshes
+			var basis := Basis.from_euler(Vector3(0, PI / 2.0 if side.x != 0 else 0.0, 0))
+			transforms.append(Transform3D(basis, cell_to_world(cell) + offset + Vector3(0, ACCESS_EDGE_Y, 0)))
+	_overlays[layer] = _multimesh(strip, material, transforms)
 
 
 func node_position(id: String, height := 0.0) -> Vector3:
 	return cell_to_world(map.node_cell(id)) + Vector3(0, height, 0)
 
 
-func set_overlay(layer: String, cells: Array, color: Color, height := OVERLAY_Y) -> void:
+# One color over a set of tiles, drawn as a single multimesh so redrawing cones every action stays
+# cheap.
+func set_overlay(layer: String, cells: Array, color: Color, height := OVERLAY_Y, border := 1.0) -> void:
 	clear_overlay(layer)
+	if cells.is_empty():
+		return
 	var material := _overlay_material(color)
-	if layer == "access":
-		material.set_shader_parameter("border_strength", 0.12)
-	var meshes: Array[MeshInstance3D] = []
+	material.set_shader_parameter("border_strength", border)
+	var transforms: Array[Transform3D] = []
 	for cell in cells:
-		meshes.append(_add_mesh(_overlay_mesh, material, cell_to_world(cell) + Vector3(0, height, 0)))
-	_overlays[layer] = meshes
+		transforms.append(Transform3D(Basis(), cell_to_world(cell) + Vector3(0, height, 0)))
+	_overlays[layer] = _multimesh(_overlay_mesh, material, transforms)
 
 
 func clear_overlay(layer: String) -> void:
-	for mesh in _overlays.get(layer, []):
-		mesh.queue_free()
-	_overlays.erase(layer)
+	if _overlays.has(layer):
+		_overlays[layer].queue_free()
+		_overlays.erase(layer)
 
 
 func cell_to_world(cell: Vector2i) -> Vector3:
@@ -222,11 +208,16 @@ static func place_beam(beam: MeshInstance3D, from: Vector3, to: Vector3) -> void
 		beam.transform = Transform3D(basis, (from + to) / 2.0)
 
 
-func _add_mesh(mesh: Mesh, material: Material, at: Vector3) -> MeshInstance3D:
-	var instance := MeshInstance3D.new()
-	instance.mesh = mesh
+func _multimesh(mesh: Mesh, material: Material, transforms: Array[Transform3D]) -> MultiMeshInstance3D:
+	var multimesh := MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = mesh
+	multimesh.instance_count = transforms.size()
+	for i in transforms.size():
+		multimesh.set_instance_transform(i, transforms[i])
+	var instance := MultiMeshInstance3D.new()
+	instance.multimesh = multimesh
 	instance.material_override = material
-	instance.position = at
 	add_child(instance)
 	return instance
 

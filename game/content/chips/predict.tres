@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ChipDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/chip_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "predict"
+display_name = "Predict"
+type = 2
+load_cost = 15
+strength = 2.0
+degraded_strength = 1.0
+effect = "Shows the next turn of 2 guards the team can see: their path as a ghost line, and the line they'll aim along."
+degraded_effect = "1 guard."

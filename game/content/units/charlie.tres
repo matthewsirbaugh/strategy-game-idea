@@ -5,14 +5,10 @@
 [resource]
 script = ExtResource("1")
 display_name = "Charlie"
-max_hp = 12
-move = 4
-damage = 6
-attack_range = 1
-speed = 4
+speed = 6
+ap = 8
+sight = 6
+shot_range = 5
 color = Color(0.7, 0.5, 1, 1)
-ability = 3
-ability_uses = 1
-ability_duration = 2
 model = "res://art/characters/operator_sage/operator_sage.glb"
 pack = "res://art/characters/packs/pack_operator_sage.glb"

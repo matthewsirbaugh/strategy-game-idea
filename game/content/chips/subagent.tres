@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ChipDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/chip_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "subagent"
+display_name = "Subagent"
+type = 2
+load_cost = 20
+strength = 1.0
+degraded_strength = 0.5
+effect = "This turn's next hack also adds the same progress to one linked node. One action earns at most one refund; either node can earn it."
+degraded_effect = "Half progress to the linked node."

@@ -12,7 +12,7 @@ const ARM_DROP_DEGREES := 75.0
 
 # Shared by every copy: one toon material per source material, one clip library per rig.
 static var _toon_materials := {}
-static var _cloak_materials := {}
+static var _flat_materials := {}
 static var _libraries := {}
 static var _silhouette: ShaderMaterial
 
@@ -48,7 +48,11 @@ var _surfaces: Array[Dictionary] = []
 
 # Call once the model is in the tree: the pack is placed from world positions.
 func build(scene: PackedScene, pack: PackedScene = null) -> void:
-	var body: Node3D = scene.instantiate()
+	adopt(scene.instantiate(), pack, scene.resource_path)
+
+
+# A body built some other way, such as from primitive meshes for a stand-in prop.
+func adopt(body: Node3D, pack: PackedScene = null, path := "") -> void:
 	add_child(body)
 	var skeletons := body.find_children("*", "Skeleton3D", true, false)
 	if not skeletons.is_empty():
@@ -57,7 +61,7 @@ func build(scene: PackedScene, pack: PackedScene = null) -> void:
 			CharacterRig.attach_pack(skeleton, skeleton.find_children("*", "MeshInstance3D", false, false)[0], pack.instantiate())
 		player = body.find_child("AnimationPlayer", true, false)
 		player.remove_animation_library("")
-		player.add_animation_library("", _library(scene.resource_path, skeleton))
+		player.add_animation_library("", _library(path, skeleton))
 		player.animation_finished.connect(_on_clip_finished)
 		play(idle)
 	for mesh: MeshInstance3D in find_children("*", "MeshInstance3D", true, false):
@@ -111,11 +115,6 @@ func face(direction: Vector3) -> void:
 		rotation.y = atan2(direction.x, direction.z)
 
 
-func set_cloaked(cloaked: bool) -> void:
-	for entry in _surfaces:
-		entry.mesh.set_surface_override_material(entry.surface, _cloak(entry.original) if cloaked else _toon(entry.original))
-
-
 func set_toon(on: bool) -> void:
 	for entry in _surfaces:
 		entry.mesh.set_surface_override_material(entry.surface, _toon(entry.original) if on else entry.original)
@@ -147,15 +146,15 @@ static func _toon(original: Material) -> ShaderMaterial:
 	return _toon_materials[original]
 
 
-static func _cloak(original: Material) -> StandardMaterial3D:
-	if not _cloak_materials.has(original):
-		var cloak := StandardMaterial3D.new()
-		cloak.albedo_texture = (original as BaseMaterial3D).albedo_texture
-		cloak.albedo_color = Color(1, 1, 1, 0.3)
-		cloak.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		cloak.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		_cloak_materials[original] = cloak
-	return _cloak_materials[original]
+# A plain color for stand-in meshes. The toon shader reads only a texture, so the color is one.
+static func flat(color: Color) -> StandardMaterial3D:
+	if not _flat_materials.has(color):
+		var image := Image.create(1, 1, false, Image.FORMAT_RGBA8)
+		image.fill(color)
+		var material := StandardMaterial3D.new()
+		material.albedo_texture = ImageTexture.create_from_image(image)
+		_flat_materials[color] = material
+	return _flat_materials[color]
 
 
 # Walk and run come with each rig; the other clips were bought once, for clip_source/, and are

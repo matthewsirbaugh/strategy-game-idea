@@ -1,10 +1,12 @@
 class_name NetworkView
 extends Node3D
 
-# The topology stays aligned with the physical devices beneath it. Render priority keeps
-# the diagram readable through world geometry without changing picking or network rules.
+# The topology stays aligned with the physical devices beneath it. A network stays hidden until an
+# AI first connects to it; access points always show, since they're panels on the map. Lines from
+# a power hub run to every device on its circuit. Render priority keeps the diagram readable
+# through world geometry without changing picking or network rules.
 
-enum Order { BACKDROP = 1, LINK, PACKET, RIM, DISC, RING, ICON, AGENT_RIM, AGENT, LABEL_OUTLINE, LABEL }
+enum Order { BACKDROP = 1, CIRCUIT, LINK, PACKET, RIM, DISC, RING, ICON, AGENT_RIM, AGENT, LABEL_OUTLINE, LABEL }
 
 const BACKDROP_SHADER := preload("res://battle/network_backdrop.gdshader")
 const FLOOR_Y := 0.08
@@ -15,25 +17,45 @@ const TOKEN_SPACING := 1.0
 const LABEL_DROP := 65.0
 const HOP_SECONDS := 0.15
 const INK := Color(0.035, 0.075, 0.095)
+const LINK_COLOR := Color(0.24, 0.5, 0.55)
 const REACHABLE := Color(0.4, 0.87, 0.9)
 const CURRENT := Color(1.0, 0.94, 0.76)
 const BREACHED := Color(0.45, 0.93, 0.68)
+const CIRCUIT := Color(1.0, 0.68, 0.28)
+const UNPOWERED := 0.45
 const FONT := preload("res://art/fonts/BarlowCondensed-SemiBold.ttf")
 const ICONS := {
 	"access": preload("res://art/ui/access.svg"),
 	"door": preload("res://art/ui/door.svg"),
+	"autodoor": preload("res://art/ui/door.svg"),
 	"camera": preload("res://art/ui/camera.svg"),
+	"nvcamera": preload("res://art/ui/camera.svg"),
 	"turret": preload("res://art/ui/turret.svg"),
 	"cache": preload("res://art/ui/cache.svg"),
+	"light": preload("res://art/ui/light.svg"),
+	"phone": preload("res://art/ui/phone.svg"),
+	"machine": preload("res://art/ui/machine.svg"),
+	"adscreen": preload("res://art/ui/adscreen.svg"),
+	"car": preload("res://art/ui/car.svg"),
+	"truck": preload("res://art/ui/truck.svg"),
+	"hub": preload("res://art/ui/hub.svg"),
 }
 const COLORS := {
 	"access": Color(0.4, 0.84, 0.88),
 	"door": Color(0.95, 0.68, 0.42),
+	"autodoor": Color(0.95, 0.68, 0.42),
 	"camera": Color(0.68, 0.71, 0.96),
+	"nvcamera": Color(0.6, 0.95, 0.7),
 	"turret": Color(1.0, 0.46, 0.36),
 	"cache": Color(0.98, 0.84, 0.48),
+	"light": Color(1.0, 0.9, 0.62),
+	"phone": Color(0.75, 0.86, 0.95),
+	"machine": Color(0.8, 0.85, 0.6),
+	"adscreen": Color(0.35, 0.9, 0.95),
+	"car": Color(0.55, 0.85, 0.9),
+	"truck": Color(0.95, 0.65, 0.4),
+	"hub": Color(1.0, 0.72, 0.3),
 }
-const NAMES := {"access": "ACCESS", "door": "DOOR", "camera": "CAMERA", "turret": "SENTRY", "cache": "DATA CACHE"}
 
 # The fade in: the network appears over the still-sharp map, holds so it can be seen lining up,
 # then the map blurs away behind it.
@@ -49,6 +71,7 @@ var _labels: Array[Label3D] = []
 var _backdrop: ShaderMaterial
 var _icons: Array[Sprite3D] = []
 var _links: Array[Dictionary] = []
+var _circuits: Array[Dictionary] = []
 var _diagram_environment: Environment
 var _previous_environment: Environment
 
@@ -64,22 +87,24 @@ func build(state: BattleState, grid: GridView) -> void:
 	_diagram_environment.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	add_child(_make_backdrop())
 	for link in state.map.links:
-		var ends := link.split("-")
-		var from := node_position(ends[0])
-		var to := node_position(ends[1])
-		var beam := GridView.make_beam(0.035, Color(0.24, 0.5, 0.55, 0.7))
+		var beam := GridView.make_beam(0.035, Color(LINK_COLOR, 0.7))
 		_draw_on_top(beam.material_override, Order.LINK)
 		_fading.append([beam.material_override, 0.7])
 		add_child(beam)
-		GridView.place_beam(beam, from, to)
 		var packet := _sphere(0.065, Color(0.48, 0.86, 0.86, 0.85), Order.PACKET)
 		add_child(packet)
-		_links.append({"ends": ends, "from": from, "to": to, "beam": beam, "packet": packet})
+		_links.append({"ends": link.split("-"), "beam": beam, "packet": packet})
+	for hub in state.map.circuits:
+		for member in state.map.circuit(hub):
+			var wire := GridView.make_beam(0.025, Color(CIRCUIT, 0.55))
+			_draw_on_top(wire.material_override, Order.CIRCUIT)
+			_fading.append([wire.material_override, 0.55])
+			add_child(wire)
+			_circuits.append({"hub": hub, "member": member, "beam": wire})
 	for id in state.map.node_ids():
 		_build_node(id)
-	for unit in state.units:
-		if unit.is_player():
-			_agents[unit.id] = _build_agent(unit)
+	for unit in state.operators():
+		_agents[unit.id] = _build_agent(unit)
 	visible = false
 	refresh()
 
@@ -88,6 +113,7 @@ func fade_in() -> void:
 	_set_opacity(0.0)
 	_set_backdrop(0.0)
 	visible = true
+	refresh()
 	var tween := create_tween()
 	tween.tween_method(_set_opacity, 0.0, 1.0, fade_seconds)
 	tween.tween_interval(lineup_seconds)
@@ -110,52 +136,51 @@ func fade_out() -> void:
 
 
 func node_position(id: String) -> Vector3:
-	return _grid.cell_to_world(_state.map.node_cell(id)) + Vector3(0, FLOOR_Y, 0)
+	return _grid.cell_to_world(_state.node_cell(id)) + Vector3(0, FLOOR_Y, 0)
 
 
 func agent_position(unit: Unit) -> Vector3:
-	return _agent_position(unit, unit.agent_node)
+	return _agent_position(unit, unit.ai_node)
+
+
+# Access points always show; anything else only once its network is known.
+func is_shown(id: String) -> bool:
+	return _state.map.node_kind(id) == "access" or _state.revealed_networks.has(_state.map.network_of(id))
 
 
 func framing_bounds() -> Rect2:
-	var bounds := Rect2(Vector2(node_position(_nodes.keys()[0]).x, node_position(_nodes.keys()[0]).z), Vector2.ZERO)
+	var bounds := Rect2(Vector2(_grid.center().x, _grid.center().z), Vector2.ZERO)
 	for id in _nodes:
-		var at := node_position(id)
-		bounds = bounds.expand(Vector2(at.x, at.z))
-	return bounds.grow(1.6)
+		if is_shown(id):
+			var at := node_position(id)
+			bounds = bounds.expand(Vector2(at.x, at.z))
+	# Extra room at the bottom, under the Operator's panel.
+	return bounds.grow_individual(1.6, 1.6, 1.6, 7.0)
 
 
 func refresh() -> void:
 	for id in _nodes:
-		var part: Dictionary = _nodes[id]
-		var def := _state.node_def(id)
-		var kind := _state.map.node_kind(id)
-		var label: Label3D = part["label"]
-		var color: Color = COLORS[kind]
-		label.text = "%s / %s" % [id.to_upper(), NAMES[kind]]
-		if _state.breached.has(id):
-			label.text += "\n" + _status(id, kind).to_upper()
-			color = BREACHED
-		elif def.goal > 0:
-			label.text += "\n%d / %d" % [_state.breach.get(id, 0), def.goal]
-		else:
-			label.text += "\nENTRY"
-		var rim: StandardMaterial3D = part["rim"]
-		rim.albedo_color = Color(color, rim.albedo_color.a)
-		var icon: Sprite3D = part["icon"]
-		icon.modulate = Color(color, icon.modulate.a)
-		var progress := 1.0 if _state.breached.has(id) else float(_state.breach.get(id, 0)) / maxf(def.goal, 1)
-		if part["progress_value"] != progress:
-			part["progress"].mesh = _arc_mesh(progress)
-			part["progress_value"] = progress
+		_refresh_node(id)
+	for link in _links:
+		var shown: bool = is_shown(link.ends[0]) and is_shown(link.ends[1])
+		link.beam.visible = shown
+		link.packet.visible = shown
+		link.from = node_position(link.ends[0])
+		link.to = node_position(link.ends[1])
+		if shown:
+			GridView.place_beam(link.beam, link.from, link.to)
+	for wire in _circuits:
+		var shown := is_shown(wire.hub)
+		GridView.place_beam(wire.beam, node_position(wire.hub), node_position(wire.member))
+		wire.beam.visible = shown and wire.beam.visible
 	var sharing := {}
 	for id in _agents:
 		var unit: Unit = _state.units[id]
 		var agent: Node3D = _agents[id]
-		agent.visible = unit.agent_node != ""
+		agent.visible = unit.connected()
 		if agent.visible:
-			agent.position = _agent_position(unit, unit.agent_node)
-			sharing[unit.agent_node] = sharing.get(unit.agent_node, 0) + 1
+			agent.position = _agent_position(unit, unit.ai_node)
+			sharing[unit.ai_node] = sharing.get(unit.ai_node, 0) + 1
 	# A label drops below the row of tokens on its node, whichever way the camera turns the row.
 	for id in _nodes:
 		var label: Label3D = _nodes[id]["label"]
@@ -163,21 +188,55 @@ func refresh() -> void:
 		label.offset.y = -LABEL_DROP - spread / label.pixel_size
 
 
+func _refresh_node(id: String) -> void:
+	var part: Dictionary = _nodes[id]
+	var shown := is_shown(id)
+	for piece: Node3D in part.pieces:
+		piece.visible = shown
+		piece.position = node_position(id) + part.offsets[piece]
+	if not shown:
+		return
+	var def := _state.node_def(id)
+	var kind := _state.map.node_kind(id)
+	var device: Dictionary = _state.devices[id]
+	var label: Label3D = part["label"]
+	var color: Color = COLORS[kind]
+	label.text = "%s / %s" % [id.to_upper(), def.display_name.to_upper()]
+	var status := _status(id)
+	if _state.breached.has(id):
+		color = BREACHED
+	elif def.goal > 0:
+		status = ("%s   " % status if status != "" else "") + "%d / %d" % [_state.progress.get(id, 0), def.goal]
+	else:
+		status = "ENTRY"
+	if status != "":
+		label.text += "\n" + status
+	if def.verbs.has("power") and not device.powered:
+		color = color.darkened(1.0 - UNPOWERED)
+	var rim: StandardMaterial3D = part["rim"]
+	rim.albedo_color = Color(color, rim.albedo_color.a)
+	var icon: Sprite3D = part["icon"]
+	icon.modulate = Color(color, icon.modulate.a)
+	var progress := 1.0 if _state.breached.has(id) else float(_state.progress.get(id, 0)) / maxf(def.goal, 1)
+	if part["progress_value"] != progress:
+		part["progress"].mesh = _arc_mesh(progress)
+		part["progress_value"] = progress
+
+
 # The current ring circles the active AI's own token, so it stays readable when AIs share a node.
 func highlight(reachable: Array, current: String) -> void:
 	for id in _nodes:
 		var ring: MeshInstance3D = _nodes[id]["ring"]
-		ring.visible = id == current or reachable.has(id)
+		ring.visible = is_shown(id) and (id == current or reachable.has(id))
 		ring.position = node_position(id)
-		if id == current and _state.active and _state.active.agent_node == id:
+		if id == current and _state.active and _state.active.ai_node == id:
 			ring.position = agent_position(_state.active) - Vector3(0, AGENT_Y, 0)
 		var material: StandardMaterial3D = ring.material_override
 		material.albedo_color = Color(CURRENT if id == current else REACHABLE, material.albedo_color.a)
-
 	for link in _links:
 		var emphasized: bool = (link.ends[0] == current or reachable.has(link.ends[0])) and (link.ends[1] == current or reachable.has(link.ends[1]))
 		var material: StandardMaterial3D = link.beam.material_override
-		material.albedo_color = Color(REACHABLE if emphasized else Color(0.24, 0.5, 0.55), material.albedo_color.a)
+		material.albedo_color = Color(REACHABLE if emphasized else LINK_COLOR, material.albedo_color.a)
 
 
 func _process(_delta: float) -> void:
@@ -186,8 +245,8 @@ func _process(_delta: float) -> void:
 	var clock := Time.get_ticks_msec() / 1000.0
 	for i in _links.size():
 		var link: Dictionary = _links[i]
-		var along: float = fposmod(clock * 1.8 + i * 2.1, link.from.distance_to(link.to)) / link.from.distance_to(link.to)
-		link.packet.position = link.from.lerp(link.to, along)
+		var length: float = maxf(link.from.distance_to(link.to), 0.01)
+		link.packet.position = link.from.lerp(link.to, fposmod(clock * 1.8 + i * 2.1, length) / length)
 
 
 # Hit-tests tokens where they're drawn: side by side on a shared node, they spill onto the
@@ -211,6 +270,7 @@ func agent_at(ray_origin: Vector3, ray_normal: Vector3) -> Unit:
 
 func move_agent(unit: Unit, path: Array) -> void:
 	var agent: Node3D = _agents[unit.id]
+	agent.visible = true
 	var tween := create_tween()
 	for id in path:
 		tween.tween_property(agent, "position", _agent_position(unit, id), HOP_SECONDS)
@@ -220,11 +280,10 @@ func move_agent(unit: Unit, path: Array) -> void:
 func _build_node(id: String) -> void:
 	var at := node_position(id)
 	var kind := _state.map.node_kind(id)
-	var rim := _add_disc(at, 0.73, COLORS[kind], Order.RIM)
-	_add_disc(at, 0.66, INK, Order.DISC)
+	var rim := _add_disc(0.73, COLORS[kind], Order.RIM)
+	var disc := _add_disc(0.66, INK, Order.DISC)
 	var progress := MeshInstance3D.new()
 	progress.material_override = _ink(BREACHED, Order.RING)
-	progress.position = at
 	add_child(progress)
 	var torus := TorusMesh.new()
 	torus.inner_radius = 0.91
@@ -241,7 +300,6 @@ func _build_node(id: String) -> void:
 	icon.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	icon.no_depth_test = true
 	icon.render_priority = Order.ICON
-	icon.position = at + Vector3(0, 0.025, 0)
 	icon.modulate = COLORS[kind]
 	add_child(icon)
 	_icons.append(icon)
@@ -256,13 +314,13 @@ func _build_node(id: String) -> void:
 	label.pixel_size = 0.015
 	label.modulate = Color(0.88, 0.95, 0.91)
 	label.outline_modulate = INK
-	label.position = at
 	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	label.offset = Vector2(0, -LABEL_DROP)
 	add_child(label)
 	_labels.append(label)
-	_nodes[id] = {"rim": rim, "ring": ring, "label": label, "icon": icon,
-		"progress": progress, "progress_value": -1.0}
+	var offsets := {rim: Vector3.ZERO, disc: Vector3.ZERO, progress: Vector3.ZERO, icon: Vector3(0, 0.025, 0), label: Vector3.ZERO}
+	_nodes[id] = {"rim": rim.material_override, "ring": ring, "label": label, "icon": icon, "progress": progress, "progress_value": -1.0,
+		"pieces": offsets.keys(), "offsets": offsets}
 
 
 func _arc_mesh(fill: float) -> ImmediateMesh:
@@ -309,8 +367,8 @@ func _build_agent(unit: Unit) -> Node3D:
 # Centered on the node, or side by side when several AIs share it.
 func _agent_position(unit: Unit, id: String) -> Vector3:
 	var sharing: Array[int] = []
-	for other in _state.units:
-		if other.is_player() and other.agent_node == id:
+	for other in _state.operators():
+		if other.ai_node == id:
 			sharing.append(other.id)
 	var offset := 0.0
 	if sharing.has(unit.id):
@@ -318,18 +376,16 @@ func _agent_position(unit: Unit, id: String) -> Vector3:
 	return node_position(id) + Vector3(offset, AGENT_Y, 0)
 
 
-func _add_disc(at: Vector3, radius: float, color: Color, order: int) -> StandardMaterial3D:
+func _add_disc(radius: float, color: Color, order: int) -> MeshInstance3D:
 	var mesh := CylinderMesh.new()
 	mesh.top_radius = radius
 	mesh.bottom_radius = radius
 	mesh.height = 0.02
-	var material := _ink(color, order)
 	var disc := MeshInstance3D.new()
 	disc.mesh = mesh
-	disc.material_override = material
-	disc.position = at
+	disc.material_override = _ink(color, order)
 	add_child(disc)
-	return material
+	return disc
 
 
 func _sphere(radius: float, color: Color, order: int) -> MeshInstance3D:
@@ -371,17 +427,23 @@ func _set_backdrop(amount: float) -> void:
 	_backdrop.set_shader_parameter("amount", amount)
 
 
-func _status(id: String, kind: String) -> String:
-	match kind:
-		"door":
-			return "open" if _state.is_door_open(id) else "locked"
-		"camera":
-			return "CONTROLLED"
+func _status(id: String) -> String:
+	var device: Dictionary = _state.devices[id]
+	var words: Array[String] = []
+	match _state.map.node_kind(id):
+		"door", "autodoor":
+			words.append("OPEN" if device.open else "SHUT")
+			if device.locked:
+				words.append("LOCKED")
 		"turret":
-			return "offline"
+			if _state.breached.has(id):
+				words.append("TARGETING" if device.mode == "target" else "HOLDING")
 		"cache":
-			return "secured"
-	return ""
+			if _state.breached.has(id):
+				words.append("SECURED")
+	if _state.node_def(id).verbs.has("power") and _state.map.node_kind(id) not in BattleState.DOORS:
+		words.push_front("ON" if device.powered else "OFF")
+	return "   ".join(words)
 
 
 func _ink(color: Color, order: int) -> StandardMaterial3D:

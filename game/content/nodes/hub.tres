@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="NodeDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/node_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+kind = "hub"
+display_name = "Power hub"
+goal = 30
+context_cost = 20
+category = "infrastructure"
+verbs = PackedStringArray("power")
+sound_radius = 5
+sound_all = true
+starts_powered = true

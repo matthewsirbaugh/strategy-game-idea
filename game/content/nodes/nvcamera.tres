@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="NodeDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/node_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+kind = "nvcamera"
+display_name = "Night-vision camera"
+goal = 30
+context_cost = 20
+category = "surveillance"
+verbs = PackedStringArray("power")
+seen_range = 6
+noticed_range = 9
+sees_dark = true
+starts_powered = true

@@ -14,13 +14,19 @@ Needs Godot 4.7 (`brew install --cask godot`).
 - Verify imports and both test suites: `bash tools/check.sh`. Prints one line per successful
   check; on failure, prints the Godot output and exits nonzero, including script errors that
   Godot itself can report with a successful exit code. This checks code, not rendering or feel.
-- Test the hacking math: `godot --headless --path game -s tests/test_hacking.gd`
-- Test the rules (fog fairness, illegal actions, map checks): `godot --headless --path game -s tests/test_rules.gd`
+- Test the network and context math (Jump, refunds, chip multipliers, compaction, circuits):
+  `godot --headless --path game -s tests/test_hacking.gd`
+- Test the rules (turn ending, donated compute, aim lines, Predict, fog fairness, illegal actions,
+  broken content, the test map, restarting a phase): `godot --headless --path game -s tests/test_rules.gd`
+
+New game opens the loadout screen, a test tool for swapping each Operator's armor, gear and chips;
+restarting after a loss keeps what was picked there.
 
 Battle camera: left-drag or WASD pans; right-drag (or Option-drag, or middle-drag) orbits; Q
 and E turn; the wheel or a pinch zooms; H ghosts every wall; L switches the characters and props
 between soft and hard-edged shading, to compare them. A click without a drag selects, and a
-right-click without a drag steps back.
+right-click without a drag steps back. In battle, N switches to the network, I scans every device,
+and Space ends the turn.
 
 ## How `game/` is organized
 
@@ -28,8 +34,8 @@ right-click without a drag steps back.
 |---|---|
 | `rules/` | Battle rules as plain data and logic, with no visuals |
 | `battle/` | The 3D battle scene that draws the rules' state |
-| `ui/` | Title, settings and pause menus |
-| `content/` | Tunable data as `.tres` files: the map, units, network nodes |
+| `ui/` | Title, loadout, settings and pause menus |
+| `content/` | Tunable data as `.tres` files: `battle.tres` gathers the units, devices, chips and V1 loadouts; the map is in `maps/` |
 | `tests/` | The few tests that earn their keep, run headless |
 | `autoload/` | The two globals: settings and scene switching |
 | `art/` | Models, fonts and shared shaders the game loads: the toon look for models, and the painted walls, ground and signs, all under the fog. `surfaces.gd` holds every surface's colors and wear |
@@ -45,31 +51,37 @@ the task. Historical findings, concept art and binary assets need not be loaded 
 
 | Task | Start here | Follow only as needed |
 |---|---|---|
-| Action legality, turn halves, context, victory | [battle_state.gd](game/rules/battle_state.gd) | [unit.gd](game/rules/unit.gd), [battle-core.md](explorations/battle-core.md#2026-09-29--context-as-a-battle-long-resource-and-interim-turn-rules-bryson) |
-| Guard perception, patrols and investigation | [enemy_ai.gd](game/rules/enemy_ai.gd) | `BattleState.seen_enemies`, `can_pass`, `attack_targets` |
-| Map parsing, routes and sight | [map_data.gd](game/rules/map_data.gd) | [reach.gd](game/rules/reach.gd), [grid.gd](game/rules/grid.gd) |
-| Actions, selection and event playback | [battle.gd](game/battle/battle.gd) | [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
+| Turns, AP, actions, hacking, chips, bodies, victory | [battle_state.gd](game/rules/battle_state.gd) | [unit.gd](game/rules/unit.gd), [RULES.md](RULES.md) |
+| Who sees what: light and dark, cones, team vision, sound | [perception.gd](game/rules/perception.gd) | `BattleState.blocks_sight`, `has_line_of_sight` |
+| Device verbs, circuits, vehicles | [devices.gd](game/rules/devices.gd) | `BattleState.use_verb`, `verb_preview` |
+| Guard and turret turns, aim and fire | [enemy_ai.gd](game/rules/enemy_ai.gd) | `Perception.sweep`, `BattleState.step` |
+| Map parsing, zones, networks, circuits, receptacles | [map_data.gd](game/rules/map_data.gd) | [reach.gd](game/rules/reach.gd), [grid.gd](game/rules/grid.gd) |
+| Loadouts and restarting a phase | [battle_session.gd](game/rules/battle_session.gd) | `ui/loadout_menu.gd`, `autoload/scene_router.gd` |
+| Actions, menus, picking, previews, event playback | [battle.gd](game/battle/battle.gd) | [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
 | Camera and mouse gestures | [camera_rig.gd](game/battle/camera_rig.gd) | `battle.gd` input and picking functions, `project.godot` input actions |
-| Fog and wall visibility | [grid_view.gd](game/battle/grid_view.gd), [level_view.gd](game/battle/level_view.gd) | `art/shaders/fog.gdshaderinc`, `ghost.gdshaderinc` |
+| Fog, overlays and wall visibility | [grid_view.gd](game/battle/grid_view.gd), [level_view.gd](game/battle/level_view.gd) | `art/shaders/fog.gdshaderinc`, `ghost.gdshaderinc` |
 | Character rendering and animation | [unit_view.gd](game/battle/unit_view.gd), [toon_model.gd](game/art/toon_model.gd) | [character_rig.gd](game/art/characters/character_rig.gd), `preview/` |
-| Environment rendering | [level_view.gd](game/battle/level_view.gd) | `city_backdrop.gd`, `signs.gd`, `rain.gd`, `art/surfaces.gd`, `art/shaders/` |
+| Environment and device props | [level_view.gd](game/battle/level_view.gd) | `city_backdrop.gd`, `signs.gd`, `rain.gd`, `art/surfaces.gd`, `art/shaders/` |
 | Menus and saved settings | `ui/`, `autoload/` | The matching `.tscn` and `.gd` pair |
 
 ## Implementation boundaries
 
 - `BattleState` owns action legality and state changes. Its actions return event dictionaries;
   `battle.gd` animates them and refreshes the views. Menu availability uses the same rules.
-  Downed/disabled units and finished battles reject actions. Guards plan from perceived targets
-  and keep an investigation lead until they reach it, see a target, or cannot make progress.
-- Maps and network links are fixed for the lifetime of a battle. `MapData` caches parsed layout;
-  `BattleState` caches network searches. Map validation and missing or duplicate battle
-  definitions surface errors before scene construction. `UnitDef` holds art paths so headless
-  rule tests do not load models.
-- The battle controller caches choices only while selecting an action and clears them on state
-  transitions; execution still validates through `BattleState`. Fog processes changing cells
-  until they settle. Wall visibility recalculates when the camera or watched units move, and
-  updates shader parameters while ghosting changes. Revisit these assumptions before adding
-  dynamic terrain, movable scenery or edits to a live map.
+  `Perception`, `Devices` and `EnemyAI` are plain helpers that work on a `BattleState`; nothing
+  else changes it. Downed units and finished battles reject actions.
+- Predict and the verb previews run the real rules on `BattleState.clone()`, so a preview can't
+  promise something play won't do. Units refer to each other by id so a clone shares nothing
+  that changes.
+- Definitions (`UnitDef`, `NodeDef`, `ChipDef`, `Loadout`) never change during a battle; what
+  changes lives in `Unit` and `BattleState.devices`, including which side owns a turret. Map
+  validation and broken content surface errors before scene construction.
+- Network links, zones and circuits are fixed for a battle; vehicles move, so node positions come
+  from `BattleState.node_cell`, not the map. `LevelView` and `NetworkView` follow them.
+- `BattleSession` carries the map, content, chosen loadouts and anything carried into the phase.
+  Restarting rebuilds the phase from it. It lives on the scene router; there are no other globals.
+- The battle controller caches choices only while picking and clears them on state transitions;
+  execution still validates through `BattleState`. Fog processes changing cells until they settle.
 - Character retargeting resolves animation tracks once per clip, then samples the same poses.
   Shared model materials and animation libraries remain in `ToonModel`; surface appearance
   stays in `Surfaces` and the shaders. No rendering settings are chosen by the test runner.

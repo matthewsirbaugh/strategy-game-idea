@@ -8,7 +8,7 @@ extends Control
 
 
 func _ready() -> void:
-	_new_game.pressed.connect(SceneRouter.goto_battle)
+	_new_game.pressed.connect(SceneRouter.goto_loadout)
 	_settings_button.pressed.connect(_open_settings)
 	_quit.pressed.connect(get_tree().quit)
 	_settings.closed.connect(_close_settings)

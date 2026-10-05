@@ -7,4 +7,6 @@ script = ExtResource("1")
 kind = "door"
 display_name = "Door"
 goal = 10
-context_cost = 15
+context_cost = 10
+category = "infrastructure"
+verbs = PackedStringArray("lock")
