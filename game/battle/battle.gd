@@ -228,13 +228,13 @@ func _open_menu(actions: Array = [], title := "") -> void:
 	_mode = Mode.MENU
 	if actions.is_empty():
 		if unit.is_robot():
-			actions = _robot_actions(unit)
+			actions = BattleMenus.robot_actions(state, unit)
 			title = unit.display_name.to_upper()
 		elif _network_shown:
-			actions = _ai_actions(unit)
+			actions = BattleMenus.ai_actions(state, unit)
 			title = "%s'S AI" % unit.display_name.to_upper()
 		else:
-			actions = _operator_actions(unit)
+			actions = BattleMenus.operator_actions(state, unit)
 			title = unit.display_name.to_upper()
 	var anchor: Vector3 = _views[unit.id].position + Vector3(0, UNIT_HEIGHT, 0)
 	if _network_shown and unit.is_operator() and unit.connected():
@@ -242,121 +242,6 @@ func _open_menu(actions: Array = [], title := "") -> void:
 	_network.highlight([], unit.ai_node if _network_shown and unit.is_operator() else "")
 	_hud.open_menu(get_viewport().get_camera_3d().unproject_position(anchor), actions, title)
 	_hud.show_turn(state)
-
-
-func _operator_actions(unit: Unit) -> Array:
-	var actions := []
-	if not state.move_costs(unit).is_empty():
-		actions.append({"id": "move", "text": "Move   1 AP a tile", "tip": "Tiles that would get you noticed are amber, seen red"})
-	if not state.move_costs(unit, true).is_empty():
-		actions.append({"id": "sprint", "text": "Sprint   %d tiles for %d AP" % [BattleState.SPRINT_TILES, BattleState.SPRINT_COST], "tip": "Gives up this turn's shot. Cut short, it costs what walking would have"})
-	if not state.shot_targets(unit).is_empty():
-		actions.append({"id": "shoot", "text": "Shoot   free, once a turn", "tip": "Range %d, line of sight. A hit stuns an enemy for %d turns" % [unit.def.shot_range, BattleState.STUN_TURNS]})
-	if state.can_shoot(unit):
-		actions.append({"id": "overwatch", "text": "Overwatch   holds the shot", "tip": "Fires at the first enemy that moves into your line of fire, until your next turn"})
-	for option in state.door_options(unit):
-		var cost := "   %d AP" % BattleState.LOCK_COST if option.action == "lock" else "   free"
-		actions.append({"id": "door:%s:%s" % [option.node, option.action], "text": "%s door %s%s" % [option.action.capitalize(), option.node.to_upper(), cost]})
-	for id in state.peek_options(unit):
-		actions.append({"id": "peek:" + id, "text": "Peek through %s   %d AP" % [id.to_upper(), BattleState.PEEK_COST], "tip": "See past the door until your turn ends"})
-	for option in state.deploy_options(unit):
-		var via: String = "" if option.relay < 0 else " via " + state.units[option.relay].def.display_name.to_lower()
-		actions.append({"id": "deploy:%s:%d" % [option.access, option.relay], "text": "Deploy AI at %s%s   %d AP" % [option.access.to_upper(), via, BattleState.DEPLOY_AI_COST]})
-	for body in state.tie_targets(unit):
-		actions.append({"id": "tie:%d" % body.id, "text": "Tie up %s   %d AP" % [body.display_name, BattleState.TIE_COST]})
-	for body in state.pickup_targets(unit):
-		actions.append({"id": "pickup:%d" % body.id, "text": "Pick up %s   free" % body.display_name, "tip": "While carrying you can only move"})
-	if not state.putdown_cells(unit).is_empty():
-		actions.append({"id": "putdown", "text": "Put down %s   free" % state.units[unit.carrying].display_name, "tip": "On a dumpster or trunk, it's hidden inside"})
-	if not state.flashbang_cells(unit).is_empty():
-		actions.append({"id": "flashbang", "text": "Flashbang   %d AP  (%d left)" % [BattleState.FLASHBANG_COST, unit.flashbangs],
-			"tip": "Thrown up to %d tiles; blinds guards within %d for %d turns" % [BattleState.FLASHBANG_RANGE, BattleState.FLASHBANG_RADIUS, BattleState.BLIND_TURNS]})
-	if not state.robot_cells(unit).is_empty():
-		actions.append({"id": "robot", "text": "Deploy %s   %d AP" % [unit.robot_def.display_name.to_lower(), BattleState.ROBOT_COST], "tip": "It acts from next round"})
-	for other in state.share_targets(unit):
-		actions.append({"id": "share:%d" % other.id, "text": "Give %s's AI 1 AP" % other.display_name, "tip": "Shared compute: it arrives on their next turn, and lapses if unused"})
-	actions.append({"id": "ai", "text": "AI   →", "tip": "The AI's own actions, on its own AP"})
-	for other in state.tied_operators():
-		actions.append({"id": "choose:%d" % other.id, "text": "Act with %s first" % other.display_name})
-	actions.append({"id": "end", "text": "End turn"})
-	return actions
-
-
-func _ai_actions(unit: Unit) -> Array:
-	var actions := []
-	if unit.connected():
-		if not state.network_destinations(unit).is_empty():
-			var load := "   loads movement +%dM" % state.chip_def(BattleState.MOVEMENT).load_cost if unit.chips[BattleState.MOVEMENT] == 0 else ""
-			actions.append({"id": "ai_move", "text": "Move   1 AP" + load, "tip": "Up to %d hops; hops out of Breached nodes are free" % BattleState.NETWORK_RANGE})
-		if state.can_hack(unit):
-			var id := unit.ai_node
-			var text := "Hack %s  +%d   1 AP, +%dM" % [id.to_upper(), state.hack_power(unit, id), state.hack_context(unit, id)]
-			actions.append({"id": "hack:", "text": text, "tip": "A one-action breach from untouched refunds the AP"})
-			for linked in state.subagent_links(unit):
-				actions.append({"id": "hack:" + linked, "text": "   + subagent on %s  +%d" % [linked.to_upper(), state.subagent_points(unit, state.hack_power(unit, id))]})
-	if state.can_compact(unit):
-		actions.append({"id": "compact", "text": "Compact   1 AP: %dM to %dM" % [unit.context, state.compacted(unit.context)], "tip": "Degrades every loaded chip a step"})
-	for id in state.load_options(unit):
-		actions.append({"id": "load:" + id, "text": "Load %s   +%dM" % [state.chip_def(id).display_name, state.chip_def(id).load_cost]})
-	for id in unit.chips:
-		var chip := state.chip_def(id)
-		if chip.type != ChipDef.Type.ACTIVE or not unit.connected():
-			continue
-		var load := "   +%dM to load" % chip.load_cost if unit.chips[id] == 0 else ""
-		var waiting := "   (ready for the next hack)" if unit.next_hack.has(id) else ""
-		actions.append({"id": "chip:" + id, "text": "%s   1 AP%s%s" % [chip.display_name, load, waiting], "enabled": state.chip_ready(unit, id), "tip": chip.effect})
-	if not state.verb_options(unit).is_empty():
-		actions.append({"id": "devices", "text": "Devices   →", "tip": "Verbs cost no AP and %dM context each" % BattleState.VERB_CONTEXT})
-	for id in state.turret_controls(unit):
-		var mode := "hold" if state.devices[id].mode == "target" else "target"
-		actions.append({"id": "turret:%s:%s" % [id, mode], "text": "Turret %s: %s   free" % [id.to_upper(), "hold fire" if mode == "hold" else "target enemies"]})
-	if actions.is_empty():
-		actions.append({"id": "none", "text": "Nothing the AI can do yet", "enabled": false})
-	actions.append({"id": "physical", "text": "←   Operator"})
-	actions.append({"id": "end", "text": "End turn"})
-	return actions
-
-
-func _device_actions(unit: Unit, only := "") -> Array:
-	var actions := []
-	for option in state.verb_options(unit):
-		if only != "" and option.node != only:
-			continue
-		actions.append({"id": "verb:%s:%s:%d" % [option.node, option.verb, option.direction], "text": _verb_text(option), "enabled": option.enabled})
-	actions.append({"id": "ai", "text": "←   Back"})
-	return actions
-
-
-func _verb_text(option: Dictionary) -> String:
-	var id: String = option.node
-	var device: Dictionary = state.devices[id]
-	var what := "%s %s: " % [state.node_def(id).display_name, id.to_upper()]
-	match option.verb:
-		"power":
-			what += "power off" if device.powered else "power on"
-		"lock":
-			what += "unlock" if device.locked else "lock"
-		"activate":
-			match state.map.node_kind(id):
-				"autodoor":
-					what += "close" if device.open else "open"
-				"phone":
-					what += "ring"
-				"adscreen":
-					what += "flash"
-				_:
-					what += "drive forward" if option.direction == 1 else "drive backward"
-	return what + "   +%dM" % BattleState.VERB_CONTEXT
-
-
-func _robot_actions(unit: Unit) -> Array:
-	var actions := []
-	if not state.move_costs(unit).is_empty():
-		actions.append({"id": "move", "text": "Move   1 AP a tile"})
-	if not state.dog_stun_targets(unit).is_empty():
-		actions.append({"id": "dog_stun", "text": "Stun   %d AP, once a battle" % BattleState.DOG_STUN_COST})
-	actions.append({"id": "end", "text": "End turn"})
-	return actions
 
 
 func _on_action(id: String) -> void:
@@ -397,13 +282,13 @@ func _on_action(id: String) -> void:
 				_busy = true
 				await _set_network(true)
 				_busy = false
-			_open_menu(_ai_actions(unit), "%s'S AI" % unit.display_name.to_upper())
+			_open_menu(BattleMenus.ai_actions(state, unit), "%s'S AI" % unit.display_name.to_upper())
 		"physical":
 			if _network_shown:
 				_busy = true
 				await _set_network(false)
 				_busy = false
-			_open_menu(_operator_actions(unit), unit.display_name.to_upper())
+			_open_menu(BattleMenus.operator_actions(state, unit), unit.display_name.to_upper())
 		"end":
 			_act(state.end_turn(unit))
 		"ai_move":
@@ -429,7 +314,7 @@ func _on_action(id: String) -> void:
 		"predict":
 			_on_predict(unit, parts[1].to_int())
 		"devices":
-			_open_menu(_device_actions(unit), "DEVICES")
+			_open_menu(BattleMenus.device_actions(state, unit), "DEVICES")
 		"verb":
 			_act(state.use_verb(unit, parts[1], parts[2], parts[3].to_int()))
 		"turret":
@@ -439,39 +324,23 @@ func _on_action(id: String) -> void:
 func _use_chip(unit: Unit, id: String) -> void:
 	match id:
 		BattleState.LOCATE:
-			var actions := []
-			for target in state.locate_targets():
-				actions.append({"id": "locate:%d" % target.id, "text": target.display_name})
-			actions.append({"id": "ai", "text": "←   Back"})
-			_open_menu(actions, "LOCATE WHO?")
+			_open_menu(BattleMenus.locate_actions(state), "LOCATE WHO?")
 		BattleState.PREDICT:
 			_predict_picks.clear()
-			_open_menu(_predict_menu(unit), "PREDICT WHO?")
+			_open_menu(BattleMenus.predict_actions(state, _predict_picks), "PREDICT WHO?")
 		_:
 			_act(state.use_chip(unit, id))
-
-
-# Predict follows up to 2 guards (1 degraded): pick them one by one.
-func _predict_menu(unit: Unit) -> Array:
-	var actions := []
-	for target in state.predict_targets():
-		if not _predict_picks.has(target):
-			actions.append({"id": "predict:%d" % target.id, "text": target.display_name})
-	if not _predict_picks.is_empty():
-		actions.append({"id": "predict:-1", "text": "Just %s" % _predict_picks[0].display_name})
-	actions.append({"id": "ai", "text": "←   Back"})
-	return actions
 
 
 func _on_predict(unit: Unit, id: int) -> void:
 	if id >= 0:
 		_predict_picks.append(state.units[id])
-	if id < 0 or _predict_picks.size() >= state.chip_count(unit, BattleState.PREDICT) or _predict_menu(unit).size() <= 2:
+	if id < 0 or _predict_picks.size() >= state.chip_count(unit, BattleState.PREDICT) or BattleMenus.predict_actions(state, _predict_picks).size() <= 2:
 		var picks := _predict_picks.duplicate()
 		_predict_picks.clear()
 		_act(state.use_chip(unit, BattleState.PREDICT, picks))
 	else:
-		_open_menu(_predict_menu(unit), "AND WHO ELSE?")
+		_open_menu(BattleMenus.predict_actions(state, _predict_picks), "AND WHO ELSE?")
 
 
 # --- Picking targets -----------------------------------------------------------------------------
@@ -535,7 +404,7 @@ func _click(screen_position: Vector2) -> void:
 		Mode.IDLE:
 			var node := state.node_at(cell) if _network_shown else ""
 			if node != "" and token == null and state.verb_options(unit).any(func(option: Dictionary) -> bool: return option.node == node):
-				_open_menu(_device_actions(unit, node), "%s %s" % [state.node_def(node).display_name.to_upper(), node.to_upper()])
+				_open_menu(BattleMenus.device_actions(state, unit, node), "%s %s" % [state.node_def(node).display_name.to_upper(), node.to_upper()])
 			else:
 				_open_menu()
 		Mode.PICK:
@@ -569,165 +438,37 @@ func _play(events: Array[Dictionary]) -> void:
 		match event.type:
 			"move":
 				await _walk(unit, event.path)
-			"blocked":
-				if state.player_sees(unit) or unit.is_player():
-					_hud.log_line("%s ran into %s!" % [unit.display_name, event.by.display_name])
-			"revealed":
-				_hud.log_line("%s spots %s and stops" % [unit.display_name, ", ".join(event.enemies.map(func(enemy: Unit) -> String: return enemy.display_name))])
-			"alert":
-				_hud.log_line("%s sees %s! Full alert" % [_who(unit), event.target.display_name])
-			"notice":
-				if state.player_sees(unit):
-					_hud.log_line("%s noticed something" % unit.display_name)
-			"camera_report":
-				_log_responders("Camera %s spotted something" % event.node.to_upper(), event.responders)
 			"sound":
 				_flash_area(event.cells, SOUND_COLOR)
-				_log_responders("A sound carries %d step%s" % [event.radius, "" if event.radius == 1 else "s"], event.responders)
-			"lure":
-				_log_responders("%s %s draws attention" % [state.node_def(event.node).display_name, event.node.to_upper()], event.responders)
-			"found_body":
-				_hud.log_line("%s found %s! Full alert" % [_who(unit), event.body.display_name])
-			"aim":
-				_hud.log_line("%s aims at %s" % [_who(unit), event.target.display_name])
-			"aim_lapsed":
-				if state.player_sees(unit):
-					_hud.log_line("%s lost the shot" % unit.display_name)
 			"fire", "overwatch", "shot":
-				await _shoot(unit, event.target, event.type == "overwatch")
+				await _shoot(unit, event.target)
 			"hit":
-				_hit(event)
-			"dog_stun":
-				_hud.log_line("%s stuns %s" % [unit.display_name, event.target.display_name])
-			"stunned":
-				if state.player_sees(unit):
-					_hud.log_line("%s is out cold%s" % [unit.display_name, "" if event.turns == 0 else ", %d more turns" % event.turns])
-			"blinded":
-				if state.player_sees(unit):
-					_hud.log_line("%s is still blinded" % unit.display_name)
-			"wake":
-				if event.hidden:
-					_hud.log_line("Someone is banging inside a receptacle")
-				else:
-					_hud.log_line("%s wakes up, alerted" % _who(unit))
-			"free":
-				_hud.log_line("%s frees %s" % [_who(unit), event.target.display_name])
-			"searching":
-				if state.player_sees(unit):
-					_hud.log_line("%s lost track and searches" % unit.display_name)
-			"gave_up":
-				if state.player_sees(unit):
-					_hud.log_line("%s goes back to its post" % unit.display_name)
-			"tie":
-				_hud.log_line("%s ties up %s" % [unit.display_name, event.target.display_name])
-			"pick_up":
-				_hud.log_line("%s picks up %s" % [unit.display_name, event.target.display_name])
-			"put_down":
-				_hud.log_line("%s puts %s down%s" % [unit.display_name, event.target.display_name, ", hidden" if event.hidden else ""])
+				_views[event.target.id].take_hit({"stunned": "STUNNED", "downed": "DOWN", "armor": "HIT"}[event.result])
 			"flashbang":
 				_flash_area(event.cells, BLAST_COLOR)
-				_hud.log_line("Flashbang: %d blinded" % event.blinded.size())
 			"deploy_robot":
 				_add_view(event.robot)
-				_hud.log_line("%s deploys the %s. It acts from next round" % [unit.display_name, event.robot.def.display_name.to_lower()])
-			"connect":
-				_hud.log_line("%s's AI connects at %s%s" % [unit.display_name, event.node.to_upper(), ", revealing the %s network" % event.network if event.revealed else ""])
-			"disconnect":
-				_hud.log_line("%s's AI is pulled out, its context kept" % unit.display_name)
 			"agent_move":
 				await _network.move_agent(unit, event.path)
-				if event.loaded:
-					_hud.log_line("%s's AI loads the movement chip" % unit.display_name)
 			"hack":
 				_float_text(_network.node_position(event.node) + Vector3(0, 1.0, 0), "+%d" % event.points, Color.WHITE)
-				var extra := "" if event.linked == "" else ", +%d on %s" % [event.linked_points, event.linked.to_upper()]
-				_hud.log_line("%s's AI hacks %s: +%d%s%s" % [unit.display_name, event.node.to_upper(), event.points, extra, ". Refund!" if event.refund else ""])
 				_network.refresh()
-				await get_tree().create_timer(0.3, false).timeout
-			"breach":
-				_hud.log_line("%s %s breached" % [state.node_def(event.node).display_name, event.node.to_upper()])
-				if event.node == state.objective:
-					_hud.log_line("Data secured. Get everyone to extraction!")
-			"compact":
-				_hud.log_line("%s's AI compacts: %dM to %dM%s" % [unit.display_name, event.before, unit.context, ", chips degraded" if not event.degraded.is_empty() else ""])
-			"chip":
-				var chip := state.chip_def(event.chip)
-				_hud.log_line("%s's AI %s %s%s" % [unit.display_name, "uses" if event.used else "loads", chip.display_name,
-					" on " + ", ".join(event.targets.map(func(target: Unit) -> String: return target.display_name)) if not event.targets.is_empty() else ""])
-			"verb":
-				_hud.log_line("%s %s %s" % [state.node_def(event.node).display_name, event.node.to_upper(), _verb_result(event)])
 			"vehicle":
 				await _level.drive(event.node, event.path)
-				if event.struck:
-					_hud.log_line("The %s hits %s!" % [state.node_def(event.node).display_name.to_lower(), event.struck.display_name])
-			"door":
-				_hud.log_line("%s: door %s %s" % [unit.display_name, event.node.to_upper(), {"open": "opened", "close": "closed", "lock": "locked"}[event.action]])
-			"peek":
-				_hud.log_line("%s peeks through %s" % [unit.display_name, event.node.to_upper()])
-			"share":
-				_hud.log_line("%s's AI gives 1 AP to %s's, for their next turn" % [unit.display_name, event.target.display_name])
-			"turret_mode":
-				_hud.log_line("Turret %s: %s" % [event.node.to_upper(), "targeting enemies" if event.mode == "target" else "holding fire"])
-			"overwatch_set":
-				_hud.log_line("%s sets overwatch" % unit.display_name)
-			"crash":
-				_hud.log_line("%s's AI crashed" % unit.display_name)
+		for line in BattleLog.lines(state, event):
+			_hud.log_line(line)
+		if event.type == "hack":
+			await get_tree().create_timer(0.3, false).timeout
 	_refresh()
 
 
-# What a verb did, read from the device afterwards.
-func _verb_result(event: Dictionary) -> String:
-	var device: Dictionary = state.devices[event.node]
-	match event.verb:
-		"power":
-			return "powered on" if device.powered else "powered off"
-		"lock":
-			return "locked" if device.locked else "unlocked"
-	match state.map.node_kind(event.node):
-		"autodoor":
-			return "opens" if device.open else "closes"
-		"phone":
-			return "rings"
-		"adscreen":
-			return "flashes"
-	return "drives"
-
-
-func _who(unit: Unit) -> String:
-	return unit.display_name if state.player_sees(unit) else "Someone"
-
-
-func _log_responders(what: String, responders: Array) -> void:
-	var seen := responders.filter(func(guard: Unit) -> bool: return state.player_sees(guard))
-	if seen.is_empty():
-		_hud.log_line(what)
-	else:
-		_hud.log_line("%s: %s goes to check" % [what, ", ".join(seen.map(func(guard: Unit) -> String: return guard.display_name))])
-
-
-func _shoot(unit: Unit, target: Unit, overwatch: bool) -> void:
+func _shoot(unit: Unit, target: Unit) -> void:
 	var view: UnitView = _views[unit.id]
 	var target_view: UnitView = _views[target.id]
-	if overwatch:
-		_hud.log_line("%s fires from overwatch!" % unit.display_name)
 	if view.visible or target_view.visible:
 		await view.fire_at(target_view.position)
 		_tracer(view.position, target_view.position)
 		await get_tree().create_timer(0.2, false).timeout
-
-
-func _hit(event: Dictionary) -> void:
-	var target: Unit = event.target
-	var text: String = {"stunned": "STUNNED", "downed": "DOWN", "armor": "HIT"}[event.result]
-	_views[target.id].take_hit(text)
-	var by: String = _who(event.unit) if event.unit else "Something"
-	match event.result:
-		"stunned":
-			_hud.log_line("%s stuns %s for %d turns" % [by, target.display_name, BattleState.STUN_TURNS])
-		"downed":
-			_hud.log_line("%s is down" % target.display_name)
-		"armor":
-			_hud.log_line("%s takes a hit: %d left" % [target.display_name, event.left])
 
 
 # --- Showing the state ---------------------------------------------------------------------------
