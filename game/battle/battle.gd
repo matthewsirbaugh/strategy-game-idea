@@ -774,14 +774,16 @@ func _update_hover() -> void:
 		_hovered = cell
 		_on_hover_changed(cell)
 	if cell == null:
-		_hud.set_hover("")
+		_hud.set_hover({})
 		return
 	_hover.position = _grid.cell_to_world(cell) + Vector3(0, 0.02, 0)
-	var text := _describe(cell)
 	if token:
 		_hover.position = _network.agent_position(token) * Vector3(1, 0, 1) + Vector3(0, 0.02, 0)
-		text = "%s's AI    %s" % [token.display_name, text]
-	_hud.set_hover(text)
+	var pick := {}
+	var unit := state.active
+	if _mode == Mode.PICK and _choices.get(cell) is int and unit and (unit.is_operator() or unit.is_robot()):
+		pick = {"cost": _choices[cell], "mover": unit}
+	_hud.set_hover(HoverInfo.card(state, cell, pick, token))
 
 
 # Hovering a power hub lights up its circuit; hovering a flashbang target shows the blast.
@@ -799,82 +801,6 @@ func _on_hover_changed(cell: Variant) -> void:
 			_on_pick_hover.call(cell)
 		else:
 			_grid.clear_overlay("preview_area")
-
-
-func _describe(cell: Vector2i) -> String:
-	var parts: Array[String] = ["Tile %d, %d" % [cell.x, cell.y]]
-	var zone := state.map.zone_at(cell)
-	if zone != "":
-		parts[0] += "  ·  " + zone + ("  (caution %d)" % state.caution[zone] if state.caution.has(zone) else "")
-	if state.map.night and not state.map.is_wall(cell):
-		parts[0] += "  ·  " + ("lit" if state.is_lit(cell) else "dark")
-	var unit := state.active
-	if _mode == Mode.PICK and _choices.has(cell) and unit and (unit.is_operator() or unit.is_robot()):
-		var cost: Variant = _choices[cell]
-		if cost is int:
-			parts.append("%d AP" % cost + ["", "   would get you NOTICED", "   would get you SEEN"][state.exposure(cell) if unit.is_player() else 0])
-		if cost is int:
-			var tether := _tether_text(unit, cell)
-			if tether != "":
-				parts.append(tether)
-	var other := state.unit_at(cell)
-	if other and state.player_sees(other):
-		parts.append(_unit_status(other))
-	else:
-		for id in state.known:
-			if state.known[id] == cell and not state.player_sees(state.units[id]):
-				parts.append("%s was last seen here" % state.units[id].display_name)
-	var node := state.node_at(cell)
-	if node != "":
-		var def := state.node_def(node)
-		var line := "%s %s" % [def.display_name, node.to_upper()]
-		if state.breached.has(node):
-			line += "  (breached)"
-		elif def.goal > 0:
-			line += "  breach %d/%d" % [state.progress.get(node, 0), def.goal]
-		parts.append(line)
-	var receptacle := state.receptacle_at(cell)
-	if receptacle != "":
-		var hidden := state.units.filter(func(body: Unit) -> bool: return body.receptacle == receptacle).size()
-		parts.append("Hiding place%s" % (": %d inside" % hidden if hidden > 0 else ""))
-	if not state.visible_cells.has(cell):
-		parts.append("(no vision)")
-	return "    ".join(parts)
-
-
-# The AIs this unit tethers, itself or as a relay, and whether moving to the tile keeps them in.
-func _tether_text(mover: Unit, cell: Vector2i) -> String:
-	var tethered := false
-	var dropped: Array[String] = []
-	for operator in state.operators():
-		var source := operator.relay if operator.relay >= 0 else operator.id
-		if operator.connected() and source == mover.id:
-			tethered = true
-			if Grid.distance(cell, state.node_cell(operator.entry)) > BattleState.TETHER:
-				dropped.append(operator.display_name)
-	if not tethered:
-		return ""
-	if dropped.is_empty():
-		return "AI stays connected"
-	return "%s's AI will be pulled out" % ", ".join(dropped)
-
-
-func _unit_status(unit: Unit) -> String:
-	if unit.is_operator():
-		return "%s  hits left %d/%d" % [unit.display_name, unit.max_hits - unit.hits, unit.max_hits]
-	if unit.is_robot():
-		return unit.display_name
-	if unit.is_turret() and unit.is_player():
-		return "%s  breached" % unit.display_name
-	var states := ["patrolling", "investigating", "ALERTED", "searching"]
-	var text := "%s  %s" % [unit.display_name, states[unit.task]]
-	if unit.tied:
-		text = "%s  tied up" % unit.display_name
-	elif unit.stun > 0:
-		text = "%s  stunned, %d turns" % [unit.display_name, unit.stun]
-	elif unit.blind > 0:
-		text = "%s  blinded, %d turns" % [unit.display_name, unit.blind]
-	return text
 
 
 # What the cursor points at. An AI token stands for the node its AI is on, and a unit's body for its

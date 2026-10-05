@@ -19,7 +19,6 @@ const CHIP_UNLOADED := Color(0.55, 0.62, 0.64)
 
 @onready var _round: Label = %RoundLabel
 @onready var _order: HBoxContainer = %Order
-@onready var _hover: Label = %HoverLabel
 @onready var _objective: Label = %ObjectiveLabel
 @onready var _caution: Label = %CautionLabel
 @onready var _active_panel: Control = %ActivePanel
@@ -43,6 +42,7 @@ const CHIP_UNLOADED := Color(0.55, 0.62, 0.64)
 @onready var _badge: PanelContainer = %Badge
 var _inspect: PanelContainer
 var _inspect_text: Label
+var _card: Dictionary
 
 
 func _ready() -> void:
@@ -53,6 +53,7 @@ func _ready() -> void:
 	%ChangeLoadout.pressed.connect(SceneRouter.goto_loadout)
 	_quit.pressed.connect(SceneRouter.goto_title)
 	_build_inspect()
+	_build_card()
 
 
 # The menu has to close before the pause menu sees Esc, so this runs in _input.
@@ -265,9 +266,118 @@ func set_scan_shown(shown: bool) -> void:
 	_scan_toggle.set_pressed_no_signal(shown)
 
 
-func set_hover(text: String) -> void:
-	_hover.text = text
-	%HoverPanel.visible = not text.is_empty()
+# card: what HoverInfo.card returns, or empty to hide the panel.
+func set_hover(card: Dictionary) -> void:
+	%HoverPanel.visible = not card.is_empty()
+	if card.is_empty():
+		return
+	var accent: Color = card.color
+	var small: bool = card.get("small", false)
+	var style: StyleBoxFlat = %HoverPanel.get_theme_stylebox("panel").duplicate()
+	style.border_width_left = 4
+	style.border_color = Color(accent, 0.9)
+	%HoverPanel.add_theme_stylebox_override("panel", style)
+	var badge_style := StyleBoxFlat.new()
+	badge_style.bg_color = Color(accent, 0.12)
+	badge_style.border_color = Color(accent, 0.8)
+	badge_style.set_border_width_all(1)
+	badge_style.set_corner_radius_all(2)
+	_card.badge.add_theme_stylebox_override("panel", badge_style)
+	_card.badge.visible = not small
+	_card.icon.visible = card.has("icon")
+	_card.initial.visible = not card.has("icon")
+	if card.has("icon"):
+		_card.icon.texture = card.icon
+		_card.icon.modulate = accent
+	else:
+		_card.initial.text = card.get("initial", "")
+		_card.initial.add_theme_color_override("font_color", accent)
+	_card.kicker.text = card.kicker
+	_card.kicker.add_theme_color_override("font_color", accent.lerp(Color.WHITE, 0.15) if not small else Color(0.65, 0.74, 0.74))
+	_card.title.text = card.title
+	_card.title.add_theme_font_size_override("font_size", 22 if small else 28)
+	for child in _card.lines.get_children():
+		_card.lines.remove_child(child)
+		child.queue_free()
+	for line in card.lines:
+		var label := Label.new()
+		label.text = line.text
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.add_theme_color_override("font_color", line.color)
+		label.add_theme_font_size_override("font_size", 19)
+		_card.lines.add_child(label)
+	_card.lines.visible = not card.lines.is_empty()
+	_card.breach.visible = card.has("progress")
+	if card.has("progress"):
+		_card.bar.max_value = card.progress.y
+		_card.bar.value = card.progress.x
+		_card.breach_label.text = "BREACH   %d / %d" % [card.progress.x, card.progress.y]
+	_card.footer.text = card.get("footer", "")
+	_card.footer_row.visible = _card.footer.text != ""
+	# Waits a frame for the removed lines to leave, or the panel keeps its old height.
+	%HoverPanel.reset_size.call_deferred()
+
+
+func _build_card() -> void:
+	var margin := MarginContainer.new()
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 14)
+	margin.add_theme_constant_override("margin_left", 16)
+	var rows := VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 10)
+	rows.custom_minimum_size.x = 360
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 14)
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(54, 54)
+	var icon := TextureRect.new()
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(40, 40)
+	var initial := Label.new()
+	initial.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	initial.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	initial.add_theme_font_size_override("font_size", 30)
+	badge.add_child(icon)
+	badge.add_child(initial)
+	var names := VBoxContainer.new()
+	names.add_theme_constant_override("separation", -2)
+	names.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	names.alignment = BoxContainer.ALIGNMENT_CENTER
+	var kicker := Label.new()
+	kicker.theme_type_variation = &"Kicker"
+	var title := Label.new()
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	names.add_child(kicker)
+	names.add_child(title)
+	header.add_child(badge)
+	header.add_child(names)
+	var lines := VBoxContainer.new()
+	lines.add_theme_constant_override("separation", 3)
+	var breach := VBoxContainer.new()
+	breach.add_theme_constant_override("separation", 4)
+	var breach_label := Label.new()
+	breach_label.theme_type_variation = &"Kicker"
+	var bar := ProgressBar.new()
+	bar.show_percentage = false
+	bar.custom_minimum_size.y = 8
+	breach.add_child(breach_label)
+	breach.add_child(bar)
+	var footer_row := VBoxContainer.new()
+	footer_row.add_theme_constant_override("separation", 6)
+	footer_row.add_child(HSeparator.new())
+	var footer := Label.new()
+	footer.theme_type_variation = &"Kicker"
+	footer.add_theme_font_size_override("font_size", 15)
+	footer_row.add_child(footer)
+	for part in [header, lines, breach, footer_row]:
+		rows.add_child(part)
+	margin.add_child(rows)
+	%HoverPanel.add_child(margin)
+	for control in [margin, rows, header, badge, icon, initial, names, kicker, title, lines, breach, breach_label, bar, footer_row, footer]:
+		control.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_card = {"badge": badge, "icon": icon, "initial": initial, "kicker": kicker, "title": title, "lines": lines,
+		"breach": breach, "breach_label": breach_label, "bar": bar, "footer_row": footer_row, "footer": footer}
 
 
 func log_line(text: String) -> void:

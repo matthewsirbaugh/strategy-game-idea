@@ -112,26 +112,9 @@ visible = false
 layout_mode = 1
 offset_left = 24.0
 offset_top = 132.0
-offset_right = 474.0
+offset_right = 444.0
 offset_bottom = 180.0
 mouse_filter = 2
-
-[node name="Margin" type="MarginContainer" parent="Root/HoverPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_bottom = 12
-mouse_filter = 2
-
-[node name="HoverLabel" type="Label" parent="Root/HoverPanel/Margin"]
-layout_mode = 2
-text = ""
-custom_minimum_size = Vector2(420, 0)
-autowrap_mode = 3
-mouse_filter = 2
-unique_name_in_owner = true
-theme_override_font_sizes/font_size = 19
 
 [node name="NetworkLegend" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
