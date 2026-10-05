@@ -72,7 +72,10 @@ OpenGL renderer; not played. Claude's choices, open to change:
 | Shared controls and type | `game/ui/theme.tres` |
 | Illustrated title | `game/ui/title_menu.tscn`, `game/ui/menu_backdrop.gdshader` |
 | Battle interface | `game/battle/hud.tscn`, `game/battle/hud.gd` |
-| Network presentation | `game/battle/network_view.gd`, `network_backdrop.gdshader` |
+| Hover card content | `game/battle/hover_info.gd` |
+| Menu groups and folding | `game/battle/battle_menus.gd` (`nest`) |
+| Scan badges | `game/battle/battle.gd` (`_refresh_scan`) |
+| Network presentation, unit markers | `game/battle/network_view.gd`, `network_backdrop.gdshader` |
 | View framing | `game/battle/camera_rig.gd` |
 | Yard markings | `game/battle/signs.gd`, `game/content/maps/facility_exterior.tres` |
 | Visual review captures | `art/previews/visual-polish/` |
