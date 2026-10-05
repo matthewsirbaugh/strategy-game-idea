@@ -5,7 +5,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 
 | Topic | Status | Next action | File |
 |---|---|---|---|
-| Rulebook V1: the whole game's rules | open | V1 rules complete (2026-10-04), with a hand-off brief for implementation. Next: another AI drafts an implementation plan from the brief, and Bryson reviews it. V2 items are listed in rulebook.md | [rulebook.md](explorations/rulebook.md), [RULES.md](RULES.md), [v1-implementation-brief.md](explorations/v1-implementation-brief.md) |
+| Rulebook V1: the whole game's rules | open | V1 implemented from Astra's plan (2026-10-04), not yet played. Next: Bryson playtests, and answers the 37 implementation readings and choices listed in rulebook.md. V2 items are listed there too | [rulebook.md](explorations/rulebook.md), [RULES.md](RULES.md), [v1-implementation-brief.md](explorations/v1-implementation-brief.md) |
 | Chip categories: how AI skills are grouped | open | Side assignment from the rulebook (2026-10-04). Bryson's starting guess: Surveillance, Weapon Systems, Infrastructure. Explore options | not started |
 | Battle MVP: first playable in Godot | open | Art, free camera and lit fog in (2026-09-28). Graduating toward an Alpha: a two-phase facility mission on new maps; the handover and the vault rule are open. Bryson's playtest answers still feed it | [battle-mvp.md](explorations/battle-mvp.md) |
 | Battle core: turns, fog, network and hacking | open | Context rules and interim turn rules decided and built (2026-09-29), costs are placeholders. Bryson plays it; the action system and the tuning pass come later | [battle-core.md](explorations/battle-core.md) |

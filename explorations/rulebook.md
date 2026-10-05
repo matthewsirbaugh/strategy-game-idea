@@ -1,6 +1,6 @@
 # Rulebook V1
 
-- Status: V1 complete and handed off for implementation planning (2026-10-04). V2 items below.
+- Status: V1 implemented (2026-10-04), not yet played. V2 items below.
 - Output: `RULES.md` at the root is the working copy. Once V1 is done, it's published to Google
   Drive as a document for sharing and comments (Bryson, 2026-10-02).
 - Scope: the whole game, not only battle: upgrades, enemies, abilities, the Operators' own
@@ -560,6 +560,94 @@ architecture, Claude's nine defaults, the electric fence, and eight gaps in the 
 caught a real bug: a turn ended when the Operator's AP ran out, stranding the AI's AP and the
 shot. Claude recommended an answer for each; Bryson accepted all of them. The answers are in
 RULES.md and summarized in the brief's "Decided after Astra's review" section.
+
+## 2026-10-04 — V1 implemented (Claude, from Astra's final plan; scripted runs, not played)
+
+Bryson asked Claude to implement Astra's final plan (increments A to H) without checking in. The
+build in `game/` now plays the V1 rules on the brief's test map, with the loadout screen in front.
+Verified by the two test suites and by scripted runs of the real battle scene with screenshots;
+nobody has played it yet.
+
+Where Astra flagged the documents, the build reads them as below. These are Claude's readings,
+not decisions; RULES.md is unchanged.
+
+1. Turn glossary: built as rule 1 says, ending when both pools are spent. Proposed glossary
+   wording: "One unit acting. An Operator's turn lasts until the player ends it, or until both the
+   Operator's and the AI's AP are spent."
+2. Rule 2's two halves apply to Operators only; robots, guards and turrets just act.
+3. Full alerts follow the full Alerted definition: seeing an Operator or robot in the seen tier,
+   finding a body, being freed, or waking untied. A camera never alerts.
+4. Untying: a guard who finds a tied-up body is alerted, walks to it, and spends the first turn it
+   starts next to the body untying it.
+5. Sound: the device sheet wins. Only devices with a sound radius make noise, and powering a phone
+   on is silent.
+6. A robot can relay into the facility network; the brief's note about needing an Operator at b or
+   c is read as describing the level.
+7. Blackout: each light and camera the hub switches off is its own lure, plus the hub's own sound.
+   There is no separate room-to-room search. Night-vision camera g goes dark with the hub.
+8. One hit downs any robot, enemy or not. No enemy robots are on the map, so this is untested.
+9. Zones cover every open tile and every device; walls belong to none.
+10. Dock door o starts closed, unlocked and powered, since hub w powers its circuit.
+11. When both pools reach zero the turn ends, and an unused shot goes with it.
+
+Where the rules were silent, Claude chose the following. All are easy to change:
+
+12. Low obstacles (the crates, dumpsters and vehicles) block walking and a person's sight.
+    Cameras and drones see over them, and drones fly over them. The crates used to be walls.
+13. Cones and light pools are round. Sight, shot, tether and flashbang ranges count walking
+    distance, as before.
+14. The target tile's light decides how well it's seen. Enemy turrets use a camera's cone (6 and
+    9) with a guard's darkness rule: seen within 2 tiles in the dark, noticed beyond. Ordinary
+    cameras see nothing in the dark.
+15. A camera reports a unit once, when it comes into view, and a guard notices a unit once per
+    sighting, so a lingering Operator doesn't pull every guard over.
+16. Only patrolling guards answer lures and camera reports; investigating, alerted, searching and
+    blinded guards ignore them. "Closest" counts walking steps. Lights and ad screens draw the
+    closest guard who can see them; a camera going dark draws the closest guard anywhere.
+17. A guard looks around at an investigation spot on its next turn, in all four directions.
+    Noticing anything while looking starts the check over. A search is two such turns at the
+    last-known position.
+18. Guards don't open doors. No patrol on this map needs one, and door d starts locked.
+19. An alerted guard that can aim from where it stands doesn't move. A guard that spots someone
+    mid-walk stops there and aims.
+20. Aim range comes from the target's tile: 5 if lit, 2 if dark. At the start of the guard's next
+    turn the line counts only as far as the guard can now see, and up to anything newly in the
+    way, so cutting the lights or closing a door breaks it. Aim lines show even from a guard in the
+    fog, so a shot is always telegraphed.
+21. Sprinting isn't allowed while in overwatch. Sprinting after shooting is allowed.
+22. Operators can lock a door by hand for 1 AP, but only an AI unlocks a locked door. Automatic
+    doors open only through an AI.
+23. Overwatch fires at the first enemy that steps onto a tile the Operator can see, within 5.
+24. A flashbang needs line of sight to where it lands. Its radius counts walking distance with line
+    of sight from the blast. Blinded enemies hold still, see nothing and lose their aim. It makes
+    no sound.
+25. Bodies block movement. A body in a trunk goes with the vehicle. A carried guard who wakes is
+    dropped beside the carrier, alerted.
+26. The guard who lets a woken guard out of a receptacle is alerted too, as finding a stunned enemy.
+27. A vehicle stops in front of whatever is in the way. It stuns a guard it runs into and never
+    hurts the team; its sound comes from where it stops.
+28. Powering a hub on switches its whole circuit on.
+29. Predict: the player picks the guards, and the ghost lines update as the team acts, until that
+    guard's turn ends. Locate counts the located enemy's own turns.
+30. Passive chips (the exploits, movement) load with a Load action: context, no AP. Movement also
+    loads on the first network move. "Next hack" chips lapse at the end of the turn, and a chip
+    that compaction unloads cancels its waiting effect.
+31. Subagent's linked node is picked when hacking; its extra progress costs no extra context.
+32. Compacting, loading a passive chip and sharing compute work in the backpack; moving, hacking,
+    active chips, verbs and turret controls need the AI connected.
+33. Jump: a hop out of a Breached node the AI passes through is free. The first hop, out of the
+    node it's on, always counts.
+34. Tied Operators: the player can switch to another until the active one has done anything.
+35. A Breached turret reaches as far as its seen tier, in any direction, and starts on hold. Every
+    turret shot makes the turret's sound.
+36. Robots see like Operators, with the 2-tile window in the dark; the drone sees over low obstacles.
+37. A stunned enemy wakes after skipping 3 of its own turns. Caution goes on the alerting guard's
+    zone.
+
+Also built from Astra's plan: the loadout screen, restarting a phase from the session it began
+with, the handover data (`BattleState.carry_over`), and a crash response that nothing in V1
+triggers yet. Placeholder art: robots, the car, truck, generator, phone, hub, ad screen and
+dumpsters are boxes until their models exist.
 
 ## V2: after implementation and playtesting
 
