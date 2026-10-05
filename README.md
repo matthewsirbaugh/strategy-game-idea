@@ -14,19 +14,19 @@ Needs Godot 4.7 (`brew install --cask godot`).
 - Verify imports and both test suites: `bash tools/check.sh`. Prints one line per successful
   check; on failure, prints the Godot output and exits nonzero, including script errors that
   Godot itself can report with a successful exit code. This checks code, not rendering or feel.
-- Test the network and context math (Jump, refunds, chip multipliers, compaction, circuits):
-  `godot --headless --path game -s tests/test_hacking.gd`
-- Test the rules (turn ending, donated compute, aim lines, Predict, fog fairness, illegal actions,
-  broken content, the test map, restarting a phase): `godot --headless --path game -s tests/test_rules.gd`
+- Test the network and context math (Jump, refunds, Subagent, chip multipliers, compaction,
+  progress kept when pulled out, circuits): `godot --headless --path game -s tests/test_hacking.gd`
+- Test the rules (turn ending, donated compute, a cut-short sprint, aim lines, Predict, fog
+  fairness, illegal actions, broken content, the test map, restarting a phase): `godot --headless --path game -s tests/test_rules.gd`
 
-New game opens the loadout screen, a test tool for swapping each Operator's armor, gear and chips;
+Deploy to facility, on the title screen, opens the loadout screen, a test tool for swapping each Operator's armor, gear and chips;
 restarting after a loss keeps what was picked there.
 
-Battle camera: left-drag or WASD pans; right-drag (or Option-drag, or middle-drag) orbits; Q
+Battle camera: left-drag, WASD or the arrow keys pan; right-drag (or Option-drag, or middle-drag) orbits; Q
 and E turn; the wheel or a pinch zooms; H ghosts every wall; L switches the characters and props
 between soft and hard-edged shading, to compare them. A click without a drag selects, and a
 right-click without a drag steps back. In battle, N switches to the network, I scans every device,
-and Space ends the turn.
+and Space ends the turn. Esc pauses.
 
 ## How `game/` is organized
 

@@ -10,10 +10,10 @@ var id: int
 var def: UnitDef
 var display_name: String
 var cell: Vector2i
-# Ownership changes when the team breaches a turret or robot.
+# Ownership changes when the team breaches something autonomous, like a turret.
 var team: UnitDef.Team
 var facing := Vector2(0, 1)
-# A turret's or robot's node, when the team can breach it.
+# The node of something autonomous the team can breach, like a turret.
 var node := ""
 var down := false
 var located := 0

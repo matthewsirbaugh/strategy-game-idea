@@ -57,8 +57,11 @@ expects that plan to change as ideas surface while playing.
 | explorations/*.md | One file per research or design thread |
 | README.md | How to set up, run and test the game |
 | game/ | The Godot project; README.md explains its folders |
+| tools/ | `check.sh`: imports and both test suites in one command |
 | art/reference/ | Reference images Bryson chose; new art adheres to them |
 | art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
+| art/meshy/ | The input images sent to Meshy for characters, packs and props |
+| art/previews/ | Captures of builds, for review |
 | .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
 
 There is no NOW.md — the board covers what is current. Project knowledge lives in these files, not in a
@@ -97,6 +100,8 @@ progress and don't get lost. One topic, one chat, one file.
 
 - Claude Pro and ChatGPT Pro subscriptions today, possibly consolidating into one $100 plan.
 - Roughly 90% of the work runs on Opus and Sol.
+- Subagents doing lower-level work (searches, inventories, mechanical edits, routine fixes) can
+  run on Sonnet instead of Opus.
 - Astra is better at 3D and is used for art prototypes: more than a placeholder, less than a
   final asset. It burns through usage quickly, so use it deliberately.
 - Fable- and Astra-level spending is reserved for when it is genuinely needed, or for polish.
@@ -123,6 +128,6 @@ reads it later.
 
 ## Not agreed yet
 
-Engine: Godot 4 with GDScript, decided 2026-09-23. Project structure is recorded in
-[the battle MVP exploration](explorations/battle-mvp.md). Still open: art pipeline, target
+Engine: Godot 4 with GDScript, decided 2026-09-23. Project structure is in
+README.md, under "How `game/` is organized" and "Implementation boundaries". Still open: art pipeline, target
 platforms. Don't assume these. Ask.

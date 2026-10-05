@@ -1,9 +1,10 @@
 class_name MapData
 extends Resource
 
-# Legend: explorations/battle-mvp.md, "Map sketch". B is a wall that belongs to a building, a
-# comma is street, and = is a low obstacle such as crates: it blocks walking and a person's
-# sight, but a drone flies over it and cameras see past it.
+# The layout is rows of space-separated tiles: . floor, # wall, B a wall that belongs to a
+# building, a comma street, X extraction, P an Operator's start, a number a guard's start, and any
+# other name a node. = is a low obstacle such as crates: it blocks walking and a person's sight,
+# but a drone flies over it and cameras see past it.
 @export_multiline var layout := ""
 @export var node_kinds := {}
 @export var links := PackedStringArray()
