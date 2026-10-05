@@ -116,7 +116,7 @@ func show_active(state: BattleState) -> void:
 	var ai := "in the backpack"
 	if unit.connected():
 		ai = "on %s (%s)%s" % [unit.ai_node.to_upper(), state.map.network_of(unit.ai_node), "  via relay" if unit.relay >= 0 else ""]
-	elif unit.rebooting:
+	elif unit.rebooting > 0:
 		ai = "rebooting"
 	_active_stats.text = "AP  %s  %d/%d        SHOT  %s\nAI AP  %s  %d%s        ARMOR  %s\nAI %s        %s" % [
 		_pips(unit.ap, unit.base_ap), unit.ap, unit.base_ap, shot,

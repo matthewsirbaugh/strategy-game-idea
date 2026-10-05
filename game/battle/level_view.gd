@@ -141,6 +141,8 @@ func update_nodes(state: BattleState) -> void:
 
 # Drives a vehicle along its path, a tile at a time.
 func drive(id: String, path: Array) -> void:
+	if path.is_empty():
+		return
 	var parts: Dictionary = _devices[id]
 	parts.moving = true
 	var tween := create_tween()

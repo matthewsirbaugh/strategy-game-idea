@@ -601,7 +601,7 @@ func _play(events: Array[Dictionary]) -> void:
 				_hud.log_line("%s stuns %s" % [unit.display_name, event.target.display_name])
 			"stunned":
 				if state.player_sees(unit):
-					_hud.log_line("%s is out cold%s" % [unit.display_name, "" if unit.stun == 0 else ", %d more turns" % unit.stun])
+					_hud.log_line("%s is out cold%s" % [unit.display_name, "" if event.turns == 0 else ", %d more turns" % event.turns])
 			"blinded":
 				if state.player_sees(unit):
 					_hud.log_line("%s is still blinded" % unit.display_name)
@@ -727,7 +727,7 @@ func _hit(event: Dictionary) -> void:
 		"downed":
 			_hud.log_line("%s is down" % target.display_name)
 		"armor":
-			_hud.log_line("%s takes a hit: %d left" % [target.display_name, target.max_hits - target.hits])
+			_hud.log_line("%s takes a hit: %d left" % [target.display_name, event.left])
 
 
 # --- Showing the state ---------------------------------------------------------------------------
@@ -1070,8 +1070,10 @@ func _describe(cell: Vector2i) -> String:
 		var cost: Variant = _choices[cell]
 		if cost is int:
 			parts.append("%d AP" % cost + ["", "   would get you NOTICED", "   would get you SEEN"][state.exposure(cell) if unit.is_player() else 0])
-		if unit.is_operator() and unit.connected() and cost is int:
-			parts.append("AI stays connected" if Grid.distance(cell, state.node_cell(unit.entry)) <= BattleState.TETHER else "AI will be pulled out")
+		if cost is int:
+			var tether := _tether_text(unit, cell)
+			if tether != "":
+				parts.append(tether)
 	var other := state.unit_at(cell)
 	if other and state.player_sees(other):
 		parts.append(_unit_status(other))
@@ -1097,9 +1099,30 @@ func _describe(cell: Vector2i) -> String:
 	return "    ".join(parts)
 
 
+# The AIs this unit tethers, itself or as a relay, and whether moving to the tile keeps them in.
+func _tether_text(mover: Unit, cell: Vector2i) -> String:
+	var tethered := false
+	var dropped: Array[String] = []
+	for operator in state.operators():
+		var source := operator.relay if operator.relay >= 0 else operator.id
+		if operator.connected() and source == mover.id:
+			tethered = true
+			if Grid.distance(cell, state.node_cell(operator.entry)) > BattleState.TETHER:
+				dropped.append(operator.display_name)
+	if not tethered:
+		return ""
+	if dropped.is_empty():
+		return "AI stays connected"
+	return "%s's AI will be pulled out" % ", ".join(dropped)
+
+
 func _unit_status(unit: Unit) -> String:
 	if unit.is_operator():
 		return "%s  hits left %d/%d" % [unit.display_name, unit.max_hits - unit.hits, unit.max_hits]
+	if unit.is_robot():
+		return unit.display_name
+	if unit.is_turret() and unit.is_player():
+		return "%s  breached" % unit.display_name
 	var states := ["patrolling", "investigating", "ALERTED", "searching"]
 	var text := "%s  %s" % [unit.display_name, states[unit.task]]
 	if unit.tied:

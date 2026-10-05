@@ -49,8 +49,9 @@ var incoming := 0
 var verb_uses := {}
 # "Next hack" chips activated this turn, by id.
 var next_hack := {}
-# Crashed: it sits out its next turn.
-var rebooting := false
+# Crashed: turn ends left until the AI is back. It sits out its whole next turn, even if the
+# player hands that turn to a tied Operator and takes it up again.
+var rebooting := 0
 
 # Robots.
 var owner := -1

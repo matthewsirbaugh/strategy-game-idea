@@ -368,8 +368,7 @@ func _start_turn(unit: Unit) -> void:
 	unit.spent = false
 	if unit.is_operator():
 		unit.ap = unit.base_ap
-		unit.ai_ap = 0 if unit.rebooting else AI_AP + unit.incoming
-		unit.rebooting = false
+		unit.ai_ap = 0 if unit.rebooting > 0 else AI_AP + unit.incoming
 		unit.shot_used = false
 		unit.sprinted = false
 		unit.overwatch = false
@@ -388,6 +387,7 @@ func _finish_turn() -> void:
 		unit.incoming = 0
 		unit.ap = 0
 		unit.ai_ap = 0
+		unit.rebooting = maxi(0, unit.rebooting - 1)
 		unit.peeks.clear()
 		unit.next_hack.clear()
 	elif unit.is_robot():
@@ -771,7 +771,8 @@ func hit(target: Unit, by: Unit) -> Array[Dictionary]:
 			result = "downed"
 	elif target.is_robot():
 		result = "downed"
-	var events: Array[Dictionary] = [{"type": "hit", "unit": by, "target": target, "result": result}]
+	var events: Array[Dictionary] = [{"type": "hit", "unit": by, "target": target, "result": result,
+		"left": target.max_hits - target.hits}]
 	if result == "downed":
 		events.append_array(_down(target))
 	elif result == "stunned":
@@ -872,7 +873,7 @@ func _adjacent_nodes(cell: Vector2i, kinds: Array) -> Array[String]:
 # Where the AI can go in: access points within the tether, or through a robot near one.
 func deploy_options(unit: Unit) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
-	if not _hands_free(unit) or unit.connected() or unit.rebooting or unit.ap < DEPLOY_AI_COST:
+	if not _hands_free(unit) or unit.connected() or unit.rebooting > 0 or unit.ap < DEPLOY_AI_COST:
 		return result
 	var sources: Array[Unit] = [unit]
 	for robot in units:
@@ -1315,7 +1316,7 @@ func crash(unit: Unit) -> Array[Dictionary]:
 		return []
 	pull_out(unit)
 	var degraded := _compact_context(unit)
-	unit.rebooting = true
+	unit.rebooting = 2 if unit == active and not turn_over else 1
 	return [{"type": "crash", "unit": unit, "degraded": degraded}]
 
 

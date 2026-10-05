@@ -20,7 +20,8 @@ static func can_use(state: BattleState, unit: Unit, id: String, verb: String, di
 				"autodoor":
 					return not device.locked and (not device.open or state.unit_at(device.cell) == null)
 				"car", "truck":
-					return not vehicle_path(state, id, direction).path.is_empty()
+					var drive := vehicle_path(state, id, direction)
+					return not drive.path.is_empty() or drive.struck != null
 			return true
 		"lock":
 			return device.locked or not device.open
