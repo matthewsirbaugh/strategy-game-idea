@@ -50,6 +50,10 @@ var _choices := {}
 var _on_pick: Callable
 var _on_pick_hover: Callable
 var _predict_picks: Array[Unit] = []
+# The submenus folded out of the menu last opened, by name.
+var _menu_groups := {}
+# The AI's menu is open while its AI is still in the backpack, so the view stays physical.
+var _ai_menu := false
 var _network_shown := false
 var _network_moving := false
 var _scan := false
@@ -218,15 +222,20 @@ func _open_menu(actions: Array = [], title := "") -> void:
 	_clear_preview()
 	_mode = Mode.MENU
 	if actions.is_empty():
+		var back := "physical"
 		if unit.is_robot():
 			actions = BattleMenus.robot_actions(state, unit)
 			title = unit.display_name.to_upper()
-		elif _network_shown:
+		elif _network_shown or _ai_menu:
 			actions = BattleMenus.ai_actions(state, unit)
 			title = "%s'S AI" % unit.display_name.to_upper()
+			back = "ai"
 		else:
 			actions = BattleMenus.operator_actions(state, unit)
 			title = unit.display_name.to_upper()
+		var nested := BattleMenus.nest(actions, back)
+		actions = nested.top
+		_menu_groups = nested.groups
 	var anchor: Vector3 = _views[unit.id].position + Vector3(0, UNIT_HEIGHT, 0)
 	if _network_shown and unit.is_operator() and unit.connected():
 		anchor = _network.agent_position(unit)
@@ -269,17 +278,21 @@ func _on_action(id: String) -> void:
 		"choose":
 			_on_operator_chosen(parts[1].to_int())
 		"ai":
+			_ai_menu = true
 			if unit.connected() and not _network_shown:
 				_busy = true
 				await _set_network(true)
 				_busy = false
-			_open_menu(BattleMenus.ai_actions(state, unit), "%s'S AI" % unit.display_name.to_upper())
+			_open_menu()
 		"physical":
+			_ai_menu = false
 			if _network_shown:
 				_busy = true
 				await _set_network(false)
 				_busy = false
-			_open_menu(BattleMenus.operator_actions(state, unit), unit.display_name.to_upper())
+			_open_menu()
+		"group":
+			_open_menu(_menu_groups[parts[1]], parts[1].to_upper())
 		"end":
 			_act(state.end_turn(unit))
 		"ai_move":
@@ -304,8 +317,6 @@ func _on_action(id: String) -> void:
 			_act(state.use_chip(unit, BattleState.LOCATE, [state.units[parts[1].to_int()]]))
 		"predict":
 			_on_predict(unit, parts[1].to_int())
-		"devices":
-			_open_menu(BattleMenus.device_actions(state, unit), "DEVICES")
 		"verb":
 			_act(state.use_verb(unit, parts[1], parts[2], parts[3].to_int()))
 		"turret":
@@ -689,6 +700,7 @@ func _on_network_toggled(shown: bool) -> void:
 	_hud.close_menu()
 	_clear_pick()
 	_mode = Mode.IDLE
+	_ai_menu = shown
 	await _set_network(shown)
 	_refresh_scan()
 	if state.is_player_controlled(state.active):
