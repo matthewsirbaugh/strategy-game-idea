@@ -553,10 +553,19 @@ will draft an implementation plan from it, and a third will implement it. The ha
 [v1-implementation-brief.md](v1-implementation-brief.md), with the test map, the changes from the
 current build, and the defaults Claude filled in that Bryson hasn't reviewed.
 
+## 2026-10-04 — Astra's plan review (Bryson)
+
+Astra drafted an implementation plan from the brief and raised 23 review points: five on
+architecture, Claude's nine defaults, the electric fence, and eight gaps in the rules. It also
+caught a real bug: a turn ended when the Operator's AP ran out, stranding the AI's AP and the
+shot. Claude recommended an answer for each; Bryson accepted all of them. The answers are in
+RULES.md and summarized in the brief's "Decided after Astra's review" section.
+
 ## V2: after implementation and playtesting
 
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
 - How downed Operators left behind escape.
+- Electric fences: as written a fence is a wall, so nothing can move into it to be stunned.
 - Progression as a whole: hardware (Claude's proposal: more AP, a bigger context window, a longer
   tether; no raw hack power), post-training, how chips and hardware are acquired, prices, and
   the questionnaire's effect on the protagonist's AI.

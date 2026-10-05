@@ -33,7 +33,7 @@ number is a placeholder he'll tune by playing.
 | The device sheet and the V1 chips | Enemy AIs, enemy types and traits |
 | One test battle on the map below | The harness, post-training, the questionnaire |
 | A loadout screen for swapping chips and gear between test runs | The facility interior, the vault, the second phase |
-| | Electric fences (see Open items) |
+| | Electric fences |
 
 ## What changes from the current build
 
@@ -117,34 +117,63 @@ split in two.
 - Hub w's circuit: lights h, i, j, k; cameras f, g; ad screen s; automatic door o. Cutting it
   blacks out the yard, turns off both cameras (each a lure), which is the way past the
   night-vision camera g, and stops the dock door.
-- Zones: Street (rows 13–15), Side yard (columns 1–5, rows 1–11), Plaza (columns 6–15, rows
-  4–7), Courtyard (columns 6–15, rows 8–11).
-- Guards and patrols are unchanged from the current exterior. Extraction is the X tiles.
+- Zones: every tile and device belongs to one.
+  - Street: rows 13–15, plus access point a and phone p.
+  - Side yard: columns 1–5, rows 1–11, plus b, d, h and j.
+  - Plaza: columns 6–15, rows 4–7, plus f, w, k, t, r, the X tiles, and g and o on the dock wall.
+  - Courtyard: columns 6–15, rows 8–11, the lane tiles at (7,12) and (8,12), plus e, i, m, v,
+    and z, s and c on the dock wall.
+- Receptacles: a dumpster at (1,1) in the side yard and one at (6,11) in the courtyard, plus the
+  trunks of car r and truck v.
+- Guards and patrols are unchanged from the current exterior. Each guard starts facing its first
+  waypoint. Extraction is the X tiles.
 - Facings: car r south, truck v north, camera e north, the rest as in the current map.
+- Starting states: every light, camera, the hub and the ad screen on; car, truck, phone and
+  machine off; service door d locked; dock door o closed.
+- The map plays at night: unlit tiles are dark.
 
-## Defaults Claude filled in, not yet reviewed by Bryson
+## Decided after Astra's review (2026-10-04)
 
-The rules leave these unstated, and an implementation needs an answer. Each is Claude's
-placeholder; flag them in the plan so Bryson can confirm or change them.
+Astra drafted a plan from this brief and raised 23 review points. Bryson accepted all of Claude's
+recommendations, and RULES.md now carries them. In short:
 
-1. Night: unlit tiles on the test map are dark, so the floodlights matter.
-2. Searching: an alerted guard that loses sight walks to the last-known position, searches there
-   for 2 turns, then returns to its patrol.
-3. A guard that wakes untied becomes alerted, and its zone goes on caution.
-4. Enemy turrets behave like guards with a camera's cone and no movement: alerted on sight, aim,
-   then fire next turn.
-5. Robots spend 1 AP per tile, can't sprint, can't open doors and can't carry bodies.
-6. The dog bot's stun: an adjacent enemy, 1 of the robot's AP, once per battle.
-7. Vehicles occupy one tile.
-8. Predict draws each predicted guard's next path as a ghost line, ending in its aim line if it
-   will aim.
-9. The loadout screen is a test tool, opened before the battle starts.
+1. Architecture: Astra's five proposals are accepted. Keep `BattleState` as the public boundary
+   with small plain helpers for turns, perception and devices; separate definitions from runtime
+   state, with ownership as runtime state; keep the text layout and add data for low obstacles,
+   zones, circuits, networks and device placement; one guard planner shared by Predict, previews
+   and execution; a small session object for loadout and the phase-entry snapshot, with no new
+   autoloads.
+2. Claude's nine defaults are all accepted, and the rule-level ones are in RULES.md: night on
+   the test map, a 2-turn search, waking untied means alerted plus caution, enemy turrets as
+   immobile guards with a camera cone, robots at 1 AP per tile without sprinting, doors or
+   carrying, the dog bot's stun, one-tile vehicles, Predict's ghost lines, and the loadout screen
+   as a pre-battle test tool.
+3. A turn ends when the player ends it, or when both the Operator's and the AI's AP are spent.
+4. Electric fences are V2.
+5. The map gaps are filled above: zones, receptacles, guard facings and starting states.
+6. Jump: hops through Breached nodes don't count toward the 3-hop move limit.
+7. A hack costs 1 AP. Donated compute goes to the receiving AI's next turn only, then lapses. A
+   sprint cut short costs only what walking those tiles would have, up to 2 AP.
+8. Operators see 6 tiles in every direction in light. Shot range 5 with line of sight; flashbang
+   thrown up to 5 tiles; closing a door is free. An aim line is fixed on the tiles from the guard
+   through the target's tile out to its range.
+9. A camera sighting sends the closest guard to investigate and never causes a full alert. Only
+   full alerts cause caution; a new one restarts the countdown. Guards already investigating or
+   alerted ignore new lures.
+10. Chip math: multipliers multiply, hack power rounds down, context rounds up; degraded Extended
+    thinking is 1.5× power for 1.5× context; re-activating a "next hack" chip does nothing extra;
+    Subagent earns the one refund if either node goes from untouched to Breached.
+11. Bodies: waking in a receptacle makes a radius-4 sound that draws the closest guard; a guard
+    who reaches a tied-up body spends its turn untying it, and the freed guard is alerted;
+    carrying limits only the Operator, not their AI.
+12. Robots deploy next to their Operator and first act next round; they relay from within 2
+    tiles of an access point; guards notice and aim at robots exactly as they do Operators.
+13. No undo in V1.
 
-## Open items the plan should flag, not decide
+## Open items
 
-1. Electric fences can't stun anyone under the current rules, because a fence is a wall and
-   nothing moves into a wall. Left off the test map until Bryson decides how they work.
-2. Every other "Open" in RULES.md's full definitions.
+None remain for V1. Electric fences, network opposition and everything else deferred are listed
+in [rulebook.md](rulebook.md) under V2.
 
 ## UI the rules require
 

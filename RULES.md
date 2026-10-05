@@ -90,6 +90,8 @@ implementation follows. Numbers marked placeholder are for tuning.
 1. Each round, every unit on the map takes a turn. Hidden enemies take theirs out of sight.
    When an enemy is revealed, it joins the turn order shown at the top of the screen.
    When several Operators share a speed, the player picks which of them acts next.
+   An Operator's turn ends when the player ends it, or when both the Operator's and the AI's AP
+   are spent.
 2. Each unit's turn has two halves: the Operator in the physical world, and the AI in the
    network.
 3. A unit can do several things in one turn. The Operator's and the AI's actions interleave
@@ -97,28 +99,34 @@ implementation follows. Numbers marked placeholder are for tuning.
 4. Operators play carefully and stealth-first. They never get refunds.
    - An Operator starts each turn with 8 AP. Movement comes out of the same pool as their other
      actions.
-   - One shot per turn, outside the AP pool. It doesn't end the turn.
+   - Operators see 6 tiles in every direction in light; they have no cones.
+   - One shot per turn, outside the AP pool. It doesn't end the turn. Range 5, with line of
+     sight.
    - Overwatch uses that shot. It's a disposition: the Operator can still move afterwards if they
      have AP, and when their turn ends they are in overwatch. It fires at the first enemy that
      moves into the Operator's line of fire, and drops at the start of the Operator's next turn.
    - Sprint: 3 tiles for 2 AP. On 8 AP an Operator can move up to 12 tiles in a turn, but an
-     Operator who sprints can't shoot or set overwatch that turn.
+     Operator who sprints can't shoot or set overwatch that turn. A sprint cut short costs only
+     what walking those tiles would have, up to 2 AP.
    - Peeking through a door costs 1 AP. The Operator sees into the space beyond until their
      turn ends.
-   - Opening an unlocked door is free. Locking a door costs 1 AP and needs the Operator at the
+   - Opening or closing an unlocked door is free. Locking a door costs 1 AP and needs the Operator at the
      door. An AI can lock or unlock a Breached door remotely.
    - Deploying the AI to the network costs 1 AP.
    - Gadgets cost AP to use, depending on the gadget, and sit outside the one-shot limit. A
-     flashbang costs 2 AP and blinds the guards in its blast radius for 3 turns.
+     flashbang costs 2 AP, is thrown up to 5 tiles, and blinds the guards in its blast radius for
+     3 turns.
+   - There is no undo in V1.
 5. AIs play aggressively, on their own AP, separate from the Operator's: the AI's autonomy is the
-   point. For now they start each turn with 2 AP. Moving through the network costs 1 AP, and so
-   does compacting (placeholder). The AI's action system is under review.
+   point. For now they start each turn with 2 AP. Moving through the network, hacking and
+   compacting each cost 1 AP (placeholder). The AI's action system is under review.
    Unspent AP doesn't carry over, for Operators or AIs.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not. One action earns at
    most one refund.
 7. AIs can share compute while their Operators stand adjacent, physically linked: each AP one AI
-   gives up, another AI gains.
+   gives up, another AI gains. Donated AP is added to the receiving AI's next turn only, and
+   lapses if unused.
 8. Context is not part of the action economy. It's the AI's battle-long resource, and the only
    limit on chaining refunds.
 9. Hacking never fails. An action makes progress, or at worst none.
@@ -150,22 +158,29 @@ All numbers are placeholders. Loading a chip costs its context once; an active c
 1 AP per use, with no uses-per-battle or cooldowns. Each compaction degrades a loaded chip one
 step: to its weaker form, then unloaded.
 
+- Multipliers multiply together (2× and 2× make 4×), and hack power is rounded down at the end.
+  Context costs are rounded up.
+- Activating a "next hack" chip again before that hack happens does nothing extra.
+- Predict draws each predicted guard's next path as a ghost line, ending in its aim line if it
+  will aim.
+
 | Chip | Type | Effect | Degraded | Load |
 |---|---|---|---|---|
 | Movement | Passive, free | Moving through the network. Doesn't count toward the cap of 3 | Unloads only if compaction takes context below its cost | 10 |
 | Locate | Active | Reveals one unseen enemy's live position for 2 turns | 1 turn | 10 |
 | Predict | Active | Shows the next turn of 2 guards the team can see: their path, and who they'll aim at | 1 guard | 15 |
-| Extended thinking | Active | This turn's next hack adds double hack power and costs double context | 1.5× | 10 |
-| Subagent | Active | This turn's next hack also adds the same progress to one linked node. One action earns at most one refund, even if both nodes are Breached | Half progress to the linked node | 20 |
+| Extended thinking | Active | This turn's next hack adds double hack power and costs double context | 1.5× power for 1.5× context | 10 |
+| Subagent | Active | This turn's next hack also adds the same progress to one linked node. One action earns at most one refund, even if both nodes are Breached; it earns one if either node goes from untouched to Breached | Half progress to the linked node | 20 |
 | Surveillance exploit | Passive | 2× hack power against cameras | 1.5× | 20 |
-| Weapons exploit | Passive | 2× hack power against turrets, enemy robots and electric fences | 1.5× | 20 |
+| Weapons exploit | Passive | 2× hack power against turrets and enemy robots | 1.5× | 20 |
 | Infrastructure exploit | Passive | 2× hack power against lights, doors, phones, machines, ad screens, vehicles and power hubs | 1.5× | 20 |
 
 The three device categories, Surveillance, Weapon Systems and Infrastructure, are placeholders.
 
 ## The network
 
-13. A Breached node can be a lily pad. Jump: a compromised node extends the AI's reach that turn.
+13. A Breached node can be a lily pad. Jump: hops through Breached nodes don't count toward the
+    AI's 3-hop move limit, so the more the team holds, the farther the AI reaches.
 14. A map can hold several networks that don't connect, each with its own access points. An AI
     is on one network at a time. A network is unknown until an AI first connects to it, which
     reveals that network's layout and its devices' verbs, but not any other network's.
@@ -209,7 +224,6 @@ the closest guard in range, "all" draws every guard in range.
 | Ad screen | Power: on lights a small area. Activate: flashes, a visual lure for guards who can see the screen | None | 10 |
 | Electric car | Power. Activate: accelerates forward or backward, the player's choice, until it hits something. A guard in its path is stunned | 1, closest | 20 |
 | Diesel truck | As an electric car | 10, all | 20 |
-| Electric fence | Power: on, it stuns anyone who moves into it. Off, it's a harmless wall | 1, closest, when switched | 20 |
 | Power hub | Power: switches every device on its circuit at once | 5, all | 30 |
 | Turret (autonomous) | Controls: target enemies, or hold. It picks the nearest enemy itself | Its shot: 5, all | 30 |
 | Enemy drone or dog bot (autonomous) | Joins the team's turn order with its own AP. Controls come with the robot design | Device-specific | 30 |
@@ -218,7 +232,8 @@ the closest guard in range, "all" draws every guard in range.
 
 Rules every device follows:
 
-- A moving object that enters a guard's tile stuns them.
+- A moving object that enters a guard's tile stuns them. Vehicles occupy one tile.
+- Electric fences are V2: as written, a fence is a wall and nothing moves into a wall.
 - A device switched off by a power hub counts as switched off itself, so a hub that kills four
   cameras makes four lures at once.
 - A circuit is the set of devices one power hub feeds, listed in the map data. A device is on at
@@ -237,7 +252,7 @@ Rules every device follows:
     - Before the player uses a device verb, its sound area is shown, and the visible guards who
       would respond are marked. Guards in the fog respond too, unseen.
     - A guard who hears a sound walks to its source, looks around for one turn, then goes back to
-      its patrol.
+      its patrol. A guard already investigating, or alerted, ignores new lures.
     - Each use of a verb makes one sound, a single moment.
 19. Every camera starts enemy-controlled and can spot Operators. A Breached camera is the team's
     camera now, so it never reports the team's Operators or units to the enemy, even right in
@@ -246,9 +261,9 @@ Rules every device follows:
     in light; an upgraded camera with night vision needs a higher-level hack.
 20. Guards share vision through their cameras. That's their biggest strength and their biggest
     weakness: a hacked camera stops reporting the team to them.
-21. A camera that spots an Operator alerts guards that someone is in the area, and the closest
-    guards go to investigate. Some areas, such as deep inside an enemy headquarters, alert every
-    enemy in a zone.
+21. A camera that spots an Operator sends the closest guard to investigate the spot. It never
+    causes a full alert. In some areas, such as deep inside an enemy headquarters, every enemy in
+    the zone investigates.
 22. There is no battle-wide clock.
 23. Every guard's vision cone is visible at all times while the guard is outside the fog. A cone
     has two tiers:
@@ -269,10 +284,12 @@ Rules every device follows:
 27. A move that reveals a guard stops at the tile where it was revealed. If the Operator is in
     that guard's seen tier, the guard is alerted at once, but the Operator's turn carries on.
 28. An alerted guard acts on its own turn, never during the player's. If it loses track of the
-    Operator, it searches, then gives up and goes back to its patrol.
-29. After an alert, the zone goes on caution for 3 rounds (placeholder), with a visible countdown. During
-    caution, the noticed tier counts as seen. When the countdown ends, the zone settles back to
-    normal.
+    Operator, it walks to the last-known position, searches there for 2 turns (placeholder), then
+    goes back to its patrol.
+29. After a full alert, the zone goes on caution for 3 rounds (placeholder), with a visible
+    countdown. During caution, the noticed tier counts as seen. A new full alert during caution
+    restarts the countdown. When it ends, the zone settles back to normal. Investigations never
+    cause caution.
 
 ## Enemies
 
@@ -281,27 +298,33 @@ Rules every device follows:
     shown as a line. At the start of its next turn it fires, but only if that unit is still in the
     line. The player gets a full turn to break it: move, close a door, cut the lights, or stun the
     guard.
+    - The line is fixed when the guard aims: the tiles from the guard through the target's tile,
+      out to its range. A target that moves along the line is still in it.
     - The shot hits the first unit in the line, so a robot can step in and take it for an
       Operator.
     - On its next turn the guard fires first, if the shot is still valid, then moves and aims
       again as usual.
 32. A guard's range is the length of its seen tier, and it needs line of sight. Its shot always
     hits.
-33. Guards shoot robots too, but aim at an Operator when both are in sight.
+33. Guards see, notice and aim at robots exactly as they do Operators, which is how robots
+    distract. A guard chooses an Operator when both are in sight.
+    - An enemy turret behaves like a guard that can't move, with a camera's cone: seeing a unit
+      alerts it, and it aims, then fires on its next turn.
 34. Enemies have no HP. A hit stuns them: they stay in place without vision and skip their next
     3 turns (placeholder).
 35. An Operator next to a stunned enemy can spend 2 AP to tie them up. A tied-up enemy is out of
     the battle unless another enemy finds and unties them.
-36. A guard who finds a stunned or tied-up enemy raises an alert.
+36. A guard who finds a stunned or tied-up enemy raises a full alert. A guard who reaches a
+    tied-up enemy spends its turn untying them, and the freed guard is alerted.
 37. An Operator can pick up a stunned or tied-up enemy and carry them over their shoulder. Picking
     up and putting down are free. While carrying, the Operator can only move, with no movement
-    penalty.
+    penalty. Their AI isn't limited.
 38. A body is hidden when it's out of sight, or inside a receptacle such as a dumpster, a car's
     trunk, a locker, a closet or a trash can. Putting a body down on a receptacle's tile puts it
     inside, hidden.
-39. A stunned enemy who wasn't tied up raises an alert when they wake. Inside a receptacle, they
-    make noise instead, and a guard passing within its sound radius comes to let them out.
-    Guards don't otherwise search receptacles.
+39. A stunned enemy who wasn't tied up wakes alerted, and their zone goes on caution. Inside a
+    receptacle, they make a sound instead on the turn they wake, radius 4, drawing the closest
+    guard, who lets them out. Guards don't otherwise search receptacles.
 40. For now there is one standard enemy, with no special traits, so the rules can be tuned
     before enemy types are added.
 
@@ -316,15 +339,18 @@ Rules every device follows:
 ## Robots
 
 43. Robots are gadgets, such as a drone or a dog bot. Deploying one costs 3 AP.
-44. A deployed robot has its own AP pool and a speed that puts it in the turn order. Its vision
-    is shared with the Operators, so it lifts the fog.
+44. A robot deploys next to its Operator and first acts in the next round. It has its own AP pool
+    and a speed that puts it in the turn order, and its vision is shared with the Operators, so
+    it lifts the fog. Robots spend 1 AP per tile, and can't sprint, open doors or carry bodies.
 45. Robots scout, distract enemies, and can carry a single-use stun. They never hack on their
     own. Instead, a robot is a relay: the Operator's AI can reach the network through it, which
     sends access behind enemy lines.
-    - A robot relays from within tether range of an access point, like an Operator. Its link to
-      the Operators has no range limit.
-    - A robot that ends its turn at an access point lets any Operator, on their next turn, spend
+    - A robot relays from within tether range (2 tiles) of an access point, like an Operator. Its
+      link to the Operators has no range limit.
+    - A robot within tether range of an access point lets any Operator, on their own turn, spend
       1 AP to send their AI in through it.
+    - The dog bot's stun hits an adjacent enemy, costs 1 of the robot's AP, and can be used once
+      per battle.
     - An AI connects through one Operator or robot at a time.
     - If the robot is hit while relaying, the connection is severed at once. The AI is pulled out
       and keeps its context.
@@ -382,12 +408,16 @@ Each Operator carries one robot or two gadgets.
 | Operator AP | 8 |
 | Sprint | 3 tiles for 2 AP |
 | Peek, lock a door, deploy the AI | 1 AP each |
+| Open or close an unlocked door | Free |
+| Operator sight in light | 6 tiles, every direction |
+| Operator shot | Range 5, line of sight |
 | Tie up | 2 AP |
 | Deploy a robot | 3 AP |
-| Flashbang | 2 AP, radius 2, blinds for 3 turns |
+| Flashbang | 2 AP, thrown up to 5 tiles, radius 2, blinds for 3 turns |
 | Heavy armor | −1 AP |
 | AI AP | 2 |
-| AI move | 1 AP reaches any node within 3 hops |
+| AI move | 1 AP reaches any node within 3 hops; hops through Breached nodes are free (Jump) |
+| AI hack | 1 AP |
 | Compaction | 1 AP, keeps 25% |
 | Context window | 0–100 (100M in the setting) |
 | Full-context yield | 50% of hack power |
@@ -403,6 +433,9 @@ Each Operator carries one robot or two gadgets.
 | Light radius | 3 for a light, 2 for an ad screen |
 | Stun | 3 turns |
 | Caution | 3 rounds |
+| Guard search | 2 turns at the last-known position |
+| Waking sound, from a receptacle | Radius 4, closest |
+| Dog bot stun | Adjacent, 1 robot AP, once per battle |
 | Sound radii and breach goals | As in [Devices](#devices) |
 | Chip load costs | As in [The V1 chips](#the-v1-chips) |
 
@@ -437,7 +470,8 @@ team can 3D-print (such as a gadget), or a small to large amount of cryptocurren
 out of sight. A round ends when the last unit in the order has acted.
 
 **Turn.** One unit acting. An Operator's turn holds both halves, the Operator's and their AI's,
-interleaved freely. It ends when the Operator's AP is spent or the player ends it. Durations
+interleaved freely. It ends when the player ends it, or when both the Operator's and the AI's
+AP are spent. Durations
 counted "in turns" count the affected unit's own turns: a guard stunned for 3 turns skips its
 next 3 turns, which is about 3 rounds.
 
@@ -471,8 +505,11 @@ gadget. Using a gadget is an Operator action and doesn't use up the turn's shot.
 flashbang costs 2 AP and blinds the guards in its blast radius for 3 turns.
 
 **Robot.** A gadget that becomes its own unit once deployed, such as a drone or a dog bot.
-Deploying one costs the Operator 3 AP. A robot has its own AP pool and speed, takes its own
-turns, and shares its vision with the team. It can scout, distract, and carry a single-use stun.
+Deploying one costs the Operator 3 AP; it appears next to the Operator and first acts in the
+next round. A robot has its own AP pool and speed, takes its own turns, and shares its vision
+with the team. It spends 1 AP per tile and can't sprint, open doors or carry bodies. It distracts
+by being seen: guards notice and aim at robots exactly as they do Operators. The dog bot carries
+a single-use stun: an adjacent enemy, 1 of its AP, once per battle.
 It never hacks; it relays (see Relay). One hit downs it, with no upgrade to change that, and a
 downed robot is gone for the rest of the battle and rebuilt afterwards.
 
@@ -483,11 +520,12 @@ AP because it slows them down.
 ### The action economy
 
 **AP.** Action points. Operators start each turn with 8. AIs have their own, separate pool,
-currently 2 per turn, with moving through the network costing 1; the AI's system is under
-review. Unspent AP doesn't carry over in V1.
+currently 2 per turn; moving through the network, hacking and compacting each cost 1. The AI's
+system is under review. Unspent AP doesn't carry over in V1, except AP donated through shared
+compute, which lasts until the receiving AI's next turn.
 
 **Shot.** The Operator's weapon: one per turn, outside the AP pool, and it doesn't end the turn,
-so the Operator can keep moving and acting after it. It stuns. Sprinting gives up the shot for
+so the Operator can keep moving and acting after it. Range 5, with line of sight. It stuns. Sprinting gives up the shot for
 that turn. Setting overwatch uses it.
 
 **Overwatch.** The shot held as a disposition. The Operator sets it at any point in their turn,
@@ -497,7 +535,9 @@ start of the Operator's next turn, so they can choose again. It's meant for cont
 lure a guard into a hallway, stun it from overwatch, tie it up next turn.
 
 **Sprint.** Moving 3 tiles for 2 AP instead of 3. It adds no AP and makes no noise. An Operator
-who sprints can't shoot or set overwatch that turn. On 8 AP, sprinting moves up to 12 tiles.
+who sprints can't shoot or set overwatch that turn. On 8 AP, sprinting moves up to 12 tiles. A
+sprint cut short, for instance when a move reveals a guard, costs only what walking the tiles
+actually moved would have, up to 2 AP.
 
 **Peek.** 1 AP, through a door only. The Operator sees into the space beyond until their turn
 ends, without moving into it.
@@ -508,7 +548,8 @@ is the only brake on chains of refunds; there is no cap. Only AIs get refunds.
 
 **Shared compute.** An AI gives some of its AP to another AI, one for one. Only possible while
 the two Operators stand adjacent, physically linked like daisy-chained computers. Linking costs
-nothing.
+nothing. Donated AP is added to the receiving AI's next turn only, and lapses if it isn't used
+then.
 
 ### The network
 
@@ -531,12 +572,11 @@ entered through: within 2 tiles in the current build (placeholder, upgradeable).
 beyond the tether pulls the AI out. Deploying the AI costs the Operator 1 AP.
 
 **Relay.** A robot the AI connects through instead of its Operator. The robot must be within
-tether range of the access point; its link back to the Operators has no range limit. A robot
-that ends its turn at an access point lets any Operator, on their next turn, spend 1 AP to send
-their AI in through it. An AI connects through one Operator or robot at a time. If the robot is
+tether range (2 tiles) of the access point; its link back to the Operators has no range limit.
+While it is, any Operator can spend 1 AP on their own turn to send their AI in through it. An AI connects through one Operator or robot at a time. If the robot is
 hit while relaying, the AI is pulled out at once and keeps its context.
 
-**Breach.** Hacking a node. Each hack action adds the AI's hack power to the node's breach
+**Breach.** Hacking a node. Each hack action costs 1 AP and adds the AI's hack power to the node's breach
 progress, which persists across turns and even if the AI leaves. Hacking never fails: an action
 adds progress or, at worst, none. When progress reaches the node's goal, the node is Breached.
 
@@ -555,7 +595,8 @@ data cache 60.
 **Lily pad.** Any Breached node used as a stepping stone for the next play; not only enemy
 pieces. Jump is the first agreed form.
 
-**Jump.** A compromised node extends the AI's reach that turn.
+**Jump.** Hops through Breached nodes don't count toward the AI's 3-hop move limit. The more of
+a network the team holds, the farther one move reaches.
 
 **ICE, daemon, security hub.** The network's own opposition, deferred to V2. The working ideas:
 ICE blocks a route until it's broken, a daemon triggers when a node is Breached, and a security
@@ -563,7 +604,7 @@ hub re-locks things. Nothing is designed until playtesting shows how dense the n
 today's maps, several enemy types would mean one on every other node.
 
 **Device.** A physical object tied to a node: a camera, a door, a light, a car, a machine. Each
-has a sound radius.
+has a sound radius. Vehicles occupy one tile.
 
 **Device verb.** What a Breached device lets the AI do, drawn from one shared list: power,
 activate and lock. Power switches a device on or off. Activate makes a powered device do its
@@ -624,7 +665,7 @@ out costs none of this: only the disconnection.
 ### Stealth
 
 **Fog.** The whole map is always visible, but units show live only where the team has vision:
-the Operators' sight, Breached cameras, robots and peeks. Unseen enemies are hidden entirely.
+the Operators' sight (6 tiles in every direction in light), Breached cameras, robots and peeks. Unseen enemies are hidden entirely.
 
 **Last-known position.** Where an unseen enemy was last seen, marked on the map.
 
@@ -640,35 +681,40 @@ range. During caution, the noticed tier counts as seen.
 the spot and investigates it on its next turn. In darkness, everything beyond the shrunken seen
 tier counts as noticed.
 
-**Investigate.** A guard goes to a marked spot: a noticed position, a sound, or a light that
-went out. It looks around for one turn, and if it finds nothing, it returns to its patrol. Hearing a sound causes an
-investigation, never a full alert.
+**Investigate.** A guard goes to a marked spot: a noticed position, a sound, a light or camera
+that went out, or a camera sighting. It looks around for one turn, and if it finds nothing, it
+returns to its patrol. A guard already investigating, or alerted, ignores new lures.
+Investigations never cause a full alert or caution.
 
-**Alerted.** A guard that has seen an Operator directly, by its own eyes or through a camera
-alert. It acts on its own turn only. If it loses track of the Operator, it starts searching.
+**Alerted.** A guard that has seen an Operator or robot directly with its own eyes, found a
+body, been freed, or woken untied. It acts on its own turn only. If it loses track of its target,
+it starts searching. A camera sighting never alerts; it sends a guard to investigate.
 
 **Aim.** What an alerted guard does instead of shooting on sight. On its turn it moves, then aims
-at one unit it can see within range, shown as a line from the guard to that unit. At the start of
+at one unit it can see within range, shown as a line. The line is fixed when the guard aims: the
+tiles from the guard through the target's tile, out to its range. At the start of
 its next turn it fires at that unit if the unit is still in the line, and the shot always hits.
 Otherwise the aim lapses. The player gets a full turn to break the line: move out of it, close a
 door, cut the lights, or stun the guard, which ends the aim. Guards aim at robots too, but choose
 an Operator when both are in sight. The shot hits the first unit in the line, so a robot can
 body-block for an Operator. On its next turn the guard fires first, then moves and aims again.
 
-**Searching.** An alerted guard that lost track of the Operator. It searches, then gives up and
-returns to its patrol.
+**Searching.** An alerted guard that lost track of its target. It walks to the last-known
+position, searches there for 2 turns (placeholder), then returns to its patrol.
 
-**Caution.** After an alert, the zone stays on caution for 3 rounds (placeholder), with a
-visible countdown. During caution, the noticed tier counts as seen. When the countdown ends, the
-zone settles back to normal.
+**Caution.** After a full alert, the zone stays on caution for 3 rounds (placeholder), with a
+visible countdown. During caution, the noticed tier counts as seen. A new full alert during
+caution restarts the countdown. When it ends, the zone settles back to normal. Investigations
+never cause caution.
 
 **Blackout.** A power hub cutting the lights on its circuit. Each light and camera it kills counts
 as switched off, so each is its own lure. The guards go out along their routes, searching room to
 room, and darkness limits both sides: guards can't see the Operators, and the Operators can't
 see the guards. Some missions may call for a blackout on purpose.
 
-**Zone.** A named area of a map, drawn by the map author, roughly one per room or yard. Camera
-alerts and caution act on zones.
+**Zone.** A named area of a map, drawn by the map author, roughly one per room or yard. Every
+tile and device belongs to one. Caution, and special areas where a camera sighting draws every
+enemy, act on zones.
 
 **Light and dark.** Light controls visibility. A powered light lights the tiles within its radius;
 every other tile is dark. In darkness a guard's seen tier shrinks to a short range and the rest of
@@ -690,15 +736,17 @@ single moment.
 ### Bodies
 
 **Stunned.** An enemy hit by a shot. It stays in place without vision and skips its next 3 turns
-(placeholder). A guard who finds it raises an alert. If it wakes without having been tied up, it
-raises an alert itself. If it wakes inside a receptacle, it makes noise instead, and a guard
-passing within its sound radius comes to let it out.
+(placeholder). A guard who finds it raises a full alert. If it wakes without having been tied
+up, it wakes alerted and its zone goes on caution. If it wakes inside a receptacle, it makes a
+sound instead on the turn it wakes, radius 4, drawing the closest guard, who lets it out.
 
 **Tied up.** A stunned enemy restrained by an adjacent Operator for 2 AP. It's out of the battle
-unless another enemy finds and unties it. A guard who finds it raises an alert.
+unless another enemy finds and unties it. A guard who finds it raises a full alert, then spends
+its next turn untying it; the freed guard is alerted.
 
 **Carry.** An Operator picks up a stunned or tied-up enemy over their shoulder. Picking up and
 putting down are free. While carrying, the Operator can only move, with no movement penalty.
+Their AI isn't limited.
 
 **Receptacle.** A place a body fits: a dumpster, a car's trunk, a locker, a closet, a trash can.
 Putting a carried body down on the receptacle's tile puts it inside.
