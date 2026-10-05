@@ -23,10 +23,6 @@ func _init(start: Vector2i, max_cost: int, passable: Callable) -> void:
 			frontier.append(next)
 
 
-func has(cell: Vector2i) -> bool:
-	return cost.has(cell)
-
-
 func path_to(cell: Vector2i) -> Array[Vector2i]:
 	var path: Array[Vector2i] = []
 	if not cost.has(cell):

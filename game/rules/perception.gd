@@ -6,7 +6,6 @@ class_name Perception
 enum Tier { NONE, NOTICED, SEEN }
 
 const CAMERAS := ["camera", "nvcamera"]
-const LIGHTS := ["light", "adscreen"]
 
 
 static func compute_lit(state: BattleState) -> Dictionary:

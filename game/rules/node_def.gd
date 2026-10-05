@@ -3,7 +3,6 @@ extends Resource
 
 const KINDS := ["access", "door", "autodoor", "camera", "nvcamera", "turret", "cache", "light", "phone",
 	"machine", "adscreen", "car", "truck", "hub"]
-const VERBS := ["power", "activate", "lock"]
 
 @export var kind := ""
 @export var display_name := ""
@@ -12,7 +11,7 @@ const VERBS := ["power", "activate", "lock"]
 @export var context_cost := 0
 # Which exploit chip multiplies hacks on it: surveillance, weapons or infrastructure.
 @export var category := ""
-# What the AI can do with it once Breached, from VERBS.
+# What the AI can do with it once Breached: power, activate or lock.
 @export var verbs := PackedStringArray()
 # Walking steps the sound of a verb carries, and whether it draws every guard in range or only
 # the closest.

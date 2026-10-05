@@ -54,7 +54,6 @@ var next_hack := {}
 var rebooting := 0
 
 # Robots.
-var owner := -1
 var stun_charges := 0
 
 # Guards and turrets.

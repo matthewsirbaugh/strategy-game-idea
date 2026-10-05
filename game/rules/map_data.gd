@@ -250,12 +250,6 @@ func node_facing(id: String) -> Vector2i:
 	return Vector2i(0, 1)
 
 
-# Where a node starts. Vehicles move during a battle; BattleState tracks where they are now.
-func node_at(cell: Vector2i) -> String:
-	_parse()
-	return _node_at.get(cell, "")
-
-
 func node_ids() -> Array:
 	_parse()
 	return _nodes.keys()
@@ -275,13 +269,6 @@ func network_of(id: String) -> String:
 	return _network_of.get(id, "")
 
 
-func network_names() -> Array:
-	_parse()
-	if networks.is_empty():
-		return ["Network"]
-	return networks.keys()
-
-
 func circuit(hub: String) -> PackedStringArray:
 	return str(circuits.get(hub, "")).split(" ", false)
 
@@ -298,15 +285,6 @@ func zone_at(cell: Vector2i) -> String:
 	if _zone_of_node.has(id):
 		return _zone_of_node[id]
 	return _zone_of_cell.get(cell, "")
-
-
-func node_zone(id: String) -> String:
-	_parse()
-	return _zone_of_node.get(id, _zone_of_cell.get(_nodes.get(id, Vector2i(-1, -1)), ""))
-
-
-func zone_names() -> Array:
-	return zones.keys()
 
 
 func player_starts() -> Array[Vector2i]:

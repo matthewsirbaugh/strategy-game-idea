@@ -1038,7 +1038,6 @@ func deploy_robot(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
 		return []
 	unit.ap -= ROBOT_COST
 	var robot := _add(unit.robot_def, "%s's %s" % [unit.display_name, unit.robot_def.display_name.to_lower()], cell)
-	robot.owner = unit.id
 	robot.stun_charges = unit.robot_def.stun_charges
 	robot.facing = unit.facing
 	unit.robot = robot.id

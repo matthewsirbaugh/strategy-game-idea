@@ -151,10 +151,6 @@ func _outline(layer: String, cells: Dictionary) -> void:
 	_overlays[layer] = _multimesh(strip, material, transforms)
 
 
-func node_position(id: String, height := 0.0) -> Vector3:
-	return cell_to_world(map.node_cell(id)) + Vector3(0, height, 0)
-
-
 # One color over a set of tiles, drawn as a single multimesh so redrawing cones every action stays
 # cheap.
 func set_overlay(layer: String, cells: Array, color: Color, height := OVERLAY_Y, border := 1.0) -> void:
