@@ -57,7 +57,7 @@ the task. Historical findings, concept art and binary assets need not be loaded 
 | Guard and turret turns, aim and fire | [enemy_ai.gd](game/rules/enemy_ai.gd) | `Perception.sweep`, `BattleState.step` |
 | Map parsing, zones, networks, circuits, receptacles | [map_data.gd](game/rules/map_data.gd) | [reach.gd](game/rules/reach.gd), [grid.gd](game/rules/grid.gd) |
 | Loadouts and restarting a phase | [battle_session.gd](game/rules/battle_session.gd) | `ui/loadout_menu.gd`, `autoload/scene_router.gd` |
-| Actions, menus, picking, previews, event playback | [battle.gd](game/battle/battle.gd) | [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
+| Actions, menus, picking, previews, event playback | [battle.gd](game/battle/battle.gd) | [battle_menus.gd](game/battle/battle_menus.gd), [battle_log.gd](game/battle/battle_log.gd), [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
 | Camera and mouse gestures | [camera_rig.gd](game/battle/camera_rig.gd) | `battle.gd` input and picking functions, `project.godot` input actions |
 | Fog, overlays and wall visibility | [grid_view.gd](game/battle/grid_view.gd), [level_view.gd](game/battle/level_view.gd) | `art/shaders/fog.gdshaderinc`, `ghost.gdshaderinc` |
 | Character rendering and animation | [unit_view.gd](game/battle/unit_view.gd), [toon_model.gd](game/art/toon_model.gd) | [character_rig.gd](game/art/characters/character_rig.gd), `preview/` |
