@@ -7,8 +7,8 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 |---|---|---|---|
 | Rulebook V1: the whole game's rules | open | V1 implemented from Astra's plan (2026-10-04), not yet played. Next: Bryson playtests, and answers the 37 implementation readings and choices listed in rulebook.md. V2 items are listed there too | [rulebook.md](explorations/rulebook.md), [RULES.md](RULES.md), [v1-implementation-brief.md](explorations/v1-implementation-brief.md) |
 | Chip categories: how AI skills are grouped | open | Side assignment from the rulebook (2026-10-04). Bryson's starting guess: Surveillance, Weapon Systems, Infrastructure. Explore options | not started |
-| Battle MVP: first playable in Godot | open | Art, free camera and lit fog in (2026-09-28). Graduating toward an Alpha: a two-phase facility mission on new maps; the handover and the vault rule are open. Bryson's playtest answers still feed it | [battle-mvp.md](explorations/battle-mvp.md) |
-| Battle core: turns, fog, network and hacking | open | Context rules and interim turn rules decided and built (2026-09-29), costs are placeholders. Bryson plays it; the action system and the tuning pass come later | [battle-core.md](explorations/battle-core.md) |
+| Battle MVP: first playable in Godot | open | V1 replaced the MVP's rules, map and stats (2026-10-04); the file keeps them as history. Graduating toward an Alpha: a two-phase facility mission. The handover is decided (RULES.md rules 47–48) and its data is built; the vault is out of V1 | [battle-mvp.md](explorations/battle-mvp.md) |
+| Battle core: turns, fog, network and hacking | open | Turns, context and hacking now live in RULES.md, and the AP action system is built (2026-10-04). Left: the tuning pass. The shelved minigame candidates stay in the file | [battle-core.md](explorations/battle-core.md) |
 | Art pipeline: how 3D assets get made | open | Look set 2026-09-27 (house style in the file); Operators, guard and facility props built. Camera bots parked. The aesthetics pass runs from the environment thread | [art-pipeline.md](explorations/art-pipeline.md) |
 | Environment art for the facility mission | open | The exterior map redesigned from shot 0A, access points as wall panels. Bryson plays it and says what to change | [environment-art.md](explorations/environment-art.md) |
 | Visual polish: interface and Network mode | open | Implemented 2026-09-30: illustrated title, shared interface, Network device graph and framing, subtler tactical markings. Bryson reviews the playable pass and captures. Bryson, 2026-10-03: the menus still feel plain and need an aesthetic overhaul, and skills and abilities need an easy way to inspect them (see rulebook.md) | [visual-polish.md](explorations/visual-polish.md) |
@@ -22,13 +22,13 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 | Permadeath alongside an authored story | decided | Off, 2026-09-23; see DESIGN.md | [battle-core.md](explorations/battle-core.md) |
 
 Status values: **open** (ready to pick up), **blocked** (waiting on something outside this
-thread), **parked** (deliberately on hold), **decided** (conclusion has graduated to DESIGN.md
+thread), **parked** (deliberately on hold), **decided** (conclusion has graduated to DESIGN.md, RULES.md
 or AGENTS.md, and the file keeps the reasoning).
 
 ## Reading routes
 
-- The build in progress is [battle-mvp.md](explorations/battle-mvp.md): the MVP spec, the placeholder map and stats, and the milestones. The game is in `game/`; README.md says how to run it.
-- The design behind it is [battle-core.md](explorations/battle-core.md): what hacking is for, the working models for battle structure, hack resolution and stat axes, and the open questions. The minigame candidates are shelved at the bottom of that file.
+- The rules are [RULES.md](RULES.md); the reasoning behind them is [rulebook.md](explorations/rulebook.md), and what V1 built is [v1-implementation-brief.md](explorations/v1-implementation-brief.md). The game is in `game/`; README.md says how to run it and how the code is organized.
+- [battle-mvp.md](explorations/battle-mvp.md) and [battle-core.md](explorations/battle-core.md) are the MVP's history and the early working models; where they differ from RULES.md, RULES.md is current. The minigame candidates are shelved at the bottom of battle-core.md.
 - The 2026-09-23 decisions are in [DESIGN.md](DESIGN.md#decisions). The old "Skirmish shape" row was absorbed into the battle core on the same date.
 - For the working concept, use the core exploration's [topic index](explorations/core-idea-and-story.md#topic-index).
 - Read the core exploration's [latest clarifications](explorations/core-idea-and-story.md#september-22-clarifications) before treating older setting or digital-map language as current.

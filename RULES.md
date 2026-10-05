@@ -1,6 +1,6 @@
 # Rules
 
-V1, in progress. Only agreed rules go here. The reasoning, and anything still being worked out,
+V1, implemented 2026-10-04 and not yet played. Only agreed rules go here. The reasoning, and anything still being worked out,
 is in [the rulebook exploration](explorations/rulebook.md). Once V1 is done, this file is
 published to Google Drive for sharing and comments.
 
@@ -14,7 +14,7 @@ implementation follows. Numbers marked placeholder are for tuning.
 |---|---|
 | Battle | One mission, every phase, area and map of it |
 | Round | Every unit on the map takes one turn |
-| Turn | One unit acting. An Operator's turn lasts until their AP is spent or they end it |
+| Turn | One unit acting. An Operator's turn lasts until the player ends it, or until both the Operator's and the AI's AP are spent |
 | Turn order | The order units act in each round, shown at the top of the screen |
 | Unit | Anything that takes turns: Operators, guards, robots |
 | Operator | A human member of the team, carrying their AI in a backpack |
@@ -119,7 +119,7 @@ implementation follows. Numbers marked placeholder are for tuning.
    - There is no undo in V1.
 5. AIs play aggressively, on their own AP, separate from the Operator's: the AI's autonomy is the
    point. For now they start each turn with 2 AP. Moving through the network, hacking and
-   compacting each cost 1 AP (placeholder). The AI's action system is under review.
+   compacting each cost 1 AP (placeholder).
    Unspent AP doesn't carry over, for Operators or AIs.
 6. Refund: a single hack action that takes a node from untouched to Breached refunds its AP.
    Finishing the last part of a breach that took several turns does not. One action earns at
@@ -520,8 +520,7 @@ AP because it slows them down.
 ### The action economy
 
 **AP.** Action points. Operators start each turn with 8. AIs have their own, separate pool,
-currently 2 per turn; moving through the network, hacking and compacting each cost 1. The AI's
-system is under review. Unspent AP doesn't carry over in V1, except AP donated through shared
+currently 2 per turn; moving through the network, hacking and compacting each cost 1. Unspent AP doesn't carry over in V1, except AP donated through shared
 compute, which lasts until the receiving AI's next turn.
 
 **Shot.** The Operator's weapon: one per turn, outside the AP pool, and it doesn't end the turn,

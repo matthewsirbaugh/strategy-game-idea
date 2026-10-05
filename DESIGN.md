@@ -83,9 +83,9 @@ Emblem: Three Houses, South Park: The Stick of Truth and The Fractured But Whole
 
 ## Decisions
 
-Decided 2026-09-23 unless dated otherwise. The reasoning, and the working models that are not
-locked yet, are in
-[the battle core exploration](explorations/battle-core.md).
+Decided 2026-09-23 unless dated otherwise. The reasoning is in
+[the battle core exploration](explorations/battle-core.md) for the early decisions, and in
+[the rulebook exploration](explorations/rulebook.md) from 2026-10-02 on.
 
 - North star: more of a puzzle with RPG progression and a story, like Into the Breach if it were
   a stealth game with a story and proper upgrades. A puzzle, not a statistical back-and-forth.
@@ -94,7 +94,8 @@ locked yet, are in
   information, such as enemy weaknesses and locations. It resolves through stats, not a
   minigame, and is as deterministic as possible.
 - Hidden information. Fog of war like StarCraft: the whole map is visible, but only what you
-  have vision on is live. Hacks can reveal, hide and spoof information.
+  have vision on is live. Hacks reveal information and spoof it: a Breached camera stops reporting
+  the team. Hiding, the Cloak skill, was dropped on 2026-10-04.
 - Three playable characters, with a stable roster through the game, like Persona.
 - Operators share the same stats in V1 and differ in personality. AIs specialize through skill
   chips and post-training. Two arrive with set personalities and starting specialties; the
@@ -114,7 +115,7 @@ locked yet, are in
   exists: we know how it really works and what its limits are, and we build the game around
   them. (2026-09-27)
 - The look is gritty cyberpunk anime, in the vein of Cyberpunk: Edgerunners: bold ink outlines,
-  hard-edged cel shading, saturated colors and realistic adult proportions. Clothes are
+  cel shading (soft or hard-edged is still open; the build starts soft and L compares), saturated colors and realistic adult proportions. Clothes are
   near-future street techwear, layered, asymmetric and worn, and each character is a little
   eccentric. Grimy neutral bases with one strong accent per character. If players say it looks
   like Edgerunners, it worked. It replaces the Ghibli

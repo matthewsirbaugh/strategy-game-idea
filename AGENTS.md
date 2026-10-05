@@ -76,12 +76,12 @@ progress and don't get lost. One topic, one chat, one file.
   only place that says what is current.
 - `explorations/<topic>.md` is the thread itself: the question, inherited constraints,
   candidates, dated findings, open questions, and the decision once it lands.
-- Only conclusions graduate. A decision moves into DESIGN.md, or AGENTS.md if it is a working
-  rule, as a line or two with a link back. The reasoning stays in the exploration file, so the
+- Only conclusions graduate. A decision moves into DESIGN.md, RULES.md if it is a game rule, or
+  AGENTS.md if it is a working rule, as a line or two with a link back. The reasoning stays in the exploration file, so the
   design docs never become a research dump.
 - A new tangent gets a row on the board, not a detour in the current chat.
-- Starting cold in any tool: read AGENTS.md, EXPLORATIONS.md and the one exploration file.
-  Nothing else should be needed. In Claude Code, `/exploration` does this.
+- Starting cold in any tool: read AGENTS.md, EXPLORATIONS.md and the one exploration file, plus
+  RULES.md for rules work. Nothing else should be needed. In Claude Code, `/exploration` does this.
 - Bryson makes the call at the end of an exploration. Agents gather, compare and recommend.
 
 ## Editing these files, and git

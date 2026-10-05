@@ -10,7 +10,7 @@
 
 ## Order of work
 
-1. Action system (in progress).
+1. Action system (built in V1, 2026-10-04).
 2. Combat: cover, hit model, what a non-lethal weapon means for enemies.
 3. Stealth and detection.
 4. Downed and recovery.
