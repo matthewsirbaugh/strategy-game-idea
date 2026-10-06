@@ -25,6 +25,7 @@ func _initialize() -> void:
 	_aim_lines_are_fixed_when_the_guard_aims()
 	_predict_matches_the_guards_real_turn()
 	_guards_ignore_operators_they_cannot_see()
+	_stuns_end_the_way_the_rules_say()
 	_illegal_actions_change_nothing()
 	_broken_content_is_reported()
 	_the_test_map_keeps_its_shape()
@@ -144,6 +145,28 @@ func _guards_ignore_operators_they_cannot_see() -> void:
 	_check(turns[0].contains("move"), "the guard walks its patrol, got %s" % turns[0])
 	_check(turns[1] == turns[0], "a hidden Operator changed the guard's turn: %s vs %s" % [turns[1], turns[0]])
 	_check(turns[2] == turns[0], "moving the hidden Operator changed the guard's turn: %s vs %s" % [turns[2], turns[0]])
+
+
+# A guard is found every time it goes down, not just the first. A Breached turret shot by an enemy
+# turret comes back from the stun without putting the zone on caution.
+func _stuns_end_the_way_the_rules_say() -> void:
+	var state := _state(". . . . . . X\nP . 1 . 2 . z\n. . . . . . .")
+	var alpha := state.begin_next_turn()
+	var guard := _unit(state, "Guard 1")
+	_unit(state, "Guard 2").facing = Vector2(-1, 0)
+	for time in ["first", "second"]:
+		guard.stun = 0
+		state.hit(guard, alpha)
+		var found := Perception.sweep(state).filter(func(event: Dictionary) -> bool: return event.type == "found_body")
+		_check(found.size() == 1, "a stunned guard in sight is found the %s time it goes down" % time)
+	state = _state("P a t . X\n. . . . z", {"a": "access", "t": "turret", "z": "cache"}, ["a-t"])
+	var turret: Unit = state.units.filter(func(unit: Unit) -> bool: return unit.is_turret())[0]
+	state._breach("t")
+	state.hit(turret, alpha)
+	for i in BattleState.STUN_TURNS:
+		state.active = turret
+		EnemyAI.take_turn(state, turret)
+	_check(turret.stun == 0 and state.caution.is_empty(), "a Breached turret recovers from a stun quietly, caution %s" % state.caution)
 
 
 # Each one is a direct call the menus would never make.

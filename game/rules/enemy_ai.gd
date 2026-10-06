@@ -35,12 +35,13 @@ static func _guard(state: BattleState, guard: Unit) -> Array[Dictionary]:
 
 
 # Stunned, blinded, or shut in a receptacle: the unit loses its turn. Turns count down here, so a
-# stun of 3 skips the unit's next 3 turns.
+# stun of 3 skips the unit's next 3 turns. A Breached turret just comes back on; only the enemy
+# wakes alerted.
 static func _skip(state: BattleState, unit: Unit, events: Array[Dictionary]) -> bool:
 	if unit.stun > 0:
 		unit.stun -= 1
 		events.append({"type": "stunned", "unit": unit, "turns": unit.stun})
-		if unit.stun == 0 and not unit.tied:
+		if unit.stun == 0 and not unit.tied and unit.team == UnitDef.Team.ENEMY:
 			_wake(state, unit, events)
 		return true
 	if unit.receptacle != "" or unit.carried_by >= 0:

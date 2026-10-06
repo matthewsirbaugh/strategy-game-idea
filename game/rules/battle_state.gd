@@ -577,15 +577,13 @@ func exposure(cell: Vector2i) -> int:
 # --- Moving --------------------------------------------------------------------------------------
 
 # Where the active Operator or robot can move, and what each tile costs. A sprint covers up to 3
-# tiles for 2 AP; cut short, it costs what walking would have.
+# tiles for 2 AP; cut short, it costs what walking would have. With less than 2 AP it would only
+# be a walk that gives up the shot, so it isn't offered.
 func move_costs(unit: Unit, sprint := false) -> Dictionary:
 	var result := {}
-	if not _can_act(unit) or (sprint and (not unit.is_operator() or unit.overwatch)):
+	if not _can_act(unit) or (sprint and (not unit.is_operator() or unit.overwatch or unit.ap < SPRINT_COST)):
 		return result
-	var budget := unit.ap
-	if sprint:
-		budget = SPRINT_TILES if unit.ap >= SPRINT_COST else unit.ap
-	var costs := reach(unit, budget).cost
+	var costs := reach(unit, SPRINT_TILES if sprint else unit.ap).cost
 	for cell in costs:
 		if cell != unit.cell and _free_to_stand(unit, cell):
 			result[cell] = mini(SPRINT_COST, costs[cell]) if sprint else costs[cell]
@@ -605,10 +603,7 @@ func move(unit: Unit, cell: Vector2i, sprint := false) -> Array[Dictionary]:
 	var costs := move_costs(unit, sprint)
 	if not costs.has(cell):
 		return []
-	var budget := unit.ap
-	if sprint:
-		budget = SPRINT_TILES if unit.ap >= SPRINT_COST else unit.ap
-	var path := reach(unit, budget).path_to(cell)
+	var path := reach(unit, SPRINT_TILES if sprint else unit.ap).path_to(cell)
 	var walked: Array[Vector2i] = []
 	var later: Array[Dictionary] = []
 	for step in path:
@@ -777,7 +772,9 @@ func hit(target: Unit, by: Unit) -> Array[Dictionary]:
 	return events
 
 
+# A body the enemy found and freed can be found again the next time it goes down.
 func stun(target: Unit) -> void:
+	discovered.erase(target.id)
 	target.stun = STUN_TURNS
 	target.aim = {}
 	target.in_view = {}
@@ -1462,6 +1459,7 @@ func set_turret_mode(unit: Unit, id: String, mode: String) -> Array[Dictionary]:
 	if not turret_controls(unit).has(id) or mode not in ["hold", "target"] or devices[id].mode == mode:
 		return []
 	devices[id].mode = mode
+	_after_action(unit)
 	return [{"type": "turret_mode", "unit": unit, "node": id, "mode": mode}]
 
 
