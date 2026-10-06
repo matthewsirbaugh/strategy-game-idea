@@ -141,6 +141,18 @@ Built the same day. Claude's choices, open to change:
 
 Verified with the test suites and screenshots of a native run; not played.
 
+## 2026-10-05 — AP remaining, and moves that stop short (Bryson)
+
+Bryson read "AP 8/8" as eight used, not eight left, and asked for "AP Remaining" on both the unit
+panel and the menu headers. Built: "AP REMAINING" and "AI AP REMAINING" on the panel, "5 AP
+REMAINING" tags in the menu headers. Claude's choice: a waiting teammate's panel reads "AP NEXT
+TURN", since their AP refills when their turn starts.
+
+A move that reveals a guard stops there (rule 27) and only charges the tiles walked; the stop was
+easy to miss. Bryson agreed to a callout: over the Operator, "STOPPED · SPOTTED GUARD 1" and the
+AP kept, up and to the left so the menu doesn't cover it; the guard's tile flashes, the log line
+adds the AP kept, and the move hint warns that spotting an enemy stops you there.
+
 ## Source and art provenance
 
 - `game/art/ui/facility-title.png` is an unchanged copy of
