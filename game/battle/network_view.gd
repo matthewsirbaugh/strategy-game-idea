@@ -153,12 +153,17 @@ func is_shown(id: String) -> bool:
 	return _state.map.node_kind(id) == "access" or _state.revealed_networks.has(_state.map.network_of(id))
 
 
+# The shown nodes and the active unit, whose menu opens beside it.
 func framing_bounds() -> Rect2:
 	var bounds := Rect2(Vector2(_grid.center().x, _grid.center().z), Vector2.ZERO)
+	var points: Array[Vector3] = []
 	for id in _nodes:
 		if is_shown(id):
-			var at := node_position(id)
-			bounds = bounds.expand(Vector2(at.x, at.z))
+			points.append(node_position(id))
+	if _state.active and _state.active.on_map():
+		points.append(_grid.cell_to_world(_state.active.cell))
+	for at in points:
+		bounds = bounds.expand(Vector2(at.x, at.z))
 	# Extra room at the bottom, under the Operator's panel.
 	return bounds.grow_individual(1.6, 1.6, 1.6, 7.0)
 

@@ -109,6 +109,9 @@ bg_color = Color(0.025, 0.04, 0.05, 0.98)
 border_width_left = 2
 border_color = Color(0.95, 0.63, 0.43, 1)
 
+[sub_resource type="StyleBoxLine" id="Rule"]
+color = Color(0.22, 0.29, 0.31, 0.8)
+
 [resource]
 default_font = ExtResource("1")
 default_font_size = 22
@@ -122,6 +125,25 @@ Button/styles/hover = SubResource("Hover")
 Button/styles/hover_pressed = SubResource("Pressed")
 Button/styles/normal = SubResource("Button")
 Button/styles/pressed = SubResource("Pressed")
+ChipLabel/base_type = &"Label"
+ChipLabel/font_sizes/font_size = 14
+ChipLabel/fonts/font = ExtResource("2")
+HSeparator/constants/separation = 6
+HSeparator/styles/separator = SubResource("Rule")
+MenuBack/base_type = &"Button"
+MenuBack/colors/font_color = Color(0.63, 0.71, 0.71, 1)
+MenuBack/colors/font_disabled_color = Color(0.4, 0.47, 0.48, 1)
+MenuBack/colors/font_focus_color = Color(0.91, 0.92, 0.86, 1)
+MenuBack/colors/font_hover_color = Color(0.91, 0.92, 0.86, 1)
+MenuBack/colors/font_pressed_color = Color(1, 0.97, 0.9, 1)
+MenuBack/font_sizes/font_size = 18
+MenuRow/base_type = &"Button"
+MenuRow/colors/font_color = Color(0.91, 0.92, 0.86, 1)
+MenuRow/colors/font_disabled_color = Color(0.42, 0.49, 0.5, 1)
+MenuRow/colors/font_focus_color = Color(1, 0.95, 0.86, 1)
+MenuRow/colors/font_hover_color = Color(1, 0.95, 0.86, 1)
+MenuRow/colors/font_pressed_color = Color(1, 0.97, 0.9, 1)
+MenuRow/font_sizes/font_size = 20
 Heading/base_type = &"Label"
 Heading/font_sizes/font_size = 32
 Heading/fonts/font = ExtResource("2")

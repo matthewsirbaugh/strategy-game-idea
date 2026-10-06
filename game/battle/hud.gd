@@ -9,12 +9,31 @@ signal scan_toggled(shown: bool)
 signal operator_chosen(id: int)
 
 const ENEMY_COLOR := Color(0.91, 0.48, 0.36)
+const TEXT := Color(0.91, 0.92, 0.86)
+const MUTED := Color(0.6, 0.68, 0.68)
 const LOG_LINES := 5
 const MENU_OFFSET := Vector2(40, 0)
 const SCREEN_MARGIN := 12.0
-const CHIP_LOADED := Color(0.45, 0.93, 0.68)
-const CHIP_DEGRADED := Color(1.0, 0.8, 0.35)
-const CHIP_UNLOADED := Color(0.55, 0.62, 0.64)
+# Each phase's menus are edged in the color of the AP they spend.
+const OPERATOR_ACCENT := Color(0.98, 0.7, 0.47)
+const AI_ACCENT := Color(0.4, 0.87, 0.9)
+# A tag's kind sets its color: the same resource reads the same everywhere.
+const TAG_COLORS := {
+	"ap": Color(0.98, 0.77, 0.55),
+	"ai": Color(0.4, 0.87, 0.9),
+	"context": Color(0.5, 0.69, 1.0),
+	"good": Color(0.45, 0.93, 0.68),
+	"warn": Color(1.0, 0.8, 0.35),
+	"info": Color(0.8, 0.86, 0.83),
+	"free": Color(0.58, 0.66, 0.66),
+	"key": Color(0.58, 0.66, 0.66),
+}
+const CHIP_LEVELS: Array[String] = ["free", "warn", "good"]
+const CHIP_STATES: Array[String] = ["Not loaded", "Degraded", "Loaded"]
+# Space between a row's name and its tags, and between the tags and the row's edge.
+const TAG_GAP := 18.0
+const ROW_PADDING := 10
+const ROW_STATES: Array[String] = ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]
 
 @onready var _round: Label = %RoundLabel
 @onready var _order: HBoxContainer = %Order
@@ -22,12 +41,14 @@ const CHIP_UNLOADED := Color(0.55, 0.62, 0.64)
 @onready var _caution: Label = %CautionLabel
 @onready var _active_panel: Control = %ActivePanel
 @onready var _active_name: Label = %ActiveName
-@onready var _active_stats: Label = %ActiveStats
+@onready var _active_stats: GridContainer = %ActiveStats
 @onready var _context_ring: ContextRing = %ContextRing
 @onready var _context_label: Label = %ContextLabel
 @onready var _chips: HBoxContainer = %Chips
-@onready var _action_menu: Control = %ActionMenu
+@onready var _action_menu: PanelContainer = %ActionMenu
 @onready var _action_list: VBoxContainer = %ActionList
+@onready var _footer_list: VBoxContainer = %FooterList
+@onready var _menu_note: Label = %MenuNote
 @onready var _network_toggle: Button = %NetworkToggle
 @onready var _scan_toggle: Button = %ScanToggle
 @onready var _log: VBoxContainer = %Log
@@ -39,11 +60,15 @@ const CHIP_UNLOADED := Color(0.55, 0.62, 0.64)
 @onready var _initial: Label = %Initial
 @onready var _badge: PanelContainer = %Badge
 var _inspect: PanelContainer
-var _inspect_text: Label
+var _inspect_parts := {}
 var _card: Dictionary
 var _controls_text: String
 # The team member the panel shows: the active unit, or a teammate the player clicked.
 var _viewed: Unit
+# The way back out of the open submenu, which Esc and right-click take.
+var _cancel_id := ""
+var _stats := {}
+var _styles := {}
 
 
 func _ready() -> void:
@@ -53,14 +78,19 @@ func _ready() -> void:
 	_restart.pressed.connect(SceneRouter.restart_battle)
 	%ChangeLoadout.pressed.connect(SceneRouter.goto_loadout)
 	_quit.pressed.connect(SceneRouter.goto_title)
+	_build_stats()
 	_build_inspect()
 	_build_card()
 
 
-# The menu has to close before the pause menu sees Esc, so this runs in _input.
+# The menu has to close before the pause menu sees Esc, so this runs in _input. In a submenu, Esc
+# and right-click go back a step instead.
 func _input(event: InputEvent) -> void:
 	if _action_menu.visible and (event.is_action_pressed("ui_cancel") or event.is_action_released("cancel")):
 		get_viewport().set_input_as_handled()
+		if _cancel_id != "":
+			_choose(_cancel_id)
+			return
 		close_menu()
 		menu_cancelled.emit()
 	elif _inspect.visible and event.is_action_pressed("ui_cancel"):
@@ -100,6 +130,32 @@ func viewed() -> Unit:
 	return _viewed
 
 
+# --- The unit panel ------------------------------------------------------------------------------
+
+# One cell per resource or state, a small name over its value, laid out three to a row.
+func _build_stats() -> void:
+	for id in ["ap", "ai_ap", "armor", "shot", "ai", "gear"]:
+		var cell := VBoxContainer.new()
+		cell.add_theme_constant_override("separation", -3)
+		var title := Label.new()
+		title.theme_type_variation = &"Kicker"
+		title.add_theme_font_size_override("font_size", 14)
+		var value := Label.new()
+		value.add_theme_font_size_override("font_size", 20)
+		cell.add_child(title)
+		cell.add_child(value)
+		_active_stats.add_child(cell)
+		_stats[id] = [cell, title, value]
+
+
+func _stat(id: String, title: String, value: String, color: Color) -> void:
+	var parts: Array = _stats[id]
+	parts[0].visible = true
+	parts[1].text = title
+	parts[2].text = value
+	parts[2].add_theme_color_override("font_color", color)
+
+
 func _show_unit(state: BattleState, unit: Unit) -> void:
 	var accent := unit.def.color.lightened(0.2)
 	var acting := unit == state.active
@@ -114,38 +170,41 @@ func _show_unit(state: BattleState, unit: Unit) -> void:
 	# AP refills when a turn starts, so a waiting teammate shows what they'll start with.
 	var turn := "YOUR TURN" if acting else "WAITING  ·  AP AT TURN START"
 	var ap := unit.ap if acting else (unit.def.ap if unit.is_robot() else unit.base_ap)
-	var ai_ap := unit.ai_ap if acting else (0 if unit.rebooting > 0 else BattleState.AI_AP + unit.incoming)
 	_active_name.text = unit.display_name
+	for id in _stats:
+		_stats[id][0].visible = false
 	if unit.is_robot():
 		_phase_label.text = "ROBOT  ·  " + turn
-		var stun := "        STUN  ready" if unit.stun_charges > 0 else ("        STUN  used" if unit.def.stun_charges > 0 else "")
-		_active_stats.text = "AP  %s  %d/%d%s" % [_pips(ap, unit.def.ap), ap, unit.def.ap, stun]
+		_stat("ap", "AP", "%s  %d/%d" % [_pips(ap, unit.def.ap), ap, unit.def.ap], TAG_COLORS.ap)
+		if unit.def.stun_charges > 0:
+			_stat("shot", "STUN", "READY" if unit.stun_charges > 0 else "USED", TAG_COLORS.good if unit.stun_charges > 0 else MUTED)
 		%ContextRow.visible = false
 		_show_chips(state, null)
 		return
 	_phase_label.text = (unit.role.get_slice(":", 0).to_upper() if unit.role != "" else "OPERATOR") + "  ·  " + turn
-	var shot := "ready"
+	var ai_ap := unit.ai_ap if acting else (0 if unit.rebooting > 0 else BattleState.AI_AP + unit.incoming)
+	_stat("ap", "AP", "%s  %d/%d" % [_pips(ap, unit.base_ap), ap, unit.base_ap], TAG_COLORS.ap)
+	var shared := "  ·  +%d SHARED" % unit.incoming if unit.incoming > 0 and not acting else ""
+	_stat("ai_ap", "AI AP" + shared, "%s  %d" % [_pips(ai_ap, maxi(ai_ap, BattleState.AI_AP)), ai_ap], TAG_COLORS.ai)
+	_stat("armor", "ARMOR", "■".repeat(unit.max_hits - unit.hits) + "□".repeat(unit.hits), TEXT)
 	if unit.overwatch:
-		shot = "overwatch"
-	elif unit.sprinted:
-		shot = "given up"
-	elif unit.shot_used:
-		shot = "used"
-	var gear := ""
+		_stat("shot", "SHOT", "OVERWATCH", TAG_COLORS.warn)
+	elif unit.sprinted or unit.shot_used:
+		_stat("shot", "SHOT", "GIVEN UP" if unit.sprinted else "USED", MUTED)
+	else:
+		_stat("shot", "SHOT", "READY", TAG_COLORS.good)
+	if unit.connected():
+		_stat("ai", "AI", "ON " + unit.ai_node.to_upper() + ("  VIA RELAY" if unit.relay >= 0 else ""), TAG_COLORS.ai)
+	elif unit.rebooting > 0:
+		_stat("ai", "AI", "REBOOTING", TAG_COLORS.warn)
+	else:
+		_stat("ai", "AI", "BACKPACK", MUTED)
 	if unit.robot_def:
 		var deployed := unit.robot >= 0 and not state.units[unit.robot].down
-		gear = "%s  %s" % [unit.robot_def.display_name.to_upper(), "out" if deployed else "lost" if unit.robot >= 0 else "ready"]
+		var status := "OUT" if deployed else "LOST" if unit.robot >= 0 else "READY"
+		_stat("gear", unit.robot_def.display_name.to_upper(), status, TAG_COLORS.good if status == "READY" else MUTED if status == "LOST" else TEXT)
 	elif unit.flashbangs > 0:
-		gear = "FLASHBANG  ×%d" % unit.flashbangs
-	var ai := "backpack"
-	if unit.connected():
-		ai = unit.ai_node.to_upper() + ("  via relay" if unit.relay >= 0 else "")
-	elif unit.rebooting > 0:
-		ai = "rebooting"
-	_active_stats.text = "AP  %s  %d/%d        AI AP  %s  %d%s\nARMOR  %s        SHOT  %s        AI  %s%s" % [
-		_pips(ap, unit.base_ap), ap, unit.base_ap,
-		_pips(ai_ap, maxi(ai_ap, BattleState.AI_AP)), ai_ap, "  incl. +%d shared" % unit.incoming if unit.incoming > 0 and not acting else "",
-		"■".repeat(unit.max_hits - unit.hits) + "□".repeat(unit.hits), shot, ai, "        " + gear if gear != "" else ""]
+		_stat("gear", "FLASHBANGS", "×%d" % unit.flashbangs, TEXT)
 	%ContextRow.visible = true
 	_context_ring.fill = float(unit.context) / BattleState.CONTEXT_MAX
 	_context_label.text = "CONTEXT   %dM / %dM" % [unit.context, BattleState.CONTEXT_MAX]
@@ -157,7 +216,7 @@ func _pips(left: int, total: int) -> String:
 	return "●".repeat(maxi(left, 0)) + "○".repeat(maxi(total - left, 0))
 
 
-# The AI's chips: loaded, degraded or not loaded yet. Clicking one shows what it does.
+# The AI's chips as tags, loaded, degraded or not loaded yet. Clicking one shows what it does.
 func _show_chips(state: BattleState, unit: Unit) -> void:
 	for child in _chips.get_children():
 		_chips.remove_child(child)
@@ -167,79 +226,151 @@ func _show_chips(state: BattleState, unit: Unit) -> void:
 	for id in unit.chips:
 		var chip := state.chip_def(id)
 		var level: int = unit.chips[id]
+		var color: Color = TAG_COLORS[CHIP_LEVELS[level]]
 		var button := Button.new()
-		var pending := "  ▶" if unit.next_hack.has(id) else ""
-		button.text = chip.display_name.to_upper() + pending
+		button.text = chip.display_name.to_upper() + ("  ▸ READY" if unit.next_hack.has(id) else "")
 		button.focus_mode = Control.FOCUS_NONE
-		button.add_theme_font_size_override("font_size", 16)
-		button.add_theme_color_override("font_color", [CHIP_UNLOADED, CHIP_DEGRADED, CHIP_LOADED][level])
-		button.tooltip_text = _chip_text(chip, level)
+		button.add_theme_font_size_override("font_size", 15)
+		for font_state in ["font_color", "font_hover_color", "font_pressed_color"]:
+			button.add_theme_color_override(font_state, color.lightened(0.15) if font_state != "font_color" else color)
+		for style_state in ["normal", "hover", "pressed", "hover_pressed"]:
+			button.add_theme_stylebox_override(style_state, _chip_style(color, style_state != "normal"))
+		button.tooltip_text = "%s: %s. Click for details." % [chip.display_name, CHIP_STATES[level].to_lower()]
 		button.pressed.connect(_inspect_chip.bind(chip, level))
 		_chips.add_child(button)
 
 
-func _chip_text(chip: ChipDef, level: int) -> String:
-	var kind: String = ["Movement, free", "Passive", "Active, 1 AP a use"][chip.type]
-	var state: String = ["Not loaded: using it loads it", "Degraded", "Loaded"][level]
-	return "%s\n%s   /   load %dM context\n%s\n\nEffect: %s\nDegraded: %s\n\nEach compaction degrades a loaded chip one step, then unloads it." % [
-		chip.display_name.to_upper(), kind, chip.load_cost, state, chip.effect, chip.degraded_effect]
+func _chip_style(color: Color, hot: bool) -> StyleBoxFlat:
+	var key := "chip %s %s" % [color, hot]
+	if not _styles.has(key):
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(color, 0.16 if hot else 0.07)
+		style.border_color = Color(color, 0.8 if hot else 0.45)
+		style.set_border_width_all(1)
+		style.set_corner_radius_all(2)
+		style.content_margin_left = 9
+		style.content_margin_right = 9
+		style.content_margin_top = 3
+		style.content_margin_bottom = 3
+		_styles[key] = style
+	return _styles[key]
 
 
-func _inspect_chip(chip: ChipDef, level: int) -> void:
-	_inspect_text.text = _chip_text(chip, level)
-	_inspect.show()
-
-
+# A card like the hover card: what kind of chip, its state, what it does, and what it costs.
 func _build_inspect() -> void:
 	_inspect = PanelContainer.new()
 	_inspect.visible = false
-	_inspect.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	_inspect.position = Vector2(get_viewport().get_visible_rect().size.x - 520, 300)
-	_inspect.custom_minimum_size = Vector2(480, 0)
+	_inspect.custom_minimum_size = Vector2(460, 0)
 	var margin := MarginContainer.new()
 	for side in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 18)
+		margin.add_theme_constant_override("margin_" + side, 16)
+	margin.add_theme_constant_override("margin_left", 18)
 	var rows := VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 10)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 12)
+	var names := VBoxContainer.new()
+	names.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	names.add_theme_constant_override("separation", -2)
 	var kicker := Label.new()
-	kicker.text = "CHIP / INSPECT"
 	kicker.theme_type_variation = &"Kicker"
-	_inspect_text = Label.new()
-	_inspect_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_inspect_text.custom_minimum_size.x = 440
-	_inspect_text.add_theme_font_size_override("font_size", 19)
+	var title := Label.new()
+	title.add_theme_font_size_override("font_size", 30)
+	names.add_child(kicker)
+	names.add_child(title)
+	var state := HBoxContainer.new()
+	header.add_child(names)
+	header.add_child(state)
+	# Wrapping text needs its width up front, or it measures one word a line and the card grows tall.
+	var effect := Label.new()
+	effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	effect.custom_minimum_size.x = 424
+	effect.add_theme_font_size_override("font_size", 19)
+	var degraded := Label.new()
+	degraded.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	degraded.custom_minimum_size.x = 424
+	degraded.add_theme_font_size_override("font_size", 17)
+	degraded.add_theme_color_override("font_color", MUTED)
+	var costs := HBoxContainer.new()
+	costs.add_theme_constant_override("separation", 6)
+	var footer := HBoxContainer.new()
+	footer.add_theme_constant_override("separation", 12)
+	var note := Label.new()
+	note.theme_type_variation = &"Kicker"
+	note.add_theme_font_size_override("font_size", 14)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.custom_minimum_size.x = 320
+	note.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var close := Button.new()
-	close.text = "CLOSE"
+	close.text = "Close"
+	close.theme_type_variation = &"MenuBack"
+	for style_state in ROW_STATES:
+		close.add_theme_stylebox_override(style_state, _row_style(MUTED, style_state))
 	close.pressed.connect(_inspect.hide)
-	rows.add_child(kicker)
-	rows.add_child(_inspect_text)
-	rows.add_child(close)
+	footer.add_child(note)
+	footer.add_child(close)
+	for part in [header, effect, degraded, costs, HSeparator.new(), footer]:
+		rows.add_child(part)
 	margin.add_child(rows)
 	_inspect.add_child(margin)
 	$Root.add_child(_inspect)
+	_inspect_parts = {"kicker": kicker, "title": title, "state": state, "effect": effect, "degraded": degraded, "costs": costs, "note": note}
 
 
-# actions: dictionaries with "id", "text" and optionally "enabled" and "tip". The menu opens beside
-# the given screen point.
-func open_menu(at: Vector2, actions: Array, title := "AVAILABLE ACTIONS") -> void:
-	for child in _action_list.get_children():
-		_action_list.remove_child(child)
-		child.queue_free()
-	%ActionTitle.text = title
+func _inspect_chip(chip: ChipDef, level: int) -> void:
+	var color: Color = TAG_COLORS[CHIP_LEVELS[level]]
+	var style: StyleBoxFlat = _accented_panel(color)
+	_inspect.add_theme_stylebox_override("panel", style)
+	_inspect_parts.kicker.text = ["MOVEMENT", "PASSIVE", "ACTIVE"][chip.type] + "  ·  CHIP"
+	_inspect_parts.title.text = chip.display_name
+	_inspect_parts.effect.text = chip.effect
+	_inspect_parts.degraded.text = "Degraded:  " + chip.degraded_effect
+	_set_tags(_inspect_parts.state, [[CHIP_STATES[level], CHIP_LEVELS[level]]])
+	var costs := [["Load +%dM" % chip.load_cost, "context"]]
+	costs.append(["1 AI AP a use", "ai"] if chip.type == ChipDef.Type.ACTIVE else ["Free once loaded", "free"])
+	_set_tags(_inspect_parts.costs, costs)
+	_inspect_parts.note.text = "UNLOADS ONLY IF A COMPACTION TAKES CONTEXT BELOW ITS COST" if chip.type == ChipDef.Type.MOVEMENT \
+		else "EACH COMPACTION DEGRADES A LOADED CHIP A STEP, THEN UNLOADS IT"
+	_inspect.show()
+	_place_inspect.call_deferred()
+
+
+# Once its text has wrapped: against the right edge, centered top to bottom.
+func _place_inspect() -> void:
+	_inspect.reset_size()
+	var screen := get_viewport().get_visible_rect().size
+	_inspect.position = Vector2(screen.x - _inspect.size.x - 40, (screen.y - _inspect.size.y) / 2.0)
+
+
+# --- The action menu -----------------------------------------------------------------------------
+
+# actions: BattleMenus' dictionaries. header: "kicker", "accent" (a Color), and "costs", tags for
+# what the unit has to spend. The menu opens beside the given screen point.
+func open_menu(at: Vector2, actions: Array, header := {}) -> void:
+	for list in [_action_list, _footer_list]:
+		for child in list.get_children():
+			list.remove_child(child)
+			child.queue_free()
+	var accent: Color = header.get("accent", OPERATOR_ACCENT)
+	_action_menu.add_theme_stylebox_override("panel", _accented_panel(accent))
+	%ActionTitle.text = header.get("kicker", "")
+	_set_tags(%Budget, header.get("costs", []))
+	_cancel_id = ""
 	var first: Button = null
+	var tips: Array[String] = []
 	for action in actions:
-		var button := Button.new()
-		button.text = action["text"]
-		button.custom_minimum_size.y = 36
-		button.add_theme_font_size_override("font_size", 19)
-		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.disabled = not action.get("enabled", true)
-		button.tooltip_text = action.get("tip", "")
-		button.pressed.connect(_choose.bind(action["id"]))
-		button.mouse_entered.connect(action_hovered.emit.bind(action["id"]))
-		button.focus_entered.connect(action_hovered.emit.bind(action["id"]))
-		_action_list.add_child(button)
-		if first == null and not button.disabled:
-			first = button
+		var style: String = action.get("style", "")
+		var row := _menu_row(action, accent)
+		(_footer_list if style in ["back", "end"] else _action_list).add_child(row)
+		if row is Button:
+			_fit_row(row)
+			if first == null and not row.disabled:
+				first = row
+		if action.get("cancel", false):
+			_cancel_id = action.id
+		tips.append(action.get("tip", ""))
+	%FooterLine.visible = _action_list.get_child_count() > 0 and _footer_list.get_child_count() > 0
+	_fit_note(tips)
 	_action_menu.show()
 	_action_menu.reset_size()
 	var limit := get_viewport().get_visible_rect().size - _action_menu.size - Vector2.ONE * SCREEN_MARGIN
@@ -247,6 +378,154 @@ func open_menu(at: Vector2, actions: Array, title := "AVAILABLE ACTIONS") -> voi
 	_action_menu.position = corner.clamp(Vector2.ONE * SCREEN_MARGIN, limit)
 	if first:
 		first.grab_focus()
+
+
+# A row is its name, with its tags and, for a submenu, a chevron set against the right edge. The
+# highlight follows the mouse by taking focus, so only one row is ever lit.
+func _menu_row(action: Dictionary, accent: Color) -> Control:
+	var style: String = action.get("style", "")
+	if style == "note":
+		var margin := MarginContainer.new()
+		margin.add_theme_constant_override("margin_left", 14)
+		margin.add_theme_constant_override("margin_right", 12)
+		margin.add_theme_constant_override("margin_top", 6)
+		margin.add_theme_constant_override("margin_bottom", 6)
+		var note := Label.new()
+		note.text = action.text
+		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		note.custom_minimum_size.x = _action_list.custom_minimum_size.x - 26.0
+		note.add_theme_color_override("font_color", MUTED)
+		note.add_theme_font_size_override("font_size", 18)
+		margin.add_child(note)
+		return margin
+	var row := Button.new()
+	row.text = action.text
+	row.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	row.theme_type_variation = &"MenuBack" if style == "back" else &"MenuRow"
+	row.disabled = not action.get("enabled", true)
+	for state_name in ROW_STATES:
+		row.add_theme_stylebox_override(state_name, _row_style(accent, state_name))
+	var tags := HBoxContainer.new()
+	tags.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tags.add_theme_constant_override("separation", 5)
+	tags.alignment = BoxContainer.ALIGNMENT_END
+	_set_tags(tags, action.get("costs", []))
+	if action.get("submenu", false):
+		var chevron := Label.new()
+		chevron.text = "›"
+		chevron.add_theme_font_size_override("font_size", 26)
+		chevron.add_theme_color_override("font_color", MUTED)
+		chevron.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tags.add_child(chevron)
+	if row.disabled:
+		tags.modulate.a = 0.45
+	row.add_child(tags)
+	row.pressed.connect(_choose.bind(action.id))
+	row.mouse_entered.connect(row.grab_focus)
+	row.focus_entered.connect(_on_row_focused.bind(action.id, action.get("tip", "")))
+	return row
+
+
+# Pins a row's tags to its right edge and widens the row so they never overlap its name.
+func _fit_row(row: Button) -> void:
+	var tags: Control = row.get_child(0)
+	tags.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT, Control.PRESET_MODE_MINSIZE, ROW_PADDING)
+	row.custom_minimum_size.x = row.get_minimum_size().x + tags.get_combined_minimum_size().x + TAG_GAP
+
+
+# The note under the menu says what the highlighted row does. It's sized for the longest tip, so
+# the menu doesn't jump as the highlight moves.
+func _fit_note(tips: Array[String]) -> void:
+	var width := maxf(_action_list.get_combined_minimum_size().x, _footer_list.get_combined_minimum_size().x) - 26.0
+	var font := _menu_note.get_theme_font("font")
+	var size := _menu_note.get_theme_font_size("font_size")
+	var tallest := 0.0
+	for tip in tips:
+		if tip != "":
+			var lines := ceilf(font.get_multiline_string_size(tip, HORIZONTAL_ALIGNMENT_LEFT, width, size).y / font.get_height(size))
+			tallest = maxf(tallest, lines * (font.get_height(size) + 3.0))
+	_menu_note.text = ""
+	_menu_note.custom_minimum_size = Vector2(width, tallest)
+	%NoteLine.visible = tallest > 0.0
+	_menu_note.get_parent().visible = tallest > 0.0
+
+
+func _on_row_focused(id: String, tip: String) -> void:
+	_menu_note.text = tip
+	action_hovered.emit(id)
+
+
+func _row_style(accent: Color, state_name: String) -> StyleBoxFlat:
+	var key := "row %s %s" % [accent, state_name]
+	if not _styles.has(key):
+		var style := StyleBoxFlat.new()
+		style.content_margin_left = 14
+		style.content_margin_right = 12
+		style.content_margin_top = 6
+		style.content_margin_bottom = 6
+		style.border_width_left = 3
+		style.set_corner_radius_all(2)
+		match state_name:
+			"focus":
+				style.bg_color = Color(accent, 0.13)
+				style.border_color = accent
+			"pressed", "hover_pressed":
+				style.bg_color = Color(accent, 0.3)
+				style.border_color = accent
+			_:
+				style.bg_color = Color(accent, 0.0)
+				style.border_color = Color(accent, 0.0)
+		_styles[key] = style
+	return _styles[key]
+
+
+# The theme's panel, edged on the left in an accent color, as the hover card is.
+func _accented_panel(accent: Color) -> StyleBoxFlat:
+	var key := "panel %s" % accent
+	if not _styles.has(key):
+		var style: StyleBoxFlat = ThemeDB.get_project_theme().get_stylebox("panel", "PanelContainer").duplicate()
+		style.border_width_left = 3
+		style.border_color = accent
+		_styles[key] = style
+	return _styles[key]
+
+
+# Fills a container with tags: [text, kind] pairs.
+func _set_tags(box: Container, tags: Array) -> void:
+	for child in box.get_children():
+		box.remove_child(child)
+		child.queue_free()
+	for tag in tags:
+		box.add_child(_tag(tag[0], tag[1]))
+
+
+func _tag(text: String, kind: String) -> PanelContainer:
+	var color: Color = TAG_COLORS.get(kind, TAG_COLORS.info)
+	var key := "tag " + kind
+	if not _styles.has(key):
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(color, 0.0 if kind in ["free", "key"] else 0.1)
+		style.border_color = Color(color, 0.55)
+		style.set_border_width_all(1)
+		if kind == "key":
+			style.border_width_bottom = 2
+		style.set_corner_radius_all(2)
+		style.content_margin_left = 6
+		style.content_margin_right = 6
+		style.content_margin_top = 0
+		style.content_margin_bottom = 0
+		_styles[key] = style
+	var tag := PanelContainer.new()
+	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	tag.add_theme_stylebox_override("panel", _styles[key])
+	var label := Label.new()
+	label.text = text.to_upper()
+	label.theme_type_variation = &"ChipLabel"
+	label.add_theme_color_override("font_color", color)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tag.add_child(label)
+	return tag
 
 
 func set_objective(text: String) -> void:
@@ -261,6 +540,7 @@ func set_hint(text: String) -> void:
 
 func close_menu() -> void:
 	_action_menu.hide()
+	_cancel_id = ""
 	action_hovered.emit("")
 
 
@@ -270,7 +550,7 @@ func is_menu_open() -> bool:
 
 func set_network_shown(shown: bool) -> void:
 	_network_toggle.set_pressed_no_signal(shown)
-	_network_toggle.text = "PHYSICAL   [N]" if shown else "NETWORK   [N]"
+	_network_toggle.text = "OPERATOR   [N]" if shown else "AI PHASE   [N]"
 	%NetworkLegend.visible = shown
 
 

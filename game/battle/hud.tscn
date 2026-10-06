@@ -103,8 +103,8 @@ layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 toggle_mode = true
-text = "NETWORK   [N]"
-tooltip_text = "Switch between the physical map and the network"
+text = "AI PHASE   [N]"
+tooltip_text = "Switch between the Operator phase, on the physical map, and the AI phase, in the network"
 
 [node name="HoverPanel" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
@@ -213,11 +213,12 @@ text = ""
 unique_name_in_owner = true
 theme_override_font_sizes/font_size = 28
 
-[node name="ActiveStats" type="Label" parent="Root/ActivePanel/Margin/Rows"]
+[node name="ActiveStats" type="GridContainer" parent="Root/ActivePanel/Margin/Rows"]
 layout_mode = 2
-text = ""
 unique_name_in_owner = true
-theme_override_font_sizes/font_size = 19
+columns = 3
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 8
 
 [node name="ContextRow" type="HBoxContainer" parent="Root/ActivePanel/Margin/Rows"]
 unique_name_in_owner = true
@@ -297,7 +298,7 @@ mouse_filter = 2
 [node name="Controls" type="Label" parent="Root/Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "CLICK  Actions or a teammate     /     SPACE  End turn     /     N  Network     /     I  Scan     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
+text = "CLICK  Actions or a teammate     /     SPACE  End turn     /     N  AI phase     /     I  Scan     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
 horizontal_alignment = 1
 vertical_alignment = 1
 mouse_filter = 2
@@ -309,33 +310,75 @@ theme_override_font_sizes/font_size = 16
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
-offset_right = 248.0
+offset_right = 320.0
 offset_bottom = 60.0
 mouse_filter = 0
 
 [node name="Margin" type="MarginContainer" parent="Root/ActionMenu"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 8
 
 [node name="Rows" type="VBoxContainer" parent="Root/ActionMenu/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
-[node name="ActionTitle" type="Label" parent="Root/ActionMenu/Margin/Rows"]
+[node name="HeaderMargin" type="MarginContainer" parent="Root/ActionMenu/Margin/Rows"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 10
+
+[node name="Header" type="HBoxContainer" parent="Root/ActionMenu/Margin/Rows/HeaderMargin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ActionTitle" type="Label" parent="Root/ActionMenu/Margin/Rows/HeaderMargin/Header"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "AVAILABLE ACTIONS"
+size_flags_horizontal = 3
+text = ""
 theme_type_variation = &"Kicker"
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
+
+[node name="Budget" type="HBoxContainer" parent="Root/ActionMenu/Margin/Rows/HeaderMargin/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
 
 [node name="ActionList" type="VBoxContainer" parent="Root/ActionMenu/Margin/Rows"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(228, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 1
+
+[node name="FooterLine" type="HSeparator" parent="Root/ActionMenu/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FooterList" type="VBoxContainer" parent="Root/ActionMenu/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="NoteLine" type="HSeparator" parent="Root/ActionMenu/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NoteMargin" type="MarginContainer" parent="Root/ActionMenu/Margin/Rows"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 2
+
+[node name="MenuNote" type="Label" parent="Root/ActionMenu/Margin/Rows/NoteMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+autowrap_mode = 3
+theme_override_colors/font_color = Color(0.7, 0.78, 0.77, 1)
+theme_override_font_sizes/font_size = 17
 
 [node name="Result" type="CenterContainer" parent="Root"]
 unique_name_in_owner = true
