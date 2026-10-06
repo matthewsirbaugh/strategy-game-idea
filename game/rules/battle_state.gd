@@ -639,6 +639,9 @@ func move(unit: Unit, cell: Vector2i, sprint := false) -> Array[Dictionary]:
 	unit.ap -= cost
 	if sprint:
 		unit.sprinted = true
+	for event in later:
+		if event.type in ["revealed", "blocked"]:
+			event.kept = costs[cell] - cost
 	var events: Array[Dictionary] = [{"type": "move", "unit": unit, "path": walked, "cost": cost}]
 	events.append_array(later)
 	events.append_array(_check_tethers())

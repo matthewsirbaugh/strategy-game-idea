@@ -20,6 +20,7 @@ const BLAST_COLOR := Color(1.0, 1.0, 0.8, 0.35)
 const CIRCUIT_COLOR := Color(1.0, 0.68, 0.28, 0.45)
 const RESPONDER_COLOR := Color(1.0, 0.95, 0.4, 0.7)
 const LAST_SEEN_COLOR := Color(1.0, 0.3, 0.25, 0.7)
+const STOPPED_COLOR := Color(1.0, 0.8, 0.35)
 const ENEMY_TURN_PAUSE := 0.35
 const UNIT_HEIGHT := 1.7
 # Where a tether leaves the pack and where shots fly, on a person 1.8 m tall.
@@ -401,7 +402,7 @@ func _pick_move(unit: Unit, sprint: bool) -> void:
 	_set_pick(costs, func(cell: Vector2i) -> void: _act(state.move(unit, cell, sprint)))
 	for i in 3:
 		_grid.set_overlay(PICK_LAYERS[i], layers[i], [MOVE_COLOR, NOTICED_COLOR, SEEN_COLOR][i])
-	_hud.set_hint(("Sprint: " if sprint else "") + "choose a tile. Amber gets you noticed, red seen    ·    Right-click: back")
+	_hud.set_hint(("Sprint: " if sprint else "") + "choose a tile. Amber gets you noticed, red seen; spotting an enemy stops you there    ·    Right-click: back")
 
 
 func _pick_units(targets: Array[Unit], hint: String, on_pick: Callable) -> void:
@@ -524,6 +525,9 @@ func _play(events: Array[Dictionary]) -> void:
 				await _walk(unit, event.path)
 			"sound":
 				_flash_area(event.cells, SOUND_COLOR)
+			"revealed", "blocked":
+				if unit.is_player():
+					_stopped_short(unit, event)
 			"fire", "overwatch", "shot":
 				await _shoot(unit, event.target)
 			"hit":
@@ -544,6 +548,22 @@ func _play(events: Array[Dictionary]) -> void:
 		if event.type == "hack":
 			await get_tree().create_timer(0.3, false).timeout
 	_refresh()
+
+
+# A move that stopped before the chosen tile says why over the unit, and what AP it didn't spend.
+# The enemies that came into view flash.
+func _stopped_short(unit: Unit, event: Dictionary) -> void:
+	var why := "BLOCKED"
+	if event.type == "revealed":
+		why = "SPOTTED " + ", ".join(event.enemies.map(func(enemy: Unit) -> String: return enemy.display_name.to_upper()))
+		_flash_area(event.enemies.map(func(enemy: Unit) -> Vector2i: return enemy.cell), Color(STOPPED_COLOR, 0.45), 1.2)
+	var kept: int = event.get("kept", 0)
+	var text := "STOPPED  ·  " + why + ("\n%d AP KEPT" % kept if kept > 0 else "")
+	# Up and to the left of the unit, clear of its name and of the menu that opens to its right.
+	var label := _float_text(_views[unit.id].position + Vector3(0, UNIT_HEIGHT + 0.9, 0), text, STOPPED_COLOR, 2.0, 40)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	label.offset.x = -55.0
 
 
 func _shoot(unit: Unit, target: Unit) -> void:
@@ -743,9 +763,9 @@ func _clear_preview() -> void:
 		_grid.clear_overlay(layer)
 
 
-func _flash_area(cells: Array, color: Color) -> void:
+func _flash_area(cells: Array, color: Color, seconds := 0.6) -> void:
 	_grid.set_overlay("flash", cells, color, 0.035)
-	get_tree().create_timer(0.6, false).timeout.connect(_grid.clear_overlay.bind("flash"))
+	get_tree().create_timer(seconds, false).timeout.connect(_grid.clear_overlay.bind("flash"))
 
 
 # --- Network view --------------------------------------------------------------------------------
@@ -838,8 +858,9 @@ func _make_last_seen(unit: Unit) -> Node3D:
 	return marker
 
 
-func _float_text(at: Vector3, text: String, color: Color) -> void:
-	var label := UnitView.make_label(56, 0.0)
+# Rises and fades. A longer one holds before it fades, so it can be read.
+func _float_text(at: Vector3, text: String, color: Color, seconds := 0.7, size := 56) -> Label3D:
+	var label := UnitView.make_label(size, 0.0)
 	label.render_priority = NetworkView.Order.LABEL + 2
 	label.outline_render_priority = NetworkView.Order.LABEL + 1
 	label.text = text
@@ -847,9 +868,10 @@ func _float_text(at: Vector3, text: String, color: Color) -> void:
 	label.position = at
 	add_child(label)
 	var tween := create_tween()
-	tween.tween_property(label, "position:y", at.y + 0.8, 0.7)
-	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.7)
+	tween.tween_property(label, "position:y", at.y + 0.8, seconds)
+	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.7).set_delay(seconds - 0.7)
 	tween.tween_callback(label.queue_free)
+	return label
 
 
 func _tracer(from: Vector3, to: Vector3) -> void:

@@ -74,6 +74,8 @@ func _a_sprint_cut_short_costs_what_walking_would() -> void:
 	_check(alpha.cell == Vector2i(3, 2) and events.any(func(event: Dictionary) -> bool: return event.type == "revealed"),
 		"revealing the guard stops the sprint where it showed up, at %s" % alpha.cell)
 	_check(alpha.ap == alpha.base_ap - 1 and alpha.sprinted, "one tile of a cut-short sprint costs 1 AP, left %d" % alpha.ap)
+	var stop: Array = events.filter(func(event: Dictionary) -> bool: return event.type == "revealed")
+	_check(not stop.is_empty() and stop[0].kept == 1, "the stop says the sprint kept 1 of its 2 AP")
 
 
 # The line runs from the guard through its target's tile, out to its range, and stays put. A

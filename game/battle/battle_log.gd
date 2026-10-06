@@ -10,9 +10,9 @@ static func lines(state: BattleState, event: Dictionary) -> Array[String]:
 	match event.type:
 		"blocked":
 			if state.player_sees(unit) or unit.is_player():
-				return ["%s ran into %s!" % [unit.display_name, event.by.display_name]]
+				return ["%s ran into %s!%s" % [unit.display_name, event.by.display_name, _kept(event)]]
 		"revealed":
-			return ["%s spots %s and stops" % [unit.display_name, ", ".join(event.enemies.map(func(enemy: Unit) -> String: return enemy.display_name))]]
+			return ["%s spots %s and stops%s" % [unit.display_name, ", ".join(event.enemies.map(func(enemy: Unit) -> String: return enemy.display_name)), _kept(event)]]
 		"alert":
 			return ["%s sees %s! Full alert" % [_who(state, unit), event.target.display_name]]
 		"notice":
@@ -131,6 +131,12 @@ static func _verb_result(state: BattleState, event: Dictionary) -> String:
 		"adscreen":
 			return "flashes"
 	return "drives"
+
+
+# The AP a move cut short didn't spend.
+static func _kept(event: Dictionary) -> String:
+	var kept: int = event.get("kept", 0)
+	return " (%d AP kept)" % kept if kept > 0 else ""
 
 
 static func _who(state: BattleState, unit: Unit) -> String:
