@@ -35,6 +35,8 @@ extends Resource
 # At night every tile without a powered light is dark.
 @export var night := false
 
+enum Terrain { OPEN, LOW, WALL }
+
 const FACINGS := {"south": 0.0, "east": PI / 2.0, "north": PI, "west": -PI / 2.0}
 const STATE_WORDS := ["on", "off", "locked", "open"]
 
@@ -55,6 +57,8 @@ var _zone_of_node := {}
 var _network_of := {}
 var _circuit_of := {}
 var _receptacles := {}
+var _terrain := {}
+var _in_wall := {}
 
 
 # Everything that would corrupt a battle, each naming this resource and the field at fault.
@@ -228,14 +232,25 @@ func is_low(cell: Vector2i) -> bool:
 	return _low.has(cell)
 
 
+# A tile as walking and sight meet it, leaving out any device on it. Off the map counts as wall.
+func terrain(cell: Vector2i) -> Terrain:
+	_parse()
+	return _terrain.get(cell, Terrain.WALL)
+
+
 # A node with walls on both sides of it, in a line, is set into that wall: a panel, a wall camera,
 # a door. It blocks sight like the wall does, unless it's an open door. A row of devices along a
 # wall, like the dock's, counts as wall all the way along.
 func in_wall(cell: Vector2i) -> bool:
 	_parse()
-	var walled := func(other: Vector2i) -> bool: return _walls.has(other) or _node_at.has(other)
-	return (walled.call(cell + Vector2i(-1, 0)) and walled.call(cell + Vector2i(1, 0))) \
-		or (walled.call(cell + Vector2i(0, -1)) and walled.call(cell + Vector2i(0, 1)))
+	if not _in_wall.has(cell):
+		_in_wall[cell] = (_walled(cell + Vector2i(-1, 0)) and _walled(cell + Vector2i(1, 0))) \
+			or (_walled(cell + Vector2i(0, -1)) and _walled(cell + Vector2i(0, 1)))
+	return _in_wall[cell]
+
+
+func _walled(cell: Vector2i) -> bool:
+	return _walls.has(cell) or _node_at.has(cell)
 
 
 # The side of the tile a node faces, as a step on the grid.
@@ -363,18 +378,22 @@ func _parse() -> void:
 
 
 func _read_tile(tile: String, cell: Vector2i) -> void:
+	_terrain[cell] = Terrain.OPEN
 	match tile:
 		".":
 			pass
 		"#":
 			_walls[cell] = true
+			_terrain[cell] = Terrain.WALL
 		"B":
 			_walls[cell] = true
 			_buildings[cell] = true
+			_terrain[cell] = Terrain.WALL
 		",":
 			_street[cell] = true
 		"=":
 			_low[cell] = true
+			_terrain[cell] = Terrain.LOW
 		"X":
 			_extraction.append(cell)
 		"P":

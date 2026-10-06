@@ -30,18 +30,25 @@ static func in_cone(origin: Vector2i, facing: Vector2, cell: Vector2i) -> bool:
 	return facing.normalized().dot(offset.normalized()) >= CONE_COS - 0.0001
 
 
-# Walks the straight line between tile centers. Two walls that only touch at a corner don't
-# block it.
-static func line_clear(a: Vector2i, b: Vector2i, blocks: Callable) -> bool:
-	var start := Vector2(a) + Vector2(0.5, 0.5)
-	var end := Vector2(b) + Vector2(0.5, 0.5)
-	var steps := ceili(start.distance_to(end) * 4.0)
+# The tiles the straight line between two tile centers crosses, as offsets from its start and
+# without either end. Two walls that only touch at a corner leave a gap it slips through. The
+# tiles depend only on the offset between the ends, so each line is worked out once.
+static var _lines := {}
+
+
+static func line(offset: Vector2i) -> Array[Vector2i]:
+	if _lines.has(offset):
+		return _lines[offset]
+	var cells: Array[Vector2i] = []
+	var end := Vector2(offset)
+	var steps := ceili(end.length() * 4.0)
 	for i in range(1, steps):
-		var point := start.lerp(end, float(i) / steps)
+		var point := Vector2(0.5, 0.5) + end * (float(i) / steps)
 		var cell := Vector2i(floori(point.x), floori(point.y))
-		if cell != a and cell != b and blocks.call(cell):
-			return false
-	return true
+		if cell != Vector2i.ZERO and cell != offset and (cells.is_empty() or cells.back() != cell):
+			cells.append(cell)
+	_lines[offset] = cells
+	return cells
 
 
 # The tiles a line from `from` through `toward` crosses, in order, out to `radius`, ending before

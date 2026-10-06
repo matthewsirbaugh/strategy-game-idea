@@ -6,7 +6,6 @@ class_name Perception
 enum Tier { NONE, NOTICED, SEEN }
 
 
-
 static func compute_lit(state: BattleState) -> Dictionary:
 	var result := {}
 	if not state.map.night:
@@ -38,6 +37,16 @@ static func viewers(state: BattleState) -> Array[Dictionary]:
 	for id in state.devices:
 		if state.map.node_kind(id) in NodeDef.CAMERAS and state.devices[id].powered and not state.breached.has(id):
 			result.append(camera_viewer(state, id))
+	return result
+
+
+# The ones the player can see: cameras, and guards and turrets outside the fog. Cones and the move
+# preview show only these, so they never give away an enemy in the fog.
+static func visible_viewers(state: BattleState) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for viewer in viewers(state):
+		if viewer.camera or state.player_sees(viewer.unit):
+			result.append(viewer)
 	return result
 
 

@@ -27,7 +27,7 @@ static func card(state: BattleState, cell: Vector2i, pick := {}, token: Unit = n
 		result = _ai(state, token)
 	elif unit and state.player_sees(unit) and not unit.is_turret():
 		result = _unit(state, unit)
-	elif node != "" and not _hidden_turret(state, node):
+	elif node != "" and not state.is_hidden_turret(node):
 		result = _device(state, node)
 		if unit and unit.is_turret() and not unit.is_player():
 			result.lines.append_array(_unit(state, unit).lines)
@@ -176,11 +176,6 @@ static func _tile_line(state: BattleState, cell: Vector2i) -> String:
 	if not state.visible_cells.has(cell):
 		parts.append("no vision")
 	return "   ·   ".join(parts)
-
-
-# A turret the team can't see stays hidden, like any enemy.
-static func _hidden_turret(state: BattleState, id: String) -> bool:
-	return state.units.any(func(unit: Unit) -> bool: return unit.node == id and not state.player_sees(unit))
 
 
 # The AIs this unit tethers, itself or as a relay, and whether moving to the tile keeps them in.

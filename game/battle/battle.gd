@@ -59,6 +59,7 @@ var _network_shown := false
 var _network_moving := false
 var _scan := false
 var _hovered: Variant = null
+var _card := {}
 
 @onready var _grid: GridView = $GridView
 @onready var _level: LevelView = $LevelView
@@ -383,9 +384,10 @@ func _on_predict(unit: Unit, id: int) -> void:
 # Move tiles show how exposed each would leave the Operator: amber noticed, red seen.
 func _pick_move(unit: Unit, sprint: bool) -> void:
 	var costs := state.move_costs(unit, sprint)
+	var exposures := state.exposures(costs.keys())
 	var layers := [[], [], []]
 	for cell in costs:
-		layers[state.exposure(cell) if unit.is_player() else 0].append(cell)
+		layers[exposures[cell]].append(cell)
 	_set_pick(costs, func(cell: Vector2i) -> void: _act(state.move(unit, cell, sprint)))
 	for i in 3:
 		_grid.set_overlay(PICK_LAYERS[i], layers[i], [MOVE_COLOR, NOTICED_COLOR, SEEN_COLOR][i])
@@ -579,9 +581,7 @@ func _refresh_fog() -> void:
 func _refresh_cones() -> void:
 	var seen := {}
 	var noticed := {}
-	for viewer in Perception.viewers(state):
-		if not viewer.camera and not state.player_sees(viewer.unit):
-			continue
+	for viewer in Perception.visible_viewers(state):
 		var cells := Perception.cone_cells(state, viewer)
 		for cell in cells:
 			if cells[cell] == Perception.Tier.SEEN:
@@ -638,7 +638,7 @@ func _set_scan(shown: bool) -> void:
 func _refresh_scan() -> void:
 	for id in _scan_badges:
 		var badge: Node3D = _scan_badges[id]
-		badge.visible = _scan and not _network_shown and state.breached.has(id) and state.map.node_kind(id) != "access" and not _hidden_turret(id)
+		badge.visible = _scan and not _network_shown and state.breached.has(id) and state.map.node_kind(id) != "access" and not state.is_hidden_turret(id)
 		if not badge.visible:
 			continue
 		var status := NetworkView.status(state, id)
@@ -694,11 +694,6 @@ func _badge_at(screen_position: Vector2) -> String:
 		if badge.visible and not camera.is_position_behind(badge.position) and camera.unproject_position(badge.position).distance_to(screen_position) < BADGE_RADIUS:
 			return id
 	return ""
-
-
-# A turret the team can't see stays hidden, scan or not.
-func _hidden_turret(id: String) -> bool:
-	return state.units.any(func(unit: Unit) -> bool: return unit.node == id and not state.player_sees(unit))
 
 
 func _update_objective() -> void:
@@ -866,17 +861,20 @@ func _update_hover() -> void:
 	if cell != _hovered:
 		_hovered = cell
 		_on_hover_changed(cell)
-	if cell == null:
-		_hud.set_hover({})
-		return
-	_hover.position = _grid.cell_to_world(cell) + Vector3(0, 0.02, 0)
-	if token:
-		_hover.position = _network.agent_position(token) * Vector3(1, 0, 1) + Vector3(0, 0.02, 0)
-	var pick := {}
-	var unit := state.active
-	if _mode == Mode.PICK and _choices.get(cell) is int and unit and (unit.is_operator() or unit.is_robot()):
-		pick = {"cost": _choices[cell], "mover": unit}
-	_hud.set_hover(HoverInfo.card(state, cell, pick, token))
+	var card := {}
+	if cell != null:
+		_hover.position = _grid.cell_to_world(cell) + Vector3(0, 0.02, 0)
+		if token:
+			_hover.position = _network.agent_position(token) * Vector3(1, 0, 1) + Vector3(0, 0.02, 0)
+		var pick := {}
+		var unit := state.active
+		if _mode == Mode.PICK and _choices.get(cell) is int and unit and (unit.is_operator() or unit.is_robot()):
+			pick = {"cost": _choices[cell], "mover": unit}
+		card = HoverInfo.card(state, cell, pick, token)
+	# The card is rebuilt only when what it says changes, not every frame.
+	if card != _card:
+		_card = card
+		_hud.set_hover(card)
 
 
 # Hovering a power hub lights up its circuit; hovering a flashbang target shows the blast.

@@ -484,22 +484,20 @@ func bodies() -> Array[Unit]:
 
 
 func blocks_walk(cell: Vector2i, flying := false) -> bool:
-	if not map.in_bounds(cell) or map.is_wall(cell):
-		return true
-	var id := node_at(cell)
+	var id: String = _node_at.get(cell, "")
 	if id != "":
 		var kind := map.node_kind(id)
 		if kind in NodeDef.DOORS:
 			return not devices[id].open
 		return kind not in NodeDef.VEHICLES or not flying
-	return map.is_low(cell) and not flying
+	var terrain := map.terrain(cell)
+	return terrain == MapData.Terrain.WALL or (terrain == MapData.Terrain.LOW and not flying)
 
 
-# High viewers, cameras and drones, see over low obstacles; people don't.
+# High viewers, cameras and drones, see over low obstacles; people don't. Line of sight checks
+# this tile by tile, so it's the rules' hottest path.
 func blocks_sight(cell: Vector2i, high := false) -> bool:
-	if not map.in_bounds(cell) or map.is_wall(cell):
-		return true
-	var id := node_at(cell)
+	var id: String = _node_at.get(cell, "")
 	if id != "":
 		var kind := map.node_kind(id)
 		if kind in NodeDef.DOORS:
@@ -507,11 +505,15 @@ func blocks_sight(cell: Vector2i, high := false) -> bool:
 		if kind in NodeDef.VEHICLES:
 			return not high
 		return map.in_wall(cell)
-	return map.is_low(cell) and not high
+	var terrain := map.terrain(cell)
+	return terrain == MapData.Terrain.WALL or (terrain == MapData.Terrain.LOW and not high)
 
 
 func has_line_of_sight(from: Vector2i, to: Vector2i, high := false) -> bool:
-	return Grid.line_clear(from, to, func(cell: Vector2i) -> bool: return blocks_sight(cell, high))
+	for offset in Grid.line(to - from):
+		if blocks_sight(from + offset, high):
+			return false
+	return true
 
 
 func is_lit(cell: Vector2i) -> bool:
@@ -565,13 +567,26 @@ func reach(unit: Unit, max_cost: int) -> Reach:
 	return Reach.new(unit.cell, max_cost, func(cell: Vector2i) -> bool: return can_pass(unit, cell))
 
 
-# What a single tile looks like to the enemy cones the player can see, for the move preview.
-func exposure(cell: Vector2i) -> int:
-	var worst := 0
-	for viewer in Perception.viewers(self):
-		if viewer.camera or player_sees(viewer.unit):
+# How each tile looks to the enemy cones the player can see, for the move preview: the worst
+# Perception.Tier any of them gives it.
+func exposures(cells: Array) -> Dictionary:
+	var eyes := Perception.visible_viewers(self)
+	var result := {}
+	for cell: Vector2i in cells:
+		var worst := Perception.Tier.NONE
+		for viewer in eyes:
 			worst = maxi(worst, Perception.tier(self, viewer, cell))
-	return worst
+		result[cell] = worst
+	return result
+
+
+func exposure(cell: Vector2i) -> int:
+	return exposures([cell])[cell]
+
+
+# A turret the team can't see is hidden like any enemy, though its node is on the map.
+func is_hidden_turret(id: String) -> bool:
+	return units.any(func(unit: Unit) -> bool: return unit.node == id and not player_sees(unit))
 
 
 # --- Moving --------------------------------------------------------------------------------------
