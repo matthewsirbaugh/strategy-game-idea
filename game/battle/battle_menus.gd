@@ -25,6 +25,7 @@ static func nest(actions: Array, back_id: String) -> Dictionary:
 	return {"top": top, "groups": groups}
 
 
+# A group's members are listed together, so the menu keeps its order whether a group folds or not.
 static func operator_actions(state: BattleState, unit: Unit) -> Array:
 	var actions := []
 	if not state.move_costs(unit).is_empty():
@@ -40,9 +41,6 @@ static func operator_actions(state: BattleState, unit: Unit) -> Array:
 		actions.append({"group": "Interact", "id": "door:%s:%s" % [option.node, option.action], "text": "%s door %s%s" % [option.action.capitalize(), option.node.to_upper(), cost]})
 	for id in state.peek_options(unit):
 		actions.append({"group": "Interact", "id": "peek:" + id, "text": "Peek through %s   %d AP" % [id.to_upper(), BattleState.PEEK_COST], "tip": "See past the door until your turn ends"})
-	for option in state.deploy_options(unit):
-		var via: String = "" if option.relay < 0 else " via " + state.units[option.relay].def.display_name.to_lower()
-		actions.append({"group": "AI", "id": "deploy:%s:%d" % [option.access, option.relay], "text": "Deploy AI at %s%s   %d AP" % [option.access.to_upper(), via, BattleState.DEPLOY_AI_COST]})
 	for body in state.tie_targets(unit):
 		actions.append({"group": "Interact", "id": "tie:%d" % body.id, "text": "Tie up %s   %d AP" % [body.display_name, BattleState.TIE_COST]})
 	for body in state.pickup_targets(unit):
@@ -54,6 +52,8 @@ static func operator_actions(state: BattleState, unit: Unit) -> Array:
 			"tip": "Thrown up to %d tiles; blinds guards within %d for %d turns" % [BattleState.FLASHBANG_RANGE, BattleState.FLASHBANG_RADIUS, BattleState.BLIND_TURNS]})
 	if not state.robot_cells(unit).is_empty():
 		actions.append({"group": "Gear", "id": "robot", "text": "Deploy %s   %d AP" % [unit.robot_def.display_name.to_lower(), BattleState.ROBOT_COST], "tip": "It acts from next round"})
+	for option in state.deploy_options(unit):
+		actions.append(_deploy_action(state, option, "AI"))
 	for other in state.share_targets(unit):
 		actions.append({"group": "AI", "id": "share:%d" % other.id, "text": "Give %s's AI 1 AP" % other.display_name, "tip": "Shared compute: it arrives on their next turn, and lapses if unused"})
 	actions.append({"group": "AI", "id": "ai", "text": "AI actions   →", "tip": "The AI's own actions, on its own AP"})
@@ -63,8 +63,11 @@ static func operator_actions(state: BattleState, unit: Unit) -> Array:
 	return actions
 
 
+# An AI still in the backpack is offered the access points it can go in at first.
 static func ai_actions(state: BattleState, unit: Unit) -> Array:
 	var actions := []
+	for option in state.deploy_options(unit):
+		actions.append(_deploy_action(state, option))
 	if unit.connected():
 		if not state.network_destinations(unit).is_empty():
 			var load := "   loads movement +%dM" % state.chip_def(BattleState.MOVEMENT).load_cost if unit.chips[BattleState.MOVEMENT] == 0 else ""
@@ -107,6 +110,15 @@ static func device_actions(state: BattleState, unit: Unit, only := "") -> Array:
 		actions.append({"id": _verb_id(option), "text": _verb_text(state, option), "enabled": option.enabled})
 	actions.append({"id": "ai", "text": "←   Back"})
 	return actions
+
+
+static func _deploy_action(state: BattleState, option: Dictionary, group := "") -> Dictionary:
+	var via: String = "" if option.relay < 0 else " via " + state.units[option.relay].def.display_name.to_lower()
+	var action := {"id": "deploy:%s:%d" % [option.access, option.relay], "tip": "The AI goes into the network, and the view follows it",
+		"text": "Deploy AI at %s%s   %d AP" % [option.access.to_upper(), via, BattleState.DEPLOY_AI_COST]}
+	if group != "":
+		action.group = group
+	return action
 
 
 static func _verb_id(option: Dictionary) -> String:

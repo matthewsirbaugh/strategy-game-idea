@@ -52,7 +52,8 @@ var _on_pick_hover: Callable
 var _predict_picks: Array[Unit] = []
 # The submenus folded out of the menu last opened, by name.
 var _menu_groups := {}
-# The AI's menu is open while its AI is still in the backpack, so the view stays physical.
+# Whether the menu is the AI's. With the AI in the network its menu shows the network view; with
+# it still in the backpack the view stays physical.
 var _ai_menu := false
 var _network_shown := false
 var _network_moving := false
@@ -156,6 +157,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _run_turns() -> void:
 	_busy = true
 	_mode = Mode.IDLE
+	_ai_menu = false
 	_hud.close_menu()
 	_clear_pick()
 	await _set_network(false)
@@ -183,9 +185,23 @@ func _run_turns() -> void:
 func _begin_control() -> void:
 	_mode = Mode.IDLE
 	_clear_pick()
-	_network.highlight([], state.active.ai_node if _network_shown and state.active.is_operator() else "")
+	_ring_nodes()
 	_hud.show_turn(state)
+	if _network_shown and state.active.is_operator() and not state.active.connected() and not state.deploy_options(state.active).is_empty():
+		_hud.set_hint("Click a ringed access point to deploy the AI   %d AP" % BattleState.DEPLOY_AI_COST)
 	_busy = false
+
+
+# In the network view the active AI's node is ringed. An AI still in the backpack rings the access
+# points it can go in at instead.
+func _ring_nodes() -> void:
+	var unit := state.active
+	if not _network_shown or not unit.is_operator():
+		_network.highlight([], "")
+	elif unit.connected():
+		_network.highlight([], unit.ai_node)
+	else:
+		_network.highlight(state.deploy_options(unit).map(func(option: Dictionary) -> String: return option.access), "")
 
 
 # Every player action ends here: play what happened, then carry on with the turn or move on.
@@ -201,14 +217,37 @@ func _act(events: Array[Dictionary]) -> void:
 	if state.turn_over or state.winner() != BattleState.Winner.NONE:
 		_run_turns()
 		return
+	if _ai_menu and state.active.connected() and not _network_shown:
+		await _set_network(true)
 	_begin_control()
 	_open_menu()
 
 
+# Going in takes the player straight to the AI: the network view, with the AI's menu open.
+func _deploy(unit: Unit, access: String, relay: int) -> void:
+	var events := state.deploy_ai(unit, access, relay)
+	if not events.is_empty():
+		_ai_menu = true
+	_act(events)
+
+
+# The access point a click in the network view would send the AI in at, and how: through its
+# Operator if it's in reach, otherwise through a robot. Empty if it can't go in there.
+func _deploy_option(unit: Unit, access: String) -> Dictionary:
+	for option in state.deploy_options(unit):
+		if option.access == access:
+			return option
+	return {}
+
+
+# A tied Operator takes the turn from the start, in the physical view.
 func _on_operator_chosen(id: int) -> void:
 	if _busy or not state.choose_operator(state.units[id]):
 		return
+	_busy = true
 	_hud.close_menu()
+	_ai_menu = false
+	await _set_network(false)
 	_refresh()
 	_camera_rig.keep_in_view(_views[id].position)
 	_begin_control()
@@ -239,7 +278,7 @@ func _open_menu(actions: Array = [], title := "") -> void:
 	var anchor: Vector3 = _views[unit.id].position + Vector3(0, UNIT_HEIGHT, 0)
 	if _network_shown and unit.is_operator() and unit.connected():
 		anchor = _network.agent_position(unit)
-	_network.highlight([], unit.ai_node if _network_shown and unit.is_operator() else "")
+	_ring_nodes()
 	_hud.open_menu(get_viewport().get_camera_3d().unproject_position(anchor), actions, title)
 	_hud.show_turn(state)
 
@@ -261,7 +300,7 @@ func _on_action(id: String) -> void:
 		"peek":
 			_act(state.peek(unit, parts[1]))
 		"deploy":
-			_act(state.deploy_ai(unit, parts[1], parts[2].to_int()))
+			_deploy(unit, parts[1], parts[2].to_int())
 		"tie":
 			_act(state.tie_up(unit, state.units[parts[1].to_int()]))
 		"pickup":
@@ -277,18 +316,12 @@ func _on_action(id: String) -> void:
 			_act(state.share_compute(unit, state.units[parts[1].to_int()]))
 		"choose":
 			_on_operator_chosen(parts[1].to_int())
-		"ai":
-			_ai_menu = true
-			if unit.connected() and not _network_shown:
+		"ai", "physical":
+			_ai_menu = parts[0] == "ai"
+			var network := _ai_menu and unit.connected()
+			if network != _network_shown:
 				_busy = true
-				await _set_network(true)
-				_busy = false
-			_open_menu()
-		"physical":
-			_ai_menu = false
-			if _network_shown:
-				_busy = true
-				await _set_network(false)
+				await _set_network(network)
 				_busy = false
 			_open_menu()
 		"group":
@@ -404,17 +437,23 @@ func _click(screen_position: Vector2) -> void:
 			_hud.view_unit(state, null)
 		return
 	var unit := state.active
+	var node := state.node_at(cell) if _network_shown else ""
 	var teammate := _teammate_at(cell, token)
 	match _mode:
+		# Acting beats looking: a teammate's AI token on the access point doesn't stop a deploy.
+		Mode.IDLE when _node_click(unit, node) == "deploy":
+			_hud.view_unit(state, null)
+			_deploy(unit, node, _deploy_option(unit, node).relay)
 		Mode.IDLE when teammate != null:
 			_hud.view_unit(state, teammate)
-		Mode.IDLE:
+		Mode.IDLE when token == null and _node_click(unit, node) == "device":
 			_hud.view_unit(state, null)
-			var node := state.node_at(cell) if _network_shown else ""
-			if node != "" and token == null and state.verb_options(unit).any(func(option: Dictionary) -> bool: return option.node == node):
-				_open_menu(BattleMenus.device_actions(state, unit, node), "%s %s" % [state.node_def(node).display_name.to_upper(), node.to_upper()])
-			else:
-				_open_menu()
+			_open_menu(BattleMenus.device_actions(state, unit, node), "%s %s" % [state.node_def(node).display_name.to_upper(), node.to_upper()])
+		Mode.IDLE:
+			# The Operator's body opens the Operator's menu; the AI's token, the AI's.
+			_hud.view_unit(state, null)
+			_ai_menu = _network_shown
+			_open_menu()
 		Mode.PICK:
 			_on_pick.call(cell)
 
@@ -426,18 +465,29 @@ func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 		return false
 	match _mode:
 		Mode.IDLE:
-			if _teammate_at(cell, token) != null:
+			var node := state.node_at(cell) if _network_shown else ""
+			if _node_click(unit, node) == "deploy" or _teammate_at(cell, token) != null:
 				return true
 			if _network_shown:
-				if token:
-					return token == unit
-				var node := state.node_at(cell)
-				return (unit.is_operator() and unit.connected() and node == unit.ai_node) \
-					or (node != "" and state.verb_options(unit).any(func(option: Dictionary) -> bool: return option.node == node))
+				return token == unit if token else _node_click(unit, node) != ""
 			return cell == unit.cell
 		Mode.PICK:
 			return _choices.has(cell)
 	return false
+
+
+# What clicking a node in the network view does: the AI's own node opens its menu, an access point
+# in reach sends a backpacked AI in, and a Breached device opens its verbs. Empty: nothing.
+func _node_click(unit: Unit, node: String) -> String:
+	if node == "" or not unit.is_operator():
+		return ""
+	if unit.connected() and node == unit.ai_node:
+		return "menu"
+	if not unit.connected() and not _deploy_option(unit, node).is_empty():
+		return "deploy"
+	if state.verb_options(unit).any(func(option: Dictionary) -> bool: return option.node == node):
+		return "device"
+	return ""
 
 
 # Clicking a teammate who isn't acting shows their panel instead of a menu.

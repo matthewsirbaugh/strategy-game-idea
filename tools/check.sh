@@ -23,3 +23,4 @@ run_check() {
 run_check 'Import and script registration' --import
 run_check 'Battle rules' -s tests/test_rules.gd
 run_check 'Hacking and context math' -s tests/test_hacking.gd
+run_check 'Battle flow: into the AI' -s tests/test_battle_flow.gd
