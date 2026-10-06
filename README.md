@@ -30,9 +30,10 @@ and E turn; the wheel or a pinch zooms; H ghosts every wall; L switches the char
 between soft and hard-edged shading, to compare them. A click without a drag selects, and a
 right-click without a drag steps back, and in a submenu goes back a level. In battle, clicking a
 teammate shows their panel, I marks every Breached device, and Space ends the turn. Esc pauses.
-The AI phase is the network view: "AI phase" in the Operator's menu, or N, switches to it, and the
-AI's menu lives there. An AI still in the backpack deploys from that menu, or by clicking a ringed
-access point.
+The network view is the AI's half of the turn: "AI" in the Operator's menu, or N, switches to it,
+and the AI's menu lives there. An AI still in the backpack deploys from that menu, or by clicking a
+ringed access point. Ending one half while the other still has AP to spend moves over to it ("End
+Operator phase", "End AI phase"), and Space does what the end row says.
 
 ## How `game/` is organized
 

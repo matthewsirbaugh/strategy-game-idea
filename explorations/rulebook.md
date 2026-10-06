@@ -687,6 +687,8 @@ Two more readings for Bryson's review, numbered on from the list above:
     shot.
 39. A drone can end its move over a crate or a vehicle, since it flies over them.
 
+Bryson accepted both the same day; they're in RULES.md, rule 4 and the robots table.
+
 Not exercised: the handover between phases (rule 48), since there's no second map yet, and
 crashing (rule 42), which nothing in V1 triggers.
 

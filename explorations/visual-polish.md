@@ -1,8 +1,8 @@
 # Visual polish: interface and Network mode
 
 - Status: open; implemented for Bryson's review.
-- Next action: play the 2026-10-05 passes (hover card, unit panel, scan badges, network markers,
-  the AI phase and the menus' overhaul), and pick an AI marker for the network view.
+- Next action: play the 2026-10-05 passes: hover card, unit panel, scan badges, network markers,
+  the menus' overhaul, the two halves of a turn, AI pins and the network's label layout.
 - Inherits the [house style](art-pipeline.md#house-style) and the facility's approved clay-orange
   and cream direction in [environment-art.md](environment-art.md).
 
@@ -107,8 +107,37 @@ Built the same day. Claude's choices, open to change:
 - The unit panel: AP, AI AP, armor, shot, AI and gear as a grid of small names over their values.
   Chips are tags in their load state's color; clicking one opens a card in the hover card's style.
 
-AI marker options, shown to Bryson as mockups, not built: a halo ring around the occupied node, in
-each AI's color with a small sigil (recommended); pins above the node; or corner badges.
+AI marker options, shown to Bryson as mockups: a halo ring around the occupied node, in each AI's
+color with a small sigil (Claude's recommendation); pins above the node; or corner badges. Bryson
+chose pins (below).
+
+Verified with the test suites and screenshots of a native run; not played.
+
+## 2026-10-05 — The two halves of a turn, AI pins, labels (Bryson)
+
+Bryson, after playing the menus' overhaul:
+- Ending the AI phase while the Operator still has AP should say "End AI Phase" and go back to the
+  Operator to finish the turn. The other way too: ending the Operator's turn while the AI still has
+  AP says "End Operator Phase" and jumps to the AI.
+- Pins for the AI marker, but the pins have to be well designed. The tag colors read well.
+- Not "AI phase" in the interface: just "AI", except when ending either half of the turn.
+- Fix the overlapping labels in the network view.
+
+Built the same day. Claude's choices, open to change:
+- The end row hands over only when the other half has AP and something to spend it on. A half
+  the player has ended doesn't take the turn back, so ending both ends the turn. Space does what
+  the end row says. The rows read "End AI phase" and "End Operator phase", in the menus' sentence
+  case.
+- Menus read "AI" and "Operator"; the view button reads AI and OPERATOR; headers name the unit or
+  its AI.
+- With a menu open, a click on something the player can act on, such as a ringed access point,
+  closes the menu and acts. A click on the menu's own unit just closes it.
+- Pins: a teardrop in the Operator's color standing with its tip on the node's top edge, a dark
+  body, a colored rim and the AI's four-pointed glyph, with a flat shadow for depth. AIs that
+  share a node stand side by side. The active AI's pin bobs gently. One glyph for every AI for
+  now; each AI could get its own once their personalities are drawn.
+- Labels: each sits under its node if there's room, else beside it, then at a corner, else
+  further down, never over another label, a node or a unit's marker.
 
 Verified with the test suites and screenshots of a native run; not played.
 
@@ -129,7 +158,9 @@ Verified with the test suites and screenshots of a native run; not played.
 | Battle interface | `game/battle/hud.tscn`, `game/battle/hud.gd` |
 | Hover card content | `game/battle/hover_info.gd` |
 | Menu groups and folding | `game/battle/battle_menus.gd` (`nest`) |
-| The way into the AI: deploying, rings, clicks | `game/battle/battle.gd` (`_deploy`, `_node_click`, `_ring_nodes`) |
+| The way into the AI: deploying, rings, clicks | `game/battle/battle.gd` (`_node_click`, `_ring_nodes`) |
+| The halves of a turn and their end rows | `game/battle/battle.gd` (`_hands_over`), `game/battle/battle_menus.gd` (`half_open`) |
+| AI pins and the label layout | `game/battle/network_view.gd` (`_build_agent`, `_place_labels`), `game/art/ui/ai_pin_*.svg` |
 | Scan badges | `game/battle/battle.gd` (`_refresh_scan`) |
 | Network presentation, unit markers | `game/battle/network_view.gd`, `network_backdrop.gdshader` |
 | View framing | `game/battle/camera_rig.gd` |

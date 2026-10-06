@@ -109,7 +109,7 @@ implementation follows. Numbers marked placeholder are for tuning.
      moves into the Operator's line of fire, and drops at the start of the Operator's next turn.
    - Sprint: 3 tiles for 2 AP. On 8 AP an Operator can move up to 12 tiles in a turn, but an
      Operator who sprints can't shoot or set overwatch that turn. A sprint cut short costs only
-     what walking those tiles would have, up to 2 AP.
+     what walking those tiles would have, up to 2 AP. Sprinting needs at least 2 AP.
    - Peeking through a door costs 1 AP. The Operator sees into the space beyond until their
      turn ends.
    - Opening or closing an unlocked door is free. Locking a door costs 1 AP and needs the Operator at the
@@ -405,7 +405,7 @@ Each Operator carries one robot or two gadgets.
 
 | Robot | AP | Speed | Vision | Special |
 |---|---|---|---|---|
-| Drone | 6 | 7 | 6 | Flies over low obstacles such as crates and vehicles, never over walls |
+| Drone | 6 | 7 | 6 | Flies over low obstacles such as crates and vehicles, and can stop over one; never over walls |
 | Dog bot | 8 | 5 | 4 | Carries the single-use stun |
 
 ### Numbers
@@ -545,7 +545,8 @@ lure a guard into a hallway, stun it from overwatch, tie it up next turn.
 **Sprint.** Moving 3 tiles for 2 AP instead of 3. It adds no AP and makes no noise. An Operator
 who sprints can't shoot or set overwatch that turn. On 8 AP, sprinting moves up to 12 tiles. A
 sprint cut short, for instance when a move reveals a guard, costs only what walking the tiles
-actually moved would have, up to 2 AP.
+actually moved would have, up to 2 AP. With less than 2 AP there's no sprint: it would only be a
+walk that gives up the shot.
 
 **Peek.** 1 AP, through a door only. The Operator sees into the space beyond until their turn
 ends, without moving into it.
