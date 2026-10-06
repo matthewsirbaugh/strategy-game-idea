@@ -57,7 +57,7 @@ expects that plan to change as ideas surface while playing.
 | explorations/*.md | One file per research or design thread |
 | README.md | How to set up, run and test the game |
 | game/ | The Godot project; README.md explains its folders |
-| tools/ | `check.sh`: imports and both test suites in one command |
+| tools/ | `check.sh`: imports and every test suite in one command |
 | art/reference/ | Reference images Bryson chose; new art adheres to them |
 | art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
 | art/meshy/ | The input images sent to Meshy for characters, packs and props |

@@ -668,6 +668,28 @@ dumpsters are boxes until their models exist.
   can be made again when needed.
 - Splitting `battle.gd` into menus, event-log text and the controller: agreed.
 
+## 2026-10-05 — Full sweep of the rules (Claude, at Bryson's request)
+
+Bryson asked for a full sweep and systems test of every rule and function. Claude checked each
+numbered rule, the device sheet and the V1 setup against the code: a scenario per rule (67 checks,
+run against the code before and after), thousands of random turns checking that every action the
+menus offer is honored, and the content files against the V1 tables, which all match.
+
+Fixed:
+- Rule 36: a guard knocked out a second time could never be found again; the enemy remembered its
+  first discovery for the rest of the battle.
+- Rule 17: a Breached turret coming back from an enemy turret's stun woke "alerted" and put its
+  zone on caution.
+
+Two more readings for Bryson's review, numbered on from the list above:
+
+38. Sprint isn't offered below 2 AP. With 1 AP it would only be a one-tile walk that gives up the
+    shot.
+39. A drone can end its move over a crate or a vehicle, since it flies over them.
+
+Not exercised: the handover between phases (rule 48), since there's no second map yet, and
+crashing (rule 42), which nothing in V1 triggers.
+
 ## V2: after implementation and playtesting
 
 - Rework the speed system for the turn order queue (Bryson, 2026-10-04).

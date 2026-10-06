@@ -57,6 +57,28 @@ OpenGL renderer; not played. Claude's choices, open to change:
 - Hiding places no longer show under Scan; the hover card still names them.
 - A group with one action stays inline. "Act with Bravo first" folds into Switch Operator.
 
+## 2026-10-05 — AI mode didn't start (Bryson's report)
+
+Bryson: clicking into AI mode near an access point didn't start it. When the menus were nested,
+deploying became an item inside the AI group, and it left the view physical with the Operator's
+menu open; "AI actions" with the AI still in the backpack had no way to deploy at all. While
+fixing it, Claude found the AI's menu also carried into the next Operator's turn.
+
+Fixed the same day, with `tests/test_battle_flow.gd` to keep it fixed. Claude's choices, open to
+change:
+- Deploying, from either menu, switches to the network view with the AI's menu open.
+- The AI's own menu lists the access points in reach first, while the AI is in the backpack.
+- In the network view, a backpacked AI's access points in reach are ringed, and a click on one
+  sends it in. Acting beats looking: a click there deploys even when a teammate's AI token sits on
+  the access point, instead of showing the teammate.
+- Each turn starts on the physical view and the Operator's own menu. Clicking the Operator opens
+  the Operator's menu; clicking the AI's token opens the AI's.
+- A menu group keeps its place whether it folds or not.
+
+Verified headless through every menu path, and with screenshots of a native run; not played.
+Noticed, not changed: in the network view, the labels of D, A, P and E overlap, since the four
+nodes sit on neighboring tiles.
+
 ## Source and art provenance
 
 - `game/art/ui/facility-title.png` is an unchanged copy of
@@ -74,6 +96,7 @@ OpenGL renderer; not played. Claude's choices, open to change:
 | Battle interface | `game/battle/hud.tscn`, `game/battle/hud.gd` |
 | Hover card content | `game/battle/hover_info.gd` |
 | Menu groups and folding | `game/battle/battle_menus.gd` (`nest`) |
+| The way into the AI: deploying, rings, clicks | `game/battle/battle.gd` (`_deploy`, `_node_click`, `_ring_nodes`) |
 | Scan badges | `game/battle/battle.gd` (`_refresh_scan`) |
 | Network presentation, unit markers | `game/battle/network_view.gd`, `network_backdrop.gdshader` |
 | View framing | `game/battle/camera_rig.gd` |

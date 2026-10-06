@@ -11,13 +11,16 @@ Needs Godot 4.7 (`brew install --cask godot`).
   scripts added elsewhere fail with "Identifier not declared".
 - Edit: open `game/project.godot` in the Godot editor, then press F5 to run.
 - Preview a character with the toon shader and its animations: `godot --path game res://preview/character_preview.tscn`
-- Verify imports and both test suites: `bash tools/check.sh`. Prints one line per successful
+- Verify imports and every test suite: `bash tools/check.sh`. Prints one line per successful
   check; on failure, prints the Godot output and exits nonzero, including script errors that
   Godot itself can report with a successful exit code. This checks code, not rendering or feel.
 - Test the network and context math (Jump, refunds, Subagent, chip multipliers, compaction,
   progress kept when pulled out, circuits): `godot --headless --path game -s tests/test_hacking.gd`
 - Test the rules (turn ending, donated compute, a cut-short sprint, aim lines, Predict, fog
-  fairness, illegal actions, broken content, the test map, restarting a phase): `godot --headless --path game -s tests/test_rules.gd`
+  fairness, stuns ending, illegal actions, broken content, the test map, restarting a phase): `godot --headless --path game -s tests/test_rules.gd`
+- Play three seeded random battles and check every offered action is honored, nothing impossible
+  happens, and Predict and the verb previews tell the truth: `godot --headless --path game -s tests/test_playthrough.gd`
+- Drive the battle scene's way into the AI through its real menus and clicks: `godot --headless --path game -s tests/test_battle_flow.gd`
 
 Deploy to facility, on the title screen, opens the loadout screen, a test tool for swapping each Operator's armor, gear and chips;
 restarting after a loss keeps what was picked there.
@@ -26,7 +29,9 @@ Battle camera: left-drag, WASD or the arrow keys pan; right-drag (or Option-drag
 and E turn; the wheel or a pinch zooms; H ghosts every wall; L switches the characters and props
 between soft and hard-edged shading, to compare them. A click without a drag selects, and a
 right-click without a drag steps back. In battle, clicking a teammate shows their panel, N switches to the network, I marks every
-Breached device, and Space ends the turn. Esc pauses.
+Breached device, and Space ends the turn. Esc pauses. Deploying an AI switches to the network with
+the AI's menu open; in the network view, an AI still in the backpack goes in by clicking a ringed
+access point.
 
 ## How `game/` is organized
 
