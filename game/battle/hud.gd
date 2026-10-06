@@ -550,7 +550,7 @@ func is_menu_open() -> bool:
 
 func set_network_shown(shown: bool) -> void:
 	_network_toggle.set_pressed_no_signal(shown)
-	_network_toggle.text = "OPERATOR   [N]" if shown else "AI PHASE   [N]"
+	_network_toggle.text = "OPERATOR   [N]" if shown else "AI   [N]"
 	%NetworkLegend.visible = shown
 
 

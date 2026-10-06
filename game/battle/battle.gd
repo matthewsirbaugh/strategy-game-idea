@@ -52,8 +52,10 @@ var _on_pick_hover: Callable
 var _predict_picks: Array[Unit] = []
 # The submenus folded out of the menu last opened, by name.
 var _menu_groups := {}
-# The network view is the AI phase: its menus are the AI's, as the physical view's are the Operator's.
+# The network view is the AI's half of the turn: its menus are the AI's, as the physical view's are
+# the Operator's. _ended holds the halves the player has finished this turn, "operator" and "ai".
 var _network_shown := false
+var _ended := {}
 var _network_moving := false
 var _scan := false
 var _hovered: Variant = null
@@ -139,7 +141,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("end_turn"):
 		_hud.close_menu()
-		_act(state.end_turn(state.active))
+		_on_action("end_half" if _hands_over(state.active) else "end")
 	elif event.is_action_released("cancel"):
 		if _mode == Mode.PICK:
 			_open_menu()
@@ -166,6 +168,7 @@ func _run_turns() -> void:
 			_hud.show_result(state.winner() == BattleState.Winner.PLAYER)
 			return
 		if state.is_player_controlled(unit):
+			_ended.clear()
 			_grid.show_access_zones(BattleState.TETHER)
 			_camera_rig.keep_in_view(_views[unit.id].position)
 			if unit.is_operator() and unit.incoming > 0:
@@ -234,6 +237,7 @@ func _on_operator_chosen(id: int) -> void:
 		return
 	_busy = true
 	_hud.close_menu()
+	_ended.clear()
 	await _set_network(false)
 	_refresh()
 	_camera_rig.keep_in_view(_views[id].position)
@@ -253,10 +257,10 @@ func _open_menu(actions: Array = [], kicker := "") -> void:
 		if unit.is_robot():
 			actions = BattleMenus.robot_actions(state, unit)
 		elif ai:
-			actions = BattleMenus.ai_actions(state, unit)
+			actions = BattleMenus.ai_actions(state, unit, _hands_over(unit))
 		else:
-			actions = BattleMenus.operator_actions(state, unit)
-		kicker = _who(unit) + ("  ·  AI PHASE" if ai else "" if unit.is_robot() else "  ·  OPERATOR PHASE")
+			actions = BattleMenus.operator_actions(state, unit, _hands_over(unit))
+		kicker = _who(unit)
 		var nested := BattleMenus.nest(actions, "ai" if ai else "physical")
 		actions = nested.top
 		_menu_groups = nested.groups
@@ -269,6 +273,15 @@ func _open_menu(actions: Array = [], kicker := "") -> void:
 	var header := {"kicker": kicker, "accent": Hud.AI_ACCENT if ai else Hud.OPERATOR_ACCENT, "costs": BattleMenus.budget(unit, ai)}
 	_hud.open_menu(get_viewport().get_camera_3d().unproject_position(anchor), actions, header)
 	_hud.show_turn(state)
+
+
+# Ending the half of the turn in view moves over to the other half, as long as that one hasn't been
+# ended and still has AP to spend.
+func _hands_over(unit: Unit) -> bool:
+	if unit == null or not unit.is_operator():
+		return false
+	var other := "operator" if _network_shown else "ai"
+	return not _ended.has(other) and BattleMenus.half_open(state, unit, other == "ai")
 
 
 # Whose menu it is: the unit, or in the network view, its AI.
@@ -320,6 +333,12 @@ func _on_action(id: String) -> void:
 			_open_menu(_menu_groups[parts[1]], "%s  ·  %s" % [_who(unit), parts[1].to_upper()])
 		"end":
 			_act(state.end_turn(unit))
+		"end_half":
+			_ended["ai" if _network_shown else "operator"] = true
+			_busy = true
+			await _set_network(not _network_shown)
+			_busy = false
+			_open_menu()
 		"ai_move":
 			var nodes := state.network_destinations(unit)
 			_choices.clear()
@@ -418,13 +437,17 @@ func _clear_pick() -> void:
 	_grid.clear_overlay("preview_area")
 
 
+# With a menu open, a click closes it, and a click on something else the player can act on, such
+# as a ringed access point, also acts on it. Clicking the menu's own unit just closes it.
 func _click(screen_position: Vector2) -> void:
+	var token := _token_at(screen_position)
+	var cell: Variant = _pointed_cell(screen_position, token)
 	if _hud.is_menu_open():
 		_hud.close_menu()
 		_mode = Mode.IDLE
-		return
-	var token := _token_at(screen_position)
-	var cell: Variant = _pointed_cell(screen_position, token)
+		var own: bool = token == state.active if token else cell == state.active.cell
+		if cell == null or own:
+			return
 	if cell == null or not _is_choice(cell, token):
 		if _mode == Mode.IDLE and not _busy and _hud.viewed() != state.active:
 			_hud.view_unit(state, null)
@@ -852,8 +875,6 @@ func _update_hover() -> void:
 	var card := {}
 	if cell != null:
 		_hover.position = _grid.cell_to_world(cell) + Vector3(0, 0.02, 0)
-		if token:
-			_hover.position = _network.agent_position(token) * Vector3(1, 0, 1) + Vector3(0, 0.02, 0)
 		var pick := {}
 		var unit := state.active
 		if _mode == Mode.PICK and _choices.get(cell) is int and unit and (unit.is_operator() or unit.is_robot()):

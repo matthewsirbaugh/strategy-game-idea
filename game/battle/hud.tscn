@@ -103,8 +103,8 @@ layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 toggle_mode = true
-text = "AI PHASE   [N]"
-tooltip_text = "Switch between the Operator phase, on the physical map, and the AI phase, in the network"
+text = "AI   [N]"
+tooltip_text = "Switch between the Operator, on the physical map, and the AI, in the network"
 
 [node name="HoverPanel" type="PanelContainer" parent="Root"]
 unique_name_in_owner = true
@@ -298,7 +298,7 @@ mouse_filter = 2
 [node name="Controls" type="Label" parent="Root/Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "CLICK  Actions or a teammate     /     SPACE  End turn     /     N  AI phase     /     I  Scan     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
+text = "CLICK  Actions or a teammate     /     SPACE  End turn     /     N  AI or Operator     /     I  Scan     /     WASD or drag  Pan     /     Q E or right-drag  Orbit     /     Wheel  Zoom     /     H  Walls     /     ESC  Pause"
 horizontal_alignment = 1
 vertical_alignment = 1
 mouse_filter = 2

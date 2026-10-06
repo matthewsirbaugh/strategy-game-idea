@@ -36,7 +36,8 @@ static func nest(actions: Array, back_id: String) -> Dictionary:
 
 
 # A group's members are listed together, so the menu keeps its order whether a group folds or not.
-static func operator_actions(state: BattleState, unit: Unit) -> Array:
+# hand_over: the AI's half of the turn is still open, so ending this half moves over to it.
+static func operator_actions(state: BattleState, unit: Unit, hand_over := false) -> Array:
 	var actions := []
 	if not state.move_costs(unit).is_empty():
 		actions.append({"id": "move", "text": "Move", "costs": [["1 AP / tile", "ap"]],
@@ -72,18 +73,21 @@ static func operator_actions(state: BattleState, unit: Unit) -> Array:
 	if not state.robot_cells(unit).is_empty():
 		actions.append({"group": "Gear", "id": "robot", "text": "Deploy %s" % unit.robot_def.display_name.to_lower(), "costs": [["%d AP" % BattleState.ROBOT_COST, "ap"]],
 			"tip": "It sets down beside you and acts from next round."})
-	actions.append({"id": "ai", "text": "AI phase", "submenu": true,
+	actions.append({"id": "ai", "text": "AI", "submenu": true,
 		"tip": "Switch to the network, where the AI deploys and acts on its own AP."})
 	for other in state.tied_operators():
 		actions.append({"group": "Switch Operator", "id": "choose:%d" % other.id, "text": "Act with %s first" % other.display_name,
 			"tip": "%s shares your speed. Hand them the turn before you act." % other.display_name})
-	actions.append(_end())
+	if hand_over:
+		actions.append(_end_half("End Operator phase", "Over to the AI, which still has %d AP to spend." % unit.ai_ap))
+	else:
+		actions.append(_end())
 	return actions
 
 
 # The AI's own menu, in the network view. An AI still in the backpack is offered the access points it
-# can go in at first.
-static func ai_actions(state: BattleState, unit: Unit) -> Array:
+# can go in at first. hand_over: the Operator's half of the turn is still open.
+static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Array:
 	var actions := []
 	var deploys := state.deploy_options(unit)
 	for option in deploys:
@@ -140,9 +144,12 @@ static func ai_actions(state: BattleState, unit: Unit) -> Array:
 	if actions.is_empty():
 		var spent := "The AI's AP is spent for this turn." if unit.ai_ap <= 0 else "Nothing the AI can do from here."
 		actions.append({"id": "none", "style": "note", "text": spent})
-	actions.append({"id": "physical", "text": "Operator phase", "style": "back", "costs": [["N", "key"]],
-		"tip": "Back to the physical view and the Operator's actions."})
-	actions.append(_end())
+	actions.append({"id": "physical", "text": "Operator", "style": "back", "costs": [["N", "key"]],
+		"tip": "Switch to the physical view without ending the AI's half of the turn."})
+	if hand_over:
+		actions.append(_end_half("End AI phase", "Back to %s, who still has %d AP to spend." % [unit.display_name, unit.ap]))
+	else:
+		actions.append(_end())
 	return actions
 
 
@@ -186,6 +193,19 @@ static func predict_actions(state: BattleState, picks: Array[Unit]) -> Array:
 	return actions
 
 
+# Whether one half of an Operator's turn still has AP and something to spend it on. If it does,
+# ending the other half moves over to it instead of ending the turn.
+static func half_open(state: BattleState, unit: Unit, ai: bool) -> bool:
+	if ai:
+		return unit.ai_ap > 0 and _spends(ai_actions(state, unit), ["ai", "ap"])
+	return unit.ap > 0 and _spends(operator_actions(state, unit), ["ap"])
+
+
+static func _spends(actions: Array, kinds: Array) -> bool:
+	return actions.any(func(action: Dictionary) -> bool:
+		return action.get("enabled", true) and action.get("costs", []).any(func(cost: Array) -> bool: return cost[1] in kinds))
+
+
 # What a menu's header shows the unit has to spend.
 static func budget(unit: Unit, ai: bool) -> Array:
 	if unit.is_robot():
@@ -201,6 +221,10 @@ static func _back(id: String) -> Dictionary:
 
 static func _end() -> Dictionary:
 	return {"id": "end", "text": "End turn", "style": "end", "costs": [["Space", "key"]], "tip": "Unspent AP doesn't carry over."}
+
+
+static func _end_half(text: String, tip: String) -> Dictionary:
+	return {"id": "end_half", "text": text, "style": "end", "costs": [["Space", "key"]], "tip": tip}
 
 
 static func _deploy_action(state: BattleState, unit: Unit, option: Dictionary) -> Dictionary:
