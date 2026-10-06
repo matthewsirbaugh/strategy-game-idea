@@ -1,8 +1,8 @@
 # Visual polish: interface and Network mode
 
 - Status: open; implemented for Bryson's review.
-- Next action: play the 2026-10-05 pass (hover card, unit panel, scan badges, network markers,
-  nested menus). The broader aesthetic overhaul of the menus is still open.
+- Next action: play the 2026-10-05 passes (hover card, unit panel, scan badges, network markers,
+  the AI phase and the menus' overhaul), and pick an AI marker for the network view.
 - Inherits the [house style](art-pipeline.md#house-style) and the facility's approved clay-orange
   and cream direction in [environment-art.md](environment-art.md).
 
@@ -78,6 +78,39 @@ change:
 Verified headless through every menu path, and with screenshots of a native run; not played.
 Noticed, not changed: in the network view, the labels of D, A, P and E overlap, since the four
 nodes sit on neighboring tiles.
+
+## 2026-10-05 — The AI phase, and the menus' overhaul (Bryson)
+
+Bryson, after playing the fix above:
+- Clicking AI phase still didn't switch to the network view. (It only switched after deploying;
+  with the AI in the backpack, the AI's menu opened in the physical view.)
+- The AI's marker needs to be something other than a letter, maybe a different kind of marker:
+  it looks like a node and covers the node it's on, so occupied and empty nodes are hard to tell
+  apart. Claude to suggest solutions.
+- A cost written straight after the action's name, in the same font, doesn't look good. Bring the
+  same style and attention to detail to every part of the design, the menus most of all, since the
+  player uses them most.
+
+Built the same day. Claude's choices, open to change:
+- The AI phase is the network view. "AI phase" in the Operator's menu, and N, always switch to it
+  and open the AI's menu there; "Operator phase" switches back. Deploying and shared compute moved
+  into the AI's menu, which says why the AI can't deploy yet when it can't. The view toggle reads
+  AI PHASE and OPERATOR.
+- Menu rows: the name on the left; costs as small tags on the right, the AP cost last; a chevron
+  for a submenu. Tag colors follow the resource everywhere: the Operator's AP clay, the AI's AP
+  cyan, context blue, gains mint, free and info grey. The header names whose menu it is and what
+  they have to spend. Back, Operator phase and End turn sit under a rule with their keys (Esc, N,
+  Space). The highlight follows the mouse, so only one row is ever lit, and the line under the menu
+  says what the highlighted row does, why it's greyed out, or what sound a verb will make. Right-
+  click or Esc in a submenu goes back a level.
+- Operator menus are edged in clay and the AI's in cyan, the colors of the AP they spend.
+- The unit panel: AP, AI AP, armor, shot, AI and gear as a grid of small names over their values.
+  Chips are tags in their load state's color; clicking one opens a card in the hover card's style.
+
+AI marker options, shown to Bryson as mockups, not built: a halo ring around the occupied node, in
+each AI's color with a small sigil (recommended); pins above the node; or corner badges.
+
+Verified with the test suites and screenshots of a native run; not played.
 
 ## Source and art provenance
 

@@ -28,9 +28,10 @@ restarting after a loss keeps what was picked there.
 Battle camera: left-drag, WASD or the arrow keys pan; right-drag (or Option-drag, or middle-drag) orbits; Q
 and E turn; the wheel or a pinch zooms; H ghosts every wall; L switches the characters and props
 between soft and hard-edged shading, to compare them. A click without a drag selects, and a
-right-click without a drag steps back. In battle, clicking a teammate shows their panel, N switches to the network, I marks every
-Breached device, and Space ends the turn. Esc pauses. Deploying an AI switches to the network with
-the AI's menu open; in the network view, an AI still in the backpack goes in by clicking a ringed
+right-click without a drag steps back, and in a submenu goes back a level. In battle, clicking a
+teammate shows their panel, I marks every Breached device, and Space ends the turn. Esc pauses.
+The AI phase is the network view: "AI phase" in the Operator's menu, or N, switches to it, and the
+AI's menu lives there. An AI still in the backpack deploys from that menu, or by clicking a ringed
 access point.
 
 ## How `game/` is organized
