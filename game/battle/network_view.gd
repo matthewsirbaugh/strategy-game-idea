@@ -5,17 +5,28 @@ extends Node3D
 # AI first connects to it; access points always show, since they're panels on the map. Lines from
 # a power hub run to every device on its circuit. Render priority keeps the diagram readable
 # through world geometry without changing picking or network rules. The team and the enemies the
-# team can see show as flat markers on their tiles, under the network.
+# team can see show as flat markers on their tiles, under the network. Each AI is a pin standing on
+# top of its node, in its Operator's color, so the node itself stays in view.
 
 enum Order { BACKDROP = 1, MARKER, MARKER_TEXT, CIRCUIT, LINK, PACKET, RIM, DISC, RING, ICON, AGENT_RIM, AGENT, LABEL_OUTLINE, LABEL }
 
 const BACKDROP_SHADER := preload("res://battle/network_backdrop.gdshader")
 const FLOOR_Y := 0.08
 const AGENT_Y := 0.3
-const TOKEN_RADIUS := 0.46
-const TOKEN_SPACING := 1.0
-# How far below its node a label starts, in label pixels.
-const LABEL_DROP := 65.0
+const PIN_BODY := preload("res://art/ui/ai_pin_body.svg")
+const PIN_EDGE := preload("res://art/ui/ai_pin_edge.svg")
+const PIN_PIXEL := 0.0095
+# Screen-up distances in world units: from a node's center to its pins' tips, and to their heads.
+# The texture's tip sits 82 pixels below its center and the head's center 24 above.
+const PIN_TIP := 0.8
+const PIN_HEAD := PIN_TIP + (82 + 24) * PIN_PIXEL
+const PIN_HEAD_RADIUS := 0.42
+const PIN_SPACING := 0.82
+const PIN_BOB := 4.0
+# Half a node's footprint for laying out labels, and the gap between it and its label, in world
+# units. The footprint is a square, so it's a little inside the round rim.
+const NODE_EXTENT := 0.68
+const LABEL_GAP := 0.25
 const HOP_SECONDS := 0.15
 const INK := Color(0.035, 0.075, 0.095)
 const LINK_COLOR := Color(0.24, 0.5, 0.55)
@@ -75,6 +86,8 @@ var _fading: Array[Array] = []
 var _labels: Array[Label3D] = []
 var _backdrop: ShaderMaterial
 var _icons: Array[Sprite3D] = []
+# Pin sprites with the opacity each fades back up to.
+var _pins: Array[Array] = []
 var _links: Array[Dictionary] = []
 var _circuits: Array[Dictionary] = []
 var _diagram_environment: Environment
@@ -144,8 +157,11 @@ func node_position(id: String) -> Vector3:
 	return _grid.cell_to_world(_state.node_cell(id)) + Vector3(0, FLOOR_Y, 0)
 
 
+# Where the AI's pin head is drawn: above its node on screen, beside any pins that share it.
 func agent_position(unit: Unit) -> Vector3:
-	return _agent_position(unit, unit.ai_node)
+	var agent: Node3D = _agents[unit.id]
+	var basis := get_viewport().get_camera_3d().global_basis
+	return agent.position + basis.x * float(agent.get_meta("slot", 0.0)) * PIN_SPACING + basis.y * PIN_HEAD
 
 
 # Access points always show; anything else only once its network is known.
@@ -165,7 +181,7 @@ func framing_bounds() -> Rect2:
 	for at in points:
 		bounds = bounds.expand(Vector2(at.x, at.z))
 	# Extra room at the bottom, under the Operator's panel.
-	return bounds.grow_individual(1.6, 1.6, 1.6, 7.0)
+	return bounds.grow_individual(1.6, 1.6 + PIN_HEAD, 1.6, 7.0)
 
 
 func refresh() -> void:
@@ -188,16 +204,17 @@ func refresh() -> void:
 	var sharing := {}
 	for id in _agents:
 		var unit: Unit = _state.units[id]
+		if unit.connected():
+			sharing[unit.ai_node] = sharing.get(unit.ai_node, []) + [id]
+	for id in _agents:
+		var unit: Unit = _state.units[id]
 		var agent: Node3D = _agents[id]
 		agent.visible = unit.connected()
 		if agent.visible:
-			agent.position = _agent_position(unit, unit.ai_node)
-			sharing[unit.ai_node] = sharing.get(unit.ai_node, 0) + 1
-	# A label drops below the row of tokens on its node, whichever way the camera turns the row.
-	for id in _nodes:
-		var label: Label3D = _nodes[id]["label"]
-		var spread: float = (sharing.get(id, 1) - 1) / 2.0 * TOKEN_SPACING
-		label.offset.y = -LABEL_DROP - spread / label.pixel_size
+			var group: Array = sharing[unit.ai_node]
+			agent.position = node_position(unit.ai_node) + Vector3(0, AGENT_Y, 0)
+			agent.set_meta("slot", group.find(id) - (group.size() - 1) / 2.0)
+	_place_labels()
 
 
 func _refresh_node(id: String) -> void:
@@ -297,14 +314,67 @@ func _build_marker(unit: Unit) -> Node3D:
 	return marker
 
 
-# The current ring circles the active AI's own token, so it stays readable when AIs share a node.
+# Lays the labels out so none covers another label, a node or a unit's marker: under the node where
+# there's room, else beside it, then at a corner, else further down. The view looks straight down with north up, so a label's footprint
+# on the floor is its footprint on screen.
+func _place_labels() -> void:
+	var shown: Array = _nodes.keys().filter(is_shown)
+	shown.sort_custom(func(a: String, b: String) -> bool:
+		var first := node_position(a)
+		var second := node_position(b)
+		return first.z < second.z or (first.z == second.z and first.x < second.x))
+	var taken: Array[Rect2] = []
+	for id in shown:
+		var at := node_position(id)
+		taken.append(Rect2(at.x - NODE_EXTENT, at.z - NODE_EXTENT, NODE_EXTENT * 2.0, NODE_EXTENT * 2.0))
+	for marker: Node3D in _markers.values():
+		if marker.visible:
+			taken.append(Rect2(marker.position.x - MARKER_RADIUS, marker.position.z - MARKER_RADIUS, MARKER_RADIUS * 2.0, MARKER_RADIUS * 2.0))
+	var near := NODE_EXTENT + LABEL_GAP
+	for id in shown:
+		var label: Label3D = _nodes[id]["label"]
+		var size := _label_size(label)
+		var at := node_position(id)
+		var corner := near * 0.75
+		var spots := [
+			[Vector2(0, near), HORIZONTAL_ALIGNMENT_CENTER, VERTICAL_ALIGNMENT_TOP, Rect2(at.x - size.x / 2.0, at.z + near, size.x, size.y)],
+			[Vector2(near, 0), HORIZONTAL_ALIGNMENT_LEFT, VERTICAL_ALIGNMENT_CENTER, Rect2(at.x + near, at.z - size.y / 2.0, size.x, size.y)],
+			[Vector2(-near, 0), HORIZONTAL_ALIGNMENT_RIGHT, VERTICAL_ALIGNMENT_CENTER, Rect2(at.x - near - size.x, at.z - size.y / 2.0, size.x, size.y)],
+			[Vector2(corner, corner), HORIZONTAL_ALIGNMENT_LEFT, VERTICAL_ALIGNMENT_TOP, Rect2(at.x + corner, at.z + corner, size.x, size.y)],
+			[Vector2(-corner, corner), HORIZONTAL_ALIGNMENT_RIGHT, VERTICAL_ALIGNMENT_TOP, Rect2(at.x - corner - size.x, at.z + corner, size.x, size.y)],
+			[Vector2(corner, -corner), HORIZONTAL_ALIGNMENT_LEFT, VERTICAL_ALIGNMENT_BOTTOM, Rect2(at.x + corner, at.z - corner - size.y, size.x, size.y)],
+			[Vector2(-corner, -corner), HORIZONTAL_ALIGNMENT_RIGHT, VERTICAL_ALIGNMENT_BOTTOM, Rect2(at.x - corner - size.x, at.z - corner - size.y, size.x, size.y)],
+		]
+		for row in range(1, 4):
+			var drop := near + row * (size.y + LABEL_GAP)
+			spots.append([Vector2(0, drop), HORIZONTAL_ALIGNMENT_CENTER, VERTICAL_ALIGNMENT_TOP, Rect2(at.x - size.x / 2.0, at.z + drop, size.x, size.y)])
+		var pick: Array = spots.back()
+		for spot: Array in spots:
+			var rect: Rect2 = spot[3].grow(-0.05)
+			if not taken.any(func(other: Rect2) -> bool: return other.intersects(rect)):
+				pick = spot
+				break
+		label.horizontal_alignment = pick[1]
+		label.vertical_alignment = pick[2]
+		label.offset = Vector2(pick[0].x, -pick[0].y) / label.pixel_size
+		taken.append(pick[3])
+
+
+# A label's footprint, in world units.
+func _label_size(label: Label3D) -> Vector2:
+	var lines := label.text.split("\n")
+	var width := 0.0
+	for line in lines:
+		width = maxf(width, FONT.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, label.font_size).x)
+	var height := lines.size() * FONT.get_height(label.font_size)
+	return (Vector2(width, height) + Vector2.ONE * label.outline_size * 2.0) * label.pixel_size
+
+
 func highlight(reachable: Array, current: String) -> void:
 	for id in _nodes:
 		var ring: MeshInstance3D = _nodes[id]["ring"]
 		ring.visible = is_shown(id) and (id == current or reachable.has(id))
 		ring.position = node_position(id)
-		if id == current and _state.active and _state.active.ai_node == id:
-			ring.position = agent_position(_state.active) - Vector3(0, AGENT_Y, 0)
 		var material: StandardMaterial3D = ring.material_override
 		material.albedo_color = Color(CURRENT if id == current else REACHABLE, material.albedo_color.a)
 	for link in _links:
@@ -317,26 +387,29 @@ func _process(_delta: float) -> void:
 	if not visible:
 		return
 	var clock := Time.get_ticks_msec() / 1000.0
+	for id in _agents:
+		var slot: float = _agents[id].get_meta("slot", 0.0)
+		var bob := PIN_BOB * sin(clock * 3.0) if _state.active and _state.active.id == id else 0.0
+		for sprite: Sprite3D in _agents[id].get_children():
+			sprite.offset = Vector2(slot * PIN_SPACING / PIN_PIXEL, PIN_TIP / PIN_PIXEL + 82.0 + bob) + sprite.get_meta("shift", Vector2.ZERO)
 	for i in _links.size():
 		var link: Dictionary = _links[i]
 		var length: float = maxf(link.from.distance_to(link.to), 0.01)
 		link.packet.position = link.from.lerp(link.to, fposmod(clock * 1.8 + i * 2.1, length) / length)
 
 
-# Hit-tests tokens where they're drawn: side by side on a shared node, they spill onto the
-# neighboring tiles.
+# Hit-tests the pins' heads where they're drawn, which depends on which way the camera faces.
 func agent_at(ray_origin: Vector3, ray_normal: Vector3) -> Unit:
 	var best: Unit = null
 	var best_depth := INF
 	for id in _agents:
-		var agent: Node3D = _agents[id]
-		if not agent.is_visible_in_tree():
+		if not _agents[id].is_visible_in_tree():
 			continue
-		var depth := (agent.global_position - ray_origin).dot(ray_normal)
+		var head := agent_position(_state.units[id])
+		var depth := (head - ray_origin).dot(ray_normal)
 		if depth < 0.0:
 			continue
-		var miss := agent.global_position.distance_to(ray_origin + ray_normal * depth)
-		if miss <= TOKEN_RADIUS and depth < best_depth:
+		if head.distance_to(ray_origin + ray_normal * depth) <= PIN_HEAD_RADIUS and depth < best_depth:
 			best = _state.units[id]
 			best_depth = depth
 	return best
@@ -347,7 +420,7 @@ func move_agent(unit: Unit, path: Array) -> void:
 	agent.visible = true
 	var tween := create_tween()
 	for id in path:
-		tween.tween_property(agent, "position", _agent_position(unit, id), HOP_SECONDS)
+		tween.tween_property(agent, "position", node_position(id) + Vector3(0, AGENT_Y, 0), HOP_SECONDS)
 	await tween.finished
 
 
@@ -389,7 +462,6 @@ func _build_node(id: String) -> void:
 	label.modulate = Color(0.88, 0.95, 0.91)
 	label.outline_modulate = INK
 	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	label.offset = Vector2(0, -LABEL_DROP)
 	add_child(label)
 	_labels.append(label)
 	var offsets := {rim: Vector3.ZERO, disc: Vector3.ZERO, progress: Vector3.ZERO, icon: Vector3(0, 0.025, 0), label: Vector3.ZERO}
@@ -414,40 +486,27 @@ func _arc_mesh(fill: float) -> ImmediateMesh:
 	return mesh
 
 
-# A token that covers the node it sits on, marked with its Operator's initial.
+# A pin in the Operator's color: a dark body under a colored rim and the AI's glyph, with a flat
+# shadow behind for depth. Billboarded, so it stands upright on screen whichever way the camera turns.
 func _build_agent(unit: Unit) -> Node3D:
 	var agent := Node3D.new()
-	agent.add_child(_sphere(TOKEN_RADIUS, unit.def.color.lightened(0.3), Order.AGENT_RIM))
-	agent.add_child(_sphere(0.39, INK, Order.AGENT))
-	var initial := Label3D.new()
-	initial.text = unit.display_name.left(1)
-	initial.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	initial.no_depth_test = true
-	initial.render_priority = Order.LABEL
-	initial.outline_render_priority = Order.LABEL_OUTLINE
-	initial.font = FONT
-	initial.font_size = 64
-	initial.outline_size = 4
-	initial.pixel_size = 0.006
-	initial.modulate = unit.def.color.lightened(0.4)
-	initial.outline_modulate = INK
-	agent.add_child(initial)
-	_labels.append(initial)
+	var layers := [[PIN_BODY, Color(0, 0, 0, 0.45), Order.AGENT_RIM, Vector2(3, -4)], [PIN_BODY, INK, Order.AGENT_RIM, Vector2.ZERO],
+		[PIN_EDGE, unit.def.color.lightened(0.3), Order.AGENT, Vector2.ZERO]]
+	for layer in layers:
+		var sprite := Sprite3D.new()
+		sprite.texture = layer[0]
+		sprite.modulate = layer[1]
+		sprite.render_priority = layer[2]
+		sprite.set_meta("shift", layer[3])
+		sprite.pixel_size = PIN_PIXEL
+		sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		sprite.no_depth_test = true
+		sprite.offset = Vector2(0, PIN_TIP / PIN_PIXEL + 82.0) + layer[3]
+		agent.add_child(sprite)
+		_pins.append([sprite, layer[1].a])
 	agent.visible = false
 	add_child(agent)
 	return agent
-
-
-# Centered on the node, or side by side when several AIs share it.
-func _agent_position(unit: Unit, id: String) -> Vector3:
-	var sharing: Array[int] = []
-	for other in _state.operators():
-		if other.ai_node == id:
-			sharing.append(other.id)
-	var offset := 0.0
-	if sharing.has(unit.id):
-		offset = (sharing.find(unit.id) - (sharing.size() - 1) / 2.0) * TOKEN_SPACING
-	return node_position(id) + Vector3(offset, AGENT_Y, 0)
 
 
 func _add_disc(radius: float, color: Color, order: int) -> MeshInstance3D:
@@ -492,6 +551,8 @@ func _set_opacity(amount: float) -> void:
 		material.albedo_color.a = entry[1] * amount
 	for icon in _icons:
 		icon.modulate.a = amount
+	for pin in _pins:
+		pin[0].modulate.a = pin[1] * amount
 	for label in _labels:
 		label.modulate.a = amount
 		label.outline_modulate.a = amount
