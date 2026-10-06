@@ -167,15 +167,16 @@ func _show_unit(state: BattleState, unit: Unit) -> void:
 	badge_style.set_border_width_all(1)
 	badge_style.border_width_bottom = 3 if acting else 1
 	_badge.add_theme_stylebox_override("panel", badge_style)
-	# AP refills when a turn starts, so a waiting teammate shows what they'll start with.
-	var turn := "YOUR TURN" if acting else "WAITING  ·  AP AT TURN START"
+	# AP refills when a turn starts, so a waiting teammate shows what they'll start their next turn with.
+	var turn := "YOUR TURN" if acting else "WAITING"
+	var ap_title := "AP REMAINING" if acting else "AP NEXT TURN"
 	var ap := unit.ap if acting else (unit.def.ap if unit.is_robot() else unit.base_ap)
 	_active_name.text = unit.display_name
 	for id in _stats:
 		_stats[id][0].visible = false
 	if unit.is_robot():
 		_phase_label.text = "ROBOT  ·  " + turn
-		_stat("ap", "AP", "%s  %d/%d" % [_pips(ap, unit.def.ap), ap, unit.def.ap], TAG_COLORS.ap)
+		_stat("ap", ap_title, "%s  %d/%d" % [_pips(ap, unit.def.ap), ap, unit.def.ap], TAG_COLORS.ap)
 		if unit.def.stun_charges > 0:
 			_stat("shot", "STUN", "READY" if unit.stun_charges > 0 else "USED", TAG_COLORS.good if unit.stun_charges > 0 else MUTED)
 		%ContextRow.visible = false
@@ -183,9 +184,9 @@ func _show_unit(state: BattleState, unit: Unit) -> void:
 		return
 	_phase_label.text = (unit.role.get_slice(":", 0).to_upper() if unit.role != "" else "OPERATOR") + "  ·  " + turn
 	var ai_ap := unit.ai_ap if acting else (0 if unit.rebooting > 0 else BattleState.AI_AP + unit.incoming)
-	_stat("ap", "AP", "%s  %d/%d" % [_pips(ap, unit.base_ap), ap, unit.base_ap], TAG_COLORS.ap)
+	_stat("ap", ap_title, "%s  %d/%d" % [_pips(ap, unit.base_ap), ap, unit.base_ap], TAG_COLORS.ap)
 	var shared := "  ·  +%d SHARED" % unit.incoming if unit.incoming > 0 and not acting else ""
-	_stat("ai_ap", "AI AP" + shared, "%s  %d" % [_pips(ai_ap, maxi(ai_ap, BattleState.AI_AP)), ai_ap], TAG_COLORS.ai)
+	_stat("ai_ap", "AI " + ap_title + shared, "%s  %d" % [_pips(ai_ap, maxi(ai_ap, BattleState.AI_AP)), ai_ap], TAG_COLORS.ai)
 	_stat("armor", "ARMOR", "■".repeat(unit.max_hits - unit.hits) + "□".repeat(unit.hits), TEXT)
 	if unit.overwatch:
 		_stat("shot", "SHOT", "OVERWATCH", TAG_COLORS.warn)

@@ -208,11 +208,10 @@ static func _spends(actions: Array, kinds: Array) -> bool:
 
 # What a menu's header shows the unit has to spend.
 static func budget(unit: Unit, ai: bool) -> Array:
-	if unit.is_robot():
-		return [["%d / %d AP" % [unit.ap, unit.def.ap], "ap"]]
-	if not ai:
-		return [["%d / %d AP" % [unit.ap, unit.base_ap], "ap"]]
-	return [["%d AP" % unit.ap, "ap"], ["%d AI AP" % unit.ai_ap, "ai"], ["%dM" % unit.context, "context"]]
+	var remaining := [["%d AP remaining" % unit.ap, "ap"]]
+	if ai and unit.is_operator():
+		remaining.append_array([["%d AI AP remaining" % unit.ai_ap, "ai"], ["%dM" % unit.context, "context"]])
+	return remaining
 
 
 static func _back(id: String) -> Dictionary:
