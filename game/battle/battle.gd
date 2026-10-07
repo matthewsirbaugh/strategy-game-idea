@@ -206,8 +206,9 @@ func _ring_nodes() -> void:
 		_network.highlight(state.deploy_options(unit).map(func(option: Dictionary) -> String: return option.access), "")
 
 
-# Every player action ends here: play what happened, then carry on with the turn or move on.
-func _act(events: Array[Dictionary]) -> void:
+# Every player action ends here: play what happened, then carry on with the turn or move on. The
+# turn carries on in the unit's menu, or in the one open_next opens.
+func _act(events: Array[Dictionary], open_next := Callable()) -> void:
 	if events.is_empty():
 		return
 	_busy = true
@@ -220,7 +221,10 @@ func _act(events: Array[Dictionary]) -> void:
 		_run_turns()
 		return
 	_begin_control()
-	_open_menu()
+	if open_next.is_valid():
+		open_next.call()
+	else:
+		_open_menu()
 
 
 # The access point a click in the network view would send the AI in at, and how: through its
@@ -351,7 +355,8 @@ func _on_action(id: String) -> void:
 			_network.highlight(nodes, unit.ai_node)
 			_hud.set_hint("Choose a ringed node    ·    Right-click: back")
 		"hack":
-			_act(state.hack(unit, parts[1]))
+			var before := state.breached.duplicate()
+			_act(state.hack(unit, parts[1]), func() -> void: _open_breached(unit, before))
 		"compact":
 			_act(state.compact(unit))
 		"load":
@@ -366,6 +371,22 @@ func _on_action(id: String) -> void:
 			_act(state.use_verb(unit, parts[1], parts[2], parts[3].to_int()))
 		"turret":
 			_act(state.set_turret_mode(unit, parts[1], parts[2]))
+		"device":
+			_open_device_menu(unit, parts[1], "group:Devices" if _menu_groups.has("Devices") else "ai")
+
+
+# A hack that Breaches a device goes straight to its orders, with Back to the AI's menu.
+func _open_breached(unit: Unit, before: Dictionary) -> void:
+	var controlled := BattleMenus.controlled_devices(state, unit)
+	for id in [unit.ai_node] + state.breached.keys():
+		if not before.has(id) and controlled.has(id):
+			_open_device_menu(unit, id)
+			return
+	_open_menu()
+
+
+func _open_device_menu(unit: Unit, id: String, back := "ai") -> void:
+	_open_menu(BattleMenus.device_actions(state, unit, id, back), "%s %s  ·  DEVICE" % [state.node_def(id).display_name.to_upper(), id.to_upper()])
 
 
 func _use_chip(unit: Unit, id: String) -> void:
@@ -465,7 +486,7 @@ func _click(screen_position: Vector2) -> void:
 			_hud.view_unit(state, teammate)
 		Mode.IDLE when token == null and _node_click(unit, node) == "device":
 			_hud.view_unit(state, null)
-			_open_menu(BattleMenus.device_actions(state, unit, node), "%s %s  ·  DEVICE" % [state.node_def(node).display_name.to_upper(), node.to_upper()])
+			_open_device_menu(unit, node)
 		Mode.IDLE:
 			_hud.view_unit(state, null)
 			_open_menu()
@@ -500,7 +521,7 @@ func _node_click(unit: Unit, node: String) -> String:
 		return "menu"
 	if not unit.connected() and not _deploy_option(unit, node).is_empty():
 		return "deploy"
-	if state.verb_options(unit).any(func(option: Dictionary) -> bool: return option.node == node):
+	if BattleMenus.controlled_devices(state, unit).has(node):
 		return "device"
 	return ""
 

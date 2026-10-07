@@ -132,12 +132,12 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 		var ready := state.chip_ready(unit, id)
 		actions.append({"group": "Chips", "id": "chip:" + id, "text": chip.display_name, "costs": costs, "enabled": ready,
 			"tip": chip.effect if ready else _chip_blocker(state, unit, id)})
-	for option in state.verb_options(unit):
-		actions.append(_verb_action(state, unit, option, "Devices"))
-	for id in state.turret_controls(unit):
-		var mode := "hold" if state.devices[id].mode == "target" else "target"
-		actions.append({"group": "Devices", "id": "turret:%s:%s" % [id, mode], "text": "Turret %s: %s" % [id.to_upper(), "hold fire" if mode == "hold" else "target enemies"],
-			"costs": [["Free", "free"]], "tip": "It picks the nearest enemy itself; you only say whether it fires."})
+	for id in controlled_devices(state, unit):
+		var controls := device_actions(state, unit, id)
+		controls.pop_back()
+		var orders := ", ".join(controls.map(func(action: Dictionary) -> String: return action.text.to_lower()))
+		actions.append({"group": "Devices", "id": "device:" + id, "text": "%s %s" % [state.node_def(id).display_name, id.to_upper()], "submenu": true,
+			"enabled": controls.any(func(action: Dictionary) -> bool: return action.enabled), "tip": orders.left(1).to_upper() + orders.substr(1) + "."})
 	for other in state.share_targets(unit):
 		actions.append({"id": "share:%d" % other.id, "text": "Give %s's AI 1 AP" % other.display_name, "costs": [["1 AI AP", "ai"]],
 			"tip": "Shared compute: it arrives on their next turn, and lapses if unused."})
@@ -153,12 +153,29 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 	return actions
 
 
-static func device_actions(state: BattleState, unit: Unit, only := "") -> Array:
+# The Breached devices the AI can give orders to, each once.
+static func controlled_devices(state: BattleState, unit: Unit) -> Array[String]:
+	var ids: Array[String] = []
+	for option in state.verb_options(unit):
+		if not ids.has(option.node):
+			ids.append(option.node)
+	for id in state.turret_controls(unit):
+		if not ids.has(id):
+			ids.append(id)
+	return ids
+
+
+# One device's orders. The header names the device, so each row is just the order.
+static func device_actions(state: BattleState, unit: Unit, id: String, back := "ai") -> Array:
 	var actions := []
 	for option in state.verb_options(unit):
-		if only == "" or option.node == only:
+		if option.node == id:
 			actions.append(_verb_action(state, unit, option))
-	actions.append(_back("ai"))
+	if state.turret_controls(unit).has(id):
+		var mode := "hold" if state.devices[id].mode == "target" else "target"
+		actions.append({"id": "turret:%s:%s" % [id, mode], "text": "Hold fire" if mode == "hold" else "Target enemies", "costs": [["Free", "free"]],
+			"enabled": true, "tip": "It picks the nearest enemy itself; you only say whether it fires."})
+	actions.append(_back(back))
 	return actions
 
 
@@ -261,7 +278,7 @@ static func _verb_id(option: Dictionary) -> String:
 	return "verb:%s:%s:%d" % [option.node, option.verb, option.direction]
 
 
-static func _verb_action(state: BattleState, unit: Unit, option: Dictionary, group := "") -> Dictionary:
+static func _verb_action(state: BattleState, unit: Unit, option: Dictionary) -> Dictionary:
 	var id: String = option.node
 	var device: Dictionary = state.devices[id]
 	var what := ""
@@ -280,12 +297,8 @@ static func _verb_action(state: BattleState, unit: Unit, option: Dictionary, gro
 					what = "flash"
 				_:
 					what = "drive forward" if option.direction == 1 else "drive backward"
-	var action := {"id": _verb_id(option), "text": "%s %s: %s" % [state.node_def(id).display_name, id.to_upper(), what],
-		"costs": [["+%dM" % BattleState.VERB_CONTEXT, "context"]], "enabled": option.enabled,
+	return {"id": _verb_id(option), "text": what.left(1).to_upper() + what.substr(1), "costs": [["+%dM" % BattleState.VERB_CONTEXT, "context"]], "enabled": option.enabled,
 		"tip": _verb_effect(state, id, option.verb, device) if option.enabled else _verb_blocker(state, unit, option)}
-	if group != "":
-		action.group = group
-	return action
 
 
 # What using a verb will set off: a sound and who it draws, a visual lure, or nothing at all.
