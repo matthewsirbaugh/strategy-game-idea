@@ -153,6 +153,26 @@ easy to miss. Bryson agreed to a callout: over the Operator, "STOPPED · SPOTTED
 AP kept, up and to the left so the menu doesn't cover it; the guard's tile flashes, the log line
 adds the AP kept, and the move hint warns that spotting an enemy stops you there.
 
+## 2026-10-06 — Device orders and the pin in the physical view (Bryson)
+
+Bryson asked:
+- A hack that Breaches a device goes straight to its orders, with a way back out.
+- Devices lists the Breached devices; each opens that device's orders.
+- The AI's pin always stands over the node the AI is on, not only after clicking.
+
+Built the same day. Claude's choices, open to change:
+- The orders menu is headed with the device's name, so its rows are just the orders ("Unlock",
+  "Power off"). A Breached turret's hold/target is one of its orders, and clicking its node opens
+  them like any other device.
+- Back from orders returns to the AI's menu, or to Devices when they were opened from there.
+- With only one device under control, it sits in the AI's menu as "Door D ›", as every group of
+  one does.
+- The pin bug read as the physical view: in the network view the pin already showed in every path
+  tried. The physical view now stands the same pin over the AI's device, and it bobs on the AI's
+  own turn.
+
+Verified with the test suites and screenshots of a native run; not played.
+
 ## Source and art provenance
 
 - `game/art/ui/facility-title.png` is an unchanged copy of
@@ -172,7 +192,8 @@ adds the AP kept, and the move hint warns that spotting an enemy stops you there
 | Menu groups and folding | `game/battle/battle_menus.gd` (`nest`) |
 | The way into the AI: deploying, rings, clicks | `game/battle/battle.gd` (`_node_click`, `_ring_nodes`) |
 | The halves of a turn and their end rows | `game/battle/battle.gd` (`_hands_over`), `game/battle/battle_menus.gd` (`half_open`) |
-| AI pins and the label layout | `game/battle/network_view.gd` (`_build_agent`, `_place_labels`), `game/art/ui/ai_pin_*.svg` |
+| AI pins and the label layout | `game/battle/network_view.gd` (`make_pin`, `pose_pin`, `_place_labels`), `game/art/ui/ai_pin_*.svg` |
+| Device orders | `game/battle/battle_menus.gd` (`controlled_devices`, `device_actions`), `game/battle/battle.gd` (`_open_breached`) |
 | Scan badges | `game/battle/battle.gd` (`_refresh_scan`) |
 | Network presentation, unit markers | `game/battle/network_view.gd`, `network_backdrop.gdshader` |
 | View framing | `game/battle/camera_rig.gd` |
