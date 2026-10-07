@@ -9,6 +9,6 @@ speed = 6
 ap = 8
 sight = 6
 shot_range = 5
-color = Color(0.7, 0.5, 1, 1)
+color = Color(1, 0.48, 0.06, 1)
 model = "res://art/characters/operator_sage/operator_sage.glb"
 pack = "res://art/characters/packs/pack_operator_sage.glb"

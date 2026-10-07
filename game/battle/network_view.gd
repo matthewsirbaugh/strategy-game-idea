@@ -503,7 +503,7 @@ func _build_agent(unit: Unit) -> Node3D:
 static func make_pin(unit: Unit) -> Node3D:
 	var pin := Node3D.new()
 	var layers := [[PIN_BODY, Color(0, 0, 0, 0.45), Order.AGENT_RIM, Vector2(3, -4)], [PIN_BODY, INK, Order.AGENT_RIM, Vector2.ZERO],
-		[PIN_EDGE, unit.def.color.lightened(0.3), Order.AGENT, Vector2.ZERO]]
+		[PIN_EDGE, unit.def.color, Order.AGENT, Vector2.ZERO]]
 	for layer in layers:
 		var sprite := Sprite3D.new()
 		sprite.texture = layer[0]

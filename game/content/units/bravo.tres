@@ -9,6 +9,6 @@ speed = 6
 ap = 8
 sight = 6
 shot_range = 5
-color = Color(0.35, 0.6, 1, 1)
+color = Color(0.1, 0.82, 1, 1)
 model = "res://art/characters/operator_headband/operator_headband.glb"
 pack = "res://art/characters/packs/pack_operator_headband.glb"

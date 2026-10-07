@@ -9,6 +9,6 @@ speed = 6
 ap = 8
 sight = 6
 shot_range = 5
-color = Color(0.3, 0.85, 0.8, 1)
+color = Color(0.25, 1, 0.35, 1)
 model = "res://art/characters/main_character/main_character.glb"
 pack = "res://art/characters/packs/pack_main_character.glb"
