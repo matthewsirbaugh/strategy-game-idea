@@ -867,7 +867,11 @@ func _walk(unit: Unit, path: Array) -> void:
 	if view.visible or shown.has(true):
 		if _last_seen.has(unit.id):
 			_last_seen[unit.id].hide()
+		if unit.is_player():
+			_camera_rig.follow(view)
 		await view.walk(points, shown)
+		if unit.is_player():
+			_camera_rig.release_follow()
 	elif not points.is_empty():
 		view.position = points.back()
 

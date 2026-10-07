@@ -22,6 +22,11 @@ extends Node3D
 @export var orbit_degrees_per_pixel := 0.3
 @export var min_pitch := 10.0
 @export var max_pitch := 85.0
+# Following a moving unit, like a side-scroller's camera: the unit can drift this far from the
+# middle (a fraction of the screen height) before the view starts after it, and the view eases
+# toward it at this rate, so it trails a little and settles after the unit stops.
+@export var follow_slack := 0.08
+@export var follow_rate := 2.2
 
 
 var _bounds_min := Vector3.ZERO
@@ -36,6 +41,9 @@ var _drag_button := MOUSE_BUTTON_NONE
 var _press_at := Vector2.ZERO
 var _dragged := false
 var _panning := false
+var _follow: Node3D
+var _chasing := false
+var _releasing := false
 
 @onready var _camera: Camera3D = $Camera3D
 
@@ -57,7 +65,38 @@ func keep_in_view(target: Vector3) -> void:
 		focus(target)
 
 
+func follow(target: Node3D) -> void:
+	if _focus_tween:
+		_focus_tween.kill()
+	_follow = target
+	_chasing = false
+	_releasing = false
+
+
+# The unit has stopped: the view finishes easing onto it, then lets go.
+func release_follow() -> void:
+	_releasing = true
+
+
+func _follow_step(delta: float) -> void:
+	if not is_instance_valid(_follow):
+		_follow = null
+		return
+	var target := Vector3(_follow.global_position.x, position.y, _follow.global_position.z).clamp(_bounds_min, _bounds_max)
+	var screen := _camera.get_viewport().get_visible_rect().size
+	var off_center := _camera.unproject_position(_follow.global_position).distance_to(screen / 2.0) / screen.y
+	if off_center > follow_slack:
+		_chasing = true
+	if _chasing:
+		position = position.lerp(target, 1.0 - exp(-follow_rate * delta))
+		if position.distance_to(target) < 0.15:
+			_chasing = false
+	if _releasing and not _chasing:
+		_follow = null
+
+
 func focus(target: Vector3) -> void:
+	_follow = null
 	if _focus_tween:
 		_focus_tween.kill()
 	_focus_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -84,6 +123,7 @@ func restore_view() -> void:
 
 
 func _glide(to_position: Vector3, to_distance: float, to_pitch: float, to_yaw: float) -> void:
+	_follow = null
 	if _focus_tween:
 		_focus_tween.kill()
 	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
@@ -95,6 +135,8 @@ func _glide(to_position: Vector3, to_distance: float, to_pitch: float, to_yaw: f
 
 
 func _process(delta: float) -> void:
+	if _follow:
+		_follow_step(delta)
 	var turn := Input.get_axis("camera_rotate_left", "camera_rotate_right")
 	if turn != 0.0:
 		_yaw += turn * turn_degrees_per_second * delta
@@ -157,8 +199,9 @@ func _on_drag(event: InputEventMouseMotion) -> void:
 	_set_pitch(clampf(_pitch + event.relative.y * orbit_degrees_per_pixel, min_pitch, max_pitch))
 
 
-# Grabs the ground: whatever is under the cursor stays under it.
+# Grabs the ground: whatever is under the cursor stays under it. Panning by hand stops a follow.
 func _pan_by(pixels: Vector2) -> void:
+	_follow = null
 	var metres := 2.0 * _distance * tan(deg_to_rad(_camera.fov) / 2.0) / _camera.get_viewport().get_visible_rect().size.y
 	var move := Vector3(-pixels.x, 0.0, -pixels.y / sin(deg_to_rad(_pitch))) * metres
 	position = (position + move.rotated(Vector3.UP, rotation.y)).clamp(_bounds_min, _bounds_max)
