@@ -17,6 +17,8 @@ func _initialize() -> void:
 
 func _run() -> void:
 	_battle = load("res://battle/battle.tscn").instantiate()
+	# The clicks below are laid out on this map.
+	_battle.map = load("res://content/maps/facility_exterior.tres")
 	root.add_child(_battle)
 	await _idle()
 	var state: BattleState = _battle.state

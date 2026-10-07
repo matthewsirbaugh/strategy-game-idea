@@ -3,7 +3,7 @@ extends Control
 # The pre-battle test tool: swap each Operator's armor, gear and chips between test runs. It
 # starts from the V1 loadouts, and a battle restarted after losing keeps whatever was picked here.
 
-const MAP := preload("res://content/maps/facility_exterior.tres")
+const MAP := preload("res://content/maps/facility_yard.tres")
 const CONTENT := preload("res://content/battle.tres")
 
 var _session: BattleSession

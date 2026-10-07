@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="MapData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://rules/map_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+layout = "# # # # # # # # # # # # # # # # # # # # # # n # # z # # # # # # # #
+# X X . . . . . . . . . = . . . . # . . . . . . . . . . . . . . . #
+# X X . . . . . . . . . . . . 6 . u . . 5 . . . . . . . . . . . . #
+# # # # # # # q # # # # # w # # # # . . = = = = . . . = = = = . . #
+# B B B # . . . . . . . . . . . . g . . . . . . . . . . . . . . . #
+# B B B # = . . . . . . . . . . . # # . # # # # # # # # # # # . # #
+# B B B # . . . . i . . f . . . . # . . . . . . . . . . . . . . . #
+# B B B # . . . . . . . . . . . . # . . . . . . . . . . . . . . . #
+# B B B b . . . . . . . . . . . . # # # # # # s # # o # # # h # # #
+# B B B # . . . . . . . . . = . . 7 . . . . . . . . . . . . . . . #
+# . . . # . . 2 . . . . . . = . . . . . . = . . . . 4 . . . . v . #
+# . . . # . . . B B B B . . . . . . . 3 . . . . . . . . . . . . . #
+# . . . d . . . B B B B . . . . . . . . . . . . . . . . x . . . . #
+# = . . # m = . B B B B . . . . . . . . . . k . . . . . . . . . . #
+# . . . # = . . B B B B . . . . . . . . . . . . . . . . . . . . t #
+# . . = # . . . . . . . . . . . . . . . . . . . = = . . . . = = = #
+# . . . # . . . . . . . . j . . . 1 # # # = . . . . . . . . = . . c
+# . . . # . . . . . . . . . . . . . # # # . . . . . . . . . = . . #
+# . . . # # a # # # # # # # e # . . p # # # # # # # # # # # # = = #
+, , , , , , , , , = , , , , , , , , , , , , , , , , , , , , , , , ,
+, P P , , , , , , , , , , , l , , , , , , , , , y , , , , , , , , ,
+, P , , , , , , , , , , , , , , , r , , , , , , , , , , , , , , , ,"
+node_kinds = {
+"a": "access",
+"d": "door",
+"l": "light",
+"e": "camera",
+"p": "phone",
+"r": "car",
+"y": "light",
+"b": "access",
+"c": "access",
+"w": "hub",
+"q": "door",
+"f": "camera",
+"h": "camera",
+"g": "nvcamera",
+"i": "light",
+"j": "light",
+"k": "light",
+"x": "light",
+"m": "machine",
+"s": "adscreen",
+"o": "autodoor",
+"u": "door",
+"v": "truck",
+"t": "turret",
+"n": "access",
+"z": "cache"
+}
+links = PackedStringArray("a-d", "a-l", "l-e", "e-p", "p-r", "e-y", "b-i", "b-m", "i-f", "i-q", "f-w", "q-u", "u-g", "w-j", "w-s", "s-o", "o-g", "s-k", "k-h", "h-t", "h-x", "x-v", "t-c", "c-v", "n-z")
+patrols = PackedStringArray("14,16", "12,10 12,15 7,15", "29,11 29,14 21,14", "24,10", "31,2 31,4 20,4", "15,1 3,1 3,2", "17,14")
+dressing = PackedStringArray("shipping_crates 6,13 south", "shipping_crates 5,14 south", "shipping_crates 14,9 south", "shipping_crates 14,10 south", "shipping_crates 21,10 south", "shipping_crates 24,15 south", "shipping_crates 25,15 south", "shipping_crates 30,15 south", "shipping_crates 30,16 south", "shipping_crates 30,17 south", "shipping_crates 31,15 south", "shipping_crates 32,15 south", "shipping_crates 31,18 south", "shipping_crates 32,18 south", "shipping_crates 3,15 south", "server_rack 20,3 south 4", "server_rack 27,3 south 4", "guard_booth 18,16 south 3", "graffiti_obey 0,14 east 2", "paint_service 2,16 south 2", "slogan_cleaner 10,18 south 2", "slogan_silence 22,18 south", "graffiti_obedient 27,18 south 2", "paint_stop 16,19 south 2", "paint_clear 17,12 north 2", "paint_loading 26,10 west", "neon_banner 20,8 south 2", "neon_name 33,11 west", "slogan_quieter 16,6 west 2")
+node_facings = {
+"a": "south",
+"e": "south",
+"p": "south",
+"r": "north",
+"b": "east",
+"c": "west",
+"w": "south",
+"f": "west",
+"h": "south",
+"g": "east",
+"s": "south",
+"o": "south",
+"v": "west",
+"t": "west",
+"n": "south",
+"z": "south"
+}
+networks = {
+"Street": "a d l e p r y",
+"Facility": "b c w q f h g i j k x m s o u v t",
+"Vault": "n z"
+}
+circuits = {
+"w": "i j k x f h e"
+}
+zones = {
+"Street": "0,19-33,21 31,18-32,18 a e p",
+"Alley": "1,10-3,18",
+"West yard": "5,4-15,17 16,4-16,8 b d q w",
+"Gate": "16,9-17,18",
+"East yard": "18,9-32,17 s o h c",
+"Annex": "18,1-32,7 g u n z",
+"Rear lane": "1,1-16,2"
+}
+receptacles = PackedStringArray("dumpster 1,13", "dumpster 5,5", "dumpster 12,1", "dumpster 9,19", "dumpster 21,16", "trunk r", "trunk v")
+node_states = {
+"d": "locked",
+"u": "locked"
+}
+night = true
