@@ -15,8 +15,8 @@ const SHOT_SECONDS := 0.45
 const SILHOUETTE_ALPHA := 0.75
 # An Operator's pack glows softly in its color, so the team reads on a dark street and lights the
 # ground around it. Enemies carry none: a light would give them away in the fog.
-const PACK_LIGHT_ENERGY := 0.9
-const PACK_LIGHT_RANGE := 3.2
+const PACK_LIGHT_ENERGY := 1.8
+const PACK_LIGHT_RANGE := 4.5
 const ALERT_COLOR := Color(1.0, 0.35, 0.25)
 const QUESTION_COLOR := Color(1.0, 0.85, 0.2)
 

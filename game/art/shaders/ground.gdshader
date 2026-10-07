@@ -64,5 +64,6 @@ void fragment() {
 	}
 
 	ALBEDO = color * fog_light(world_position);
+	EMISSION = vision_glow(color, world_position);
 	ROUGHNESS = roughness;
 }

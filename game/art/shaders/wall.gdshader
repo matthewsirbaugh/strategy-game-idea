@@ -103,5 +103,5 @@ void fragment() {
 	float seen = fog_light(world_position);
 	ALBEDO = color * seen;
 	ROUGHNESS = roughness;
-	EMISSION = glow * mix(0.5, 1.0, seen);
+	EMISSION = glow * mix(0.5, 1.0, seen) + vision_glow(color, world_position);
 }

@@ -40,7 +40,7 @@ void fragment() {
 	ALBEDO = mix(texture(albedo_texture, UV).rgb * tint * seen, vec3(1.0), flash);
 	ROUGHNESS = 1.0;
 	SPECULAR = 0.0;
-	EMISSION = EDGE_GLOW * rim(NORMAL, VIEW) * seen + vec3(flash) * 2.0;
+	EMISSION = EDGE_GLOW * rim(NORMAL, VIEW) * seen + vec3(flash) * 2.0 + vision_glow(texture(albedo_texture, UV).rgb * tint, world);
 }
 
 void light() {
