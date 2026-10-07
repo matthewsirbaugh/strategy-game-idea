@@ -9,13 +9,14 @@ class_name BattleMenus
 #   tip      one line on what it does, shown while it's highlighted
 #   enabled  false greys it out; its tip says why
 #   group    folds it into a submenu with the rest of its group (see nest)
+#   fold     its group folds even when it's the only member
 #   submenu  it opens another menu
 #   style    "back" or "end": a way out, drawn under the rest. "note": a line that isn't a choice
 #   cancel   right-click or Esc picks it: the way back out of a submenu
 
 
 # Returns the top-level actions and each folded group's actions, which end with a way back. A group
-# of one stays inline.
+# of one stays inline, unless its member asks to fold.
 static func nest(actions: Array, back_id: String) -> Dictionary:
 	var members := {}
 	for action in actions:
@@ -25,7 +26,7 @@ static func nest(actions: Array, back_id: String) -> Dictionary:
 	var groups := {}
 	for action in actions:
 		var group: String = action.get("group", "")
-		if group == "" or members[group].size() == 1:
+		if group == "" or (members[group].size() == 1 and not action.get("fold", false)):
 			top.append(action)
 		elif not groups.has(group):
 			groups[group] = members[group] + [_back(back_id)]
@@ -136,7 +137,7 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 		var controls := device_actions(state, unit, id)
 		controls.pop_back()
 		var orders := ", ".join(controls.map(func(action: Dictionary) -> String: return action.text.to_lower()))
-		actions.append({"group": "Devices", "id": "device:" + id, "text": "%s %s" % [state.node_def(id).display_name, id.to_upper()], "submenu": true,
+		actions.append({"group": "Devices", "fold": true, "id": "device:" + id, "text": "%s %s" % [state.node_def(id).display_name, id.to_upper()], "submenu": true,
 			"enabled": controls.any(func(action: Dictionary) -> bool: return action.enabled), "tip": orders.left(1).to_upper() + orders.substr(1) + "."})
 	for other in state.share_targets(unit):
 		actions.append({"id": "share:%d" % other.id, "text": "Give %s's AI 1 AP" % other.display_name, "costs": [["1 AI AP", "ai"]],
