@@ -220,7 +220,7 @@ the closest guard in range, "all" draws every guard in range.
 | Camera | Power: on gives the team its vision; off is a lure. No activate. Never reports the team once Breached | None; going dark is a lure | 20 |
 | Night-vision camera | As a camera, but sees in the dark | As a camera | 30 |
 | Door | Lock: locked or unlocked, remotely. Operators open it by hand | None | 10 |
-| Automatic door | Power. Activate: opens or closes. Lock | 2, closest | 10 |
+| Automatic door | Power. Activate: opens or closes. Lock. Once it's unlocked, Operators open and close it by hand like any door | 2, closest | 10 |
 | Phone | Power: on, silent. Activate: rings with a fake call | 4, closest | 10 |
 | Machine (generator, compressor) | Power: on starts it running | 5, closest | 10 |
 | Ad screen | Power: on lights a small area. Activate: flashes, a visual lure for guards who can see the screen | None | 10 |
@@ -619,8 +619,8 @@ has a sound radius. Vehicles occupy one tile.
 activate and lock. Power switches a device on or off. Activate makes a powered device do its
 thing: a car or elevator moves, a phone rings with a fake call. A device has to be powered on
 before it can be activated. Cameras can't be activated; powering one off is the camera lure.
-Lock locks or unlocks; most doors are opened by Operators, while an AI locks and unlocks them
-remotely. There is no sense verb (a powered camera already gives vision) and no signal verb
+Lock locks or unlocks; Operators open doors, automatic ones included, while an AI locks and
+unlocks them remotely. There is no sense verb (a powered camera already gives vision) and no signal verb
 (activate covers it). No new verbs are planned. Verbs aren't chips. There is no harm verb: a harmful effect comes from an
 ordinary verb, like powering an electric fence. Every verb a Breached device has can be used,
 each once per turn, so an electric car can be powered on and activated in one turn but not

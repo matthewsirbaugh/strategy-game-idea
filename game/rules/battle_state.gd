@@ -819,7 +819,7 @@ func door_options(unit: Unit) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	if not _hands_free(unit):
 		return result
-	for id in _adjacent_nodes(unit.cell, ["door"]):
+	for id in _adjacent_nodes(unit.cell, NodeDef.DOORS):
 		var device: Dictionary = devices[id]
 		if device.locked:
 			continue
@@ -833,8 +833,8 @@ func door_options(unit: Unit) -> Array[Dictionary]:
 	return result
 
 
-# Opening and closing an unlocked door is free. Locking it by hand costs 1 AP; only an AI unlocks
-# a locked door.
+# Opening and closing an unlocked door is free, automatic or not: the AI unlocks, the Operator
+# opens. Locking it by hand costs 1 AP; only an AI unlocks a locked door.
 func use_door(unit: Unit, id: String, action: String) -> Array[Dictionary]:
 	if not door_options(unit).has({"node": id, "action": action}):
 		return []

@@ -396,8 +396,13 @@ func _open_breached(unit: Unit, before: Dictionary) -> void:
 	_open_menu()
 
 
+# The header says what the device is doing now, so its orders read as changes: a shut door that
+# isn't locked offers Lock, not Unlock.
 func _open_device_menu(unit: Unit, id: String, back := "ai") -> void:
-	_open_menu(BattleMenus.device_actions(state, unit, id, back), "%s %s  ·  DEVICE" % [state.node_def(id).display_name.to_upper(), id.to_upper()])
+	var status := NetworkView.status(state, id)
+	if state.map.node_kind(id) in NodeDef.DOORS and not state.devices[id].locked:
+		status += "   UNLOCKED"
+	_open_menu(BattleMenus.device_actions(state, unit, id, back), "%s %s  ·  %s" % [state.node_def(id).display_name.to_upper(), id.to_upper(), status if status != "" else "DEVICE"])
 
 
 func _use_chip(unit: Unit, id: String) -> void:
