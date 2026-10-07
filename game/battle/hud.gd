@@ -60,6 +60,9 @@ const ROW_STATES: Array[String] = ["normal", "hover", "pressed", "hover_pressed"
 @onready var _initial: Label = %Initial
 @onready var _badge: PanelContainer = %Badge
 var _inspect: PanelContainer
+var _banner: PanelContainer
+var _banner_title: Label
+var _banner_detail: Label
 var _inspect_parts := {}
 var _card: Dictionary
 var _controls_text: String
@@ -81,6 +84,7 @@ func _ready() -> void:
 	_build_stats()
 	_build_inspect()
 	_build_card()
+	_build_banner()
 
 
 # The menu has to close before the pause menu sees Esc, so this runs in _input. In a submenu, Esc
@@ -537,6 +541,45 @@ func set_objective(text: String) -> void:
 func set_hint(text: String) -> void:
 	%Controls.text = text if text != "" else _controls_text
 	%Controls.add_theme_color_override("font_color", Color(1.0, 0.86, 0.6) if text != "" else Color(0.65, 0.74, 0.74))
+
+
+# A notice under the header for something the player has to know before acting here, such as an
+# AI still in its backpack while the network is in view. An empty title hides it.
+func set_banner(title: String, detail := "") -> void:
+	_banner.visible = title != ""
+	_banner_title.text = title
+	_banner_detail.text = detail
+	_banner_detail.visible = detail != ""
+
+
+func _build_banner() -> void:
+	_banner = PanelContainer.new()
+	_banner.add_theme_stylebox_override("panel", _accented_panel(AI_ACCENT))
+	_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_banner.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP, Control.PRESET_MODE_MINSIZE)
+	_banner.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_banner.position.y = 132.0
+	var margin := MarginContainer.new()
+	for side in ["left", "right"]:
+		margin.add_theme_constant_override("margin_" + side, 22)
+	for side in ["top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 10)
+	var rows := VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 2)
+	_banner_title = Label.new()
+	_banner_title.add_theme_font_size_override("font_size", 24)
+	_banner_title.add_theme_color_override("font_color", AI_ACCENT)
+	_banner_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner_detail = Label.new()
+	_banner_detail.add_theme_font_size_override("font_size", 18)
+	_banner_detail.add_theme_color_override("font_color", TEXT)
+	_banner_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rows.add_child(_banner_title)
+	rows.add_child(_banner_detail)
+	margin.add_child(rows)
+	_banner.add_child(margin)
+	_banner.visible = false
+	$Root.add_child(_banner)
 
 
 func close_menu() -> void:

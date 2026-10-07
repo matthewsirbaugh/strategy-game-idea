@@ -94,7 +94,7 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 	for option in deploys:
 		actions.append(_deploy_action(state, unit, option))
 	if not unit.connected() and deploys.is_empty():
-		actions.append({"id": "none", "style": "note", "text": _deploy_blocker(state, unit)})
+		actions.append({"id": "none", "style": "note", "text": deploy_blocker(state, unit)})
 	if unit.connected():
 		if not state.network_destinations(unit).is_empty():
 			var loading: bool = unit.chips[BattleState.MOVEMENT] == 0
@@ -252,7 +252,7 @@ static func _deploy_action(state: BattleState, unit: Unit, option: Dictionary) -
 
 
 # Why a backpacked AI can't go in yet.
-static func _deploy_blocker(state: BattleState, unit: Unit) -> String:
+static func deploy_blocker(state: BattleState, unit: Unit) -> String:
 	if unit.rebooting > 0:
 		return "The AI is rebooting this turn."
 	if unit.carrying >= 0:

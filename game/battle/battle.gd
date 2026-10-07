@@ -200,9 +200,20 @@ func _begin_control() -> void:
 	_clear_pick()
 	_ring_nodes()
 	_hud.show_turn(state)
-	if _network_shown and state.active.is_operator() and not state.active.connected() and not state.deploy_options(state.active).is_empty():
-		_hud.set_hint("Click a ringed access point to deploy the AI   %d AP" % BattleState.DEPLOY_AI_COST)
+	_update_banner()
 	_busy = false
+
+
+# In the network view, an Operator whose AI is still in the backpack is told so, and how to send it in.
+func _update_banner() -> void:
+	var unit := state.active
+	if not _network_shown or unit == null or not state.is_player_controlled(unit) or not unit.is_operator() or unit.connected():
+		_hud.set_banner("")
+		return
+	var how := "Click a ringed access point to send it in, %d AP." % BattleState.DEPLOY_AI_COST
+	if state.deploy_options(unit).is_empty():
+		how = BattleMenus.deploy_blocker(state, unit)
+	_hud.set_banner("%s'S AI ISN'T IN THE NETWORK" % unit.display_name.to_upper(), "It's still in the backpack. " + how)
 
 
 # In the network view the active AI's node is ringed. An AI still in the backpack rings the access
@@ -628,6 +639,7 @@ func _refresh() -> void:
 	_refresh_scan()
 	_update_objective()
 	_hud.show_turn(state)
+	_update_banner()
 
 
 # Unseen tiles go dark and unseen enemies vanish; where one was last seen, a marker stays.
@@ -830,6 +842,7 @@ func _set_network(shown: bool) -> void:
 	_network_moving = true
 	_network_shown = shown
 	_hud.set_network_shown(shown)
+	_update_banner()
 	var hover: StandardMaterial3D = _hover.material_override
 	hover.no_depth_test = shown
 	hover.render_priority = NetworkView.Order.RING if shown else 0
