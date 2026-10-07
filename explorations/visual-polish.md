@@ -173,6 +173,34 @@ Built the same day. Claude's choices, open to change:
 
 Verified with the test suites and screenshots of a native run; not played.
 
+## 2026-10-07 — Doors, the backpack banner, neon team colors, lighting, a following camera (Bryson)
+
+Bryson, after playing the facility yard:
+- A door couldn't be opened after hacking it. The AI unlocks, the Operator opens.
+- In the network view, say when the active Operator's AI isn't in the network.
+- AI pins and colors more distinct: neon orange, neon green, neon blue or cyan.
+- Keep the mood lighting, but it's too dark; what's out of the fog should be brighter, with cool
+  lighting.
+- The camera should pan on its own while a character moves: relaxed, keeping them toward the
+  middle, like a side-scroller's camera, not locked to them.
+
+Built the same day. The door was the annex's automatic door: Operators couldn't open automatic
+doors at all, and its orders read "Lock" with nothing saying it was already unlocked, so pressing
+it locked the door for the turn. Claude's choices, open to change:
+- Operators open, close and lock automatic doors by hand like any door (RULES.md updated); the AI
+  can still open one remotely, which makes its sound. The orders menu header shows the device's
+  state, such as "SHUT   UNLOCKED".
+- The banner sits under the header: "ALPHA'S AI ISN'T IN THE NETWORK", then how to send it in.
+- Alpha neon green, Bravo neon cyan, Charlie neon orange, on everything that carries the team
+  color. Charlie's orange is near the enemy's salmon; the shapes differ (disc and diamond).
+- What the team can see glows faintly cool, half as much where it's dark; the fog stays dark.
+  Ambient up a quarter; the Operators' pack lights brighter and wider, in their neon.
+- The camera lets the unit drift about a twelfth of the screen from the middle, then eases after
+  it and settles once it stops. Team units only; dragging or panning stops it.
+
+Verified with the test suites and a scripted native run: the door's options, the banner, the pins
+and the camera trailing a walk. Not played.
+
 ## Source and art provenance
 
 - `game/art/ui/facility-title.png` is an unchanged copy of
