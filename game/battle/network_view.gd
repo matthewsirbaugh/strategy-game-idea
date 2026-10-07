@@ -164,6 +164,11 @@ func agent_position(unit: Unit) -> Vector3:
 	return agent.position + basis.x * float(agent.get_meta("slot", 0.0)) * PIN_SPACING + basis.y * PIN_HEAD
 
 
+# Where an AI's pin stands among the pins sharing its node, in pin widths from the middle.
+func pin_slot(unit: Unit) -> float:
+	return _agents[unit.id].get_meta("slot", 0.0)
+
+
 # Access points always show; anything else only once its network is known.
 func is_shown(id: String) -> bool:
 	return _state.map.node_kind(id) == "access" or _state.revealed_networks.has(_state.map.network_of(id))
@@ -388,10 +393,7 @@ func _process(_delta: float) -> void:
 		return
 	var clock := Time.get_ticks_msec() / 1000.0
 	for id in _agents:
-		var slot: float = _agents[id].get_meta("slot", 0.0)
-		var bob := PIN_BOB * sin(clock * 3.0) if _state.active and _state.active.id == id else 0.0
-		for sprite: Sprite3D in _agents[id].get_children():
-			sprite.offset = Vector2(slot * PIN_SPACING / PIN_PIXEL, PIN_TIP / PIN_PIXEL + 82.0 + bob) + sprite.get_meta("shift", Vector2.ZERO)
+		pose_pin(_agents[id], pin_slot(_state.units[id]), PIN_TIP, _state.active and _state.active.id == id)
 	for i in _links.size():
 		var link: Dictionary = _links[i]
 		var length: float = maxf(link.from.distance_to(link.to), 0.01)
@@ -486,10 +488,20 @@ func _arc_mesh(fill: float) -> ImmediateMesh:
 	return mesh
 
 
+func _build_agent(unit: Unit) -> Node3D:
+	var agent := make_pin(unit)
+	for sprite: Sprite3D in agent.get_children():
+		_pins.append([sprite, sprite.modulate.a])
+	agent.visible = false
+	add_child(agent)
+	return agent
+
+
 # A pin in the Operator's color: a dark body under a colored rim and the AI's glyph, with a flat
 # shadow behind for depth. Billboarded, so it stands upright on screen whichever way the camera turns.
-func _build_agent(unit: Unit) -> Node3D:
-	var agent := Node3D.new()
+# The physical view stands one over the AI's device too.
+static func make_pin(unit: Unit) -> Node3D:
+	var pin := Node3D.new()
 	var layers := [[PIN_BODY, Color(0, 0, 0, 0.45), Order.AGENT_RIM, Vector2(3, -4)], [PIN_BODY, INK, Order.AGENT_RIM, Vector2.ZERO],
 		[PIN_EDGE, unit.def.color.lightened(0.3), Order.AGENT, Vector2.ZERO]]
 	for layer in layers:
@@ -501,12 +513,16 @@ func _build_agent(unit: Unit) -> Node3D:
 		sprite.pixel_size = PIN_PIXEL
 		sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		sprite.no_depth_test = true
-		sprite.offset = Vector2(0, PIN_TIP / PIN_PIXEL + 82.0) + layer[3]
-		agent.add_child(sprite)
-		_pins.append([sprite, layer[1].a])
-	agent.visible = false
-	add_child(agent)
-	return agent
+		pin.add_child(sprite)
+	return pin
+
+
+# Stands the pin's tip `tip` world units above its origin on screen, `slot` pin widths aside. The
+# active AI's pin bobs.
+static func pose_pin(pin: Node3D, slot: float, tip: float, bobbing: bool) -> void:
+	var bob := PIN_BOB * sin(Time.get_ticks_msec() / 1000.0 * 3.0) if bobbing else 0.0
+	for sprite: Sprite3D in pin.get_children():
+		sprite.offset = Vector2(slot * PIN_SPACING / PIN_PIXEL, tip / PIN_PIXEL + 82.0 + bob) + sprite.get_meta("shift", Vector2.ZERO)
 
 
 func _add_disc(radius: float, color: Color, order: int) -> MeshInstance3D:

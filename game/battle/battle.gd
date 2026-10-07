@@ -31,6 +31,8 @@ const PICK_RADIUS := 0.45
 # Screen pixels around a scan badge that count as hovering it.
 const BADGE_RADIUS := 30.0
 const BEAM_Y := 0.35
+# From the top of a device to the tip of the AI pin over it.
+const PIN_LIFT := 0.3
 const PICK_LAYERS: Array[String] = ["pick_safe", "pick_noticed", "pick_seen"]
 const PREVIEW_LAYERS: Array[String] = ["preview_area", "preview_responders"]
 
@@ -41,6 +43,8 @@ var state: BattleState
 var _views := {}
 var _last_seen := {}
 var _tethers := {}
+# Each connected AI's pin over its device in the physical view, as the network view has it over its node.
+var _ai_pins := {}
 var _scan_badges := {}
 var _beams: Array[MeshInstance3D] = []
 var _busy := true
@@ -111,6 +115,8 @@ func _add_view(unit: Unit) -> void:
 	if unit.is_operator():
 		_tethers[unit.id] = GridView.make_beam(0.03, Color(unit.def.color, 0.8))
 		add_child(_tethers[unit.id])
+		_ai_pins[unit.id] = NetworkView.make_pin(unit)
+		add_child(_ai_pins[unit.id])
 	elif not unit.is_player():
 		_last_seen[unit.id] = _make_last_seen(unit)
 
@@ -128,6 +134,11 @@ func _process(_delta: float) -> void:
 		if tether.visible:
 			var source: Node3D = _views[unit.relay] if unit.relay >= 0 else _views[id]
 			GridView.place_beam(tether, source.position + Vector3(0, PACK_Y, 0), _grid.cell_to_world(state.node_cell(unit.entry)) + Vector3(0, TERMINAL_Y, 0))
+		var pin: Node3D = _ai_pins[id]
+		pin.visible = unit.connected() and not _network_shown
+		if pin.visible:
+			pin.position = _grid.cell_to_world(state.node_cell(unit.ai_node)) + Vector3(0, _level.device_height(unit.ai_node), 0)
+			NetworkView.pose_pin(pin, _network.pin_slot(unit), PIN_LIFT, active == unit)
 	_update_hover()
 
 
