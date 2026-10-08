@@ -12,7 +12,7 @@ const MUTED := Color(0.62, 0.7, 0.7)
 const GOOD := Color(0.45, 0.93, 0.68)
 const WARN := Color(1.0, 0.78, 0.3)
 const DANGER := Color(1.0, 0.42, 0.34)
-const ENEMY := Color(0.91, 0.48, 0.36)
+const ENEMY := NetworkView.ENEMY
 const TASKS := ["Patrolling", "Investigating", "ALERTED", "Searching"]
 
 

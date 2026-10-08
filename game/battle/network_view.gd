@@ -35,8 +35,9 @@ const CURRENT := Color(1.0, 0.94, 0.76)
 const BREACHED := Color(0.45, 0.93, 0.68)
 const CIRCUIT := Color(1.0, 0.68, 0.28)
 const UNPOWERED := 0.45
-const ENEMY := Color(0.91, 0.48, 0.36)
-const ALERTED := Color(1.0, 0.3, 0.24)
+# The enemy is clean white and black, with red kept for danger alone, like Nothing's design.
+const ENEMY := Color(0.94, 0.95, 0.96)
+const ALERTED := Color(0.92, 0.12, 0.14)
 const MARKER_RADIUS := 0.48
 const FONT := preload("res://art/fonts/BarlowCondensed-SemiBold.ttf")
 const ICONS := {

@@ -8,7 +8,7 @@ signal network_toggled(shown: bool)
 signal scan_toggled(shown: bool)
 signal operator_chosen(id: int)
 
-const ENEMY_COLOR := Color(0.91, 0.48, 0.36)
+const ENEMY_COLOR := NetworkView.ENEMY
 const TEXT := Color(0.91, 0.92, 0.86)
 const MUTED := Color(0.6, 0.68, 0.68)
 const LOG_LINES := 5
@@ -765,6 +765,8 @@ func _choose(id: String) -> void:
 func _turn_chip(unit: Unit, is_active: bool, choosable: bool) -> Control:
 	var style := StyleBoxFlat.new()
 	var accent := unit.def.color.lightened(0.2) if unit.is_player() else ENEMY_COLOR
+	if unit.team == UnitDef.Team.ENEMY and unit.task == Unit.Task.ALERTED and not unit.is_out():
+		accent = NetworkView.ALERTED
 	style.bg_color = Color(accent, 0.2 if is_active else 0.06)
 	style.border_width_bottom = 3 if is_active or choosable else 1
 	style.border_color = accent if is_active else Color(accent, 0.75 if choosable else 0.4)

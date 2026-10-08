@@ -10,5 +10,5 @@ kind = 2
 speed = 3
 seen_range = 6
 noticed_range = 9
-color = Color(0.95, 0.55, 0.2, 1)
+color = Color(0.94, 0.95, 0.96, 1)
 model = "res://art/props/turret/turret.glb"

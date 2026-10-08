@@ -19,7 +19,7 @@ const SOUND_COLOR := Color(0.55, 0.85, 1.0, 0.22)
 const BLAST_COLOR := Color(1.0, 1.0, 0.8, 0.35)
 const CIRCUIT_COLOR := Color(1.0, 0.68, 0.28, 0.45)
 const RESPONDER_COLOR := Color(1.0, 0.95, 0.4, 0.7)
-const LAST_SEEN_COLOR := Color(1.0, 0.3, 0.25, 0.7)
+const LAST_SEEN_COLOR := Color(0.94, 0.95, 0.96, 0.6)
 const STOPPED_COLOR := Color(1.0, 0.8, 0.35)
 const ENEMY_TURN_PAUSE := 0.35
 const UNIT_HEIGHT := 1.7
@@ -903,7 +903,7 @@ func _make_last_seen(unit: Unit) -> Node3D:
 	mesh.position.y = 0.02
 	var label := UnitView.make_label(36, 0.4)
 	label.text = "%s\nlast seen" % unit.display_name
-	label.modulate = Color(1, 0.7, 0.65, 0.8)
+	label.modulate = Color(0.94, 0.95, 0.96, 0.8)
 	var marker := Node3D.new()
 	marker.add_child(mesh)
 	marker.add_child(label)
