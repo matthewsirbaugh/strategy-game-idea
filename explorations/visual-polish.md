@@ -201,6 +201,16 @@ it locked the door for the turn. Claude's choices, open to change:
 Verified with the test suites and a scripted native run: the door's options, the banner, the pins
 and the camera trailing a walk. Not played.
 
+## 2026-10-08 — The enemy in white and black; the network view's framing stays (Bryson)
+
+- The enemy is like OpenAI and Nothing: white and black, red only for danger. Built: guards'
+  and the turret's rings and outlines, the network view's diamonds, the hover card, the turn
+  order and the last-seen marker are white; an alerted guard turns red in the turn order and the
+  network view. The guard model was already white.
+- The network view keeps framing the whole revealed network: in V1, more information that's easy
+  to get comes first.
+- The wider look moved to [the art-direction exploration](art-direction.md).
+
 ## Source and art provenance
 
 - `game/art/ui/facility-title.png` is an unchanged copy of

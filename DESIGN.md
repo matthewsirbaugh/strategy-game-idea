@@ -122,6 +122,10 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
   direction from earlier the same day, which replaced a realistic one. The Operators'
   references are in [art/reference/](art/reference/); the house style for image prompts is in
   [the art-pipeline exploration](explorations/art-pipeline.md#house-style). (2026-09-27)
+- The enemy is like OpenAI: black and white, very modern, mostly white, with red accents in very
+  few places, after Nothing's design philosophy. It leans into the tech oligarchy and stands out
+  against dim backgrounds. The rest of the look is back on the drawing board, in
+  [the art-direction exploration](explorations/art-direction.md). (2026-10-08)
 - 3D models in the world and in battle; 2D portraits in dialogue scenes, like Persona 4. Battle
   keeps the camera far enough back that faces don't need to hold up close. (2026-09-27)
 - The Operators' weapon is non-lethal, like a phaser or taser: it fires a disabling energy pulse.
