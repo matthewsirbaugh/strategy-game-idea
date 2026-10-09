@@ -91,9 +91,18 @@ These are concepts for Bryson's review; the final direction remains open.
 - This retires the 2026-09-24 direction of cute or chibi AIs ([art-pipeline.md](art-pipeline.md))
   and the AI concepts in `art/concepts/companions/`.
 
+### 2026-10-08 — When, whose facility, how realistic (Bryson)
+
+- The game is set in the late 2030s to early 2040s.
+- The facility is OpenBrain's.
+- Characters are realistic.
+- In-battle lines from the AIs (a comms strip) are not for now.
+- The creekside campus ([04-creekside-campus-v2](../art/concepts/valley-composition-study-2026-10-08/04-creekside-campus-v2.png))
+  is the latest concept Bryson shared: the white OpenBrain campus across a creek from a run-down
+  stucco street, the Operators hidden in the brush between them.
+
 ## Open questions
 
-1. Answered 2026-10-08: OpenBrain is the villain. Is this facility OpenBrain's, then?
+1. Answered: the facility is OpenBrain's.
 2. Which candidate directions are worth rendering, and is any missing?
-3. Answered 2026-10-08: the Edgerunners look is out. How realistic do the characters go:
-   grounded but stylized, or as close to real as the tools allow?
+3. Answered: characters are realistic.
