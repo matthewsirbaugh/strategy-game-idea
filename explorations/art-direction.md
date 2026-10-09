@@ -49,7 +49,20 @@ damage, mounts for signs), floor detail (markings, drains, puddles, cables), and
 
 ## Findings
 
-None yet.
+### 2026-10-08 — Preferred theme and follow-up studies
+
+Bryson likes the clean-tower / surrounding-city concept most of the four initial images, but
+wants different compositions, landscaping and building designs. He likes the California Valley
+feel: still mostly modern, with advanced-looking technology around, and pristine OpenBrain
+territory whose palette stands out from the surrounding city. He asks for slightly different
+realistic art styles with less of the oil-painting texture and grime in the first image.
+
+The initial four concepts and their prompts are in
+[aesthetic-study-2026-10-08](../art/concepts/aesthetic-study-2026-10-08/prompts.md).
+The requested follow-up explores a boulevard campus, a civic plaza, a downtown corner and a
+creekside campus, with different realistic finishes; the prompts are in
+[valley-composition-study-2026-10-08](../art/concepts/valley-composition-study-2026-10-08/prompts.md).
+These are concepts for Bryson's review; the final direction remains open.
 
 ## Open questions
 
