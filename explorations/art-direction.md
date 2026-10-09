@@ -64,8 +64,36 @@ creekside campus, with different realistic finishes; the prompts are in
 [valley-composition-study-2026-10-08](../art/concepts/valley-composition-study-2026-10-08/prompts.md).
 These are concepts for Bryson's review; the final direction remains open.
 
+### 2026-10-08 — Realism, not Edgerunners; OpenBrain is the villain (Bryson)
+
+- The main villain is OpenBrain, the OpenAI clone. Anthropomorphic, Anthropic's stand-in, are
+  probably on the good side.
+- The Edgerunners look is out. The game's rules aim at AI realism, real AI concepts, and the look
+  should follow: what would it really be like?
+- Modern America, somewhere in Silicon Valley, California. Visually the world isn't that different
+  from today. The main differences: more places are "the poor part of town" than ever, and cars
+  are a little sleeker, since electric vehicles have largely taken over, like whatever a Tesla
+  would look like in 10 to 15 years.
+- A stark contrast between a city that's very familiar but obviously poorer, and pristine white
+  buildings with black and red accents.
+- Bryson is generating images with GPT-Sol to show what he's going for.
+
+### 2026-10-08 — No humanoid robots; the AI is text and voice only (Bryson)
+
+- Robotics gets better, but general humanoid robots, with a human's dexterity and athleticism and
+  the ability to adapt to any environment, never really materialize. AI-controlled drones and
+  robot dogs do exist.
+- The AI isn't anthropomorphised visually: no appearance, only text and voice. Its personality
+  comes through dialogue, so the player makes up their own mind. It has a lot of agency, since it's
+  "always on", with the context of the world as well as the digital context.
+- The relationship dynamics stay, but the game doesn't make the AIs cutesy characters. The story
+  is serious and interesting, for someone living through the mid to late 2020s.
+- This retires the 2026-09-24 direction of cute or chibi AIs ([art-pipeline.md](art-pipeline.md))
+  and the AI concepts in `art/concepts/companions/`.
+
 ## Open questions
 
-1. Is the facility still Anthropomorphic's, or does the OpenAI-like enemy make it OpenBrain's?
+1. Answered 2026-10-08: OpenBrain is the villain. Is this facility OpenBrain's, then?
 2. Which candidate directions are worth rendering, and is any missing?
-3. Does the Edgerunners anime look stay as the character style, whatever the world becomes?
+3. Answered 2026-10-08: the Edgerunners look is out. How realistic do the characters go:
+   grounded but stylized, or as close to real as the tools allow?
