@@ -142,5 +142,6 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
 4. Whether the touchstones above are ingredients the brainstorm has to use, or inspiration it
    is free to leave behind.
 5. The core idea and story. In progress in
-   [the exploration](explorations/core-idea-and-story.md#topic-index); no final conclusion has
-   graduated here. See [the board](EXPLORATIONS.md) for the next action.
+   [the exploration](explorations/core-idea-and-story.md#topic-index). The setting, the villain
+   and how the AI is presented have graduated (Decisions, 2026-10-08); the plot and characters
+   haven't. See [the board](EXPLORATIONS.md) for the next action.

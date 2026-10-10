@@ -3,8 +3,12 @@
 - Feeds: [environment-art.md](environment-art.md), [wall-occlusion.md](wall-occlusion.md)
 - Style: [environment-style-study.md](environment-style-study.md) (2026-09-29) says what the
   surfaces should look like; where the two disagree, it is newer.
-- Status: open
-- Next action: Bryson answers the questions at the bottom. Nothing gets built until then.
+- Status: paused; the art-direction reset comes first.
+- Next action: resumes once [art-direction.md](art-direction.md) settles the look.
+
+> 2026-10-09: The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)). The Godot techniques here still hold: real lights, wet ground, wall pieces
+> built to the grid. The stylized and anime targets, and the cyberpunk asset kits, belonged to the
+> retired look.
 
 ## The question
 

@@ -2,9 +2,10 @@
 
 - Feeds: [environment-fidelity.md](environment-fidelity.md) (the technical how),
   [environment-art.md](environment-art.md), [art-pipeline.md](art-pipeline.md#house-style)
-- Status: open
-- Next action: Bryson picks how the reference frames arrive (decision 4); an agent checks the
-  study against them. Then an implementing agent builds one test patch from this file.
+- Status: retired 2026-10-08, kept as history.
+
+> 2026-10-09: this is a study of the Edgerunners look, which is retired. The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)). Don't build from it.
+> Its reference frames are in `art/reference/retired/look/`.
 
 Written for the agent that implements the environment pass. It says what the walls and ground
 should look like and why, with the games that prove it. For tools, plugins and packs, read
@@ -26,7 +27,7 @@ After the reference frames, the same day:
   signs, reflections of the neon light on the various surfaces, etc are all part of that night
   time aesthetic."
 - "I also want to note the daytime aesthetic as well for the future." The daytime frames are
-  the Cyberpunk 2077 ones in `art/reference/look/`.
+  the Cyberpunk 2077 ones in `art/reference/retired/look/`.
 - "I think our mistake was leading with color in the props, when the props should be more
   stark and gray, but the rain and the lights around and embedded in the gray are what give it
   the atmosphere we're looking for." He clarified: "I don't mean literally gray props. I just
@@ -53,7 +54,7 @@ it up.
   tile is about 45 px wide. The texture shrinks about 20 times on screen. Mipmapping turns the
   grit into grey mush, and the repeat grid is all that survives. More pixels of the same noise
   would not help.
-- The target, `art/reference/environment-facility/0A-exterior-establishing.png`, gets its walls
+- The target, `art/reference/retired/environment-facility/0A-exterior-establishing.png`, gets its walls
   from structure:
   - a dark plinth with orange hazard stripes
   - a lighter cap with a bright top edge
@@ -68,7 +69,7 @@ it up.
 Each principle gives the rule, who does it, and what it means for us. How sure we are:
 **sourced** means a talk or article said it (seen in search summaries, not opened; see
 Sources). **Observed** means visible in 0A or our own files. **Frame** means visible in a
-reference frame Bryson chose, in [art/reference/look/](../art/reference/look/README.md).
+reference frame Bryson chose, in [art/reference/retired/look/](../art/reference/retired/look/README.md).
 **Inferred** means the agents' judgment.
 
 ### 1. Big shapes carry the look; texture doesn't
@@ -294,7 +295,7 @@ Answered 2026-09-29 (Bryson):
    exactly this: thin dark lines on the architecture, lower in contrast than the characters'.
 3. Clean tower, weathered perimeter wall, dirty street.
 4. Agreed: real frames get checked. Bryson sent them as images; they're in
-   [art/reference/look/](../art/reference/look/README.md).
+   [art/reference/retired/look/](../art/reference/retired/look/README.md).
 5. Confirmed; closed in environment-fidelity.md.
 
 Open:
@@ -335,7 +336,7 @@ The options as they were put:
    below was checked, and none of the Edgerunners rules above were checked against real
    frames. Two fixes; either works:
    - (a) Bryson saves 8 to 12 Edgerunners screencaps of streets, walls and rooftops into
-     `art/reference/edgerunners/`.
+     `art/reference/retired/edgerunners/`.
    - (b) Bryson allows these hosts in the cloud environment's network settings (the
      environment menu in the session title bar, then Edit): artstation.com, 80.lv,
      gdcvault.com, store.steampowered.com, cyberpunk.fandom.com, creativeuncut.com.
@@ -415,7 +416,7 @@ the agents' own knowledge, and are marked that way above.
 
 ### 2026-09-29 — First reference frames (Bryson's picks; Claude's reading)
 
-Five frames in [art/reference/look/](../art/reference/look/README.md), one from the anime. The
+Five frames in [art/reference/retired/look/](../art/reference/retired/look/README.md), one from the anime. The
 Afterlife frame confirms thin lines on architecture, flat panel fills and one dominant light
 color. It corrects the grime: soft mottled patches inside panels, not hard-edged blobs
 (principle 3 changed). The rest confirm signage as texture and color from light. The drip and

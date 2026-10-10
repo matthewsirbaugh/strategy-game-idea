@@ -3,8 +3,9 @@
 - Status: open; implemented for Bryson's review.
 - Next action: play the 2026-10-05 passes: hover card, unit panel, scan badges, network markers,
   the menus' overhaul, the two halves of a turn, AI pins and the network's label layout.
-- Inherits the [house style](art-pipeline.md#house-style) and the facility's approved clay-orange
-  and cream direction in [environment-art.md](environment-art.md).
+- Inherited the [house style](art-pipeline.md#house-style) and the facility's clay-orange and
+  cream direction in [environment-art.md](environment-art.md); both were retired on 2026-10-08.
+  The interface's colors stay until the art direction reaches them.
 
 ## Request — 2026-09-30
 
@@ -214,7 +215,7 @@ and the camera trailing a walk. Not played.
 ## Source and art provenance
 
 - `game/art/ui/facility-title.png` is an unchanged copy of
-  `art/reference/environment-facility/0A-exterior-establishing.png`.
+  `art/reference/retired/environment-facility/0A-exterior-establishing.png`.
 - The five SVG device symbols in `game/art/ui/` were authored for this pass.
 - Fonts and their license files already live in `game/art/fonts/`.
 - No new downloaded asset packs, paid services, or generated character models were used.
@@ -235,7 +236,7 @@ and the camera trailing a walk. Not played.
 | Scan badges | `game/battle/battle.gd` (`_refresh_scan`) |
 | Network presentation, unit markers | `game/battle/network_view.gd`, `network_backdrop.gdshader` |
 | View framing | `game/battle/camera_rig.gd` |
-| Yard markings | `game/battle/signs.gd`, `game/content/maps/facility_exterior.tres` |
+| Yard markings | `game/battle/signs.gd`, `game/content/maps/facility_yard.tres` |
 | Visual review captures | `art/previews/visual-polish/` |
 
 ## Verification

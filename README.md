@@ -42,7 +42,7 @@ Operator phase", "End AI phase"), and Space does what the end row says.
 | `rules/` | Battle rules as plain data and logic, with no visuals |
 | `battle/` | The 3D battle scene that draws the rules' state |
 | `ui/` | Title, loadout, settings and pause menus |
-| `content/` | Tunable data as `.tres` files: `battle.tres` gathers the units, devices, chips and V1 loadouts; the map is in `maps/` |
+| `content/` | Tunable data as `.tres` files: `battle.tres` gathers the units, devices, chips and V1 loadouts; maps are in `maps/`: `facility_yard.tres` is played, `facility_exterior.tres` is the rules tests' map |
 | `tests/` | The few tests that earn their keep, run headless |
 | `autoload/` | The two globals: settings and scene switching |
 | `art/` | Models, fonts and shared shaders the game loads: the toon look for models, and the painted walls, ground and signs, all under the fog. `surfaces.gd` holds every surface's colors and wear |

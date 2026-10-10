@@ -2,9 +2,12 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: the aesthetics pass (Bryson, 2026-09-28: "nothing looks like it belongs in the
-  same world, the models themselves don't look good"), run from
-  [environment-art.md](environment-art.md). Camera bots are parked.
+- Next action: redesign the characters for the realistic look (Bryson, 2026-10-09), and settle
+  how Meshy, Blender and AI image tools work together.
+
+> 2026-10-09: the house style, the Edgerunners Operators and the chibi AIs below are retired.
+> The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)). The AIs have no appearance at all. What still holds: the tool facts (what Meshy does
+> and costs, rigging limits, importing into Godot) and the record of what was tried.
 - All art made before 2026-09-27 was removed at Bryson's request. Files under `art/` and
   `game/art/` linked below no longer exist; they are still in git history at commit
   `9a638e8` (for example `git show 9a638e8:art/NOTES.md`).
@@ -187,12 +190,12 @@ fixes to the weak environment pieces; a terrain kit; notes and an import check i
 
 ### 2026-09-27 — The three Operators' references (Bryson)
 
-Bryson supplied front and back views of the three Operators in `art/reference/` and asked that
+Bryson supplied front and back views of the three Operators in `art/reference/retired/` and asked that
 the next designs adhere to them. The main character is `main-character.webp`; the other two are
 `operator-headband.webp` and `operator-sage.webp` (Claude's file names, after what sets each one
 apart). What they show, for tools that can't read images:
 
-| Part | [Main character](../art/reference/main-character.webp) | [Headband](../art/reference/operator-headband.webp) | [Sage](../art/reference/operator-sage.webp) |
+| Part | [Main character](../art/reference/retired/main-character.webp) | [Headband](../art/reference/retired/operator-headband.webp) | [Sage](../art/reference/retired/operator-sage.webp) |
 |---|---|---|---|
 | Accent color | Yellow | Electric blue | Sage green, rust red |
 | Role | Street courier | Hardware tinkerer | Ex-military field medic, clearly a woman |
@@ -232,12 +235,12 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
 - For our look: Meshy makes the shape and a base-color texture; the ink outlines and cel shading
   would come from a toon shader in Godot. How well its texture reads as flat Ghibli color is
   untested.
-- The front views in `art/reference/` put the camera bot on the wrong shoulder. Meshy would build
+- The front views in `art/reference/retired/` put the camera bot on the wrong shoulder. Meshy would build
   what it sees, so those images need correcting before generating.
 
 ### 2026-09-27 — First Meshy test: the main character (Claude; rendered and inspected, not yet seen by Bryson)
 
-- Bryson supplied a T-pose front and back sheet, now `art/reference/main-character.webp`. It
+- Bryson supplied a T-pose front and back sheet, now `art/reference/retired/main-character.webp`. It
   changes the outfit from the first reference: a yellow tee instead of black, and a hard-shell
   pack with a solar panel instead of the soft pack and bottle. Both views put the camera bot on
   his right shoulder, so Claude mirrored both halves for Meshy's input (`art/meshy/main-character/`),
@@ -259,7 +262,7 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
 
 - Bryson: Meshy is fine for now. Faces only need to hold up at battle distance, since dialogue
   uses 2D portraits (graduated to DESIGN.md), and this is the MVP.
-- Bryson supplied T-pose sheets for both, now in `art/reference/`. Same mirroring fix for the
+- Bryson supplied T-pose sheets for both, now in `art/reference/retired/`. Same mirroring fix for the
   camera bot. Same five clips as the main character, so all three share one set.
 - 100 credits for the pair, 2,950 left. Everything succeeded on the first try.
 - Defects: the sage Operator came out with a camera bot on *both* shoulders, which is in the
@@ -276,7 +279,7 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
   dropped Ghibli and solarpunk. Whether DESIGN.md's look and world lines change too is still open.
 - Hands: Meshy's rig has no finger bones, so a hand keeps its modeled shape in every clip. The
   new sheets use gloves with fingers together, which Meshy builds cleanly.
-- Bryson made new T-pose sheets in Astra (now in `art/reference/`): a street courier (yellow),
+- Bryson made new T-pose sheets in Astra (now in `art/reference/retired/`): a street courier (yellow),
   a hardware tinkerer (blue) and an ex-military medic (sage). All three put the camera bot on the
   left shoulder, so no mirroring was needed.
 - Bryson chose to judge the models before rigging: Meshy 7, 4K texture, about 100k triangles,
@@ -305,7 +308,7 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
 
 ### 2026-09-27 — Packs attached, Operators rigged, clips shared (Claude; rendered and inspected, not yet seen by Bryson)
 
-- Bryson made four-view pack sheets (`art/reference/packs/`). Meshy 7 built each from all four
+- Bryson made four-view pack sheets (`art/reference/retired/packs/`). Meshy 7 built each from all four
   views, 4K texture, about 30k triangles: 90 credits. All three rigged: 15 credits. 2,755 left.
 - Packs hang from the `Spine` bone (`game/art/characters/character_rig.gd`), back panel against
   the body, top at the shoulders.

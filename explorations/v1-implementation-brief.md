@@ -63,6 +63,9 @@ V1, so "current build" here is the pre-V1 build):
 
 ## The test map (Claude's placeholder)
 
+> 2026-10-07: the game now plays `facility_yard.tres` ([level-design.md](level-design.md)); the
+> map below stays for the rules tests.
+
 Level layout is Bryson's call; he asked Claude for this draft to mark up. It modifies
 `game/content/maps/facility_exterior.tres` and plays as a standalone battle: breach the cache,
 then extract. In the full game this map is phase 1 of the facility mission.

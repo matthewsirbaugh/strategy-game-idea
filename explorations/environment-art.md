@@ -1,9 +1,13 @@
 # Environment art for the corporate facility mission
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
-- Status: open
-- Next action: Bryson plays the redesigned exterior map and says what to change. Later: a
-  hand-built terminal model and a map editor for Bryson (both on the board).
+- Status: paused; the art-direction reset comes first.
+- Next action: resumes once [art-direction.md](art-direction.md) settles the look.
+
+> 2026-10-09: written for the retired Edgerunners look and Anthropomorphic's facility. The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)).
+> The object list and the map's history still hold; the style, palette and image prompts below
+> don't. Its references are in `art/reference/retired/`. The game now plays
+> `facility_yard.tres` ([level-design.md](level-design.md)).
 
 ## The question
 
@@ -126,7 +130,7 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
   that please." It replaced the original under the same name (the magenta version is in git
   history).
 - The rest of the facility art was recolored to match:
-  - the concepts in `art/reference/environment-facility/`
+  - the concepts in `art/reference/retired/environment-facility/`
   - the Meshy renders of the props, guard and turret
   - the in-game floor and wall textures
 
@@ -172,7 +176,7 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 
 ### 2026-09-28 — The goal for the exterior, and a critique of the look (Bryson)
 
-- The exterior establishing shot, `art/reference/environment-facility/0A-exterior-establishing.png`,
+- The exterior establishing shot, `art/reference/retired/environment-facility/0A-exterior-establishing.png`,
   is the goal for the first part of the level: a walled compound off a wet street, guard booth
   and gate, floodlights, the tower entrance with planters and screens, the loading dock with the
   van and crates, slogans and hazard stripes on the walls.
@@ -244,7 +248,7 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 
 ### 2026-09-27 — Batch adopted; Meshy spend approved (Bryson)
 
-- The batch moved to `art/reference/environment-facility/` as adopted reference.
+- The batch moved to `art/reference/retired/environment-facility/` as adopted reference.
 - Astra's logo, slogans and names stay as placeholders. "We'll create new stuff later when we've
   deep dived the story; this is still gameplay proof of concept/alpha build."
 - Approved: the guard (35 credits) and a Meshy mode test on the turret (45) before the other 11
@@ -270,7 +274,7 @@ Earlier ones were settled on 2026-09-27 and 2026-09-28 (Findings). None open.
 
 - Exactly one image was generated for each approved item, in the approved order, with no
   variations, alternates or retry generations.
-- The 20 unique PNG files are in `art/concepts/environment-facility-batch/` (since moved to `art/reference/environment-facility/`). The five textures
+- The 20 unique PNG files are in `art/concepts/environment-facility-batch/` (since moved to `art/reference/retired/environment-facility/`). The five textures
   are square and use their filenames as identifiers so no label interrupts the texture pixels.
 - These remain exploratory concepts in `art/concepts/` until Bryson reviews them; generation and
   file validation do not constitute creative approval or proof that the textures tile seamlessly

@@ -1,7 +1,9 @@
 # Look references
 
+> Retired 2026-10-08 with the Edgerunners look. History; don't follow.
+
 Frames Bryson chose for the environment's look (2026-09-29). What each one is for is recorded in
-[the style study](../../../explorations/environment-style-study.md).
+[the style study](../../../../explorations/environment-style-study.md).
 
 | File | Source | What to take from it |
 |---|---|---|

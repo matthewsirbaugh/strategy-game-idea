@@ -2,6 +2,10 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: parked; further character and plot development is on the back burner.
+> 2026-10-09: parts of the world graduated to [DESIGN.md](../DESIGN.md): Silicon Valley in the
+> late 2030s to early 2040s, OpenBrain the villain, no humanoid robots, and AIs with no
+> appearance, only text and voice. The chibi partners and companions in the findings below are
+> history.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
   [exploration](battle-core.md).
 

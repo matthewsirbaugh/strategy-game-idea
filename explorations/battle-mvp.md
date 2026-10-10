@@ -129,7 +129,9 @@ extraction zone. Lose: all three Operators downed.
 > [V1 brief](v1-implementation-brief.md), and `mvp.tres` is gone: the tests build small maps of
 > their own.
 
-Since 2026-09-28 the battle plays `game/content/maps/facility_exterior.tres`, the first part of
+Since 2026-10-07 the game plays `facility_yard.tres` ([level-design.md](level-design.md));
+`facility_exterior.tres` stays for the rules tests. From 2026-09-28 the battle played
+`game/content/maps/facility_exterior.tres`, the first part of
 the facility mission, laid out from the exterior establishing shot (0A) at Bryson's request.
 The MVP map below stays as the map the rules tests run on.
 
