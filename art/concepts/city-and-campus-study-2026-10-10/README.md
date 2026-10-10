@@ -10,6 +10,9 @@ by Bryson after the first batch. These add sporty wraparound eyewear with expose
 visible cable and a belt-holstered compute puck to each foreground guard. The latest versions
 are shown below; their originals are preserved for comparison.
 
+The [rear research park study](../rear-research-park-study-2026-10-10/README.md) expands behind
+this campus into connected courtyards, green roofs and outdoor research areas.
+
 The [original supplied image](reference-original.png) anchors the overall mood. The
 [preferred creekside revision](../valley-composition-study-2026-10-08/04-creekside-campus-v2.png)
 anchors California geography, the campus architecture and emblem. Bryson selected the first
