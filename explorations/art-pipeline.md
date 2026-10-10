@@ -30,6 +30,10 @@ MVP's 3D scene is built so that models can replace its greybox shapes directly.
 
 ## House style
 
+Retired 2026-10-08: the look is now realistic, and the Edgerunners style below is history. The
+current direction is in DESIGN.md and [the art-direction exploration](art-direction.md); don't
+use this style for new prompts.
+
 The look that produced the approved Operators (2026-09-27). Every new image prompt, for
 characters, enemies, props or places, starts from it so the set stays one world. DESIGN.md holds
 the decision; this is the working detail.

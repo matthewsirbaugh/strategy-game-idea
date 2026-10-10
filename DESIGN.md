@@ -108,24 +108,21 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
 - No permadeath.
 - The game is 3D, and it should be good looking. The models and textures in the game now are
   alpha placeholder art, there to judge the look in play; final art comes later. (2026-09-28)
-- The world is a gritty, technofeudal corporate AI future full of advertisements, all the way
-  through. It replaces "solarpunk meets corporate AI future." I was trying to reinvent the wheel;
-  the classic technofeudal future looks alike across media for a reason, and I think it's the
-  most likely one. Our unique angle is that this game is made in a world where this AI now
-  exists: we know how it really works and what its limits are, and we build the game around
-  them. (2026-09-27)
-- The look is gritty cyberpunk anime, in the vein of Cyberpunk: Edgerunners: bold ink outlines,
-  cel shading (soft or hard-edged is still open; the build starts soft and L compares), saturated colors and realistic adult proportions. Clothes are
-  near-future street techwear, layered, asymmetric and worn, and each character is a little
-  eccentric. Grimy neutral bases with one strong accent per character. If players say it looks
-  like Edgerunners, it worked. It replaces the Ghibli
-  direction from earlier the same day, which replaced a realistic one. The Operators'
-  references are in [art/reference/](art/reference/); the house style for image prompts is in
-  [the art-pipeline exploration](explorations/art-pipeline.md#house-style). (2026-09-27)
+- Silicon Valley, California, in the late 2030s to early 2040s. Visually not far from today:
+  more places are the poor part of town than ever, and sleeker electric cars have largely taken
+  over. Pristine OpenBrain territory, white with black and red accents, stands against a city
+  that's familiar but obviously poorer. The world is grounded in how AI would really change
+  things, as the rules are. OpenBrain, the OpenAI clone, is the main villain. It replaces the
+  gritty technofeudal future. (2026-10-08)
+- The look is realistic, characters included. The Edgerunners direction is retired. Details are
+  worked out in [the art-direction exploration](explorations/art-direction.md). (2026-10-08)
 - The enemy is like OpenAI: black and white, very modern, mostly white, with red accents in very
   few places, after Nothing's design philosophy. It leans into the tech oligarchy and stands out
-  against dim backgrounds. The rest of the look is back on the drawing board, in
-  [the art-direction exploration](explorations/art-direction.md). (2026-10-08)
+  against dim backgrounds. (2026-10-08)
+- No general humanoid robots. The robots are AI-controlled drones and robot dogs. (2026-10-08)
+- The AI has no appearance, only text and voice. Its personality comes through dialogue, and the
+  player makes up their own mind. The relationships are real, never cutesy: a serious story for a
+  player living through the current birth of AI. (2026-10-08)
 - 3D models in the world and in battle; 2D portraits in dialogue scenes, like Persona 4. Battle
   keeps the camera far enough back that faces don't need to hold up close. (2026-09-27)
 - The Operators' weapon is non-lethal, like a phaser or taser: it fires a disabling energy pulse.

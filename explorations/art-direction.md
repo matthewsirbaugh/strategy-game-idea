@@ -101,6 +101,13 @@ These are concepts for Bryson's review; the final direction remains open.
   is the latest concept Bryson shared: the white OpenBrain campus across a creek from a run-down
   stucco street, the Operators hidden in the brush between them.
 
+### 2026-10-09 — Graduated to DESIGN.md (Bryson approved)
+
+The setting, the realistic look, no humanoid robots, and the AI as text and voice only are now
+decisions in DESIGN.md. The AI line reads "a serious story for a player living through the
+current birth of AI", in Bryson's words. The Edgerunners house style in art-pipeline.md is marked
+retired.
+
 ## Open questions
 
 1. Answered: the facility is OpenBrain's.
