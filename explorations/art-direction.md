@@ -108,6 +108,36 @@ decisions in DESIGN.md. The AI line reads "a serious story for a player living t
 current birth of AI", in Bryson's words. The Edgerunners house style in art-pipeline.md is marked
 retired.
 
+### 2026-10-10 — City and campus concept batch (Bryson approved generation)
+
+Bryson says the preferred creekside revision captures the intended aesthetic. He asks for
+city-proper views combining poverty, advanced technology, modern American architecture and
+fashion, with a California Valley / Los Angeles feel. He also asks for additional OpenBrain
+exteriors showing autonomous vehicles, cameras, scanners and human security officers whose
+headsets let the AI direct them. White and black with sparse red accents should feel clinical,
+modern and quietly sinister; the guards are ordinary people using their work equipment.
+
+He approved the six-scene prompt set for generation, commit and push, with the additional
+instruction to match his original attached image's aesthetic. The original supplies the
+overall visual mood; the creekside revision supplies the refined campus, darker public streets
+and friendly emblem. Previous requirements remain: varied neglected streets, sparse people,
+aged and partially failed lighting, and no explicit text in new concepts.
+
+The [approved prompt set](../art/concepts/city-and-campus-study-2026-10-10/prompt-review.md)
+contains three city scenes and three exterior views of the same campus. The batch explores
+specific clothing and hardware designs; no resulting image has yet been selected as a final
+game reference.
+
+During generation, Bryson chose the first commercial-street render's lighting over a darker
+edit. The city must retain enough light for a playable environment and for other AIs to inspect
+the concept details. Keep partial fixture failures and aged light, with readable exposure.
+
+Six standalone concepts are now generated and agent visually checked: commercial street,
+residential courtyard, service/transit edge, campus exterior/approach, autonomous vehicle
+forecourt and headset security threshold. The [gallery and exact prompt record](../art/concepts/city-and-campus-study-2026-10-10/README.md)
+preserve the selected native PNGs and source references. These are concepts, not game-integrated
+assets or a gameplay visibility test. Bryson's first-city lighting selection is retained exactly.
+
 ## Open questions
 
 1. Answered: the facility is OpenBrain's.
