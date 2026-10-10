@@ -133,3 +133,12 @@ Detail priority: realistic clothing layers, practical headset ergonomics, wearab
 ## Execution after approval
 
 Use the built-in image generation tool, one separate image per approved shot, with the original attached aesthetic image and preferred creekside revision as references. Start with city shot 1 and campus shot 4 to check the common style and campus continuity, then proceed to the remaining approved shots using those completed views as supporting references where useful. Preserve the preferred originals and save new outputs in this folder. Final deliverables are the approved scene images and the exact prompts actually used. Commit and push only after the approved batch is ready.
+
+## Follow-up: AR glasses and belt compute pucks
+
+After the initial batch, Bryson requested revisions to views 5 and 6: sporty augmented-reality
+glasses, with exposed hair and a visible wire down to a compute puck holstered on the belt.
+The [AR revision note](ar-glasses-revision.md) links both updated images and describes the
+rendered equipment. [The AR generation record](ar-glasses-generation-record.json) preserves
+the exact edit prompts. The original six-scene prompts above and their outputs remain as history;
+use the newer wearable reference when developing these guards further.

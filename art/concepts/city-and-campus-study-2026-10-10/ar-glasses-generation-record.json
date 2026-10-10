@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-10",
+  "tool": "built-in image_gen",
+  "type": "targeted image revision",
+  "user_direction": "Add AR glasses to the guards in the two attached campus views: sporty, slightly substantial eyewear with hair exposed, and a telltale wire running down to a compute puck holstered on the belt.",
+  "preserve": "Existing identities, clothing, poses, composition, campus design, vehicles, selected night exposure and realistic rendering.",
+  "steps": [
+    {
+      "step": 1,
+      "purpose": "Add AR eyewear, cables and compute pucks to both threshold guards.",
+      "prompt": "Use case: precise-object-edit and identity-preserve.\nAsset: a targeted revision of an existing realistic near-future game concept.\nInput image 1 is the EDIT TARGET, the campus pedestrian security threshold with two foreground guards. Preserve this image very closely.\n\nPrimary edit: add the SAME augmented-reality sports eyewear, a visible wired connection and a belt-holstered compute puck to BOTH foreground security officers. This is the only design change.\n\nEyewear: original unbranded near-future industrial design, with the general familiarity of sporty Meta-style wearable glasses. Compact black wraparound sports frames with noticeably substantial temple arms containing optics/electronics, a shallow gently curved lens area at the eyes and a comfortable nose bridge. Slightly more technological and substantial than normal prescription spectacles, yet believable as everyday professional sports eyewear. Clear or lightly neutral-smoked lenses; their faces remain recognizable. Fit the glasses correctly on the nose and above the ears, with temples running beside the head. The entire top of the head, hair, forehead and hairstyle remain exposed. Keep the man's exact hair and the woman's tied hair. No head strap, helmet, bulky virtual-reality headset, sealed face mask, ski goggles, oversized opaque visor or forehead box. No glowing lenses, floating displays or visible holographic interfaces. Retain the small existing communication earpiece/microphone, fitting naturally with the glasses, and preserve the body cameras.\n\nWire and compute: EACH guard has their own clearly visible thin black insulated cable, physically plugged into the rear end of one glasses temple near the visible ear. It exits the glasses, runs down beside the neck, crosses a readable portion of the white shirt, and continues down the visible side of the torso to a small compute puck holstered at the belt/hip. The wire must connect the glasses directly to that puck, with both endpoints and a legible continuous route. Two small clothing clips can keep it neatly routed, with a little natural cable slack. It must look like a real round cable, separate from the shirt seam, body-camera mount and shoulder strap. Show a compact palm-sized rounded black compute unit, approximately 7\u20139 centimetres across, seated securely in a purpose-built open black belt cradle, with the puck edge and top cable connector visible. It should read as a holstered computing device, not a phone held in a hand or an ordinary closed utility pouch. Add it next to the existing belt equipment, at a hip the viewer can see. Size is practical and proportional to the person. Give both guards the same eyewear and compute-puck design.\n\nInvariants: keep both people's identities, faces, anatomy, exact natural poses, tablet use, hands, clothing, shoes and existing equipment otherwise unchanged. Keep the exact framing, camera viewpoint, full-body scale, all campus architecture and logo, vehicle, landscaping, cameras, entry scanners, glass barriers and background people. Preserve the selected exposure, night colors, warm architectural illumination, red security accents, materials, damp reflections and realistic crisp rendering. Do NOT darken, brighten, recolor, zoom or rearrange the scene. The new eyewear, cable and puck must catch the same existing motivated light and shadows.\n\nOutput: one full-bleed wide scene with the same aspect ratio and composition as the source. No panels, crops, captions, words, letters, numbers, manufacturer logos, interface or watermark. Only the requested wearable-equipment addition.",
+      "referenced_image_paths": [
+        "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-631ccf76-22c0-426c-9f85-d7c367d69371.png"
+      ],
+      "project_source_files": [
+        "06-campus-headset-security-threshold.png"
+      ],
+      "generated_output_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-7c4507f5-676d-4122-ae02-5174d8c9bc93.png"
+    },
+    {
+      "step": 2,
+      "purpose": "Refine only the eyewear to a more distinct wraparound sports shape, retaining the cables and pucks.",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target, the two campus guards already wearing wired AR glasses and round compute pucks.\nMake ONE targeted refinement: change ONLY both guards' eyewear into the same distinctly sporty near-future augmented-reality glasses. The current thin spectacle-like shape should become compact athletic wraparound eyewear: a single shallow curved transparent/lightly smoke-tinted sports lens across the eye band, a defined matte-black upper brow rim, tapered wraparound outer corners, and moderately substantial electronic temple arms alongside the head. The form should feel like streamlined cycling/running eye protection with discreet AR optics built into the arms. It is a pair of glasses resting on the nose and ears, with the forehead and all hair exposed. The lens covers only the normal eye area; the nose, cheeks and face stay exposed and recognizable. More technological than regular prescription glasses, yet unobtrusive enough to look normal with their security work clothes. No box on the face, no forehead module, no head strap, no bulky VR or ski goggles, no helmet, no large opaque visor. No glowing display or holographic UI. Correct perspective, anatomical fit, subtle optical reflections under the EXISTING light.\nPreserve the already-correct visible cables, their temple attachment points, neat shirt clips, direct route down the shirt to each guard's round belt compute puck, both holsters and all existing small earpieces/microphones. Preserve both guards' exact identity, face, hairstyle, anatomy, poses, tablet, hands, uniforms and body cameras. Hold the rest of the image unchanged: same camera/framing, campus architecture, friendly logo, devices, vehicles, glass barriers, trees, background figures, selected night exposure, colors, warm light, red accents, shadows, realistic rendering and reflections. Do not change the cable or compute-puck design. No words, letters, numbers, manufacturer marks, labels, captions or watermark. One full-bleed wide image with source composition.",
+      "referenced_image_paths": [
+        "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-7c4507f5-676d-4122-ae02-5174d8c9bc93.png"
+      ],
+      "generated_output_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-f444f89f-13e3-47dd-b935-e1f4f7a54d5e.png",
+      "selected_output_file": "06-campus-headset-security-threshold-v2-ar.png"
+    },
+    {
+      "step": 3,
+      "purpose": "Apply the same eyewear and wired compute puck to the forecourt guard at his existing scale.",
+      "prompt": "Use case: precise-object-edit and identity-preserve.\nInput image 1 is the EDIT TARGET: the existing OpenBrain vehicle forecourt, with one foreground security officer beside the access terminal. Input image 2 is a SUPPORTING EQUIPMENT REFERENCE: the completed two-guard AR-glasses revision. Borrow ONLY the identical glasses, cable and compute-puck design from Image 2; keep Image 1 as the entire scene.\n\nPrimary request: add the same augmented-reality sports eyewear, visible connecting wire and belt-holstered compute puck to the one forecourt guard. Compact matte-black athletic wraparound frames, shallow clear/lightly neutral-smoked curved sports lens across the eye area, a defined upper brow rim and moderately substantial electronic temple arms. Match the design in Image 2 exactly at this guard's natural smaller scale. Fit them on the nose and beside the head. All hair and the top of the head and forehead stay exposed. Slightly futuristic sports eyewear that sits naturally with the ordinary security uniform; no headset-shaped face box, helmet, head strap, ski goggles, large opaque visor, glowing eye display or holographic UI. Preserve the small communication earpiece/microphone and body-camera equipment.\n\nA real thin black insulated cable starts at the glasses temple behind the visible ear, runs beside the neck and visibly down the exposed white-shirt side of the torso, clipped neatly in one or two places, and ends in a palm-sized ROUND black compute puck in an open black cradle on a visible belt/hip. Match the round puck and practical cradle in Image 2. Give the wire an identifiable path against the white shirt and a plausible top connector at the puck, with natural small slack. It is a physical cable directly connecting the glasses to the belt computing device. Show the puck's exposed rounded body at the belt rather than hiding it in a closed pouch. Keep the equipment realistically sized to this full-body guard; do not enlarge the guard or change the camera to feature it.\n\nInvariants: only add this eyewear/cable/puck. Preserve the guard's identity, exact current pose, face direction, hair, uniform, hands, shoes, existing belt tools and relation to the access terminal. Preserve the exact full-image viewpoint, framing, composition, exposure, night palette, warm clinical lighting, sparse red security lamps, white/black corporate materials, logos, cameras, readers, bollards, van, passenger car, charging cable, road routes, landscaping, glass bridge, all architecture and damp reflections. Preserve each original vehicle's body and sensor geometry; no added markings. Keep the realistic rendering crisp. Do not darken, brighten, zoom, rearrange or change the scene. No new people, words, letters, numbers, real manufacturer logos, labels, game interface, captions, panels or watermark. Output one full-bleed wide edited scene, matching the source aspect ratio.",
+      "referenced_image_paths": [
+        "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-7ee4714e-3f60-4cbc-9e5e-989b2dc4a0c6.png",
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/city-and-campus-study-2026-10-10/06-campus-headset-security-threshold-v2-ar.png"
+      ],
+      "project_source_files": [
+        "05-campus-autonomous-vehicle-forecourt.png",
+        "06-campus-headset-security-threshold-v2-ar.png"
+      ],
+      "generated_output_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-9f5db2ff-6d6f-4aa0-8f18-cf7e3f58e173.png",
+      "selected_output_file": "05-campus-autonomous-vehicle-forecourt-v2-ar.png"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "05-campus-autonomous-vehicle-forecourt-v2-ar.png",
+      "source": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-9f5db2ff-6d6f-4aa0-8f18-cf7e3f58e173.png",
+      "metadata": {
+        "width": 1671,
+        "height": 941,
+        "bit_depth": 8,
+        "color": "RGB",
+        "bytes": 2430246,
+        "sha256": "abde9eadad3a3e25be582edc9894d9a5c47772c88286458c471aa7a69ae47881"
+      }
+    },
+    {
+      "file": "06-campus-headset-security-threshold-v2-ar.png",
+      "source": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-f444f89f-13e3-47dd-b935-e1f4f7a54d5e.png",
+      "metadata": {
+        "width": 1672,
+        "height": 941,
+        "bit_depth": 8,
+        "color": "RGB",
+        "bytes": 2277319,
+        "sha256": "28fc4b33705cecf7e7faab0477cb9e8bd1bc5f6e956fbcf1b47fbe601806d25d"
+      }
+    }
+  ],
+  "review": "Visually checked sporty eyewear fit, exposed hair/forehead, matching round compute-puck cradles, and cable routing against the white uniforms. The threshold view provides the clearest hardware detail; the forecourt preserves the smaller guard scale. Originals retained. No gameplay integration or validation.",
+  "originals_match_attached_sources": true
+}
