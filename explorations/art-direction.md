@@ -139,6 +139,18 @@ forecourt and headset security threshold. The [gallery and exact prompt record](
 preserve the selected native PNGs and source references. These are concepts, not game-integrated
 assets or a gameplay visibility test. Bryson's first-city lighting selection is retained exactly.
 
+### 2026-10-10 — How the art work runs; the game and interface while it does (Bryson)
+
+- Bryson works on the art with GPT-6 Sol and posts the images he likes most, with any
+  documentation that goes with them. Claude takes them in as the central project architect:
+  documents them, adopts what Bryson picks into `art/reference/`, and keeps the threads current.
+- The game stays as it is while new art is made: the current models remain as placeholders.
+- The interface's colors are part of the reset. Its structure stays: it works, it's clear, and
+  it's cool, with room for tweaks.
+- "ANTHROPOMORPHIC" on the title screen and the map's sign stays until there's new art; then a
+  full update pass.
+- The previous art went to the archive outside the project ([ARCHIVE.md](../ARCHIVE.md)).
+
 ## Open questions
 
 1. Answered: the facility is OpenBrain's.

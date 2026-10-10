@@ -692,6 +692,18 @@ Bryson accepted both the same day; they're in RULES.md, rule 4 and the robots ta
 Not exercised: the handover between phases (rule 48), since there's no second map yet, and
 crashing (rule 42), which nothing in V1 triggers.
 
+## 2026-10-10 — The readings wait for a session together (Bryson)
+
+Bryson will go through readings 1 to 37 together with Claude, after more work on the art
+pipeline; V1 is finished after that. Bring these to the same session, raised on 2026-10-10:
+- Rule 26 says a blackout sends guards searching room to room; the build makes each dark light
+  and camera its own lure, with no search (reading 7). Which one?
+- A light going out draws the closest guard who can see it. Should it reach guards the way sound
+  does instead? Bryson wasn't sure on 2026-10-04.
+- The chip categories, Surveillance, Weapon Systems and Infrastructure, are placeholder names.
+- The rules make the truck diesel and loud; DESIGN.md says electric vehicles have largely taken
+  over. An old diesel holdout, or electric with a different sound?
+
 ## V2: after implementation and playtesting
 
 - Rework the speed system for the turn order queue (Bryson, 2026-10-04).
