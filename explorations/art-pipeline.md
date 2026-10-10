@@ -238,7 +238,7 @@ the next designs adhere to them. The main character is `main-character.webp`; th
 `operator-headband.webp` and `operator-sage.webp` (Claude's file names, after what sets each one
 apart). What they show, for tools that can't read images:
 
-| Part | [Main character](../art/reference/retired/main-character.webp) | [Headband](../art/reference/retired/operator-headband.webp) | [Sage](../art/reference/retired/operator-sage.webp) |
+| Part | `Main character` | `Headband` | `Sage` |
 |---|---|---|---|
 | Accent color | Yellow | Electric blue | Sage green, rust red |
 | Role | Street courier | Hardware tinkerer | Ex-military field medic, clearly a woman |

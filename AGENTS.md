@@ -61,8 +61,13 @@ expects that plan to change as ideas surface while playing.
 | art/reference/ | Reference images Bryson chose; new art adheres to them |
 | art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
 | art/meshy/ | The input images sent to Meshy for characters, packs and props |
+| ARCHIVE.md | What was set aside in the archive outside the project, when and why |
 | art/previews/ | Captures of builds, for review |
 | .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
+
+Old ideas and assets that still have value go to the archive outside the project,
+`~/Desktop/Archive/`, recorded in ARCHIVE.md. The archive isn't part of the project: don't read it
+unless Bryson asks.
 
 There is no NOW.md — the board covers what is current. Project knowledge lives in these files, not in a
 tool's private memory, which the other tools can't see.

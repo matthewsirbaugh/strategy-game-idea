@@ -5,7 +5,7 @@
 - Status: parked; retired 2026-10-08, kept as history.
 
 > 2026-10-09: this is a study of the Edgerunners look, which is retired. The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)). Don't build from it.
-> Its reference frames are in `art/reference/retired/look/`.
+> Its reference frames were archived on 2026-10-10 ([ARCHIVE.md](../ARCHIVE.md)).
 
 Written for the agent that implements the environment pass. It says what the walls and ground
 should look like and why, with the games that prove it. For tools, plugins and packs, read
@@ -69,7 +69,7 @@ it up.
 Each principle gives the rule, who does it, and what it means for us. How sure we are:
 **sourced** means a talk or article said it (seen in search summaries, not opened; see
 Sources). **Observed** means visible in 0A or our own files. **Frame** means visible in a
-reference frame Bryson chose, in [art/reference/retired/look/](../art/reference/retired/look/README.md).
+reference frame Bryson chose, in `art/reference/retired/look/`.
 **Inferred** means the agents' judgment.
 
 ### 1. Big shapes carry the look; texture doesn't
@@ -295,7 +295,7 @@ Answered 2026-09-29 (Bryson):
    exactly this: thin dark lines on the architecture, lower in contrast than the characters'.
 3. Clean tower, weathered perimeter wall, dirty street.
 4. Agreed: real frames get checked. Bryson sent them as images; they're in
-   [art/reference/retired/look/](../art/reference/retired/look/README.md).
+   `art/reference/retired/look/`.
 5. Confirmed; closed in environment-fidelity.md.
 
 Open:
@@ -416,7 +416,7 @@ the agents' own knowledge, and are marked that way above.
 
 ### 2026-09-29 — First reference frames (Bryson's picks; Claude's reading)
 
-Five frames in [art/reference/retired/look/](../art/reference/retired/look/README.md), one from the anime. The
+Five frames in `art/reference/retired/look/`, one from the anime. The
 Afterlife frame confirms thin lines on architecture, flat panel fills and one dominant light
 color. It corrects the grime: soft mottled patches inside panels, not hard-edged blobs
 (principle 3 changed). The rest confirm signage as texture and color from light. The drip and

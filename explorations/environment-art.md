@@ -6,7 +6,7 @@
 
 > 2026-10-09: written for the retired Edgerunners look and Anthropomorphic's facility. The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)).
 > The object list and the map's history still hold; the style, palette and image prompts below
-> don't. Its references are in `art/reference/retired/`. The game now plays
+> don't. Its references were archived on 2026-10-10 ([ARCHIVE.md](../ARCHIVE.md)). The game now plays
 > `facility_yard.tres` ([level-design.md](level-design.md)).
 
 ## The question

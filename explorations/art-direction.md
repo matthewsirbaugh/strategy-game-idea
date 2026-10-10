@@ -89,7 +89,8 @@ These are concepts for Bryson's review; the final direction remains open.
 - The relationship dynamics stay, but the game doesn't make the AIs cutesy characters. The story
   is serious and interesting, for someone living through the mid to late 2020s.
 - This retires the 2026-09-24 direction of cute or chibi AIs ([art-pipeline.md](art-pipeline.md))
-  and the AI concepts in `art/concepts/companions/`.
+  and the AI concepts once in `art/concepts/companions/`, archived on 2026-10-10
+  ([ARCHIVE.md](../ARCHIVE.md)).
 
 ### 2026-10-08 — When, whose facility, how realistic (Bryson)
 
