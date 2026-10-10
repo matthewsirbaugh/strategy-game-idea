@@ -86,6 +86,49 @@ Quaternius's CC0 animation library for rigging and motion; Poly Haven and ambien
 
 ## Findings
 
+### 2026-10-09 — Tools and pipelines for the realistic look (Claude; research, not yet agreed)
+
+What's available now:
+- Meshy: 2,465 credits. Its image tools can also make concept images (gpt-image-2, 9 to 12
+  credits; nano-banana, 3 to 9).
+- Blender 5.2 LTS is installed and runs headless by script. The Blender MCP needs Blender open
+  with its add-on; it also bridges to Hyper3D Rodin, Hunyuan3D, Sketchfab and Poly Haven, each
+  of which needs its own key or trial.
+- The machine: M1 Pro, 16 GB. Local generators such as Hunyuan3D want 24 GB or more of GPU memory,
+  so generation stays in the cloud.
+
+What people get strong results with (sources below; most are vendor pages or anecdote):
+- The common 2026 chain: concept images from an image model, image to 3D (Meshy, Tripo, Rodin,
+  Hunyuan3D), cleanup and rigging (Meshy, Tripo or Blender), animation (Meshy's library or
+  Mixamo).
+- The quality is decided at the first step. Clean, consistent turnaround sheets (A or T-pose, even
+  light, plain background) beat any later fix.
+- For realistic humans, reviews favor Hyper3D Rodin on skin and faces, and Meshy for the most
+  dependable production output. Tripo's strength is rigging breadth; Hunyuan3D trails on humans.
+  No source ran a fair head-to-head on realistic humans.
+- MetaHuman is licensed for Godot and other engines since June 2025, free under $1M a year in
+  revenue. It's the realism ceiling, but it's assembled in Unreal Engine 5.6, with no official
+  Blender exporter.
+- AI agents driving Blender through MCP (retopology, rigging) are early: feature lists, no
+  independent results.
+
+What matters for this game:
+- At the battle camera's default distance an Operator is about 55 pixels tall (2026-09-27).
+  Silhouette, clothing, palette and animation carry the realism there; faces don't. Faces carry
+  it in the 2D dialogue portraits.
+- Meshy's three Operators cost 150 credits in all, and each step worked on the first try. The
+  realistic-human kit before that (MPFB, cloth simulation) cost hours per character, and Bryson
+  dropped it on 2026-09-27.
+
+Sources: [AI-to-3D chain (X)](https://x.com/_summer_plays_/status/2048170520890245409),
+[Meshy guide](https://github.com/meshy-dev/Meshy-guide),
+[Meshy image to 3D](https://www.meshy.ai/features/image-to-3d),
+[Meshy vs Tripo vs Rodin](https://coruzant.com/ai/best-ai-for-3d-models-honest-comparison/),
+[Meshy, Tripo, Rodin, Hunyuan 3D](https://marcellinusprevailer.com/meshy-vs-tripo-ai-vs-rodin-vs-hunyuan-3d-best-ai-3d-generator-2077dd4d4533),
+[MetaHuman in other engines (CG Channel)](https://www.cgchannel.com/2025/06/you-can-now-sell-metahumans-or-use-them-in-unity-or-godot/),
+[MetaHuman license](https://www.metahuman.com/license),
+[Agents in DCC apps, SIGGRAPH 2026](https://www.jonpeddie.com/news/sidefx-and-nvidia-bring-mcp-powered-ai-agents-to-houdini-22s-rigging-workflow-at-siggraph-2026/).
+
 ### 2026-09-24 — Bryson's art direction, and what this Mac can do (Claude)
 
 - Bryson: "stylized but realistic," and "a sort of solar punk meets corporate AI future with
