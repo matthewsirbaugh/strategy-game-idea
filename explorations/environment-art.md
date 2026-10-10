@@ -1,8 +1,8 @@
 # Environment art for the corporate facility mission
 
 - Feeds: [art-pipeline.md](art-pipeline.md), DESIGN.md's look decision
-- Status: paused; the art-direction reset comes first.
-- Next action: resumes once [art-direction.md](art-direction.md) settles the look.
+- Status: parked; superseded by [environment-assets.md](environment-assets.md).
+- Next action: none here; the environment work continues in environment-assets.md.
 
 > 2026-10-09: written for the retired Edgerunners look and Anthropomorphic's facility. The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)).
 > The object list and the map's history still hold; the style, palette and image prompts below

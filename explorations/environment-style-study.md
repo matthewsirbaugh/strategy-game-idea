@@ -2,7 +2,7 @@
 
 - Feeds: [environment-fidelity.md](environment-fidelity.md) (the technical how),
   [environment-art.md](environment-art.md), [art-pipeline.md](art-pipeline.md#house-style)
-- Status: retired 2026-10-08, kept as history.
+- Status: parked; retired 2026-10-08, kept as history.
 
 > 2026-10-09: this is a study of the Edgerunners look, which is retired. The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)). Don't build from it.
 > Its reference frames are in `art/reference/retired/look/`.
