@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://btb2gmr4hma2l"
-path="res://.godot/imported/guard.glb-22c519e6a6ed3498e0a7b0fe5d331425.scn"
+path="res://.godot/imported/guard.glb-efbaad9c570732a1555688f699ffd6b7.scn"
 
 [deps]
 
-source_file="res://art/characters/guard/guard.glb"
-dest_files=["res://.godot/imported/guard.glb-22c519e6a6ed3498e0a7b0fe5d331425.scn"]
+source_file="res://assets/legacy/characters/guard/guard.glb"
+dest_files=["res://.godot/imported/guard.glb-efbaad9c570732a1555688f699ffd6b7.scn"]
 
 [params]
 

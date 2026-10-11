@@ -1,0 +1,19 @@
+{
+  "spec": 1,
+  "id": "server_rack",
+  "name": "Server rack (Prime Data Cache)",
+  "category": "devices",
+  "status": "legacy",
+  "model": "server_rack.glb",
+  "height_m": 2.2,
+  "device": "cache",
+  "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
+  "brief": null,
+  "sources": null,
+  "made_with": {
+    "tool": "meshy",
+    "date": "2026-09-28"
+  },
+  "animations": [],
+  "notes": ""
+}

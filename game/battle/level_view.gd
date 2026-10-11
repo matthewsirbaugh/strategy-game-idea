@@ -41,7 +41,7 @@ const FLOODLIGHT_HEAD_Y := 5.7
 const GROUND_SIZE := 400.0
 # Rain falls on the map and this far around it; the haze hides the rest.
 const RAIN_MARGIN := 10.0
-const PROP_PATH := "res://art/props/%s/%s.glb"
+const PROP_PATH := "res://assets/legacy/props/%s/%s.glb"
 # Heights in metres, a little bigger than life where a prop has to read from far off.
 const PROP_HEIGHTS := {"access_point": 1.2, "security_camera": 0.6, "server_rack": 2.2,
 	"loading_dock": 2.8, "shipping_crates": 1.6, "floodlight_pole": 6.0,

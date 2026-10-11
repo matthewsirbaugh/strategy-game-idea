@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://c55tsmm83c0sd"
-path="res://.godot/imported/guard_booth.glb-471c26dc62d4590f4b24a6892fcc17ad.scn"
+path="res://.godot/imported/guard_booth.glb-7a0726a7ffcfa59caa59faee93f20cc3.scn"
 
 [deps]
 
-source_file="res://art/props/guard_booth/guard_booth.glb"
-dest_files=["res://.godot/imported/guard_booth.glb-471c26dc62d4590f4b24a6892fcc17ad.scn"]
+source_file="res://assets/legacy/props/guard_booth/guard_booth.glb"
+dest_files=["res://.godot/imported/guard_booth.glb-7a0726a7ffcfa59caa59faee93f20cc3.scn"]
 
 [params]
 

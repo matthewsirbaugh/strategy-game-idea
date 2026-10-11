@@ -10,5 +10,5 @@ ap = 8
 sight = 6
 shot_range = 5
 color = Color(0.25, 1, 0.35, 1)
-model = "res://art/characters/main_character/main_character.glb"
-pack = "res://art/characters/packs/pack_main_character.glb"
+model = "res://assets/legacy/characters/main_character/main_character.glb"
+pack = "res://assets/legacy/characters/packs/pack_main_character.glb"

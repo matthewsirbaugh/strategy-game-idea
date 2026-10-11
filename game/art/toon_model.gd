@@ -6,7 +6,7 @@ extends Node3D
 const TOON := preload("res://art/shaders/toon.gdshader")
 const INK := preload("res://art/shaders/ink_outline.gdshader")
 const SILHOUETTE := preload("res://art/shaders/silhouette.gdshader")
-const CLIP_SOURCE := "res://art/characters/clip_source/"
+const CLIP_SOURCE := "res://assets/legacy/characters/clip_source/"
 const LOOPING := ["Neutral", "Idle", "Walk", "Run", "Cautious_Crouch_Walk_Forward"]
 const ARM_DROP_DEGREES := 75.0
 

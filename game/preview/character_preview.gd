@@ -3,7 +3,7 @@ extends Node3D
 ## their clips, and the battle camera's view. Run with
 ## `godot --path game res://preview/character_preview.tscn`.
 
-# Character folder in art/characters/ and the pack each one wears, if any.
+# Character folder in assets/legacy/characters/ and the pack each one wears, if any.
 const CHARACTERS := {
 	"main_character": "pack_main_character",
 	"operator_sage": "pack_operator_sage",
@@ -38,7 +38,7 @@ func _load_character() -> void:
 	var pack: String = CHARACTERS[character_name]
 	_model = ToonModel.new()
 	add_child(_model)
-	_model.build(load("res://art/characters/%s/%s.glb" % [character_name, character_name]), load("res://art/characters/packs/%s.glb" % pack) if pack else null)
+	_model.build(load("res://assets/legacy/characters/%s/%s.glb" % [character_name, character_name]), load("res://assets/legacy/characters/packs/%s.glb" % pack) if pack else null)
 	_clips.assign(_model.clips())
 	_clips.sort()
 	for clip_name in FIRST_CLIPS:

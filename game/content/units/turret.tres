@@ -11,4 +11,4 @@ speed = 3
 seen_range = 6
 noticed_range = 9
 color = Color(0.94, 0.95, 0.96, 1)
-model = "res://art/props/turret/turret.glb"
+model = "res://assets/legacy/props/turret/turret.glb"

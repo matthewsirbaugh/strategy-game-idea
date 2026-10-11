@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bay85gpm5i7a4"
-path="res://.godot/imported/pack_operator_sage.glb-763c2646e64537bc8eef7392431d9f86.scn"
+path="res://.godot/imported/pack_operator_sage.glb-9648e5dd96eeddfa78197d0a62591c60.scn"
 
 [deps]
 
-source_file="res://art/characters/packs/pack_operator_sage.glb"
-dest_files=["res://.godot/imported/pack_operator_sage.glb-763c2646e64537bc8eef7392431d9f86.scn"]
+source_file="res://assets/legacy/characters/packs/pack_operator_sage.glb"
+dest_files=["res://.godot/imported/pack_operator_sage.glb-9648e5dd96eeddfa78197d0a62591c60.scn"]
 
 [params]
 

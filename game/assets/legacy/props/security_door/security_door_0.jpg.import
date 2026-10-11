@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c6rl1luhhq3yl"
-path="res://.godot/imported/security_door_0.jpg-48beeb521a79be4dade650f17359c86e.ctex"
+path="res://.godot/imported/security_door_0.jpg-40ad14d58bc41ede6aa9cb5ac6d44588.ctex"
 metadata={
 "vram_texture": false
 }
@@ -13,8 +13,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://art/props/security_door/security_door_0.jpg"
-dest_files=["res://.godot/imported/security_door_0.jpg-48beeb521a79be4dade650f17359c86e.ctex"]
+source_file="res://assets/legacy/props/security_door/security_door_0.jpg"
+dest_files=["res://.godot/imported/security_door_0.jpg-40ad14d58bc41ede6aa9cb5ac6d44588.ctex"]
 
 [params]
 

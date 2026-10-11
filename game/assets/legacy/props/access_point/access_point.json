@@ -1,0 +1,19 @@
+{
+  "spec": 1,
+  "id": "access_point",
+  "name": "Access point (wall panel)",
+  "category": "devices",
+  "status": "legacy",
+  "model": "access_point.glb",
+  "height_m": 1.2,
+  "device": "access",
+  "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
+  "brief": null,
+  "sources": null,
+  "made_with": {
+    "tool": "meshy",
+    "date": "2026-09-28"
+  },
+  "animations": [],
+  "notes": ""
+}

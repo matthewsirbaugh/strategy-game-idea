@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://boe78y7c8w6wv"
-path="res://.godot/imported/shipping_crates.glb-dc0ddb19ec602ed318689f53211c1d1e.scn"
+path="res://.godot/imported/shipping_crates.glb-76ad0b8b7ceffc42ac887208c37919b0.scn"
 
 [deps]
 
-source_file="res://art/props/shipping_crates/shipping_crates.glb"
-dest_files=["res://.godot/imported/shipping_crates.glb-dc0ddb19ec602ed318689f53211c1d1e.scn"]
+source_file="res://assets/legacy/props/shipping_crates/shipping_crates.glb"
+dest_files=["res://.godot/imported/shipping_crates.glb-76ad0b8b7ceffc42ac887208c37919b0.scn"]
 
 [params]
 

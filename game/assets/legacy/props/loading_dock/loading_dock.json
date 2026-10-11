@@ -1,0 +1,19 @@
+{
+  "spec": 1,
+  "id": "loading_dock",
+  "name": "Loading dock door",
+  "category": "devices",
+  "status": "legacy",
+  "model": "loading_dock.glb",
+  "height_m": 2.8,
+  "device": "autodoor",
+  "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
+  "brief": null,
+  "sources": null,
+  "made_with": {
+    "tool": "meshy",
+    "date": "2026-09-28"
+  },
+  "animations": [],
+  "notes": ""
+}

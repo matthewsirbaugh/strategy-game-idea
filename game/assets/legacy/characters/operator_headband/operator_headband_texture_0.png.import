@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b38jvk5qwfrc3"
-path="res://.godot/imported/operator_headband_texture_0.png-e807b7aa127841e57efddce67b3b82ee.ctex"
+path="res://.godot/imported/operator_headband_texture_0.png-2ad91fedda7a65461ded40694a050de7.ctex"
 metadata={
 "vram_texture": false
 }
@@ -13,8 +13,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://art/characters/operator_headband/operator_headband_texture_0.png"
-dest_files=["res://.godot/imported/operator_headband_texture_0.png-e807b7aa127841e57efddce67b3b82ee.ctex"]
+source_file="res://assets/legacy/characters/operator_headband/operator_headband_texture_0.png"
+dest_files=["res://.godot/imported/operator_headband_texture_0.png-2ad91fedda7a65461ded40694a050de7.ctex"]
 
 [params]
 

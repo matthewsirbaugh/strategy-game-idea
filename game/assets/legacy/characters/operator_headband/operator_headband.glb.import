@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://b0wdh7ndodvwe"
-path="res://.godot/imported/operator_headband.glb-cab4bc4270add13a6aa6061bb16741ce.scn"
+path="res://.godot/imported/operator_headband.glb-3acc2803634828a3b3e13bd735ccbc6d.scn"
 
 [deps]
 
-source_file="res://art/characters/operator_headband/operator_headband.glb"
-dest_files=["res://.godot/imported/operator_headband.glb-cab4bc4270add13a6aa6061bb16741ce.scn"]
+source_file="res://assets/legacy/characters/operator_headband/operator_headband.glb"
+dest_files=["res://.godot/imported/operator_headband.glb-3acc2803634828a3b3e13bd735ccbc6d.scn"]
 
 [params]
 

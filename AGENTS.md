@@ -61,7 +61,7 @@ expects that plan to change as ideas surface while playing.
 | art/reference/ | Reference images Bryson chose; new art adheres to them |
 | art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
 | art/briefs/ | What each asset is meant to be, written by Claude for Bryson and Sol |
-| art/meshy/ | The input images sent to Meshy, and a record of each model made from them |
+| art/sources/ | What each asset was made from: Sol's images for Meshy, and Meshy's raw download |
 | ARCHIVE.md | What was set aside in the archive outside the project, when and why |
 | art/previews/ | Captures of builds, for review |
 | .claude/commands/exploration.md | The `/exploration` command, for Claude Code |

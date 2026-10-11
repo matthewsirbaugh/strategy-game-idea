@@ -1,10 +1,10 @@
 extends Node3D
-## Look-dev stage for new props: each model in art/proof/ under night light like the references,
+## Look-dev stage for new props: each new model in assets/ (not legacy/) under night light like the references,
 ## cool moonlight, a warm uplight and wet ground, beside a 1.8 m person for scale. Run with
 ## `godot --path game res://preview/prop_preview.tscn`. Left and right change prop, V switches
 ## between the battle camera's view and a close one, Q and E turn the prop.
 
-const PROP_DIR := "res://art/proof/"
+const ASSET_DIR := "res://assets/"
 const CLOSE := {"distance": 4.5, "pitch": 14.0, "height": 0.7, "fov": 40.0}
 const BATTLE := {"distance": 34.0, "pitch": 50.0, "height": 0.9, "fov": 40.0}
 
@@ -20,10 +20,17 @@ var _yaw := 35.0
 
 func _ready() -> void:
 	_build_stage()
-	for file in DirAccess.get_files_at(PROP_DIR):
-		if file.ends_with(".glb"):
-			_paths.append(PROP_DIR + file)
+	_find_models(ASSET_DIR)
 	_show()
+
+
+func _find_models(dir: String) -> void:
+	for file in DirAccess.get_files_at(dir):
+		if file.ends_with(".glb"):
+			_paths.append(dir + file)
+	for sub in DirAccess.get_directories_at(dir):
+		if sub != "legacy":
+			_find_models(dir + sub + "/")
 
 
 func _build_stage() -> void:
@@ -81,7 +88,7 @@ func _show() -> void:
 		_prop.free()
 		_prop = null
 	if _paths.is_empty():
-		_label.text = "No models in %s yet" % PROP_DIR
+		_label.text = "No new models in %s yet" % ASSET_DIR
 		_place_camera()
 		return
 	_prop = (load(_paths[_index]) as PackedScene).instantiate()

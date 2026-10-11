@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cda8vsdesv5yd"
-path="res://.godot/imported/clip_source_texture_0.png-c524e72fb4f584b921d401fee978a6e9.ctex"
+path="res://.godot/imported/clip_source_texture_0.png-d853a48592898e12c46bdd6bf93ead67.ctex"
 metadata={
 "vram_texture": false
 }
@@ -13,8 +13,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://art/characters/clip_source/clip_source_texture_0.png"
-dest_files=["res://.godot/imported/clip_source_texture_0.png-c524e72fb4f584b921d401fee978a6e9.ctex"]
+source_file="res://assets/legacy/characters/clip_source/clip_source_texture_0.png"
+dest_files=["res://.godot/imported/clip_source_texture_0.png-d853a48592898e12c46bdd6bf93ead67.ctex"]
 
 [params]
 

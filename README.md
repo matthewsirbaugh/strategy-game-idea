@@ -11,7 +11,7 @@ Needs Godot 4.7 (`brew install --cask godot`).
   scripts added elsewhere fail with "Identifier not declared".
 - Edit: open `game/project.godot` in the Godot editor, then press F5 to run.
 - Preview a character with the toon shader and its animations: `godot --path game res://preview/character_preview.tscn`
-- Preview new props under night light, close up and from the battle camera: `godot --path game res://preview/prop_preview.tscn`. It shows every model in `game/art/proof/`.
+- Preview new props under night light, close up and from the battle camera: `godot --path game res://preview/prop_preview.tscn`. It shows every new model in `game/assets/` (not `legacy/`).
 - Ready a Meshy model for the game (real height, origin at its base, a triangle budget): `blender -b --python tools/prep_prop.py -- in.glb out.glb --height 1.0 --max-tris 8000`
 - Verify imports and every test suite: `bash tools/check.sh`. Prints one line per successful
   check; on failure, prints the Godot output and exits nonzero, including script errors that
@@ -47,7 +47,8 @@ Operator phase", "End AI phase"), and Space does what the end row says.
 | `content/` | Tunable data as `.tres` files: `battle.tres` gathers the units, devices, chips and V1 loadouts; maps are in `maps/`: `facility_yard.tres` is played, `facility_exterior.tres` is the rules tests' map |
 | `tests/` | The few tests that earn their keep, run headless |
 | `autoload/` | The two globals: settings and scene switching |
-| `art/` | Models, fonts and shared shaders the game loads: the toon look for models, and the painted walls, ground and signs, all under the fog. `surfaces.gd` holds every surface's colors and wear |
+| `assets/` | Every model, one folder each with a record; the contract is `assets/README.md`. `legacy/` holds the retired models still used as placeholders |
+| `art/` | Fonts, shaders and code for the game's look: the toon look for models, and the painted walls, ground and signs, all under the fog. `surfaces.gd` holds every surface's colors and wear |
 | `preview/` | Look-dev scenes that aren't part of the game |
 
 ## Code reading routes
@@ -69,7 +70,7 @@ the task. Historical findings, concept art and binary assets need not be loaded 
 | Actions, menus, picking, previews, event playback | [battle.gd](game/battle/battle.gd) | [battle_menus.gd](game/battle/battle_menus.gd), [battle_log.gd](game/battle/battle_log.gd), [hover_info.gd](game/battle/hover_info.gd), [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
 | Camera and mouse gestures | [camera_rig.gd](game/battle/camera_rig.gd) | `battle.gd` input and picking functions, `project.godot` input actions |
 | Fog, overlays and wall visibility | [grid_view.gd](game/battle/grid_view.gd), [level_view.gd](game/battle/level_view.gd) | `art/shaders/fog.gdshaderinc`, `ghost.gdshaderinc` |
-| Character rendering and animation | [unit_view.gd](game/battle/unit_view.gd), [toon_model.gd](game/art/toon_model.gd) | [character_rig.gd](game/art/characters/character_rig.gd), `preview/` |
+| Character rendering and animation | [unit_view.gd](game/battle/unit_view.gd), [toon_model.gd](game/art/toon_model.gd) | [character_rig.gd](game/art/character_rig.gd), `preview/` |
 | Environment and device props | [level_view.gd](game/battle/level_view.gd) | `city_backdrop.gd`, `signs.gd`, `rain.gd`, `art/surfaces.gd`, `art/shaders/` |
 | Menus and saved settings | `ui/`, `autoload/` | The matching `.tscn` and `.gd` pair |
 

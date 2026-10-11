@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://6inarobf75kp"
-path="res://.godot/imported/shipping_crates_0.jpg-7bb585c748c5bbaf65127da6d82433eb.ctex"
+path="res://.godot/imported/shipping_crates_0.jpg-8ba5cf9adc38f3f511bdf06ac88f6895.ctex"
 metadata={
 "vram_texture": false
 }
@@ -13,8 +13,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://art/props/shipping_crates/shipping_crates_0.jpg"
-dest_files=["res://.godot/imported/shipping_crates_0.jpg-7bb585c748c5bbaf65127da6d82433eb.ctex"]
+source_file="res://assets/legacy/props/shipping_crates/shipping_crates_0.jpg"
+dest_files=["res://.godot/imported/shipping_crates_0.jpg-8ba5cf9adc38f3f511bdf06ac88f6895.ctex"]
 
 [params]
 

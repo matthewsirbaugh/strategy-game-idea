@@ -1,0 +1,22 @@
+{
+  "spec": 1,
+  "id": "guard",
+  "name": "Guard",
+  "category": "units",
+  "status": "legacy",
+  "model": "guard.glb",
+  "height_m": 1.8,
+  "device": null,
+  "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
+  "brief": null,
+  "sources": null,
+  "made_with": {
+    "tool": "meshy",
+    "date": "2026-09-27"
+  },
+  "animations": [
+    "run.glb",
+    "walk.glb"
+  ],
+  "notes": ""
+}

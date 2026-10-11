@@ -1,0 +1,19 @@
+{
+  "spec": 1,
+  "id": "turret",
+  "name": "Turret",
+  "category": "devices",
+  "status": "legacy",
+  "model": "turret.glb",
+  "height_m": 1.3,
+  "device": "turret",
+  "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
+  "brief": null,
+  "sources": null,
+  "made_with": {
+    "tool": "meshy",
+    "date": "2026-09-28"
+  },
+  "animations": [],
+  "notes": ""
+}

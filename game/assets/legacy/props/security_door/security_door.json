@@ -1,0 +1,19 @@
+{
+  "spec": 1,
+  "id": "security_door",
+  "name": "Security door",
+  "category": "devices",
+  "status": "legacy",
+  "model": "security_door.glb",
+  "height_m": 2.4,
+  "device": "door",
+  "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
+  "brief": null,
+  "sources": null,
+  "made_with": {
+    "tool": "meshy",
+    "date": "2026-09-28"
+  },
+  "animations": [],
+  "notes": ""
+}

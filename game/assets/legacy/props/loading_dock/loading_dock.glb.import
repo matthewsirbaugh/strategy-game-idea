@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bf4145qh5qraj"
-path="res://.godot/imported/loading_dock.glb-441068afc1064afda7da82aa729857d2.scn"
+path="res://.godot/imported/loading_dock.glb-b2089efbae3e262feb802b618e2aaaef.scn"
 
 [deps]
 
-source_file="res://art/props/loading_dock/loading_dock.glb"
-dest_files=["res://.godot/imported/loading_dock.glb-441068afc1064afda7da82aa729857d2.scn"]
+source_file="res://assets/legacy/props/loading_dock/loading_dock.glb"
+dest_files=["res://.godot/imported/loading_dock.glb-b2089efbae3e262feb802b618e2aaaef.scn"]
 
 [params]
 

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cf73a7oskldlu"
-path="res://.godot/imported/loading_dock_0.jpg-1f9f6d5c5b3ae49be20037ca21ed336e.ctex"
+path="res://.godot/imported/loading_dock_0.jpg-94e0ddcd7715e70def3f5750ca362942.ctex"
 metadata={
 "vram_texture": false
 }
@@ -13,8 +13,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://art/props/loading_dock/loading_dock_0.jpg"
-dest_files=["res://.godot/imported/loading_dock_0.jpg-1f9f6d5c5b3ae49be20037ca21ed336e.ctex"]
+source_file="res://assets/legacy/props/loading_dock/loading_dock_0.jpg"
+dest_files=["res://.godot/imported/loading_dock_0.jpg-94e0ddcd7715e70def3f5750ca362942.ctex"]
 
 [params]
 

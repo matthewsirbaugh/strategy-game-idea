@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bkrg3qhu4584s"
-path="res://.godot/imported/walk.glb-264529d51c8aed750a65930023447a1b.scn"
+path="res://.godot/imported/walk.glb-f8828894759b2c6b734904a352be9c8a.scn"
 
 [deps]
 
-source_file="res://art/characters/guard/walk.glb"
-dest_files=["res://.godot/imported/walk.glb-264529d51c8aed750a65930023447a1b.scn"]
+source_file="res://assets/legacy/characters/guard/walk.glb"
+dest_files=["res://.godot/imported/walk.glb-f8828894759b2c6b734904a352be9c8a.scn"]
 
 [params]
 

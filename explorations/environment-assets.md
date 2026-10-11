@@ -114,7 +114,16 @@ None yet.
 - Built: [the briefs](../art/briefs/proof-run.md) for the bollard light, the camera head and the
   access terminal; `tools/prep_prop.py`, which readies a Meshy model in Blender, tested on an old
   prop; `game/preview/prop_preview.tscn`, a night look-dev stage with the battle camera's view and
-  a 1.8 m person for scale; and [the Meshy log](../art/meshy/log.md).
+  a 1.8 m person for scale; and a log of Meshy runs, which became each asset's record the same day.
+
+### 2026-10-10 — Folders for assets, and a contract for the model viewer (Bryson approved; Claude built)
+
+Bryson plans for Sol to build a Godot model viewer, and approved restructuring the folders for it.
+Every model now lives in `game/assets/`, one folder per asset with a record of what it is and how
+it was made; the retired models moved to `game/assets/legacy/`, still loaded as placeholders, and
+the game looks the same. Sources for Meshy go to `art/sources/`. The record format is a draft
+contract, [game/assets/README.md](../game/assets/README.md), for Sol to review, alongside
+[how Claude and Sol work together](claude-and-sol.md).
 
 ## Open questions
 

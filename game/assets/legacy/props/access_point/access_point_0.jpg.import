@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0sev4whsnjmv"
-path="res://.godot/imported/access_point_0.jpg-515ccc54745ffe763fc2ee6d2cf033d0.ctex"
+path="res://.godot/imported/access_point_0.jpg-48d0221b1bab32574fcb81bd136d15a0.ctex"
 metadata={
 "vram_texture": false
 }
@@ -13,8 +13,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://art/props/access_point/access_point_0.jpg"
-dest_files=["res://.godot/imported/access_point_0.jpg-515ccc54745ffe763fc2ee6d2cf033d0.ctex"]
+source_file="res://assets/legacy/props/access_point/access_point_0.jpg"
+dest_files=["res://.godot/imported/access_point_0.jpg-48d0221b1bab32574fcb81bd136d15a0.ctex"]
 
 [params]
 
