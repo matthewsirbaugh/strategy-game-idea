@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open questions 1, 4, 5
 - Status: parked; further character and plot development is on the back burner.
-> 2026-10-09: parts of the world graduated to [DESIGN.md](../DESIGN.md): Silicon Valley in the
-> late 2030s to early 2040s, OpenBrain the villain, no humanoid robots, and AIs with no
+> 2026-10-09: parts of the world graduated to [DESIGN.md](../DESIGN.md): a California city (not
+> Silicon Valley, since 2026-10-10) in the late 2030s to early 2040s, OpenBrain the villain, no humanoid robots, and AIs with no
 > appearance, only text and voice. The chibi partners and companions in the findings below are
 > history.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
@@ -36,6 +36,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | Corporate strength and access-point ownership | [Two corporate factions](#corporations) |
 | Subsistence, concentrated wealth and human labor | [Society and robotics](#society) |
 | The data economy, ownership without a vote, the race for the robots, OpenBrain | [Data economy](#data-economy) |
+| The city, the displaced workforce, the monopoly and the open-sourced models, old diesel | [Corrections, 2026-10-10](#corrections-2026-10-10) |
 | Improvised equipment and the board-member source | [Resistance and insider](#resistance) |
 | Code names, privacy and manipulation | [Partner knowledge](#identity) |
 | Agent recommendations | [Prior evaluation](#agent-evaluation), explicitly advice |
@@ -404,6 +405,9 @@ and later models whose behavior feels sterile and focused on productivity.
 
 ### 2026-09-21 — The two corporate factions (Bryson, this thread)
 
+> 2026-10-10: America now has one frontier-AI company, OpenBrain, a monopoly; the rival-access
+> rules below assumed two. See [the corrections](#corrections-2026-10-10).
+
 Each of the two frontier-AI corporations is a faction. Their models are enormously powerful,
 but slower in movement and ability windup. They are intended as mid- and late-game enemies; the
 player will also gain comparably consequential abilities rather than fighting them with only
@@ -426,6 +430,9 @@ terrain between them.
 <a id="society"></a>
 
 ### 2026-09-21 — The cyberpunk society and the robotics wall (Bryson, this thread)
+
+> 2026-10-10: the income and the duopoly below are superseded; see
+> [the corrections](#corrections-2026-10-10).
 
 AI capability advanced faster than society could adapt. Most people now survive on subsistence
 universal basic income: enough to live, not enough to thrive, with little upward mobility.
@@ -612,6 +619,37 @@ and [vehicle forecourt](../art/concepts/city-and-campus-study-2026-10-10/05-camp
 - A master AI guard has vision on every camera, and on every person, robot and vehicle under its
   control. It directs the guards and gives them orders. It will probably be a named character.
 - Breaking directly into OpenBrain's headquarters is maybe a late-game mission.
+
+<a id="corrections-2026-10-10"></a>
+
+### 2026-10-10 — Corrections: the city, the economy, one company, old diesel (Bryson)
+
+Bryson's answers to the contradictions Claude listed in the lore.
+
+**The city.** Not Silicon Valley: Bryson doesn't know its layout, and what he has in mind wouldn't
+quite work there. It's still a city, maybe just somewhere in California.
+
+**The economy.** The basic income alone doesn't keep a person housed.
+- About 20% of the working population was displaced by AI directly: essentially every knowledge
+  worker.
+- With no middle class left outside those who made their money from the trades, the trades
+  compressed further. So did retail, since people had a fraction of their former discretionary
+  income.
+- This replaces 2026-09-21's "enough to live, not enough to thrive."
+
+**One company.** OpenBrain is a monopoly in America.
+- The Anthropic equivalent, Anthropomorphic, open-sourced the largest open models, competitive
+  with the frontier, along with all of its research on reinforcement learning and recursive
+  self-improvement, before it went under: AI regulations killed its business, and its investors
+  moved to OpenBrain.
+- This replaces 2026-09-21's duopoly of two enemy factions.
+
+**Vehicles.** Electric vehicles are what faces forward, and what the research park uses. Probably
+every new vehicle is electric, construction vehicles included, but existing ones, almost 20 years
+old by then, might still run on diesel. RULES.md's diesel truck stands.
+
+**The master AI is lore, not a rule.** It isn't actually all-seeing in play, and the gameplay works
+exactly as it does now. It explains why the guards can coordinate when things escalate.
 
 ## Open questions
 

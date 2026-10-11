@@ -23,7 +23,7 @@ together, in the realistic direction? Starting from scratch.
 
 ## Constraints this inherits
 
-- DESIGN.md: realistic; Silicon Valley in the late 2030s to early 2040s, visually close to today;
+- DESIGN.md: realistic; a California city, not Silicon Valley, in the late 2030s to early 2040s, visually close to today;
   more of it is the poor part of town; sleeker electric cars; pristine OpenBrain territory, white
   with black and red accents, against a familiar, poorer city; everything dim.
 - The latest concept Bryson preferred is the creekside campus

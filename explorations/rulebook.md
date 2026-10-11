@@ -702,7 +702,9 @@ pipeline; V1 is finished after that. Bring these to the same session, raised on 
   does instead? Bryson wasn't sure on 2026-10-04.
 - The chip categories, Surveillance, Weapon Systems and Infrastructure, are placeholder names.
 - The rules make the truck diesel and loud; DESIGN.md says electric vehicles have largely taken
-  over. An old diesel holdout, or electric with a different sound?
+  over. Answered 2026-10-10: new vehicles are electric, but ones almost 20 years old may still run
+  on diesel, so the diesel truck stands
+  ([lore](core-idea-and-story.md#corrections-2026-10-10)).
 
 ## V2: after implementation and playtesting
 

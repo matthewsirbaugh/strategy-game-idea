@@ -108,12 +108,14 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
 - No permadeath.
 - The game is 3D, and it should be good looking. The models and textures in the game now are
   alpha placeholder art, there to judge the look in play; final art comes later. (2026-09-28)
-- Silicon Valley, California, in the late 2030s to early 2040s. Visually not far from today:
+- A city in California, not Silicon Valley, in the late 2030s to early 2040s. Visually not far
+  from today:
   more places are the poor part of town than ever, and sleeker electric cars have largely taken
   over. Pristine OpenBrain territory, white with black and red accents, stands against a city
   that's familiar but obviously poorer. The world is grounded in how AI would really change
-  things, as the rules are. OpenBrain, the OpenAI clone, is the main villain. It replaces the
-  gritty technofeudal future. (2026-10-08)
+  things, as the rules are. OpenBrain, the OpenAI clone, is the main villain, and a monopoly in
+  America. It replaces the gritty technofeudal future. (2026-10-08; the city and the monopoly
+  2026-10-10, [lore](explorations/core-idea-and-story.md#corrections-2026-10-10))
 - The look is realistic, characters included. The Edgerunners direction is retired. Details are
   worked out in [the art-direction exploration](explorations/art-direction.md). (2026-10-08)
 - The enemy is like OpenAI: black and white, very modern, mostly white, with red accents in very
