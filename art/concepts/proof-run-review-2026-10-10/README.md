@@ -14,10 +14,10 @@ Next: Bryson chooses or revises these designs. After approval, generate the exac
 
 ## Standalone logo handoff for Claude
 
-Bryson approved the corrected continuous logo on 2026-10-10: “Much better, thank you.” Use [the approved OpenBrain logo PNG](../../reference/openbrain-logo-white.png) as the reusable reference. It is black on white, without transparency.
-
-The earlier standalone candidate, 04-openbrain-logo-white.png, was rejected for disconnected strokes. The approved version supersedes it. The terminal main-view candidate above predates this correction; its emblem is not the approved logo reference.
-
-Generated with the built-in image tool from the earlier logo and campus reference, then corrected through image generation. Final correction prompt: close all four exposed stroke tips into neighboring strokes, preserve the rounded five-lobed silhouette and diagonal center curvature, enclose the central white hole and five petal openings, and form one continuous black emblem on white without text, texture or shadows.
+Correction, 2026-10-11 (Bryson, via Claude): the merged continuous version was the wrong file. The
+correct logo is the interlaced one, its strokes weaving over and under each other with clean gaps
+at each crossing. Bryson handed it to Claude, and it replaces [the reference PNG](../../reference/openbrain-logo-white.png).
+It's black on white, without transparency. The disconnected first candidate, 04-openbrain-logo-white.png,
+stays rejected. The terminal main view's emblem is close to the correct logo.
 
 For Claude when Bryson passes this off: reuse the approved PNG itself for consistent branding on future assets. The prop designs and their remaining views still await Bryson’s selection separately.
