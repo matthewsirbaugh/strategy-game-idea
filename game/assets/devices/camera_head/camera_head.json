@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "camera_head",
+  "name": "Camera head",
+  "category": "devices",
+  "status": "proof",
+  "model": "camera_head.glb",
+  "height_m": 0.207,
+  "fit_to_height": false,
+  "device": "camera",
+  "description": "A white security camera housing with a black glass face, a lidar puck on top and a black swivel bracket that bolts to a pole or wall.",
+  "brief": "art/briefs/proof-run.md",
+  "sources": "art/sources/devices/camera_head/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-7",
+    "settings": "multi-image (main and side views), textured, PBR",
+    "task": "01a12946-e3c6-74d5-b8c1-78f83046a81f",
+    "credits": 30,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "0.60 m long, lens facing -X, mounting plate at +X. Meshy's 644,646 triangles collapsed to 30,000 in Blender; 8,000 shredded the surface. Smart topology can't take more than one image, so this one is Meshy 7 (Bryson chose, 2026-10-11). Its small red light is too faint in the texture for --glow, so nothing glows yet. Claude still builds the pole."
+}

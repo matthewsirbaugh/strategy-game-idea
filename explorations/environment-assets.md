@@ -144,6 +144,23 @@ Bryson, the same day: smart topology is the default for props; the Meshy 7 bolla
 `tools/prep_prop.py --glow` now turns a model's lit parts into emission: texels brighter than a
 threshold and saturated reds. The bollard's band and status dot glow; its body stays dark.
 
+### 2026-10-11 — The camera head and the access terminal (Bryson chose option C; Claude ran it)
+
+Smart topology takes only one image, so Bryson chose: the camera from both its views with Meshy 7
+(30 credits), the terminal from its main view with smart topology (15). The proof run cost 90
+credits in all.
+
+- **Camera head:** faithful, bracket and lidar puck included, 0.6 m long. Meshy 7 gave 644,646
+  triangles. Cutting to 8,000 in Blender shredded the surface; 30,000 holds up at game scale.
+  Lesson: Meshy 7's dense meshes don't survive a hard cut, which is one more reason for smart topology.
+- **Access terminal:** clean at 4,172 triangles; Astra's emblem came through in the texture. Meshy
+  dropped the red edge strip, so Claude added it by hand as a glowing bar. The screen doesn't glow
+  yet.
+- `--glow` lights nothing on white bodies without picking up the white; `--glow 2` now lights only
+  reds, and finds nothing on these two.
+
+Seen in Blender renders only; not yet in the night stage or played.
+
 ## Open questions
 
 None for now.

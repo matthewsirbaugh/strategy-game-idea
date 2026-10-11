@@ -2,6 +2,7 @@
 # base, an optional triangle budget, exported as GLB with its textures.
 # Run: blender -b --python tools/prep_prop.py -- <in.glb> <out.glb> --height 1.0 [--max-tris 8000]
 #      [--glow 0.75] lights up texels brighter than that, and saturated reds, as emission.
+#      --glow 2 lights only the reds, for white bodies.
 import argparse
 import sys
 
@@ -70,6 +71,9 @@ def add_glow(material) -> None:
     luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
     # Meshy paints lit parts into the base colour; the bright band and red status lights are the lamps.
     lit = (luminance > opts.glow) | ((r > 0.35) & (r > 2.5 * g) & (r > 2.5 * b))
+    if not lit.any():
+        print("PREP glow: nothing lit in %s" % material.name)
+        return
     glow = np.zeros_like(rgba)
     glow[lit, :3] = rgba[lit, :3]
     glow[:, 3] = 1.0

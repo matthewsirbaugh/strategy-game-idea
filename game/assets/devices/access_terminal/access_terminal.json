@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "access_terminal",
+  "name": "Access terminal",
+  "category": "devices",
+  "status": "proof",
+  "model": "access_terminal.glb",
+  "height_m": 1.3,
+  "fit_to_height": false,
+  "device": "access",
+  "description": "A white OpenBrain monolith with a black glass front: a screen, a palm scanner, the emblem, and a red light strip down one edge. The campus network's way in.",
+  "brief": "art/briefs/proof-run.md",
+  "sources": "art/sources/devices/access_terminal/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12946-ef5d-7276-85b6-79b074c4b5aa",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "4,172 triangles; 0.37 x 0.33 m, front facing -Z in Godot (-Y in Blender). Meshy left out the red edge strip, so Claude added it by hand: a 1 cm emissive red bar on the front-left edge. The emblem came through in Meshy's texture, readable up close; the decal from art/reference/openbrain-logo-white.png can replace it if needed. The screen doesn't glow yet. The back view (02-back.png) went unused, as smart topology takes one image."
+}
