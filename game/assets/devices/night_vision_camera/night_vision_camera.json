@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "night_vision_camera",
+  "name": "Night-vision camera",
+  "category": "devices",
+  "status": "proof",
+  "model": "night_vision_camera.glb",
+  "height_m": 0.207,
+  "fit_to_height": false,
+  "device": "nvcamera",
+  "description": "The camera head's darker sibling: a graphite housing with a ring of red infrared emitters around the lens.",
+  "brief": "art/briefs/batch-2-devices.md",
+  "sources": "art/sources/devices/night_vision_camera/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-7",
+    "settings": "retexture of camera_head's task, text prompt, PBR",
+    "task": "01a12959-ccfb-75a5-842d-69f6e8407c1b",
+    "credits": 10,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Same shape as camera_head: 0.60 m long, lens facing -X. Collapsed to 30,000 triangles, then prep_prop.py --glow 2: the infrared emitters and the recording light glow."
+}
