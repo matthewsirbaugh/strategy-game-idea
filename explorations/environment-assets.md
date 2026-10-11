@@ -3,9 +3,8 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: move Meshy's raw downloads out of the repository to
-  `~/Desktop/AI Strategy Game Model Archive/` (Bryson chose this over Git LFS, 2026-10-11), then put
-  the art in the game.
+- Next action: put the art in the game. (Meshy's raw downloads moved to
+  `~/Desktop/AI Strategy Game Model Archive/` on 2026-10-11; Bryson chose that over Git LFS.)
 
 ## The question
 
