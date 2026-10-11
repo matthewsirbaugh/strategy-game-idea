@@ -52,6 +52,7 @@ func _run() -> void:
 	_check(not _battle._network_shown and _title() == "BRAVO" and _menu().has("End turn"), "ending the AI's half goes back to Bravo to finish: %s" % [_menu()])
 	await _doors_and_network_options()
 	_device_menu_rules()
+	_blocker_sentences()
 	print("battle flow tests: " + ("all passed" if _failures == 0 else "%d failed" % _failures))
 	quit(1 if _failures > 0 else 0)
 
@@ -81,12 +82,12 @@ func _doors_and_network_options() -> void:
 	await _click(state.node_cell("d"))
 	_check(_menu().has("Open door D"), "clicking a locked adjacent door shows its contextual actions")
 	var open := _row("Open door D")
-	_check(open != null and open.disabled and open.tooltip_text.contains("network"), "the locked door explains how to unlock it")
+	_check(open != null and open.disabled and state.door_blocker(alpha, "d", "open") == "locked", "the locked door explains how to unlock it")
 	await _cancel()
 	await _press("AI")
 	await _press_mouse("Chips")
 	var undeployed := _row("Extended thinking")
-	_check(undeployed != null and undeployed.disabled and undeployed.tooltip_text.contains("Deploy"), "chips explain that an undeployed AI must connect first")
+	_check(undeployed != null and undeployed.disabled and state.chip_blocker(alpha, "extended_thinking") == "disconnected", "chips explain that an undeployed AI must connect first")
 	await _cancel()
 	await _press("Deploy at A")
 	await _press("Move")
@@ -101,14 +102,14 @@ func _doors_and_network_options() -> void:
 	await _press_mouse("Devices")
 	await _press_mouse(state.node_def("d").display_name + " D")
 	var lock := _row("Lock")
-	_check(lock != null and lock.disabled and lock.tooltip_text == "Already used this turn.", "a used device verb stays inspectable with its blocker")
+	_check(lock != null and lock.disabled and Devices.blocker(state, alpha, "d", "lock") == "used", "a used device verb stays inspectable with its blocker")
 	await _cancel(true)
 	_check(_title().contains("DEVICES"), "right-click returns from a device to its group")
 	await _cancel()
 	_check(_title() == "ALPHA'S AI", "Escape returns from the group to the AI")
 	await _press("Chips")
-	_check(_row("Locate").disabled and _row("Locate").tooltip_text.contains("unseen"), "Locate explains its missing target")
-	_check(_row("Predict").disabled and _row("Predict").tooltip_text.contains("visible guard"), "Predict explains its missing target")
+	_check(_row("Locate").disabled and state.chip_blocker(alpha, "locate") == "no_target", "Locate explains its missing target")
+	_check(_row("Predict").disabled and state.chip_blocker(alpha, "predict") == "no_target", "Predict explains its missing target")
 	context = alpha.context
 	ai_ap = alpha.ai_ap
 	_check(_cost_tags("Extended thinking") == ["+10M", "1 AI AP"], "the unloaded chip shows its load and use costs")
@@ -117,7 +118,7 @@ func _doors_and_network_options() -> void:
 	_check(alpha.context == context + 10 and alpha.ai_ap == ai_ap - 1 and alpha.chips[BattleState.EXTENDED_THINKING] == 2, "the unloaded active chip loads once for 10 context and uses one AI AP")
 	await _press("Chips")
 	var ready := _row("Extended thinking")
-	_check(ready != null and ready.disabled and ready.tooltip_text != "", "the all-disabled Chips group remains browsable")
+	_check(ready != null and ready.disabled and state.chip_blocker(alpha, "extended_thinking") == "waiting", "the all-disabled Chips group remains browsable")
 	ready.mouse_entered.emit()
 	_check(_battle._hud._menu_note.text == ready.tooltip_text, "hovering an unavailable action shows its blocking reason")
 	await _cancel()
@@ -135,7 +136,7 @@ func _doors_and_network_options() -> void:
 	_battle._refresh()
 	await _click(state.node_cell("d"))
 	var close := _row("Close door D")
-	_check(close != null and close.disabled and close.tooltip_text.contains("occupied"), "an occupied doorway cannot be closed")
+	_check(close != null and close.disabled and state.door_blocker(alpha, "d", "close") == "occupied", "an occupied doorway cannot be closed")
 	_check(state.use_door(alpha, "d", "close").is_empty(), "the rules also reject closing the occupied doorway")
 	body.down = true
 	state.refresh()
@@ -198,7 +199,7 @@ func _device_menu_rules() -> void:
 	state.devices.o.powered = false
 	var actions := BattleMenus.device_actions(state, alpha, "o")
 	var opening: Dictionary = actions.filter(func(action: Dictionary) -> bool: return action.text == "Open")[0]
-	_check(not opening.enabled and opening.tip == "Needs power first.", "an automatic door explains its power requirement")
+	_check(not opening.enabled and opening.blocker == "no_power", "an automatic door explains its power requirement")
 	var context := alpha.context
 	var ap := alpha.ai_ap
 	state.use_verb(alpha, "o", "power")
@@ -206,7 +207,7 @@ func _device_menu_rules() -> void:
 	state.use_verb(alpha, "o", "activate")
 	actions = BattleMenus.device_actions(state, alpha, "o")
 	var closing: Dictionary = actions.filter(func(action: Dictionary) -> bool: return action.text == "Close")[0]
-	_check(state.devices.o.open and not closing.enabled and closing.tip == "Already used this turn.", "activation updates its label and enforces the AI's verb limit")
+	_check(state.devices.o.open and not closing.enabled and closing.blocker == "used", "activation updates its label and enforces the AI's verb limit")
 	state.set_turret_mode(alpha, "t", "target")
 	_check(BattleMenus.device_actions(state, alpha, "t")[0].text == "Hold fire", "turret controls name the operation that changes its current mode")
 	var bravo: Unit = state.operators()[1]
@@ -219,7 +220,70 @@ func _device_menu_rules() -> void:
 	for option in state.verb_options(bravo):
 		var preview := state.clone()
 		var result := preview.use_verb(preview.active, option.node, option.verb, option.direction)
-		_check(option.enabled == not result.is_empty(), "device availability agrees with execution for %s:%s" % [option.node, option.verb])
+		_check((option.blocker == "") == not result.is_empty() and option.enabled == (option.blocker == ""), "device availability agrees with execution for %s:%s" % [option.node, option.verb])
+
+	_door_chip_deploy_rules(state, bravo)
+
+
+func _door_chip_deploy_rules(state: BattleState, unit: Unit) -> void:
+	for id in state.devices:
+		if state.map.node_kind(id) not in NodeDef.DOORS:
+			continue
+		for condition in ["closed", "open", "locked"]:
+			for ap in [0, BattleState.LOCK_COST]:
+				for action in ["open", "close", "lock", "invalid"]:
+					var copy := state.clone()
+					var actor := copy.units[unit.id]
+					actor.cell = Grid.neighbors(copy.node_cell(id)).filter(func(cell: Vector2i): return not copy.blocks_walk(cell))[0]
+					actor.ap = ap
+					copy.devices[id].open = condition == "open"
+					copy.devices[id].locked = condition == "locked"
+					var code := copy.door_blocker(actor, id, action)
+					_check((code == "") == not copy.use_door(actor, id, action).is_empty(), "door blocker agrees with execution: %s %s %s %d AP" % [id, action, condition, ap])
+	for chip in state.content.chips:
+		if chip.type != ChipDef.Type.ACTIVE:
+			continue
+		for ap in [0, 1]:
+			for waiting in [false, true]:
+				var copy := state.clone()
+				var actor := copy.units[unit.id]
+				actor.chips[chip.id] = 2
+				actor.ai_ap = ap
+				if waiting:
+					actor.next_hack[chip.id] = true
+				var targets: Array[Unit] = []
+				var choices: Array = copy.locate_targets() if chip.id == BattleState.LOCATE else copy.predict_targets() if chip.id == BattleState.PREDICT else []
+				if not choices.is_empty():
+					targets.append(choices[0])
+				var code := copy.chip_blocker(actor, chip.id)
+				if waiting and ap == 0 and chip.id not in [BattleState.LOCATE, BattleState.PREDICT]:
+					_check(code == "waiting", "waiting takes priority over spent AI AP")
+				_check((code == "") == not copy.use_chip(actor, chip.id, targets).is_empty(), "chip blocker agrees with valid-target execution: " + chip.id)
+	for condition in ["connected", "no_ap", "rebooting", "carrying", "near", "far"]:
+		var copy := state.clone()
+		var actor := copy.units[unit.id]
+		actor.ai_node = "b" if condition == "connected" else ""
+		actor.ap = 0 if condition == "no_ap" else 2
+		actor.rebooting = 1 if condition == "rebooting" else 0
+		actor.carrying = 0 if condition == "carrying" else -1
+		actor.cell = Vector2i(1, 20) if condition == "far" else copy.node_cell("b") + Vector2i.RIGHT
+		var code := copy.deploy_blocker(actor)
+		var expected: String = {"near": "", "far": "out_of_reach"}.get(condition, condition)
+		_check(code == expected, "deploy refusal identifies the first failed check: " + condition)
+		var choices := copy.deploy_options(actor)
+		var option: Dictionary = choices[0] if not choices.is_empty() else {"access": "b", "relay": -1}
+		_check((code == "") == not copy.deploy_ai(actor, option.access, option.relay).is_empty(), "deploy blocker agrees with execution: " + condition)
+	_check(state.chip_blocker(unit, BattleState.MOVEMENT) == "invalid_chip" and not state.chip_ready(unit, BattleState.MOVEMENT), "passive chips remain unusable as active chips")
+	_check(Devices.blocker(state, unit, "o", "invalid") == "invalid_action" and not Devices.can_use(state, unit, "o", "invalid"), "unsupported verbs remain rejected")
+
+
+func _blocker_sentences() -> void:
+	var variants := {"carrying": ["door", "deploy"], "locked": ["door", ""], "occupied": ["door", ""], "no_ap": ["door", "deploy"], "no_target": ["locate", "predict"]}
+	for code in ["cannot_act", "carrying", "locked", "occupied", "no_ap", "disconnected", "waiting", "no_ai_ap", "no_target", "rebooting", "out_of_reach", "not_breached", "other_network", "used", "hub_off", "no_power", "blocked", "open", "connected", "invalid_action", "invalid_chip"]:
+		_check(BattleMenus.BLOCKER_TEXT.has(code), "rules blocker has wording: " + code)
+		for kind in variants.get(code, [""]):
+			var sentence := BattleMenus.blocker_text(code, kind, {"cost": 1, "unit": "Alpha", "tether": 2})
+			_check(not sentence.is_empty() and not sentence.contains("{"), "blocker context formats completely: " + code)
 
 
 func _cost_tags(text: String) -> Array:

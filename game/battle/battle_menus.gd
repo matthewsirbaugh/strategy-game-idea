@@ -14,6 +14,39 @@ class_name BattleMenus
 #   style    "back" or "end": a way out, drawn under the rest. "note": a line that isn't a choice
 #   cancel   right-click or Esc picks it: the way back out of a submenu
 
+const BLOCKER_TEXT := {
+	"cannot_act": "Only the active, standing Operator can do this.",
+	"carrying": {"door": "Put the body down before using the door.", "deploy": "Put the body down to deploy the AI."},
+	"locked": {"door": "Unlock it from the network first.", "default": "Unlock it first."},
+	"occupied": {"door": "The doorway is occupied.", "default": "Something is in the way."},
+	"no_ap": {"door": "Locking needs {cost} AP.", "deploy": "Deploying takes {cost} of {unit}'s AP."},
+	"disconnected": "Deploy the AI to the network first.",
+	"waiting": "Already waiting for the next hack.",
+	"no_ai_ap": "Needs 1 AI AP.",
+	"no_target": {"locate": "No unseen enemy available to locate.", "predict": "Needs a visible guard that isn't already predicted."},
+	"rebooting": "The AI is rebooting this turn.",
+	"out_of_reach": "Get within {tether} tiles of an access point to deploy.",
+	"not_breached": "Breach the device first.",
+	"other_network": "This device belongs to another network.",
+	"used": "Already used this turn.",
+	"hub_off": "Its power hub is off.",
+	"no_power": "Needs power first.",
+	"blocked": "Something is in the way.",
+	"open": "Close it first.",
+	"connected": "The AI is already in the network.",
+	"invalid_action": "This action is unavailable.",
+	"invalid_chip": "This active chip is unavailable.",
+}
+
+
+static func blocker_text(code: String, kind := "", values := {}) -> String:
+	if code == "":
+		return ""
+	var wording: Variant = BLOCKER_TEXT[code]
+	if wording is Dictionary:
+		wording = wording.get(kind, wording.get("default", ""))
+	return str(wording).format(values)
+
 
 # Returns the top-level actions and each folded group's actions, which end with a way back. A group
 # of one stays inline, unless its member asks to fold.
@@ -88,16 +121,10 @@ static func door_actions(state: BattleState, unit: Unit, id: String) -> Array:
 	var options := state.door_options(unit)
 	var operation := "close" if device.open else "open"
 	var primary := _door_action({"node": id, "action": operation})
-	primary.enabled = options.has({"node": id, "action": operation})
+	primary.blocker = state.door_blocker(unit, id, operation)
+	primary.enabled = primary.blocker == ""
 	if not primary.enabled:
-		if device.locked:
-			primary.tip = "Unlock it from the network first."
-		elif unit.carrying >= 0:
-			primary.tip = "Put the body down before using the door."
-		elif device.open and state.unit_at(state.node_cell(id)) != null:
-			primary.tip = "The doorway is occupied."
-		else:
-			primary.tip = "This Operator cannot act right now."
+		primary.tip = blocker_text(primary.blocker, "door", {"cost": BattleState.LOCK_COST})
 	actions.append(primary)
 	for option in options:
 		if option.node == id and option.action != operation:
@@ -127,7 +154,9 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 	for option in deploys:
 		actions.append(_deploy_action(state, unit, option))
 	if not unit.connected() and deploys.is_empty():
-		actions.append({"id": "none", "style": "note", "text": deploy_blocker(state, unit)})
+		var code := state.deploy_blocker(unit)
+		actions.append({"id": "none", "style": "note", "blocker": code,
+			"text": blocker_text(code, "deploy", {"cost": BattleState.DEPLOY_AI_COST, "unit": unit.display_name, "tether": BattleState.TETHER})})
 	if unit.connected():
 		if not state.network_destinations(unit).is_empty():
 			var loading: bool = unit.chips[BattleState.MOVEMENT] == 0
@@ -163,10 +192,11 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 			costs.push_front(["Ready", "good"])
 		elif unit.chips[id] == 0:
 			costs.push_front(["+%dM" % chip.load_cost, "context"])
-		var ready := state.chip_ready(unit, id)
+		var code := state.chip_blocker(unit, id)
+		var ready := code == ""
 		var effect := chip.degraded_effect if unit.chips[id] == 1 else chip.effect
-		actions.append({"group": "Chips", "fold": true, "id": "chip:" + id, "text": chip.display_name, "costs": costs, "enabled": ready,
-			"tip": effect if ready else _chip_blocker(unit, id)})
+		actions.append({"group": "Chips", "fold": true, "id": "chip:" + id, "text": chip.display_name, "costs": costs, "enabled": ready, "blocker": code,
+			"tip": effect if ready else blocker_text(code, id)})
 	var options := state.verb_options(unit)
 	var turrets := state.turret_controls(unit)
 	for id in _controlled_devices(options, turrets):
@@ -295,32 +325,6 @@ static func _deploy_action(state: BattleState, unit: Unit, option: Dictionary) -
 		"tip": "The AI goes into the network here. It stays in while %s stays within %d tiles." % [source.display_name, BattleState.TETHER]}
 
 
-# Why a backpacked AI can't go in yet.
-static func deploy_blocker(state: BattleState, unit: Unit) -> String:
-	if unit.rebooting > 0:
-		return "The AI is rebooting this turn."
-	if unit.carrying >= 0:
-		return "Put the body down to deploy the AI."
-	if unit.ap < BattleState.DEPLOY_AI_COST:
-		return "Deploying takes %d of %s's AP." % [BattleState.DEPLOY_AI_COST, unit.display_name]
-	return "Get within %d tiles of an access point to deploy." % BattleState.TETHER
-
-
-static func _chip_blocker(unit: Unit, id: String) -> String:
-	if not unit.connected():
-		return "Deploy the AI to the network first."
-	if unit.next_hack.has(id):
-		return "Already waiting for the next hack."
-	if unit.ai_ap < 1:
-		return "Needs 1 AI AP."
-	match id:
-		BattleState.LOCATE:
-			return "No unseen enemy available to locate."
-		BattleState.PREDICT:
-			return "Needs a visible guard that isn't already predicted."
-	return ""
-
-
 static func _verb_id(option: Dictionary) -> String:
 	return "verb:%s:%s:%d" % [option.node, option.verb, option.direction]
 
@@ -344,8 +348,8 @@ static func _verb_action(state: BattleState, unit: Unit, option: Dictionary) -> 
 					what = "flash"
 				_:
 					what = "drive forward" if option.direction == 1 else "drive backward"
-	return {"id": _verb_id(option), "text": what.left(1).to_upper() + what.substr(1), "costs": [["+%dM" % BattleState.VERB_CONTEXT, "context"]], "enabled": option.enabled,
-		"tip": _verb_effect(state, id, option.verb, device) if option.enabled else _verb_blocker(state, unit, option)}
+	return {"id": _verb_id(option), "text": what.left(1).to_upper() + what.substr(1), "costs": [["+%dM" % BattleState.VERB_CONTEXT, "context"]], "enabled": option.enabled, "blocker": option.blocker,
+		"tip": _verb_effect(state, id, option.verb, device) if option.enabled else blocker_text(option.blocker)}
 
 
 # What using a verb will set off: a sound and who it draws, a visual lure, or nothing at all.
@@ -360,22 +364,3 @@ static func _verb_effect(state: BattleState, id: String, verb: String, device: D
 	if verb == "activate" and kind == "adscreen":
 		return "Draws the closest guard who can see the screen."
 	return "Silent."
-
-
-static func _verb_blocker(state: BattleState, unit: Unit, option: Dictionary) -> String:
-	var id: String = option.node
-	var device: Dictionary = state.devices[id]
-	if unit.verb_uses.has(id + ":" + option.verb):
-		return "Already used this turn."
-	match option.verb:
-		"power":
-			return "Its power hub is off."
-		"activate":
-			if not device.powered:
-				return "Needs power first."
-			if device.locked:
-				return "Unlock it first."
-			return "Something is in the way."
-		"lock":
-			return "Close it first."
-	return ""

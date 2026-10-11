@@ -222,7 +222,7 @@ func _update_banner() -> void:
 		return
 	var how := "Click a ringed access point to send it in, %d AP." % BattleState.DEPLOY_AI_COST
 	if state.deploy_options(unit).is_empty():
-		how = BattleMenus.deploy_blocker(state, unit)
+		how = BattleMenus.blocker_text(state.deploy_blocker(unit), "deploy", {"cost": BattleState.DEPLOY_AI_COST, "unit": unit.display_name, "tether": BattleState.TETHER})
 	_hud.set_banner("%s'S AI ISN'T IN THE NETWORK" % unit.display_name.to_upper(), "It's still in the backpack. " + how)
 
 

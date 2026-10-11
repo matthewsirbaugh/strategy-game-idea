@@ -5,27 +5,42 @@ class_name Devices
 
 
 static func can_use(state: BattleState, unit: Unit, id: String, verb: String, direction := 1) -> bool:
+	return blocker(state, unit, id, verb, direction) == ""
+
+
+static func blocker(state: BattleState, unit: Unit, id: String, verb: String, direction := 1) -> String:
+	if unit == null or not unit.connected():
+		return "disconnected"
+	if not state.devices.has(id) or verb not in state.node_def(id).verbs:
+		return "invalid_action"
 	var def := state.node_def(id)
 	var device: Dictionary = state.devices[id]
-	if not unit.connected() or not state.breached.has(id) or verb not in def.verbs \
-			or state.map.network_of(id) != state.map.network_of(unit.ai_node) or unit.verb_uses.has(id + ":" + verb):
-		return false
+	if not state.breached.has(id):
+		return "not_breached"
+	if state.map.network_of(id) != state.map.network_of(unit.ai_node):
+		return "other_network"
+	if unit.verb_uses.has(id + ":" + verb):
+		return "used"
 	match verb:
 		"power":
-			return device.powered or not hub_cut(state, id)
+			return "hub_off" if not device.powered and hub_cut(state, id) else ""
 		"activate":
 			if not device.powered:
-				return false
+				return "no_power"
 			match def.kind:
 				"autodoor":
-					return not device.locked and (not device.open or state.unit_at(device.cell) == null)
+					if device.locked:
+						return "locked"
+					if device.open and state.unit_at(device.cell) != null:
+						return "occupied"
 				"car", "truck":
 					var drive := vehicle_path(state, id, direction)
-					return not drive.path.is_empty() or drive.struck != null
-			return true
+					if drive.path.is_empty() and drive.struck == null:
+						return "blocked"
+			return ""
 		"lock":
-			return device.locked or not device.open
-	return false
+			return "open" if not device.locked and device.open else ""
+	return "invalid_action"
 
 
 # A device on a circuit whose hub is off can't be powered on by itself.

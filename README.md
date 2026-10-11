@@ -82,6 +82,7 @@ the task. Historical findings, concept art and binary assets need not be loaded 
   `battle.gd` animates them and refreshes the views. Menu availability uses the same rules.
   `Perception`, `Devices` and `EnemyAI` are plain helpers that work on a `BattleState`; nothing
   else changes it. Downed units and finished battles reject actions.
+- Door, device, chip and deploy checks return blocker codes from the rules; menus own their wording.
 - Predict and the verb previews run the real rules on `BattleState.clone()`, so a preview can't
   promise something play won't do. Units refer to each other by id so a clone shares nothing
   that changes.

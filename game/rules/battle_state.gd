@@ -817,26 +817,38 @@ func _down(unit: Unit) -> Array[Dictionary]:
 
 func door_options(unit: Unit) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
-	if not _hands_free(unit):
+	if unit == null:
 		return result
 	for id in _adjacent_nodes(unit.cell, NodeDef.DOORS):
-		var device: Dictionary = devices[id]
-		if device.locked:
-			continue
-		if device.open:
-			if unit_at(device.cell) == null:
-				result.append({"node": id, "action": "close"})
-		else:
-			result.append({"node": id, "action": "open"})
-			if unit.ap >= LOCK_COST:
-				result.append({"node": id, "action": "lock"})
+		for action in ["open", "close", "lock"]:
+			if door_blocker(unit, id, action) == "":
+				result.append({"node": id, "action": action})
 	return result
+
+
+func door_blocker(unit: Unit, id: String, action: String) -> String:
+	if not _can_act(unit) or not unit.is_operator():
+		return "cannot_act"
+	if unit.carrying >= 0:
+		return "carrying"
+	if not devices.has(id) or map.node_kind(id) not in NodeDef.DOORS or Grid.distance(unit.cell, node_cell(id)) != 1:
+		return "invalid_action"
+	var device: Dictionary = devices[id]
+	if device.locked:
+		return "locked"
+	if action not in ["open", "close", "lock"] or (device.open and action != "close") or (not device.open and action == "close"):
+		return "invalid_action"
+	if action == "close" and unit_at(device.cell) != null:
+		return "occupied"
+	if action == "lock" and unit.ap < LOCK_COST:
+		return "no_ap"
+	return ""
 
 
 # Opening and closing an unlocked door is free, automatic or not: the AI unlocks, the Operator
 # opens. Locking it by hand costs 1 AP; only an AI unlocks a locked door.
 func use_door(unit: Unit, id: String, action: String) -> Array[Dictionary]:
-	if not door_options(unit).has({"node": id, "action": action}):
+	if door_blocker(unit, id, action) != "":
 		return []
 	match action:
 		"open":
@@ -885,8 +897,27 @@ func _adjacent_nodes(cell: Vector2i, kinds: Array) -> Array[String]:
 # Where the AI can go in: access points within the tether, or through a robot near one.
 func deploy_options(unit: Unit) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
-	if not _hands_free(unit) or unit.connected() or unit.rebooting > 0 or unit.ap < DEPLOY_AI_COST:
-		return result
+	if deploy_blocker(unit) == "":
+		result = _deploy_targets(unit)
+	return result
+
+
+func deploy_blocker(unit: Unit) -> String:
+	if not _can_act(unit) or not unit.is_operator():
+		return "cannot_act"
+	if unit.connected():
+		return "connected"
+	if unit.rebooting > 0:
+		return "rebooting"
+	if unit.carrying >= 0:
+		return "carrying"
+	if unit.ap < DEPLOY_AI_COST:
+		return "no_ap"
+	return "out_of_reach" if _deploy_targets(unit).is_empty() else ""
+
+
+func _deploy_targets(unit: Unit) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
 	var sources: Array[Unit] = [unit]
 	for robot in units:
 		if robot.is_robot() and robot.is_player() and not robot.down:
@@ -1354,14 +1385,26 @@ func _load(unit: Unit, id: String) -> void:
 
 
 func chip_ready(unit: Unit, id: String) -> bool:
-	if not _can_ai(unit) or unit.ai_ap < 1 or not unit.chips.has(id) or chip_def(id).type != ChipDef.Type.ACTIVE:
-		return false
+	return chip_blocker(unit, id) == ""
+
+
+func chip_blocker(unit: Unit, id: String) -> String:
+	if not _can_act(unit) or not unit.is_operator():
+		return "cannot_act"
+	if not unit.connected():
+		return "disconnected"
+	if not unit.chips.has(id) or not _chips.has(id) or chip_def(id).type != ChipDef.Type.ACTIVE:
+		return "invalid_chip"
+	if id not in [LOCATE, PREDICT] and unit.next_hack.has(id):
+		return "waiting"
+	if unit.ai_ap < 1:
+		return "no_ai_ap"
 	match id:
 		LOCATE:
-			return not locate_targets().is_empty()
+			return "no_target" if locate_targets().is_empty() else ""
 		PREDICT:
-			return not predict_targets().is_empty()
-	return not unit.next_hack.has(id)
+			return "no_target" if predict_targets().is_empty() else ""
+	return ""
 
 
 # How many turns Locate lasts, or how many guards Predict follows, at the chip's level.
@@ -1442,8 +1485,9 @@ func verb_options(unit: Unit) -> Array[Dictionary]:
 		for verb in node_def(id).verbs:
 			var directions := [1, -1] if verb == "activate" and map.node_kind(id) in NodeDef.VEHICLES else [1]
 			for direction in directions:
+				var reason := Devices.blocker(self, unit, id, verb, direction)
 				result.append({"node": id, "verb": verb, "direction": direction,
-					"enabled": Devices.can_use(self, unit, id, verb, direction)})
+					"enabled": reason == "", "blocker": reason})
 	return result
 
 

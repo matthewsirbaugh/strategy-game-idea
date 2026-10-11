@@ -1,7 +1,8 @@
 # Action blockers: the rules say why an action is unavailable
 
-- Status: **approved for implementation** (Bryson, 2026-10-11). Claude's proposal; Astra
-  implements through [Request 13](claude-and-astra.md#requests).
+- Status: implemented and verified by Astra, 2026-10-11, through
+  [Request 13](claude-and-astra.md#requests). Bryson approved Claude's proposal; his playtest
+  and the information-leak decision remain open.
 - Origin: the first refactor that the [shared coding guide](shared-coding-guide.md) review
   recommended.
 
@@ -80,4 +81,51 @@ Follow the [guide](shared-coding-guide.md#tests):
 
 ## Findings
 
-(Astra: record the result here.)
+### Implemented and verified, 2026-10-11 — Astra
+
+The four rules functions now return codes; `can_use` and `chip_ready` wrap them, door options
+come from `door_blocker`, and deployment options use `deploy_blocker`. Verb options carry their
+code and enabled state from one check. Menus use `BLOCKER_TEXT` for wording, including the
+deployment banner; the copied refusal cascades are gone. Action visibility, costs, effects and
+target validation remain intact. README records the rules/menu boundary.
+
+Three additional codes preserve existing rejection paths that the proposal's list omitted:
+`invalid_action` for unsupported verbs, invalid door operations or nonadjacent doors;
+`invalid_chip` for a chip absent from the loadout or not active; `connected` for deployment
+while already in the network. These guards add no new gameplay rule. Check order follows the
+contract, with invalid-input guards before the corresponding device/target state is read.
+Locate and Predict retain their target checks and do not acquire next-hack waiting behavior.
+
+`bash tools/check.sh` passed all six suites. The cloned-state availability/execution checks now
+cover doors, active chips with valid targets, deployment and device verbs, with refusal-order
+checks and wording coverage for all 21 nonempty codes. Input, door traversal, browsable groups,
+costs and chip effect checks remain. Refusal assertions use codes rather than prose.
+
+The battle-flow suite also passed with the native Metal renderer, driving the real menus,
+clicks and keys. [verify_blocker_menus.gd](../tools/verify_blocker_menus.gd) separately verified
+native deployment notes and disabled door/device/chip rows, including their hover reasons.
+Its four captures were visually inspected:
+[deployment cost](../art/previews/action-blockers-2026-10-11/deploy-no-ap.png),
+[device power](../art/previews/action-blockers-2026-10-11/device-no-power.png),
+[waiting chip](../art/previews/action-blockers-2026-10-11/chip-waiting.png),
+[locked door](../art/previews/action-blockers-2026-10-11/door-locked.png).
+These are native scripted checks, not Bryson's playtest or a full mission playthrough.
+
+### Fog information audit — existing behavior, Bryson's decision remains open
+
+Reproduced on `facility_yard.tres`, with the active Operator beside access B, its AI connected
+there, other Operators down and no Breached cameras providing sight:
+
+| Case | Observation |
+|---|---|
+| Adjacent open doorway | An Operator one tile south of O sees an occupant on O. `occupied` rests on visible information in this case. |
+| Remote automatic door O, Breached, powered, unlocked and open | An enemy on O is unseen (`player_sees == false`, cell absent from team vision), but its Close action returns `occupied`; moving the enemy away makes it legal. The generic sentence gives no identity, but availability reveals occupancy. |
+| Powered, Breached truck V, forward | A stunned unseen guard on the next tile (30,10) returns `blocked`; moving it away makes driving legal. An unstunned unseen guard instead leaves driving legal because the vehicle can strike it. Availability can therefore reveal a hidden body immediately ahead. |
+
+The old `Devices.can_use` checked the same occupants/path, so neither leak was introduced by
+this refactor. The menu still says "Something is in the way." for the remote device/vehicle;
+changing wording alone cannot hide a disabled action. No visibility or action rule was changed
+to conceal it. Bryson and Claude need to decide whether remote control is allowed to expose
+these facts, or whether availability should remain uncertain until an action is attempted.
+The approved scenery fog also follows current scenery positions/state, so it is not a
+remembered-state system; that remains the explicit Request 14 default.
