@@ -8,6 +8,7 @@
 > history.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
   [exploration](battle-core.md).
+- Next lore session: Bryson asked on 2026-10-11 to retain [Astra's 18 review questions](astra-review-2026-10-11.md#lore-questions) for discussion. They are open questions, not lore decisions; Claude's filing task is [Request 11](claude-and-astra.md#requests).
 
 ## The question
 
