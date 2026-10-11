@@ -1,8 +1,7 @@
 # Briefs: batch 6, revisions
 
-Images that need another pass after review (2026-10-11). Held until batch 5's images land, so
-Astra finishes one batch at a time (Bryson). Items may be added from the reviews of batches 4 and
-5 before it goes out.
+Images that need another pass after review (2026-10-11). Held until batch 5's images landed, so
+Astra finished one batch at a time (Bryson); sent the same day. Batches 4 and 5 needed no redos.
 
 ## For Astra
 
