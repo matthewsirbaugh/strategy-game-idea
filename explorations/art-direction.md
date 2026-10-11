@@ -151,6 +151,21 @@ assets or a gameplay visibility test. Bryson's first-city lighting selection is 
   full update pass.
 - The previous art went to the archive outside the project ([ARCHIVE.md](../ARCHIVE.md)).
 
+### 2026-10-10 — The first references adopted (Bryson)
+
+Bryson posted the GPT-6 Sol images he likes most, in two sets: establishing shots of the city and
+of OpenBrain's front, then an aerial view of the campus and the back of it, which acts as a
+research park. All eight are adopted in [art/reference/](../art/reference/README.md); his lore
+notes on the first set are in [core-idea-and-story.md](core-idea-and-story.md#data-economy).
+
+What the set establishes, from the images:
+- The city: aging stucco and brick, sodium streetlights partly failed, wet streets, branded
+  basic-income kiosks, cameras and smart locks on homes, autonomous vans.
+- OpenBrain's front: white architecture with black and sparing red, warm uplit landscaping,
+  guards in AR glasses with compute pucks, scanners and barriers.
+- OpenBrain's back: a research park across a river, joined by enclosed skybridges and grated
+  bridges, green roofs, robotics labs, guards patrolling with robot dogs.
+
 ## Open questions
 
 1. Answered: the facility is OpenBrain's.

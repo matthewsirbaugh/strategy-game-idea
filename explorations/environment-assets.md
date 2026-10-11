@@ -2,9 +2,9 @@
 
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
-- Status: blocked
-- Next action: Bryson provides images for the new art direction. No pipeline is proposed until
-  then (Bryson, 2026-10-10).
+- Status: open
+- Next action: the references Bryson was waiting on are adopted (`art/reference/`, 2026-10-10).
+  Next: Bryson says when to take up the pipeline against them.
 
 ## The question
 
