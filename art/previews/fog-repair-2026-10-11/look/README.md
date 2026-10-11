@@ -1,6 +1,6 @@
 # Request 17 look review
 
-Status: two native tone candidates, awaiting Bryson's choice. Captured with Godot 4.7.2,
+Status: Bryson selected B, faint form shading with dark ink edges, 2026-10-11. Captured with Godot 4.7.2,
 Metal Forward+, 1280 × 800, current facility yard. No gameplay content changed.
 
 | Pose | A: flat charcoal | B: form and ink | Pre-fog treatment on current map |

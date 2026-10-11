@@ -22,6 +22,7 @@ func _initialize() -> void:
 	_turn_ends_when_both_pools_are_spent()
 	_donated_compute_waits_for_the_next_turn()
 	_a_sprint_cut_short_costs_what_walking_would()
+	_vision_ticks_keep_intermediate_sight()
 	_aim_lines_are_fixed_when_the_guard_aims()
 	_predict_matches_the_guards_real_turn()
 	_guards_ignore_operators_they_cannot_see()
@@ -76,6 +77,33 @@ func _a_sprint_cut_short_costs_what_walking_would() -> void:
 	_check(alpha.ap == alpha.base_ap - 1 and alpha.sprinted, "one tile of a cut-short sprint costs 1 AP, left %d" % alpha.ap)
 	var stop: Array = events.filter(func(event: Dictionary) -> bool: return event.type == "revealed")
 	_check(not stop.is_empty() and stop[0].kept == 1, "the stop says the sprint kept 1 of its 2 AP")
+
+
+func _vision_ticks_keep_intermediate_sight() -> void:
+	var state := _state(". . . . . . . . . . . . . X\nP . . . . . . . . . . . . z\n. . . . . . . . . . . . . .")
+	var alpha := state.begin_next_turn()
+	alpha.def = alpha.def.duplicate()
+	alpha.def.sight = 2
+	state.refresh()
+	var midway := Vector2i(2, 0)
+	_check(not state.visible_cells.has(midway), "the midway cell starts unseen")
+	var event: Dictionary = state.move(alpha, Vector2i(6, 1))[0]
+	_check(event.ticks.size() == event.path.size() and event.ticks.size() == 6, "each walked square has a vision tick")
+	var seen: Array[bool] = []
+	for tick: VisionTick in event.ticks:
+		seen.append(tick.cells.has(midway))
+	_check(seen == [true, true, true, false, false, false], "ticks preserve sight gained and lost during the move")
+	var copy := state.clone()
+	copy.visible_cells.clear()
+	copy.lit.clear()
+	copy.known[99] = Vector2i.ZERO
+	state.visible_cells.clear()
+	_check(event.ticks[0].cells.has(midway) and not event.ticks[0].known.has(99), "ticks are independent of later state and preview changes")
+	state = _state(CORNER)
+	alpha = state.begin_next_turn()
+	event = state.move(alpha, Vector2i(5, 2), true)[0]
+	_check(event.ticks.size() == event.path.size() and event.ticks.size() == 1, "a revealed enemy cuts off both the path and its ticks")
+	_check(event.ticks[0].shown.has(state.units[1].id), "the stopping square shows the newly seen enemy")
 
 
 # The line runs from the guard through its target's tile, out to its range, and stays put. A

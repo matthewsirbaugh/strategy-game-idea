@@ -136,8 +136,11 @@ static func vehicle_path(state: BattleState, id: String, direction: int) -> Dict
 static func _drive(state: BattleState, id: String, direction: int) -> Dictionary:
 	var drive := vehicle_path(state, id, direction)
 	var path: Array[Vector2i] = drive.path
-	if not path.is_empty():
-		state.move_node(id, path.back())
+	var ticks: Array[VisionTick] = []
+	for cell in path:
+		state.move_node(id, cell)
+		state.refresh()
+		ticks.append(VisionTick.capture(state))
 	if drive.struck:
 		state.stun(drive.struck)
-	return {"type": "vehicle", "unit": null, "node": id, "path": path, "struck": drive.struck}
+	return {"type": "vehicle", "unit": null, "node": id, "path": path, "ticks": ticks, "struck": drive.struck}

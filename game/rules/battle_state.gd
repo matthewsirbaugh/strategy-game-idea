@@ -620,6 +620,7 @@ func move(unit: Unit, cell: Vector2i, sprint := false) -> Array[Dictionary]:
 		return []
 	var path := reach(unit, SPRINT_TILES if sprint else unit.ap).path_to(cell)
 	var walked: Array[Vector2i] = []
+	var ticks: Array[VisionTick] = []
 	var later: Array[Dictionary] = []
 	for step in path:
 		var other := unit_at(step)
@@ -630,6 +631,7 @@ func move(unit: Unit, cell: Vector2i, sprint := false) -> Array[Dictionary]:
 		_place(unit, step)
 		walked.append(step)
 		refresh()
+		ticks.append(VisionTick.capture(self))
 		later.append_array(Perception.sweep(self))
 		var newly := _visible_enemies().filter(func(enemy: Unit) -> bool: return not before.has(enemy))
 		if not newly.is_empty() and step != path.back() and not _shared(step, unit):
@@ -642,7 +644,7 @@ func move(unit: Unit, cell: Vector2i, sprint := false) -> Array[Dictionary]:
 	for event in later:
 		if event.type in ["revealed", "blocked"]:
 			event.kept = costs[cell] - cost
-	var events: Array[Dictionary] = [{"type": "move", "unit": unit, "path": walked, "cost": cost}]
+	var events: Array[Dictionary] = [{"type": "move", "unit": unit, "path": walked, "ticks": ticks, "cost": cost}]
 	events.append_array(later)
 	events.append_array(_check_tethers())
 	_after_action(unit)
@@ -671,12 +673,13 @@ func _place(unit: Unit, cell: Vector2i) -> void:
 
 # One step of an enemy's move, during its own turn: the team may see it go, the enemy may spot
 # someone, and an Operator in overwatch may fire.
-func step(unit: Unit, cell: Vector2i) -> Array[Dictionary]:
+func step(unit: Unit, cell: Vector2i, ticks: Array[VisionTick] = []) -> Array[Dictionary]:
 	var was_seen := player_sees(unit)
 	_place(unit, cell)
 	if was_seen and not player_sees(unit):
 		known[unit.id] = cell
 	_update_known()
+	ticks.append(VisionTick.capture(self))
 	var events := Perception.sweep(self)
 	events.append_array(check_overwatch(unit))
 	return events

@@ -141,14 +141,16 @@ func update_nodes(state: BattleState) -> void:
 
 
 # Drives a vehicle along its path, a tile at a time.
-func drive(id: String, path: Array) -> void:
+func drive(id: String, path: Array, on_arrive := Callable()) -> void:
 	if path.is_empty():
 		return
 	var parts: Dictionary = _devices[id]
 	parts.moving = true
 	var tween := create_tween()
-	for cell: Vector2i in path:
-		tween.tween_property(parts.root, "position", _grid.cell_to_world(cell), VEHICLE_SECONDS)
+	for i in path.size():
+		tween.tween_property(parts.root, "position", _grid.cell_to_world(path[i]), VEHICLE_SECONDS)
+		if on_arrive.is_valid():
+			tween.tween_callback(on_arrive.bind(i))
 	await tween.finished
 	parts.moving = false
 

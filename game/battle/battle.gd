@@ -596,7 +596,7 @@ func _play(events: Array[Dictionary]) -> void:
 		var unit: Unit = event.get("unit")
 		match event.type:
 			"move":
-				await _walk(unit, event.path)
+				await _walk(unit, event.path, event.ticks)
 			"sound":
 				_flash_area(event.cells, SOUND_COLOR)
 			"revealed", "blocked":
@@ -616,10 +616,11 @@ func _play(events: Array[Dictionary]) -> void:
 				_float_text(_network.node_position(event.node) + Vector3(0, 1.0, 0), "+%d" % event.points, Color.WHITE)
 				_network.refresh()
 			"vehicle":
-				await _level.drive(event.node, event.path)
+				await _level.drive(event.node, event.path, func(i: int) -> void: _show_vision(event.ticks[i]))
 		for line in BattleLog.lines(state, event):
 			_hud.log_line(line)
 		if event.type == "hack":
+			_refresh_fog()
 			await get_tree().create_timer(0.3, false).timeout
 	_refresh()
 
@@ -670,17 +671,22 @@ func _refresh() -> void:
 
 # Unseen tiles go dark and unseen enemies vanish; where one was last seen, a marker stays.
 func _refresh_fog() -> void:
-	_grid.set_visibility(state.visible_cells, state.lit)
+	_show_vision(VisionTick.capture(state))
+
+
+func _show_vision(tick: VisionTick) -> void:
+	_grid.set_visibility(tick.cells, tick.lit)
 	for id in _views:
 		var unit: Unit = state.units[id]
 		var view: UnitView = _views[id]
-		view.visible = state.player_sees(unit) or (unit.down and state.visible_cells.has(unit.cell))
+		view.visible = unit.is_player() or tick.shown.has(id)
+		if tick.shown.has(id):
+			view.position = _grid.cell_to_world(tick.shown[id])
 	for id in _last_seen:
-		var unit: Unit = state.units[id]
 		var marker: Node3D = _last_seen[id]
-		marker.visible = not _views[id].visible and state.known.has(id)
+		marker.visible = not _views[id].visible and tick.known.has(id)
 		if marker.visible:
-			marker.position = _grid.cell_to_world(state.known[id])
+			marker.position = _grid.cell_to_world(tick.known[id])
 
 
 # Every enemy cone the player can see, in its two tiers: the guards outside the fog, turrets, and
@@ -883,23 +889,21 @@ func _set_network(shown: bool) -> void:
 
 # --- Moving units on screen ----------------------------------------------------------------------
 
-func _walk(unit: Unit, path: Array) -> void:
+func _walk(unit: Unit, path: Array, ticks: Array) -> void:
 	var view: UnitView = _views[unit.id]
 	var points: Array[Vector3] = []
 	var shown: Array[bool] = []
-	for cell in path:
-		points.append(_grid.cell_to_world(cell))
-		shown.append(unit.is_player() or state.visible_cells.has(cell) or unit.located > 0)
+	for i in path.size():
+		points.append(_grid.cell_to_world(path[i]))
+		shown.append(unit.is_player() or ticks[i].shown.has(unit.id))
 	if view.visible or shown.has(true):
 		if _last_seen.has(unit.id):
 			_last_seen[unit.id].hide()
-		if unit.is_player():
-			_camera_rig.follow(view)
-		await view.walk(points, shown)
-		if unit.is_player():
-			_camera_rig.release_follow()
-	elif not points.is_empty():
-		view.position = points.back()
+	if unit.is_player():
+		_camera_rig.follow(view)
+	await view.walk(points, func(i: int) -> void: _show_vision(ticks[i]), shown)
+	if unit.is_player():
+		_camera_rig.release_follow()
 
 
 func _any_seen(events: Array[Dictionary]) -> bool:
@@ -907,8 +911,8 @@ func _any_seen(events: Array[Dictionary]) -> bool:
 		if event.type in ["fire", "aim"]:
 			return true
 		if event.type == "move":
-			for cell in event.path:
-				if state.visible_cells.has(cell):
+			for tick: VisionTick in event.ticks:
+				if tick.shown.has(event.unit.id):
 					return true
 	return false
 

@@ -371,6 +371,20 @@ texture, ghosted walls and neon retain their look; hidden scenery is dark. Live 
 onto restored ground, and a hidden door/car's shape still changes with its current state,
 as the approved plan permits pending Bryson's information-leak decision.
 
-A is flat charcoal; B adds faint top/side form shading and dark ink. The captures were presented
-to Bryson; his selection is pending. Step 1 is a playable look-review milestone, not final
-creative approval. Vision ticks are the next step; no full mission was played here.
+A is flat charcoal; B adds faint top/side form shading and dark ink. Bryson selected B on 2026-10-11 after reviewing
+the captures. Step 1 is committed as `eead702`; its look is approved. No full mission was played.
+
+### Step 2: vision ticks
+
+Astra implemented the four-field `VisionTick`, one detached tick per actual movement square,
+and arrival callbacks for units and vehicles. Player and enemy move events and vehicle events
+retain their prior path/cost meanings and carry aligned ticks. One display path drives both
+playback and final reconciliation; camera breach vision updates before the hack pause. The
+controller computes visibility-based animation durations from those ticks, keeping hidden
+steps instant; the unit view receives those flags alongside its arrival callback.
+
+The focused rules regression and all six `tools/check.sh` checks pass. A first native run
+passed actual intermediate reveals/losses, a stationary Operator with a moving drone, an enemy
+crossing sight, vehicle sight opening on the first square, camera breach/power loss, Locate
+without surrounding sight, door opening and Network return. Step 3 will record captures and
+the full-yard timing conditions. B remains the selected tone. No mission playthrough claimed.

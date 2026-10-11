@@ -120,7 +120,7 @@ func _set_lying(lying: bool) -> void:
 
 
 # shown[i] says whether the player can see the unit on points[i]; walking in the fog is instant.
-func walk(points: Array[Vector3], shown: Array[bool] = []) -> void:
+func walk(points: Array[Vector3], on_arrive := Callable(), shown: Array[bool] = []) -> void:
 	if points.is_empty():
 		return
 	var tween := create_tween()
@@ -129,12 +129,12 @@ func walk(points: Array[Vector3], shown: Array[bool] = []) -> void:
 	_model.play("Run", GridView.CELL / STEP_SECONDS)
 	for i in points.size():
 		var is_shown: bool = shown.is_empty() or shown[i]
-		if is_shown:
-			tween.tween_callback(set_visible.bind(true))
 		tween.tween_callback(_model.face.bind(points[i] - from))
 		tween.tween_property(self, "position", points[i], STEP_SECONDS if is_shown or was_shown else 0.0)
-		if not is_shown:
-			tween.tween_callback(set_visible.bind(false))
+		if on_arrive.is_valid():
+			tween.tween_callback(on_arrive.bind(i))
+		else:
+			tween.tween_callback(set_visible.bind(is_shown))
 		was_shown = is_shown
 		from = points[i]
 	await tween.finished

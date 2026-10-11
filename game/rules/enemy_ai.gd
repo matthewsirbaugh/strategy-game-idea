@@ -189,6 +189,7 @@ static func _walk(state: BattleState, guard: Unit, goal: Vector2i, events: Array
 	var path := Reach.new(guard.cell, 999, passable).path_to(goal)
 	var was_alerted := guard.task == Unit.Task.ALERTED
 	var walked: Array[Vector2i] = []
+	var ticks: Array[VisionTick] = []
 	var later: Array[Dictionary] = []
 	for cell in path:
 		if walked.size() >= guard.def.move or state.blocks_walk(cell):
@@ -199,13 +200,13 @@ static func _walk(state: BattleState, guard: Unit, goal: Vector2i, events: Array
 				later.append({"type": "blocked", "unit": guard, "by": other})
 			break
 		walked.append(cell)
-		later.append_array(state.step(guard, cell))
+		later.append_array(state.step(guard, cell, ticks))
 		if guard.is_out():
 			break
 		if guard.task == Unit.Task.ALERTED and (not was_alerted or _aim_target(state, guard) != null):
 			break
 	if not walked.is_empty():
-		events.append({"type": "move", "unit": guard, "path": walked})
+		events.append({"type": "move", "unit": guard, "path": walked, "ticks": ticks})
 	events.append_array(later)
 	return walked.size()
 
