@@ -13,12 +13,12 @@
   "sources": "art/sources/props/ev_charger/",
   "made_with": {
     "tool": "meshy",
-    "model": "meshy-t2",
-    "settings": "smart topology, main view only, textured, PBR",
-    "task": "01a129d3-4c57-77be-84dc-d67abd8ec144",
-    "credits": 15,
+    "model": "meshy-7",
+    "settings": "Ultra, 8K textures, PBR, main view only",
+    "task": "01a129df-1f97-74b2-8847-1a05e0e1f0f2",
+    "credits": 40,
     "date": "2026-10-11"
   },
   "animations": [],
-  "notes": "Prepared with tools/prep_prop.py --glow 2: 4,027 triangles, 0.72 x 0.28 m. Bryson's approved v4, adapted from his photo; its open frame keeps it from reading as the access terminal. A few stray thin triangles inside the loop."
+  "notes": "Regenerated at Meshy's highest quality (Bryson, 2026-10-11), full resolution: 343,584 triangles, 0.73 x 0.35 m. Smart topology had filled the open frame with a fan of spiked triangles; the Ultra mesh models the opening cleanly. Its open frame keeps it from reading as the access terminal."
 }

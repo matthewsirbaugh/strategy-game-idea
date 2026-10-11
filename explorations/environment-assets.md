@@ -213,6 +213,16 @@ EV charger, whose revision is with Astra (batch 6). Seen in Blender renders only
 - Not done: the camera's red recording light, too faint in Meshy's texture to find. Everything
   is seen in Blender renders only, not yet in the night stage.
 
+### 2026-10-11 — Max quality: no reductions, Ultra regenerations (Bryson)
+
+Bryson found the car rough in the night stage. Claude traced it to its own triangle cut, 900,000
+to 40,000, which tore the texture seams; Meshy's full model was clean. Bryson: "Just use the max
+render. We're not hurting for resources, and the smoothness will hurt us with reflections." So the
+car, the van and both camera heads are back at full resolution, and the turret and the EV charger
+were regenerated with Meshy 7 Ultra and 8K textures (40 credits each). The Ultra charger fixed a
+fan of spiked triangles smart topology had put across its open frame; the Ultra turret lost its
+red visor, which Claude rebuilt as a glowing bar. The models now total about 1 GB on disk.
+
 ## Open questions
 
 None for now.

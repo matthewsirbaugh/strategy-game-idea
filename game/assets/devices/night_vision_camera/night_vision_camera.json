@@ -20,5 +20,5 @@
     "date": "2026-10-11"
   },
   "animations": [],
-  "notes": "Same shape as camera_head: 0.60 m long, lens facing -X. Collapsed to 30,000 triangles, then prep_prop.py --glow 2: the infrared emitters and the recording light glow."
+  "notes": "Same shape as camera_head: 0.60 m long, lens facing -X. Full resolution, 644,646 triangles (Bryson, 2026-10-11), then prep_prop.py --glow 2: the infrared emitters and the recording light glow."
 }

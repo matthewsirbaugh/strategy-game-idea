@@ -13,12 +13,12 @@
   "sources": "art/sources/devices/turret/",
   "made_with": {
     "tool": "meshy",
-    "model": "meshy-t2",
-    "settings": "smart topology, main view only, textured, PBR",
-    "task": "01a129ba-2e85-7412-b541-3cbb5b8f575e",
-    "credits": 15,
+    "model": "meshy-7",
+    "settings": "Ultra, 8K textures, PBR, main view only",
+    "task": "01a129df-1796-77f4-a8dd-f51e0f49122d",
+    "credits": 40,
     "date": "2026-10-11"
   },
   "animations": [],
-  "notes": "Prepared with tools/prep_prop.py --glow 2. 3,607 triangles; 0.90 x 1.45 m, barrels toward -Y in Blender. --glow 2: the red sensor slit glows, so its facing shows at night."
+  "notes": "Regenerated at Meshy's highest quality (Bryson, 2026-10-11), full resolution: 693,226 triangles, 1.58 x 0.90 m, barrels toward -X. Meshy painted the visor slit dark, so Claude added a glowing red bar in it (z 1.115 m). The first, smart-topology turret is in sources as meshy-t2.glb."
 }
