@@ -406,7 +406,8 @@ and later models whose behavior feels sterile and focused on productivity.
 ### 2026-09-21 — The two corporate factions (Bryson, this thread)
 
 > 2026-10-10: America now has one frontier-AI company, OpenBrain, a monopoly; the rival-access
-> rules below assumed two. See [the corrections](#corrections-2026-10-10).
+> rules below assumed two. The other owner might be a foreign AI (China, Europe or India). See
+> [the corrections](#corrections-2026-10-10).
 
 Each of the two frontier-AI corporations is a faction. Their models are enormously powerful,
 but slower in movement and ability windup. They are intended as mid- and late-game enemies; the
@@ -460,6 +461,10 @@ lifetimes rather than being a social order they have always known.
 Resistance gear is often outdated or improvised: jailbroken corporate units bought on the black
 market, custom hardware assembled from discarded units, or chips imported from other nations
 that achieved advanced general AI.
+
+> 2026-10-10: he's on OpenBrain's board, and used to be on Anthropomorphic's too. The
+> resistance's AIs are built on Anthropomorphic's open-sourced models. See
+> [the corrections](#corrections-2026-10-10).
 
 A hidden source is actually a board member at one of the two corporations. He joined early as a
 researcher and genuinely wanted AI to benefit humanity. He believed he and people like him were
@@ -650,6 +655,14 @@ old by then, might still run on diesel. RULES.md's diesel truck stands.
 
 **The master AI is lore, not a rule.** It isn't actually all-seeing in play, and the gameplay works
 exactly as it does now. It explains why the guards can coordinate when things escalate.
+
+**Follow-ups, the same day.**
+- Other AI powers: America isn't the only place to achieve AGI. China, Europe and India each have
+  their own. The second owner in 2026-09-21's access-point rules might be these foreign AIs.
+- The hidden source is on OpenBrain's board. He used to be on both boards, Anthropomorphic's and
+  OpenBrain's.
+- The resistance's AIs are built on Anthropomorphic's open-sourced models. The intention: the
+  heroes' partners descend from the company that gave its models away rather than sell out.
 
 ## Open questions
 
