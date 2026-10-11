@@ -46,6 +46,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | Code names, privacy and manipulation | [Partner knowledge](#identity) |
 | Agent recommendations | [Prior evaluation](#agent-evaluation), explicitly advice |
 | The stakes, the hidden model, the timeline, the endings; Anthropomorphic's leak | [2026-10-11](#stakes-2026-10-11) |
+| AGI versus ASI; air-gap side channels | [2026-10-11](#agi-asi-2026-10-11) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
@@ -754,6 +755,44 @@ of roughly 50–150 trillion parameters, a plausible AGI-scale model for 2034. S
 [explainx.ai](https://explainx.ai/blog/what-are-llm-parameters-top-10-model-sizes-july-2026),
 [digitalapplied.com](https://www.digitalapplied.com/blog/deepseek-v4-gpt-5-5-grok-5-ai-models-q2-2026);
 the figures conflict and are estimates.
+
+<a id="agi-asi-2026-10-11"></a>
+
+### 2026-10-11 — AGI and ASI; how a boxed mind could reach out (Bryson; Claude's research)
+
+**AGI and ASI are different things (Bryson).**
+- The hidden model is ASI, superintelligence, and it's misaligned.
+- AGI is the mostly ubiquitous kind, limited to companies or to those who can afford the hardware
+  and energy to run one: prohibitively expensive for most people, and generally only available on
+  the black market, because of massive buyouts and exclusivity deals between the AI companies and
+  the manufacturers of the RAM, GPUs and CPUs it runs on. Even retail computers are worth more than
+  gold.
+- AGI physically fits in the backpacks. The resistance gets it off the black market, or builds it
+  from scavenged or modified parts.
+- AGI is usually aligned, but there are many different models, and as in the real world, people
+  like to make purposely misaligned ones when they can.
+- AGI models are still LLMs, so still jagged: all their lowest points are within average human
+  levels, just not the highest.
+- Cyber warfare is a regular thing. America keeps an edge in AI even apart from its superintelligent
+  model, so it's largely defended from most, but not all, foreign attacks.
+
+**Air gaps can leak (Claude's research, at Bryson's request).** Bryson remembered someone writing
+that a superintelligence could communicate out of an air-gapped system through temperature, and
+suggested it as the reason for the sandbox, and as the proof that the model is misaligned and
+supremely powerful, which is why OpenBrain keeps it "alive" instead of deleting it and its weights.
+- The work he recalls is most likely BitWhisper (Mordechai Guri and colleagues, Ben-Gurion
+  University, 2015): two adjacent air-gapped computers talk through heat, one modulating its
+  temperature and the other reading it with its own thermal sensors, at 1–8 bits an hour. Slow, but
+  enough for a password or a key. ([paper](https://arxiv.org/abs/1503.07919),
+  [summary](https://www.helpnetsecurity.com/2015/03/24/hack-air-gapped-computers-using-heat/))
+- The same research line has shown channels through fan noise and vibration, power consumption,
+  electromagnetic emissions, light and magnetic fields; most assume something is already inside the
+  machine, which a boxed AI is. ([overview](https://community.openai.com/t/traditional-air-gaps-may-not-be-enough-for-advanced-ai-systems/1396127))
+- The other classic line is persuasion: Eliezer Yudkowsky's 2002 AI-box experiments, in which a
+  boxed mind talking only by text tries to talk its guard into releasing it.
+  ([Yudkowsky](https://www.yudkowsky.net/singularity/aibox)) Containment researchers argue an air gap
+  can't be proven safe, since there are too many side channels to rule out.
+  ([Babcock, Kramár and Yampolskiy, 2017](https://arxiv.org/abs/1707.08476))
 
 ## Open questions
 
