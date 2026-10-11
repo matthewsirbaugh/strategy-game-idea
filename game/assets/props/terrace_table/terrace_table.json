@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "terrace_table",
+  "name": "Terrace table set",
+  "category": "props",
+  "status": "proof",
+  "model": "terrace_table.glb",
+  "height_m": 0.85,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A round white caf\u00e9 table with four black metal chairs with wood slat seats, as one group.",
+  "brief": "art/briefs/batch-4.md",
+  "sources": "art/sources/props/terrace_table/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129ba-46b5-70f8-a5a7-647c84701465",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py --glow 2. 1.75 m square. The thin chair frames came through cleanly. The table top shows a faceted, star-shaped shading artifact up close."
+}

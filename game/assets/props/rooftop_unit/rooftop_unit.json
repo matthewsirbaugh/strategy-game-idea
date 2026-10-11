@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "rooftop_unit",
+  "name": "Rooftop unit",
+  "category": "props",
+  "status": "proof",
+  "model": "rooftop_unit.glb",
+  "height_m": 1.5,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A rooftop air-handling unit: pale grey housing, two fans on top, louvered vents, ducts and a steel frame.",
+  "brief": "art/briefs/batch-4.md",
+  "sources": "art/sources/props/rooftop_unit/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129ba-4187-7332-b0bd-878c4e9de0e8",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py --glow 2. 2.59 x 1.42 m. Its warm strips stay dark."
+}

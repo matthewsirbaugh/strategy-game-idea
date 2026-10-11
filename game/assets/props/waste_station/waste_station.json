@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "waste_station",
+  "name": "Waste and recycling station",
+  "category": "props",
+  "status": "proof",
+  "model": "waste_station.glb",
+  "height_m": 1.0,
+  "fit_to_height": false,
+  "device": null,
+  "description": "Three white campus bins in one enclosure with black slotted tops and a black plinth.",
+  "brief": "art/briefs/batch-4.md",
+  "sources": "art/sources/props/waste_station/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129ba-3bbe-71a5-96e4-6f097f4f52c3",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py --glow 2. 1.63 x 0.50 m. Its warm strip stays dark: only real light fixtures glow (Bryson, 2026-10-11)."
+}

@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "equipment_cases",
+  "name": "Equipment cases",
+  "category": "props",
+  "status": "proof",
+  "model": "equipment_cases.glb",
+  "height_m": 1.2,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A stack of rugged white and grey equipment hard cases, twice as tall on one side: low and high cover in one.",
+  "brief": "art/briefs/batch-4.md",
+  "sources": "art/sources/props/equipment_cases/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129ba-35d2-7293-8f3f-729990e4fea4",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py --glow 2. 2.16 x 1.04 m, wider than the brief's 1.4 m: kept at 1.2 m tall so the high side is real high cover. Nothing glows."
+}

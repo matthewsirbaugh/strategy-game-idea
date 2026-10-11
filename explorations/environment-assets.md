@@ -184,6 +184,16 @@ to 40,000; the rest through smart topology (15 each): 135 credits. The planter w
 foliage: Meshy turned the grass into broad leaves, which read fine from above. Seen in Blender
 renders only.
 
+### 2026-10-11 — Batch 4 modelled; only real lights glow (Bryson)
+
+Bryson approved all five: the revised turret, the equipment cases, the waste station, the rooftop
+unit and the terrace table set, 75 credits through smart topology. The turret now reads as a
+weapon, and the chairs' thin frames came through cleanly. Seen in Blender renders only.
+
+Astra's images give most props warm LED strips. Claude's suggestion, which Bryson agreed: only real
+light fixtures glow (the bollard, pole lights, uplights, screens), and decorative strips on
+furniture and equipment stay dark, so light keeps meaning a light, which is a device in the rules.
+
 ## Open questions
 
 None for now.
