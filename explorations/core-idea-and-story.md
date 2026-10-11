@@ -625,6 +625,8 @@ and [vehicle forecourt](../art/concepts/city-and-campus-study-2026-10-10/05-camp
 - A master AI guard has vision on every camera, and on every person, robot and vehicle under its
   control. It directs the guards and gives them orders. It will probably be a named character.
 - Breaking directly into OpenBrain's headquarters is maybe a late-game mission.
+- The facility mission starts at the back of the campus, in the research park. Eventually the team
+  makes its way inside the main building (Bryson, 2026-10-10).
 
 <a id="corrections-2026-10-10"></a>
 
