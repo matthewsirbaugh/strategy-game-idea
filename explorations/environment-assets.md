@@ -3,9 +3,8 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: Astra makes batch 3's images ([briefs](../art/briefs/batch-3-vehicles-and-fixtures.md),
-  request 6); [batch 4](../art/briefs/batch-4.md) collects what comes next, starting with the
-  revised turret.
+- Next action: Astra makes batch 6, the EV charger's revision (request 9); Claude models it. Then
+  the props are done, and the architecture and character models explorations can start.
 
 ## The question
 
@@ -193,6 +192,14 @@ weapon, and the chairs' thin frames came through cleanly. Seen in Blender render
 Astra's images give most props warm LED strips. Claude's suggestion, which Bryson agreed: only real
 light fixtures glow (the bollard, pole lights, uplights, screens), and decorative strips on
 furniture and equipment stay dark, so light keeps meaning a light, which is a device in the rules.
+
+### 2026-10-11 — Batch 5 modelled: the exterior props are done (Bryson approved)
+
+The uplight, solar rack, turnstile and robot dog dock, 60 credits through smart topology. Two
+needed Blender surgery: Meshy modelled the uplight's buried housing, so Claude sliced it off at the
+rim; and Meshy can't make transparency, so the turnstile's glass wings were cut away and rebuilt as
+real glass. With this batch every exterior prop the research park needs has a model, except the
+EV charger, whose revision is with Astra (batch 6). Seen in Blender renders only.
 
 ## Open questions
 

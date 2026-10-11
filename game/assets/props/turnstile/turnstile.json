@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "turnstile",
+  "name": "Security turnstile",
+  "category": "props",
+  "status": "proof",
+  "model": "turnstile.glb",
+  "height_m": 1.0,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A face-scanning security turnstile: a white pedestal with a black glass top, a red line, a scan camera, and two clear glass wings, closed.",
+  "brief": "art/briefs/batch-5.md",
+  "sources": "art/sources/props/turnstile/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129c4-307f-75ea-bac6-c0e280f6a369",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 2.20 m long with its wings 2.10 m across, larger than the brief. Meshy made the glass wings opaque, so Claude cut them away by position and put in real glass panels (alpha 0.25). --glow 2: the red line glows."
+}

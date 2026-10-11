@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "solar_rack",
+  "name": "Solar panel rack",
+  "category": "props",
+  "status": "proof",
+  "model": "solar_rack.glb",
+  "height_m": 1.0,
+  "fit_to_height": false,
+  "device": null,
+  "description": "One rooftop solar rack: three dark blue-black panels tilted on a low black aluminum frame.",
+  "brief": "art/briefs/batch-5.md",
+  "sources": "art/sources/props/solar_rack/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129c4-2a60-7230-9b13-1b2383e77a09",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 3.03 x 1.35 m, two grid tiles wide. Claude lines them up in rows. Nothing glows: its warm strips stay dark."
+}

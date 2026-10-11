@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "uplight",
+  "name": "Ground uplight",
+  "category": "props",
+  "status": "proof",
+  "model": "uplight.glb",
+  "height_m": 0.035,
+  "fit_to_height": false,
+  "device": null,
+  "description": "An in-ground uplight: a black aluminum rim around a warm frosted lens, set flush in the paving.",
+  "brief": "art/briefs/batch-5.md",
+  "sources": "art/sources/props/uplight/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129c4-2020-72ee-bbdb-d0994611d48d",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. Prepared at 0.25 m across with --glow 0.75: the lens glows. Meshy modelled the buried housing too; Claude sliced it off 3.5 cm below the top, so only the rim and lens sit above the ground."
+}

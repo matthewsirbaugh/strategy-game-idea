@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "robot_dock",
+  "name": "Robot dog dock",
+  "category": "props",
+  "status": "proof",
+  "model": "robot_dock.glb",
+  "height_m": 1.1,
+  "fit_to_height": false,
+  "device": null,
+  "description": "An empty charging dock for the security robot dogs: a white platform with a black pad, a curved back panel and a charging arm.",
+  "brief": "art/briefs/batch-5.md",
+  "sources": "art/sources/props/robot_dock/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a129c4-34bd-7317-b84c-288190f450b3",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 1.28 m square. Nothing glows yet: its red light is too faint for --glow 2."
+}
