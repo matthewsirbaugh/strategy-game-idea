@@ -9,8 +9,8 @@
 > history.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
   [exploration](battle-core.md).
-- Next action: work through the [question guide](#question-guide), starting with the foundations
-  in [Astra's review](#astras-review-2026-10-11), then the team's personalities.
+- Next action: Round 2, the team: the [open questions](#round-2) on who the three Operators are.
+  Round 1, the foundations, is answered (2026-10-11).
 - Astra's 18 lore questions (2026-10-11) are filed in the question guide below. They are open
   questions, not lore decisions.
 
@@ -48,6 +48,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | The stakes, the hidden model, the timeline, the endings; Anthropomorphic's leak | [2026-10-11](#stakes-2026-10-11) |
 | AGI versus ASI; air-gap side channels | [2026-10-11](#agi-asi-2026-10-11) |
 | The warning shot, one ASI, the neutral best ending, banned open models, data center raids | [2026-10-11](#world-2026-10-11) |
+| The protagonist is defined; the AI is the custom half | [2026-10-11](#team-2026-10-11) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
@@ -839,6 +840,16 @@ way to strike back at the AI. Data centers are heavily guarded now, but they can
 the size of Manhattan, which is how the resistance gets in: specialized teams of Operator–agent
 partners.
 
+<a id="team-2026-10-11"></a>
+
+### 2026-10-11 — The protagonist is defined; the AI is the custom half (Bryson)
+
+The protagonist is a defined character, like Persona 5's: a name, a face, a history, one designed
+model. The customization lives in the AI, partly because that's how AI works in the real world,
+and partly because custom chat options are far easier to build than a full character creator.
+
+The rest of Round 2 waits for the next session; its questions are in the question guide.
+
 ## Open questions
 
 ### Question guide
@@ -857,6 +868,24 @@ without making the whole historical list a work queue.
 | How partners learn their human's identity | 29 |
 | Insider's concrete culpability | 30; expressly deferred by Bryson |
 | Scope, exploration, loss and permadeath | DESIGN.md questions 1–3 and the parked board topics |
+
+<a id="round-2"></a>
+
+**Round 2, the team: open questions for the next session (2026-10-11).** What the character models
+are waiting on.
+
+R1. Where was each Operator when the world changed in 2034, at about 20? Claude's options to react
+    to: a displaced knowledge worker; a tradesperson who kept work and knows how a data center's
+    cooling works; a data seller who wore the camera and carries the stigma (L09); a former OpenBrain
+    guard (L14).
+R2. What binds the three: childhood friends who got their first AIs together, strangers the
+    resistance assigned to each other, family, or something else?
+R3. Where does each pair sit among the four relationships, or are all three partnerships, with the
+    darker relationships in other characters? An option, not a synthesis.
+R4. What do they disagree about? The best ending destroys the AI data centers; their partners are
+    AGI of the same kind the world fears.
+R5. Astra's L10, L11 and L12 follow from these: personal stakes, trust conflicts from intimate
+    knowledge, and what persists when an AI is rebuilt.
 
 <a id="astras-review-2026-10-11"></a>
 
