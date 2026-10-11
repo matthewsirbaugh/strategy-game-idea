@@ -6,6 +6,10 @@ generation tool. Native PNGs are saved alongside the exact prompts in this folde
 The latest overview is the [mountainside night revision with robot dogs](01-rear-campus-overview-v3-hillside-night-robot-dogs.png).
 Its [revision record](hillside-night-revision-record.json) preserves the two successive edits.
 
+The [multiple-angle campus study](../campus-multiple-angle-study-2026-10-10/README.md) adds
+three views from within this site and a top-down layout reference, with readable water and
+the darker nighttime aerial requested by Bryson.
+
 ## Bryson's direction
 
 Behind the massive principal building is a large connected research complex: courtyards,

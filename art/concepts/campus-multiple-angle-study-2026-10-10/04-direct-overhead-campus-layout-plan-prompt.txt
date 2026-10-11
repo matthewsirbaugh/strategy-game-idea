@@ -1,0 +1,13 @@
+Edit Image 1 into a FLAT ARCHITECTURAL ROOF PLAN seen exactly from the zenith. This is the same campus, with the same shapes and positions, viewed with an orthographic camera directly above, pointed straight down at the ground.
+
+The result must read as a realistic textured top-down MAP, not an angled aerial photograph. Depict ONLY horizontal top surfaces: roof outlines, roof grass, dark photovoltaic panel rectangles, paved path footprints, planting-bed footprints, water-basin footprint, stair treads, glass greenhouse roof and narrow tops of perimeter walls. NO building elevation faces, NO front walls, NO rows of windows facing the camera, NO vertical tree-trunk views, NO apparent vanishing point. Trees are seen as foliage crowns from above. Preserve nighttime photographic material detail, but use a strict plan projection.
+
+Lock the layout:
+Top: large terraced main headquarters roof and adjoining green roofs, rock beyond.
+Left: rectangular lawn-roof western laboratory; white shuttle and service court directly below it.
+Center: long north–south water rectangle; EXACTLY TWO solar canopy roof rectangles immediately to its LEFT/west.
+Right: tiered east laboratories and lawns; glass greenhouse and experiment planting grids at lower right.
+Bottom: privacy-wall perimeter and single dark gate a little RIGHT/east of the water axis.
+Preserve the same planters, stair and route footprints linking these anchors, the enclosed property outline, white/black/red materials, healthy planting and the quiet readable nighttime lighting. Show the entire property, with a small rocky margin. Keep parallel rectangles genuinely parallel. All geometric edges are viewed in plan; the viewer cannot see any vertical facade.
+
+One wide landscape full-frame realistic textured architectural PLAN VIEW, comparable to an overhead satellite map with high roof detail. No text, diagrams within the image, labels, compass rose, UI, border, wordmarks or watermarks. Change the viewing projection, keep the campus layout.

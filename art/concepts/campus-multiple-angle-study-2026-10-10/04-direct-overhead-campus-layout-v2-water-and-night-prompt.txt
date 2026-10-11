@@ -1,0 +1,11 @@
+Use case: precise-object-edit.
+Asset type: nighttime overhead campus layout concept.
+Input Image 1 is the EDIT TARGET. Keep its overhead camera, roof/ground projection, complete site layout and all geometry fixed.
+
+Two required corrections:
+1. WATER READABILITY. The long narrow north–south rectangle in the CENTER, immediately RIGHT/east of the TWO solar canopy roofs, is a shallow REFLECTING WATER BASIN. Make this unmistakably filled with real water. Keep exactly its existing footprint, concrete rim and level. Show a continuous glossy deep midnight-blue water surface, with irregular gentle flowing ripples, broader soft reflections of blue night ambient, and a few naturally distorted warm lamp reflections. The basin should read clearly as water at the image's overall viewing scale, rather than as a dark solid strip, paving, roof, plants or patterned panels. No regular tiled/grid texture or uniform golden dots in the water. Slightly visible submerged edges are acceptable. It must remain physically plausible dark night water, without a self-glowing cyan swimming pool or newly added pool lights. Preserve the water's position and length/width.
+2. ACTUAL NIGHT. Keep the existing lamp locations, bright warm local pools and small red device indicators. Lower the ambient exposure on UNLIT surfaces and outside rock/chaparral by about 1.5 to 2 stops. Darker cool blue-grey roof shadows, deep garden shadows and a dark mountain perimeter make this clearly the middle of the night, not dusk. Local electric lights remain warm and luminous against the darker surroundings. Preserve enough shadow detail to distinguish stairs, door locations, roof outlines, all paths and plants. Do not crush the entire image into black or add sunlight, sunset or twilight haze.
+
+Everything else is locked: main headquarters TOP/uphill, lab and shuttle court LEFT/west, two photovoltaic canopy rectangles LEFT of water, greenhouse and experimental beds RIGHT/east, enclosed white/black privacy wall and gate at BOTTOM. Same green roofs, terraced gardens, physical paths/stairs, white/black/red hardware, parked vehicles and tiny mechanical robot dogs. Do not move, add, remove, resize or mirror any building or shared landmark.
+
+One full-bleed landscape corrected overhead view in the same realistic architectural style, no text, labels, compass symbols, UI, border or watermark.

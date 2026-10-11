@@ -1,0 +1,10 @@
+Use case: precise-object-edit.
+Asset type: consistent nighttime video game campus concept.
+Input Image 1 is the EDIT TARGET. Input Image 2 is the corrected overhead view of the SAME campus, supplied only to keep the water's appearance and landmark relationships consistent. Retain Image 1's camera and geometry exactly.
+
+Correct ONLY the readability of the existing reflecting WATER BASIN. The shared water basin fills the LOWER FOREGROUND and center, with the two branching solar structures on its opposite west bank.
+Make it unmistakably water: a continuous glossy deep midnight-blue surface with irregular broad gentle ripples, soft cool reflections of the night sky and a few naturally stretched/distorted warm reflections from the existing nearby lamps. It should be identifiable as a filled shallow reflecting basin at normal image viewing size. Avoid a flat matte dark strip, paving, roof, plant bed, regular tiled/panel texture or uniformly patterned gold dots. Keep the exact basin footprint, concrete edges, water level and relation to the neighboring canopies and paths. Subtle ripples and reflections must remain realistic for this nighttime setting; no neon self-glow, vivid cyan swimming-pool effect or new underwater lights.
+
+Lock every other part: viewpoint, crop, window mullions/interior if present, main building, west lab and parked shuttle court, east greenhouse, paired solar canopies, privacy wall/gate, all paths/stairs/planters/rooftops, existing guards and mechanical robot dogs, existing materials and lighting fixtures. Preserve the quiet readable NIGHT exposure and dark office windows. Do not relocate landmarks, add buildings or water features, mirror the site, increase the overall brightness or turn the scene into dusk/daylight. This is the same water seen from another camera.
+
+Output one full-bleed landscape image in the same clean realistic architectural style and aspect ratio. No text, labels, UI, watermark, border or extra panels.

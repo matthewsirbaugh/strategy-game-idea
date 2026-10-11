@@ -1,0 +1,124 @@
+{
+  "created_on": "2026-10-10",
+  "tool": "built-in image_gen",
+  "mode": "targeted image edits of the four camera studies",
+  "user_request": "Three finished images from multiple angles, including inside, with consistent spatial relationships; subsequently add one directly above.",
+  "user_feedback": [
+    "Water was not apparent in the first images; it needs to read clearly in the shared location.",
+    "The aerial's local lights are fine but the surrounding scene should be darker and feel like night rather than dusk."
+  ],
+  "parent_generation_record": "generation-record.json",
+  "source_master_reference": "../rear-research-park-study-2026-10-10/01-rear-campus-overview-v3-hillside-night-robot-dogs.png",
+  "spatial_plan": "spatial-plan.md",
+  "relative_spatial_convention": {
+    "north": "Uphill main headquarters, long glazed front gallery and rocky mountain",
+    "south": "Downhill wall and dark gate; lower city beyond the property",
+    "west": "Green-roof lab pavilion and parked autonomous-shuttle court",
+    "center": "Water garden; two branching photovoltaic canopies on west bank",
+    "east": "Lower greenhouse and instrumented planting beds",
+    "coordinates": "Relative study convention inferred from the selected overview, not surveyed compass bearings",
+    "city": "Valley city below the campus, spreading to the downhill south and west"
+  },
+  "selected_images": [
+    {
+      "index": 1,
+      "original_file": "01-inside-gate-looking-uphill.png",
+      "file": "01-inside-gate-looking-uphill-v2-readable-water.png",
+      "name": "Inside the gate, looking uphill",
+      "prompt_file": "01-inside-gate-looking-uphill-v2-readable-water-prompt.txt",
+      "prompt": "Use case: precise-object-edit.\nAsset type: consistent nighttime video game campus concept.\nInput Image 1 is the EDIT TARGET. Input Image 2 is the corrected overhead view of the SAME campus, supplied only to keep the water's appearance and landmark relationships consistent. Retain Image 1's camera and geometry exactly.\n\nCorrect ONLY the readability of the existing reflecting WATER BASIN. The shared water basin is the MID-RIGHT outdoor pool/channel just RIGHT/east of the two branching white solar canopies, between the greenhouse and the canopy seating.\nMake it unmistakably water: a continuous glossy deep midnight-blue surface with irregular broad gentle ripples, soft cool reflections of the night sky and a few naturally stretched/distorted warm reflections from the existing nearby lamps. It should be identifiable as a filled shallow reflecting basin at normal image viewing size. Avoid a flat matte dark strip, paving, roof, plant bed, regular tiled/panel texture or uniformly patterned gold dots. Keep the exact basin footprint, concrete edges, water level and relation to the neighboring canopies and paths. Subtle ripples and reflections must remain realistic for this nighttime setting; no neon self-glow, vivid cyan swimming-pool effect or new underwater lights.\n\nLock every other part: viewpoint, crop, window mullions/interior if present, main building, west lab and parked shuttle court, east greenhouse, paired solar canopies, privacy wall/gate, all paths/stairs/planters/rooftops, existing guards and mechanical robot dogs, existing materials and lighting fixtures. Preserve the quiet readable NIGHT exposure and dark office windows. Do not relocate landmarks, add buildings or water features, mirror the site, increase the overall brightness or turn the scene into dusk/daylight. This is the same water seen from another camera.\n\nOutput one full-bleed landscape image in the same clean realistic architectural style and aspect ratio. No text, labels, UI, watermark, border or extra panels.",
+      "references": [
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/campus-multiple-angle-study-2026-10-10/01-inside-gate-looking-uphill.png",
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/campus-multiple-angle-study-2026-10-10/04-direct-overhead-campus-layout-v2-water-and-night.png"
+      ],
+      "status": "selected concept deliverable, saved and visually reviewed",
+      "generated_source_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-14804fb4-6322-4e44-a052-4801a136f450.png",
+      "output_metadata": {
+        "file": "01-inside-gate-looking-uphill-v2-readable-water.png",
+        "width": 1672,
+        "height": 941,
+        "bit_depth": 8,
+        "color_type": 2,
+        "bytes": 2499229,
+        "sha256": "d52dc3e3421e67833ff8e3db3e750cbccc1bcca4f65b24632bac72c8f9488244"
+      },
+      "review": "Nighttime water basin visible at mid-right, to the east/right of the paired canopies, with blue glossy water and rippling reflected lamps. West lab/shuttle court left, east greenhouse right, headquarters uphill; original camera and route/terrace relationships remain consistent."
+    },
+    {
+      "index": 2,
+      "original_file": "02-central-water-garden-looking-northwest.png",
+      "file": "02-central-water-garden-looking-northwest-v2-readable-water.png",
+      "name": "Central water garden, looking northwest",
+      "prompt_file": "02-central-water-garden-looking-northwest-v2-readable-water-prompt.txt",
+      "prompt": "Use case: precise-object-edit.\nAsset type: consistent nighttime video game campus concept.\nInput Image 1 is the EDIT TARGET. Input Image 2 is the corrected overhead view of the SAME campus, supplied only to keep the water's appearance and landmark relationships consistent. Retain Image 1's camera and geometry exactly.\n\nCorrect ONLY the readability of the existing reflecting WATER BASIN. The shared water basin fills the LOWER FOREGROUND and center, with the two branching solar structures on its opposite west bank.\nMake it unmistakably water: a continuous glossy deep midnight-blue surface with irregular broad gentle ripples, soft cool reflections of the night sky and a few naturally stretched/distorted warm reflections from the existing nearby lamps. It should be identifiable as a filled shallow reflecting basin at normal image viewing size. Avoid a flat matte dark strip, paving, roof, plant bed, regular tiled/panel texture or uniformly patterned gold dots. Keep the exact basin footprint, concrete edges, water level and relation to the neighboring canopies and paths. Subtle ripples and reflections must remain realistic for this nighttime setting; no neon self-glow, vivid cyan swimming-pool effect or new underwater lights.\n\nLock every other part: viewpoint, crop, window mullions/interior if present, main building, west lab and parked shuttle court, east greenhouse, paired solar canopies, privacy wall/gate, all paths/stairs/planters/rooftops, existing guards and mechanical robot dogs, existing materials and lighting fixtures. Preserve the quiet readable NIGHT exposure and dark office windows. Do not relocate landmarks, add buildings or water features, mirror the site, increase the overall brightness or turn the scene into dusk/daylight. This is the same water seen from another camera.\n\nOutput one full-bleed landscape image in the same clean realistic architectural style and aspect ratio. No text, labels, UI, watermark, border or extra panels.",
+      "references": [
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/campus-multiple-angle-study-2026-10-10/02-central-water-garden-looking-northwest.png",
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/campus-multiple-angle-study-2026-10-10/04-direct-overhead-campus-layout-v2-water-and-night.png"
+      ],
+      "status": "selected concept deliverable, saved and visually reviewed",
+      "generated_source_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-a45c666a-17b0-45bc-b809-ff96fc569ea6.png",
+      "output_metadata": {
+        "file": "02-central-water-garden-looking-northwest-v2-readable-water.png",
+        "width": 1672,
+        "height": 941,
+        "bit_depth": 8,
+        "color_type": 2,
+        "bytes": 2475714,
+        "sha256": "0c31b3f6e156e195f97e073727399805a085d5c92c2ab3314db7842323d4e54c"
+      },
+      "review": "Water fills the foreground and reads as blue reflective liquid with irregular ripples and warm lamp reflections. Paired canopies occupy west bank, lab/shuttle remains left and headquarters rises on right. Camera, architecture and physical landmark order remain consistent."
+    },
+    {
+      "index": 3,
+      "original_file": "03-upper-gallery-interior-looking-downhill.png",
+      "file": "03-upper-gallery-interior-looking-downhill-v2-readable-water.png",
+      "name": "Inside the upper gallery, looking downhill",
+      "prompt_file": "03-upper-gallery-interior-looking-downhill-v2-readable-water-prompt.txt",
+      "prompt": "Use case: precise-object-edit.\nAsset type: consistent nighttime video game campus concept.\nInput Image 1 is the EDIT TARGET. Input Image 2 is the corrected overhead view of the SAME campus, supplied only to keep the water's appearance and landmark relationships consistent. Retain Image 1's camera and geometry exactly.\n\nCorrect ONLY the readability of the existing reflecting WATER BASIN. The shared water basin is OUTSIDE THE WINDOW at the outdoor CENTER-LEFT, the long narrow channel just LEFT/east of the two solar canopies in this SOUTH-facing camera. The black window mullions must stay where they are.\nMake it unmistakably water: a continuous glossy deep midnight-blue surface with irregular broad gentle ripples, soft cool reflections of the night sky and a few naturally stretched/distorted warm reflections from the existing nearby lamps. It should be identifiable as a filled shallow reflecting basin at normal image viewing size. Avoid a flat matte dark strip, paving, roof, plant bed, regular tiled/panel texture or uniformly patterned gold dots. Keep the exact basin footprint, concrete edges, water level and relation to the neighboring canopies and paths. Subtle ripples and reflections must remain realistic for this nighttime setting; no neon self-glow, vivid cyan swimming-pool effect or new underwater lights.\n\nLock every other part: viewpoint, crop, window mullions/interior if present, main building, west lab and parked shuttle court, east greenhouse, paired solar canopies, privacy wall/gate, all paths/stairs/planters/rooftops, existing guards and mechanical robot dogs, existing materials and lighting fixtures. Preserve the quiet readable NIGHT exposure and dark office windows. Do not relocate landmarks, add buildings or water features, mirror the site, increase the overall brightness or turn the scene into dusk/daylight. This is the same water seen from another camera.\n\nOutput one full-bleed landscape image in the same clean realistic architectural style and aspect ratio. No text, labels, UI, watermark, border or extra panels.",
+      "references": [
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/campus-multiple-angle-study-2026-10-10/03-upper-gallery-interior-looking-downhill.png",
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/campus-multiple-angle-study-2026-10-10/04-direct-overhead-campus-layout-v2-water-and-night.png"
+      ],
+      "status": "selected concept deliverable, saved and visually reviewed",
+      "generated_source_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-57f7904b-bba2-4c51-80e5-c1ae02232189.png",
+      "output_metadata": {
+        "file": "03-upper-gallery-interior-looking-downhill-v2-readable-water.png",
+        "width": 1672,
+        "height": 941,
+        "bit_depth": 8,
+        "color_type": 2,
+        "bytes": 2234943,
+        "sha256": "efae68d64fc3ce47ab42a574d72b9bc0327e3913e3a8dae338b558a54eef3e11"
+      },
+      "review": "Water is visible outside the glazing as a blue reflective channel at center-left, left/east of the paired canopies in the south-facing view. Greenhouse remains outdoor left, lab/shuttle right, gate and city downhill. Interior workbench, mullions, camera/readers and viewing direction remain consistent."
+    },
+    {
+      "index": 4,
+      "original_file": "04-direct-overhead-campus-layout.png",
+      "file": "04-direct-overhead-campus-layout-v2-water-and-night.png",
+      "name": "Overhead layout with readable water and darker night",
+      "prompt": "Use case: precise-object-edit.\nAsset type: nighttime overhead campus layout concept.\nInput Image 1 is the EDIT TARGET. Keep its overhead camera, roof/ground projection, complete site layout and all geometry fixed.\n\nTwo required corrections:\n1. WATER READABILITY. The long narrow north–south rectangle in the CENTER, immediately RIGHT/east of the TWO solar canopy roofs, is a shallow REFLECTING WATER BASIN. Make this unmistakably filled with real water. Keep exactly its existing footprint, concrete rim and level. Show a continuous glossy deep midnight-blue water surface, with irregular gentle flowing ripples, broader soft reflections of blue night ambient, and a few naturally distorted warm lamp reflections. The basin should read clearly as water at the image's overall viewing scale, rather than as a dark solid strip, paving, roof, plants or patterned panels. No regular tiled/grid texture or uniform golden dots in the water. Slightly visible submerged edges are acceptable. It must remain physically plausible dark night water, without a self-glowing cyan swimming pool or newly added pool lights. Preserve the water's position and length/width.\n2. ACTUAL NIGHT. Keep the existing lamp locations, bright warm local pools and small red device indicators. Lower the ambient exposure on UNLIT surfaces and outside rock/chaparral by about 1.5 to 2 stops. Darker cool blue-grey roof shadows, deep garden shadows and a dark mountain perimeter make this clearly the middle of the night, not dusk. Local electric lights remain warm and luminous against the darker surroundings. Preserve enough shadow detail to distinguish stairs, door locations, roof outlines, all paths and plants. Do not crush the entire image into black or add sunlight, sunset or twilight haze.\n\nEverything else is locked: main headquarters TOP/uphill, lab and shuttle court LEFT/west, two photovoltaic canopy rectangles LEFT of water, greenhouse and experimental beds RIGHT/east, enclosed white/black privacy wall and gate at BOTTOM. Same green roofs, terraced gardens, physical paths/stairs, white/black/red hardware, parked vehicles and tiny mechanical robot dogs. Do not move, add, remove, resize or mirror any building or shared landmark.\n\nOne full-bleed landscape corrected overhead view in the same realistic architectural style, no text, labels, compass symbols, UI, border or watermark.",
+      "prompt_file": "04-direct-overhead-campus-layout-v2-water-and-night-prompt.txt",
+      "references": [
+        "/Users/sirbryson/Documents/Strategy Game Idea/art/concepts/campus-multiple-angle-study-2026-10-10/04-direct-overhead-campus-layout.png"
+      ],
+      "generated_source_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-22b73adb-f3a0-4e97-9efc-6c1e33cc12fa.png",
+      "output_metadata": {
+        "width": 1672,
+        "height": 941,
+        "bit_depth": 8,
+        "color_type": 2,
+        "bytes": 3022803,
+        "sha256": "4eb6a5d3e7a0e5534dff1a7e37c30ed376afbbccb8e1e7609ef89b768e6417a5"
+      },
+      "review": "Visually reviewed: unlit rock, roof and landscape ambient is darker with existing warm fixture pools retained. The shared long central basin now has a deeper blue water body with rippling reflected highlights; all major landmark positions and the overhead framing remain consistent.",
+      "status": "selected concept deliverable, saved and visually reviewed"
+    }
+  ],
+  "deliverable_count": 4,
+  "cross_view_review": "Agent visually compared all four selected images. Uphill headquarters, downhill wall/gate, west lab/shuttle court, east greenhouse, and two canopies west of the central water remain in the same relative positions. The gallery's south-facing camera reverses screen sides as expected. Water is visually emphasized in every view; aerial ambient is darker with the local lights retained.",
+  "limits": "Conceptual landmark consistency rather than exact reconstructed geometry. Small dimensions, path junctions, pool proportions, foliage and devices can vary. The overhead is a roof/ground plan reference with shallow visual relief; not a metrically exact orthophoto. No modeled map, gameplay visibility or pathfinding test.",
+  "native_outputs_preserved": true,
+  "source_images_preserved": true,
+  "status": "Four corrected concept deliverables generated and agent reviewed, ready for Bryson's visual review"
+}

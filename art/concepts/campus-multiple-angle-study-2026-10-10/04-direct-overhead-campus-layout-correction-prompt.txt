@@ -1,0 +1,17 @@
+Use case: precise-object-edit.
+Asset type: true vertical overhead architectural campus layout reference for a video game.
+Input Image 1 is the EDIT TARGET: the first aerial rendition of the same mountainside night research park. Its LANDMARK POSITIONS are correct but the camera is tilted. Change ONLY the camera projection and the geometry necessary to depict those same structures from DIRECTLY ABOVE.
+
+Reproject this exact campus as a STRICT 90-DEGREE NADIR, ORTHOGRAPHIC TOP-DOWN view, like an architectural roof plan rendered with realistic materials or a satellite orthophoto. Camera points vertically down. All parallel site paths and rectangular roof edges stay parallel in the image. Show horizontal roofs, roof lawns, courtyard paving, stair treads and the property wall's narrow top surface. DO NOT show front-facing building facades, frontal glazing, elevation views, vertical window rows or a horizon. Do not preserve the draft's oblique perspective. The large headquarters at the top must be shown as its ROOF FOOTPRINT and roof terraces rather than a head-on white facade. The privacy perimeter becomes its slender wall/coping footprint, with height suggested only through believable shadows.
+
+Preserve the exact campus arrangement, NOT a newly designed layout:
+UPHILL / NORTH at the TOP: same broad terraced headquarters footprint, garden roofs and front-gallery edge, against rock/chaparral.
+WEST / LEFT: same rectangular green-roof laboratory footprint with its parked white shuttle/service court directly BELOW/south of it.
+CENTER: same long north–south shallow reflecting water basin/channel, with the SAME TWO separate dark photovoltaic canopy roof rectangles immediately on its WEST/LEFT bank and seating underneath.
+EAST / RIGHT: same lower greenhouse rectangular glass roof and adjacent experimental planting grid, with the other low-rise lab roofs and grass terraces above it.
+SOUTH / BOTTOM: same enclosed lower property boundary and closed dark gate slightly RIGHT/east of the water axis. Same paved approach outside the gate.
+Keep all path junctions, short stair runs, planted retaining tiers, rooftop accesses, buildings, gardens and device positions. Keep the entire enclosed campus plus a narrow rocky margin in the frame; do not crop off the headquarters or gate. Preserve the foreground-to-background order by map coordinates even though there is now NO perspective depth or vanishing point.
+
+Night style: SAME cool readable nighttime exposure, pristine white/black materials, healthy greens, sparse warm local lights and small red device indicators. Retain useful natural shadows that reveal the terraced height changes. Do not change the time, brighten the whole landscape or add new objects/people. Any patrol dogs remain mechanical quadrupeds, tiny at map scale.
+
+Output one full-bleed wide landscape realistic TOP-DOWN roof-and-ground architectural view. No text, labels, compass rose, logos on roofs, game UI, watermark, inset panels or border. The defining requirement is a flat vertical projection in which the roof/ground layout can be compared directly across the other images.
