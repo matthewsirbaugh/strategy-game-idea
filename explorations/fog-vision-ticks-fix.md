@@ -348,3 +348,29 @@ Build in three commits, each one playable, so any of them can be undone on its o
 
 Out of scope: interrupting a walk to play a shot mid-path, cones and aim lines per tick (they
 reconcile at the end of the action; add them only if Bryson notices), and remembered scenery.
+
+
+## Request 17 implementation findings
+
+### Step 1: native look review
+
+2026-10-11, Astra. Removed proxy boxes, fitted bounds, coverage classifications, per-asset
+fog culling and grouped registrations. Scenery opts into the existing shaders once at build;
+hidden fragments draw the model's own charcoal shape. Glows and lettering discard; shared
+character materials retain their instance opt-out. Ground is restored exactly from `37e8413`.
+The binary mask now includes the same adjacent walls/border cells as brightness targets.
+
+All six `tools/check.sh` checks passed for this look change. Native Metal captures are in
+[the look review](../art/previews/fog-repair-2026-10-11/look/): `flat-*` and `form-*` use the same
+initial, close and partial-car camera poses. `pre-*` reproduces the pre-fog treatment on the
+current map at those identical poses; it is not a historical build. The archived
+[Request 14 initial frame](../art/previews/startup-and-fog-2026-10-11/level-initial.png) matches
+the initial framing. The older `vision-glow.png` uses an earlier map/framing; it remains the
+art-direction reference rather than an exact pixel comparison. Visible characters, road
+texture, ghosted walls and neon retain their look; hidden scenery is dark. Live lighting spills
+onto restored ground, and a hidden door/car's shape still changes with its current state,
+as the approved plan permits pending Bryson's information-leak decision.
+
+A is flat charcoal; B adds faint top/side form shading and dark ink. The captures were presented
+to Bryson; his selection is pending. Step 1 is a playable look-review milestone, not final
+creative approval. Vision ticks are the next step; no full mission was played here.

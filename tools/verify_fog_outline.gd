@@ -15,7 +15,7 @@ func _run() -> void:
 	var grid := GridView.new()
 	root.add_child(grid)
 	grid.build(state)
-	grid.set_visibility(state)
+	grid.set_visibility(state.visible_cells, state.lit)
 	grid.visible = false
 	var environment := WorldEnvironment.new()
 	environment.environment = Environment.new()
@@ -47,17 +47,14 @@ func _run() -> void:
 	material.next_pass = ink
 	mesh.material_override = material
 	root.add_child(mesh)
-	var fog := SceneryFog.new(mesh)
-	fog.refresh(grid)
-	var before: Shader = ink.shader.duplicate()
-	before.code = before.code.replace("varying vec3 world_position;", "instance uniform bool fog_partial : instance_index(6) = true;\nvarying vec3 world_position;").replace("scenery && !fog_visible", "scenery && fog_partial && !fog_visible")
-	ink.shader = before
-	var old_leaks := await _hidden_ink(camera)
-	ink.shader = load("res://art/shaders/ink_outline.gdshader")
+	SceneryFog.apply(mesh)
+	var flat: Shader = ink.shader.duplicate()
+	var include := FileAccess.get_file_as_string("res://art/shaders/fog.gdshaderinc").replace("SILHOUETTE_INK = true", "SILHOUETTE_INK = false")
+	flat.code = flat.code.replace('#include "res://art/shaders/fog.gdshaderinc"', include)
+	ink.shader = flat
 	var leaks := await _hidden_ink(camera)
-	var passed := fog.coverage == SceneryFog.Coverage.VISIBLE and old_leaks > 0 and leaks == 0
-	print("Native outline boundary: ", "passed" if passed else "FAILED", "; old hidden pixels=", old_leaks, "; fixed=", leaks)
-	quit(0 if passed else 1)
+	print("Native flat silhouette outline: ", "passed" if leaks == 0 else "FAILED", "; hidden ink pixels=", leaks)
+	quit(0 if leaks == 0 else 1)
 
 
 func _hidden_ink(camera: Camera3D) -> int:

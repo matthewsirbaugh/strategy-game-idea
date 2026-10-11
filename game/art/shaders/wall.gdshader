@@ -32,7 +32,6 @@ instance uniform float top : instance_index(0) = 0.0;
 // The light in a building's windows, so each building on a street can have its own.
 instance uniform vec3 window_light : source_color, instance_index(1) = vec3(1.0, 0.8, 0.62);
 instance uniform bool scenery : instance_index(5) = false;
-instance uniform bool fog_partial : instance_index(6) = true;
 
 varying vec3 world_position;
 varying vec3 world_normal;
@@ -43,9 +42,6 @@ void vertex() {
 }
 
 void fragment() {
-	if (scenery && fog_partial && !fog_visible(world_position)) {
-		discard;
-	}
 	float near = 0.0;
 	if (camera_fade > 0.0) {
 		near = 1.0 - smoothstep(camera_fade * 0.5, camera_fade, distance(world_position, CAMERA_POSITION_WORLD));
@@ -53,60 +49,67 @@ void fragment() {
 	if (ghosted(FRAGCOORD.xy, max(ghost, near))) {
 		discard;
 	}
-	bool upright = abs(world_normal.y) < 0.5;
-	// A point's place on its face: across and up a wall, or across both ways on a top.
-	float along = abs(world_normal.x) > abs(world_normal.z) ? world_position.z : world_position.x;
-	vec2 face = upright ? vec2(along, world_position.y) : world_position.xz;
-	vec2 panel_size = upright ? panel : vec2(CELL);
-	vec2 panel_id = floor(face / panel_size);
-	float panel_seed = hash(panel_id + (upright ? 0.0 : 91.0));
+	if (scenery && !fog_visible(world_position)) {
+		ALBEDO = vec3(0.0);
+		EMISSION = fog_silhouette(world_normal);
+		SPECULAR = 0.0;
+		ROUGHNESS = 1.0;
+	} else {
+		bool upright = abs(world_normal.y) < 0.5;
+		// A point's place on its face: across and up a wall, or across both ways on a top.
+		float along = abs(world_normal.x) > abs(world_normal.z) ? world_position.z : world_position.x;
+		vec2 face = upright ? vec2(along, world_position.y) : world_position.xz;
+		vec2 panel_size = upright ? panel : vec2(CELL);
+		vec2 panel_id = floor(face / panel_size);
+		float panel_seed = hash(panel_id + (upright ? 0.0 : 91.0));
 
-	vec3 color = base_color * mix(0.93, 1.07, panel_seed);
-	float dirt = patches(face * vec2(1.3, 0.9) + panel_id * 3.7, 0.4 * grime) * mix(0.35, 1.0, panel_seed);
-	color *= 1.0 - 0.3 * dirt;
-	if (upright && top > 0.0) {
-		float below_top = top - world_position.y;
-		// Streaks run down from the cap and fade out; a few reach much further than the rest.
-		float streak = value_noise(vec2(along * 7.0, world_position.y * 0.35));
-		float reach = mix(0.7, 2.8, value_noise(vec2(along * 1.3, 3.0)));
-		float run = smoothstep(0.45, 0.85, streak) * (1.0 - smoothstep(0.0, reach, below_top));
-		color *= 1.0 - 0.38 * streaks * run;
-		float t = clamp(world_position.y / top, 0.0, 1.0);
-		color *= mix(0.72, 1.04, (floor(t * 3.0) + smoothstep(0.3, 0.7, fract(t * 3.0))) / 3.0);
-		// The shadow of the cap, and the street's dirt splashed up the foot.
-		color *= mix(1.0, 0.55, smoothstep(0.08, 0.0, below_top));
-		color *= mix(0.68, 1.0, smoothstep(0.02, 0.4, world_position.y + 0.15 * value_noise(vec2(along * 3.0, 0.0))));
+		vec3 color = base_color * mix(0.93, 1.07, panel_seed);
+		float dirt = patches(face * vec2(1.3, 0.9) + panel_id * 3.7, 0.4 * grime) * mix(0.35, 1.0, panel_seed);
+		color *= 1.0 - 0.3 * dirt;
+		if (upright && top > 0.0) {
+			float below_top = top - world_position.y;
+			// Streaks run down from the cap and fade out; a few reach much further than the rest.
+			float streak = value_noise(vec2(along * 7.0, world_position.y * 0.35));
+			float reach = mix(0.7, 2.8, value_noise(vec2(along * 1.3, 3.0)));
+			float run = smoothstep(0.45, 0.85, streak) * (1.0 - smoothstep(0.0, reach, below_top));
+			color *= 1.0 - 0.38 * streaks * run;
+			float t = clamp(world_position.y / top, 0.0, 1.0);
+			color *= mix(0.72, 1.04, (floor(t * 3.0) + smoothstep(0.3, 0.7, fract(t * 3.0))) / 3.0);
+			// The shadow of the cap, and the street's dirt splashed up the foot.
+			color *= mix(1.0, 0.55, smoothstep(0.08, 0.0, below_top));
+			color *= mix(0.68, 1.0, smoothstep(0.02, 0.4, world_position.y + 0.15 * value_noise(vec2(along * 3.0, 0.0))));
+		}
+		color *= 1.0 - 0.45 * max(joint(face.x, panel_size.x, 0.01), joint(face.y, panel_size.y, 0.008));
+
+		if (stripes > 0.0) {
+			float band = step(0.5, fract((along + world_position.y) / 0.5));
+			float worn = patches(face * 2.2, 0.25);
+			color = mix(color, stripe_color * mix(1.0, 0.7, dirt) * mix(1.0, 0.75, worn), band * stripes);
+		}
+
+		float roughness = 0.9;
+		vec3 glow = vec3(0.0);
+		if (upright && windows_from > 0.0 && world_position.y > windows_from) {
+			vec2 bay = vec2(along / CELL, (world_position.y - windows_from) / FLOOR_HEIGHT);
+			vec2 bay_id = floor(bay);
+			vec2 in_bay = fract(bay);
+			bool shopfront = bay_id.y < 0.5 && windows_from < 1.0;
+			vec4 pane = shopfront ? vec4(0.06, 0.94, 0.05, 0.85) : vec4(0.2, 0.8, 0.3, 0.78);
+			float glass = step(pane.x, in_bay.x) * step(in_bay.x, pane.y) * step(pane.z, in_bay.y) * step(in_bay.y, pane.w);
+			float mullion = shopfront ? 1.0 : smoothstep(0.01, 0.025, abs(in_bay.x - 0.5));
+			float lit = step(shopfront ? 0.3 : 0.62, hash(bay_id + 5.0));
+			// Some lit windows have their blinds down: bands of light between the slats.
+			float blinds = step(0.6, hash(bay_id + 13.0)) * step(0.5, fract(in_bay.y * 14.0));
+			vec3 inside = window_light * mix(0.55, 1.2, hash(bay_id + 23.0)) * mix(1.0, 0.45, blinds);
+			float fall_off = mix(1.0, 0.55, smoothstep(pane.z, pane.w, in_bay.y));
+			color = mix(color, vec3(0.04, 0.05, 0.08), glass);
+			glow = inside * glass * mullion * lit * fall_off * window_glow;
+			roughness = mix(roughness, 0.08, glass);
+		}
+
+		float seen = fog_light(world_position);
+		ALBEDO = color * seen;
+		ROUGHNESS = roughness;
+		EMISSION = glow * mix(0.5, 1.0, seen) + vision_glow(color, world_position);
 	}
-	color *= 1.0 - 0.45 * max(joint(face.x, panel_size.x, 0.01), joint(face.y, panel_size.y, 0.008));
-
-	if (stripes > 0.0) {
-		float band = step(0.5, fract((along + world_position.y) / 0.5));
-		float worn = patches(face * 2.2, 0.25);
-		color = mix(color, stripe_color * mix(1.0, 0.7, dirt) * mix(1.0, 0.75, worn), band * stripes);
-	}
-
-	float roughness = 0.9;
-	vec3 glow = vec3(0.0);
-	if (upright && windows_from > 0.0 && world_position.y > windows_from) {
-		vec2 bay = vec2(along / CELL, (world_position.y - windows_from) / FLOOR_HEIGHT);
-		vec2 bay_id = floor(bay);
-		vec2 in_bay = fract(bay);
-		bool shopfront = bay_id.y < 0.5 && windows_from < 1.0;
-		vec4 pane = shopfront ? vec4(0.06, 0.94, 0.05, 0.85) : vec4(0.2, 0.8, 0.3, 0.78);
-		float glass = step(pane.x, in_bay.x) * step(in_bay.x, pane.y) * step(pane.z, in_bay.y) * step(in_bay.y, pane.w);
-		float mullion = shopfront ? 1.0 : smoothstep(0.01, 0.025, abs(in_bay.x - 0.5));
-		float lit = step(shopfront ? 0.3 : 0.62, hash(bay_id + 5.0));
-		// Some lit windows have their blinds down: bands of light between the slats.
-		float blinds = step(0.6, hash(bay_id + 13.0)) * step(0.5, fract(in_bay.y * 14.0));
-		vec3 inside = window_light * mix(0.55, 1.2, hash(bay_id + 23.0)) * mix(1.0, 0.45, blinds);
-		float fall_off = mix(1.0, 0.55, smoothstep(pane.z, pane.w, in_bay.y));
-		color = mix(color, vec3(0.04, 0.05, 0.08), glass);
-		glow = inside * glass * mullion * lit * fall_off * window_glow;
-		roughness = mix(roughness, 0.08, glass);
-	}
-
-	float seen = fog_light(world_position);
-	ALBEDO = color * seen;
-	ROUGHNESS = roughness;
-	EMISSION = glow * mix(0.5, 1.0, seen) + vision_glow(color, world_position);
 }

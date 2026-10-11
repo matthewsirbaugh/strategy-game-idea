@@ -62,21 +62,24 @@ func _exit_tree() -> void:
 
 # Tiles the team can see are lit, dimmer where they're dark, and so is any wall beside one;
 # everything else goes dark.
-func set_visibility(state: BattleState) -> void:
-	if _visible_cells != state.visible_cells:
-		_visible_cells = state.visible_cells.duplicate()
-		_visibility_image.fill(Color.BLACK)
-		for cell: Vector2i in _visible_cells:
-			_visibility_image.set_pixel(cell.x + 1, cell.y + 1, Color.WHITE)
-		_visibility_texture.update(_visibility_image)
+func set_visibility(cells: Dictionary, lit: Dictionary) -> void:
 	var targets := {}
-	for cell in state.visible_cells:
-		var brightness := 1.0 if state.is_lit(cell) else DARK_BRIGHTNESS
+	for cell in cells:
+		var brightness := 1.0 if (not map.night or lit.has(cell)) else DARK_BRIGHTNESS
 		targets[cell] = maxf(targets.get(cell, 0.0), brightness)
 		for direction in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 1), Vector2i(-1, -1), Vector2i(1, -1), Vector2i(-1, 1)]:
 			var beside: Vector2i = cell + direction
 			if not map.in_bounds(beside) or map.is_wall(beside):
 				targets[beside] = maxf(targets.get(beside, 0.0), brightness)
+	var seen := {}
+	for cell in targets:
+		seen[cell] = true
+	if _visible_cells != seen:
+		_visible_cells = seen.duplicate()
+		_visibility_image.fill(Color.BLACK)
+		for cell: Vector2i in _visible_cells:
+			_visibility_image.set_pixel(cell.x + 1, cell.y + 1, Color.WHITE)
+		_visibility_texture.update(_visibility_image)
 	for cell in targets:
 		if not _targets.has(cell):
 			_lit_since[cell] = 0.0

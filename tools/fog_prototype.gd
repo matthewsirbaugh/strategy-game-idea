@@ -4,7 +4,7 @@ var state := BattleState.new()
 var grid := GridView.new()
 var level := LevelView.new()
 var camera := Camera3D.new()
-var car: SceneryFog
+var car: Node3D
 var output := ""
 
 
@@ -44,22 +44,22 @@ func _run() -> void:
 	var floor := PlaneMesh.new()
 	floor.size = Vector2(15, 15)
 	var ground := level._add_mesh(floor, Surfaces.named("paving"), Vector3(6, -0.01, 6))
-	ground.set_instance_shader_parameter("scenery", true)
 	var building := Node3D.new()
 	building.position = Vector3(2.0, 0, 6)
 	level.add_child(building)
 	_part(building, Vector3(3.0, 3.8, 3.0), Vector3(0, 1.9, 0), Surfaces.named("building"))
 	_part(building, Vector3(3.2, 0.12, 3.2), Vector3(0, 3.86, 0), Surfaces.named("cap"))
-	level.register_scenery(building)
+	SceneryFog.apply(building)
 	var holder := level._place_root(Vector3(7.5, 0, 6), Vector2i(0, 1))
 	level._toon_body(holder, [[Vector3(1.3, 0.65, 3.6), Vector3(0, 0.45, 0), Color(0.1, 0.7, 0.8)],
 		[Vector3(1.1, 0.6, 1.5), Vector3(0, 1.0, -0.25), Color(0.07, 0.12, 0.18)]])
 	level._glow_quad(holder, Vector2(0.9, 0.12), Vector3(0, 0.55, 1.81), Color(1, 0.85, 0.5), 3)
-	car = level.register_scenery(holder)
+	car = holder
+	SceneryFog.apply(holder)
 	var sign := level._place_root(Vector3(4.8, 2.2, 6), Vector2i(1, 1))
 	level._toon_body(sign, [[Vector3(3.0, 1.2, 0.12), Vector3.ZERO, Color(0.15, 0.18, 0.2)]])
 	level._ad_screen(sign)
-	level.register_scenery(sign)
+	SceneryFog.apply(sign)
 	root.add_child(camera)
 	camera.current = true
 	_set_mask()
@@ -68,8 +68,7 @@ func _run() -> void:
 		return
 	DirAccess.make_dir_recursive_absolute(output)
 	for angle in 3:
-		car.root.rotation.y = 0.0 if angle == 0 else PI / 4.0
-		level.refresh_visibility()
+		car.rotation.y = 0.0 if angle == 0 else PI / 4.0
 		camera.look_at_from_position([Vector3(13, 10, 15), Vector3(13, 10, 15), Vector3(-6, 10, 15)][angle], Vector3(5, 1, 6))
 		for i in 8:
 			await process_frame
@@ -85,8 +84,7 @@ func _set_mask() -> void:
 		for x in 8:
 			if y >= 4:
 				state.visible_cells[Vector2i(x, y)] = true
-	grid.set_visibility(state)
-	level.refresh_visibility()
+	grid.set_visibility(state.visible_cells, state.lit)
 
 
 func _part(parent: Node3D, size: Vector3, at: Vector3, material: Material) -> void:

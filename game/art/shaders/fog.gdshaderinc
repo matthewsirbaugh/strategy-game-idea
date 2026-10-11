@@ -9,6 +9,13 @@ const float FOG_LIT = 1.3;
 // What the team can see also glows faintly, a cool moonlit lift, so seen ground reads at night
 // even where no lamp reaches. A seen tile in the dark gets half of it.
 const vec3 VISION_GLOW = vec3(0.13, 0.16, 0.22);
+const vec3 SILHOUETTE_TONE = vec3(0.014, 0.018, 0.026);
+const float SILHOUETTE_FORM = 0.12;
+const bool SILHOUETTE_INK = true;
+
+vec3 fog_silhouette(vec3 normal) {
+	return SILHOUETTE_TONE * (1.0 + SILHOUETTE_FORM * (normal.y > 0.5 ? 1.0 : -0.5));
+}
 
 // Visibility is binary and immediate; brightness remains animated independently.
 bool fog_visible(vec3 world) {

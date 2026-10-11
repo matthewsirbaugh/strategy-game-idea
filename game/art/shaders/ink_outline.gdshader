@@ -12,6 +12,7 @@ uniform float width_pixels = 2.0;
 // Thinned with the model, so a ghosted prop doesn't show its own dark hull through the gaps.
 instance uniform float ghost : instance_index(2) = 0.0;
 instance uniform bool scenery : instance_index(5) = false;
+instance uniform bool detail_only : instance_index(6) = false;
 varying vec3 world_position;
 
 void vertex() {
@@ -25,12 +26,13 @@ void vertex() {
 
 void fragment() {
 	// Screen-space expansion can cross a cell even when the mesh bounds do not.
-	if (scenery && !fog_visible(world_position)) {
+	bool hidden = scenery && !fog_visible(world_position);
+	if (hidden && (detail_only || !SILHOUETTE_INK)) {
 		discard;
 	}
 	if (ghosted(FRAGCOORD.xy, ghost)) {
 		discard;
 	}
-	ALBEDO = ink;
+	ALBEDO = hidden ? SILHOUETTE_TONE * 0.55 : ink;
 	ALPHA = 1.0;
 }

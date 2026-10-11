@@ -670,8 +670,7 @@ func _refresh() -> void:
 
 # Unseen tiles go dark and unseen enemies vanish; where one was last seen, a marker stays.
 func _refresh_fog() -> void:
-	_grid.set_visibility(state)
-	_level.refresh_visibility()
+	_grid.set_visibility(state.visible_cells, state.lit)
 	for id in _views:
 		var unit: Unit = state.units[id]
 		var view: UnitView = _views[id]

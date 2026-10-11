@@ -27,11 +27,13 @@ instance uniform vec3 tint : source_color, instance_index(0) = vec3(1.0);
 instance uniform float flash : instance_index(1) = 0.0;
 instance uniform float ghost : instance_index(2) = 0.0;
 instance uniform bool scenery : instance_index(5) = false;
-instance uniform bool fog_partial : instance_index(6) = true;
+instance uniform bool detail_only : instance_index(6) = false;
 varying vec3 world_position;
+varying vec3 world_normal;
 
 void vertex() {
 	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
 }
 
 float rim(vec3 normal, vec3 view) {
@@ -39,24 +41,30 @@ float rim(vec3 normal, vec3 view) {
 }
 
 void fragment() {
-	if (scenery && fog_partial && !fog_visible(world_position)) {
-		discard;
-	}
 	if (ghosted(FRAGCOORD.xy, ghost)) {
 		discard;
 	}
-	vec3 world = world_position;
-	float seen = fog_light(world);
-	ALBEDO = mix(texture(albedo_texture, UV).rgb * tint * seen, vec3(1.0), flash);
 	ROUGHNESS = 1.0;
 	SPECULAR = 0.0;
-	EMISSION = EDGE_GLOW * rim(NORMAL, VIEW) * seen + vec3(flash) * 2.0 + vision_glow(texture(albedo_texture, UV).rgb * tint, world);
+	if (scenery && !fog_visible(world_position)) {
+		if (detail_only) {
+			discard;
+		}
+		ALBEDO = vec3(0.0);
+		EMISSION = fog_silhouette(world_normal);
+	} else {
+		float seen = fog_light(world_position);
+		ALBEDO = mix(texture(albedo_texture, UV).rgb * tint * seen, vec3(1.0), flash);
+		EMISSION = EDGE_GLOW * rim(NORMAL, VIEW) * seen + vec3(flash) * 2.0 + vision_glow(texture(albedo_texture, UV).rgb * tint, world_position);
+	}
 }
 
 void light() {
-	float facing = dot(NORMAL, LIGHT);
-	float band = smoothstep(TERMINATOR - toon_softness, TERMINATOR + toon_softness, facing);
-	DIFFUSE_LIGHT += LIGHT_COLOR * ATTENUATION * band / PI;
-	float grazing = smoothstep(-0.1, 0.3, facing);
-	SPECULAR_LIGHT += LIGHT_COLOR * ATTENUATION * rim(NORMAL, VIEW) * grazing * RIM_STRENGTH / PI;
+	if (!scenery || fog_visible(world_position)) {
+		float facing = dot(NORMAL, LIGHT);
+		float band = smoothstep(TERMINATOR - toon_softness, TERMINATOR + toon_softness, facing);
+		DIFFUSE_LIGHT += LIGHT_COLOR * ATTENUATION * band / PI;
+		float grazing = smoothstep(-0.1, 0.3, facing);
+		SPECULAR_LIGHT += LIGHT_COLOR * ATTENUATION * rim(NORMAL, VIEW) * grazing * RIM_STRENGTH / PI;
+	}
 }
