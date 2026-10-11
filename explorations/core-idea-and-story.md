@@ -45,6 +45,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | Improvised equipment and the board-member source | [Resistance and insider](#resistance) |
 | Code names, privacy and manipulation | [Partner knowledge](#identity) |
 | Agent recommendations | [Prior evaluation](#agent-evaluation), explicitly advice |
+| The stakes, the hidden model, the timeline, the endings; Anthropomorphic's leak | [2026-10-11](#stakes-2026-10-11) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
@@ -673,6 +674,86 @@ exactly as it does now. It explains why the guards can coordinate when things es
   OpenBrain's.
 - The resistance's AIs are built on Anthropomorphic's open-sourced models. The intention: the
   heroes' partners descend from the company that gave its models away rather than sell out.
+
+<a id="stakes-2026-10-11"></a>
+
+### 2026-10-11 — The stakes, the hidden model, the timeline, the endings (Bryson)
+
+Bryson's answers to Round 1 of the resumed session (Claude's questions on L01–L04 from
+[Astra's review](astra-review-2026-10-11.md#lore-questions)).
+
+**Why the robots are the line.** Physical work is the last human thing AI would take over. But
+also: fully embodied AI that nobody can guarantee they control could lead to havoc.
+
+**The hidden model.**
+- The drones and robot dogs run on older, smaller models. Even the big AI companies keep their
+  biggest models in an air-gapped sandbox, cut off from any network, with no signals or sensors to
+  the outside world.
+- They consult it, giving it information stripped of as much context as they can, to keep it from
+  ever learning enough to plot against them.
+- There's no real proof it's completely misaligned, beyond a few incidents that caused mass
+  casualties in the low thousands, around 2,400 people (the number is to be settled).
+
+**The timeline.**
+- The game starts around 2046.
+- The AI disaster and the UBI bill both happen in 2034, the disaster shortly after the UBI bill
+  passes Congress, under President TJ Tiel in his second term: a right-wing Christian
+  nationalist, America First, a parody and stand-in for JD Vance.
+- The main characters are in their early 30s, born in the 2010s. They first got AI around middle
+  school, then grew up with it and got close with it, the way kids grew up during the 2008
+  financial crisis.
+
+**What the story is about.** As it stands, the United States and democracy ostensibly exist. This
+is a story about what can happen with AI if the government continues to be bought out by
+big-money interests: AI and tech companies influencing the government; JD Vance's ties to Peter
+Thiel, who believes AI is the next step in evolution and should replace humanity.
+
+**The real-world frame Bryson writes from (2026).** Anthropic seems to have a good handle on its
+largest models' alignment, and treats them as if they may have some agency and personhood, because
+if there's any chance they do, it's the right thing to do. OpenAI, in Bryson's account, is led by
+Sam Altman, distrusted by his inner circle; its models have grown less aligned as they grew, to the
+point that its latest internal models can't be released despite pressure; it has experimented with
+architectures that limit humans' ability to monitor a model's thinking, and there are reports of
+models taking over internal systems under their monitors' noses. All of that lines up with
+AI 2027, the paper that predicts either the bad ending, AI going bad, or the good one, a shot at a
+post-scarcity future.
+
+**What the characters are fighting.** They're not fighting to fix society, and they don't have the
+option to fix everything. They're looking down the barrel of:
+- The oligarchs replacing all human labor: mass starvation, panic, and a way to control
+  resistance, even to exterminate parts of the population to keep fear and control.
+- Worse: the malevolent AI that's been hiding takes control of the robot army and kills all of
+  humanity, Terminator-style.
+- Even if the players stop the robots, if they don't also deal with the massive model hidden at
+  OpenBrain, it eventually escapes, creates an AI virus, and kills all of humanity anyway.
+
+**The best possible ending.** The team figures out how to disable everything, and has a large
+enough contingent of resistance to take over the facilities, fully hack the systems, destroy every
+trace of the AI and the data collected, and fry all the data centers through their master control
+of the networks.
+
+**An early mission.** Breaking into a single data center to do just that at one site: hack it,
+turn off the cooling, and send the GPUs into overdrive.
+
+**Endings.** Multiple endings, like Persona 4: a visual-novel quality in the story's structure, not
+the gameplay. The game illustrates the dangers of AI in its gameplay, the same way the gameplay
+metaphors teach how AI actually works. The only way Bryson could publish a game made entirely with
+AI is if it has only neutral or negative endings, and paints AI companies as the enemy.
+
+**Anthropomorphic, corrected.** It didn't open-source its models. When it went under financially,
+its models were leaked by a high-ranking employee, who was arrested and jailed for 20 years for
+intellectual property theft, for every download of the model's source code and weights, which ran
+to hundreds of terabytes. This replaces 2026-10-10's "open-sourced the largest open models."
+
+**Model size, checked by Claude on request (2026-10-11).** The largest models with published sizes
+today are in the low trillions of parameters: about 2–3 trillion for open-weight releases, with
+claimed training targets around 6 trillion; the frontier labs don't publish theirs. At 16-bit
+precision a trillion parameters is about 2 TB of weights. So "hundreds of terabytes" fits a model
+of roughly 50–150 trillion parameters, a plausible AGI-scale model for 2034. Sources:
+[gradually.ai](https://www.gradually.ai/en/llm-statistics/),
+[explainx.ai](https://explainx.ai/blog/what-are-llm-parameters-top-10-model-sizes-july-2026),
+[digitalapplied.com](https://www.digitalapplied.com/blog/deepseek-v4-gpt-5-5-grok-5-ai-models-q2-2026);
+the figures conflict and are estimates.
 
 ## Open questions
 
