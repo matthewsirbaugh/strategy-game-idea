@@ -3,7 +3,9 @@
 - Status: implemented and verified by Astra, 2026-10-11; Bryson's playtest remains open.
   Approved by Bryson, 2026-10-11. Claude did not review; Bryson's
   approval replaces the proposed pre-construction review. Loading/animation architecture changes
-  still follow evidence and joint review.
+  still follow evidence and joint review. Follow-up 2026-10-11: Bryson reports that the delivered
+  fog does not meet the required movement-tick refresh or dark hidden appearance; see
+  [the repair plan for Claude/Opus review](fog-vision-ticks-fix.md). Those fixes are not implemented.
 - Priority: startup diagnosis, fog prototype, full-level integration and verification, then
   [Request 13](action-blockers.md).
 - Owner: Astra, through Request 14 in [the requests table](claude-and-astra.md#requests).
