@@ -14,8 +14,10 @@ Next: Bryson chooses or revises these designs. After approval, generate the exac
 
 ## Standalone logo handoff for Claude
 
-Bryson requested a standalone logo PNG on white for consistent reuse, and asked Astra to include it in the handoff to Claude. [OpenBrain logo on white](04-openbrain-logo-white.png) is the generated reference candidate, using the creekside campus emblem and the terminal close view as references. Bryson’s review is pending; this is not yet an adopted reference in art/reference/.
+Bryson approved the corrected continuous logo on 2026-10-10: “Much better, thank you.” Use [the approved OpenBrain logo PNG](../../reference/openbrain-logo-white.png) as the reusable reference. It is black on white, without transparency.
 
-Prompt: faithfully reproduce the campus emblem as a centered flat black interlocking rounded-loop rosette with an open center on pure white, straight-on with clean edges, no text, shading, shadows or extra graphics. Preserve its identity and proportions; square composition with white margin. Generated with the built-in image tool.
+The earlier standalone candidate, 04-openbrain-logo-white.png, was rejected for disconnected strokes. The approved version supersedes it. The terminal main-view candidate above predates this correction; its emblem is not the approved logo reference.
 
-For Claude when Bryson passes this off: use the approved standalone PNG itself for consistent reuse rather than independently regenerating the emblem. This file has a white background, not transparency.
+Generated with the built-in image tool from the earlier logo and campus reference, then corrected through image generation. Final correction prompt: close all four exposed stroke tips into neighboring strokes, preserve the rounded five-lobed silhouette and diagonal center curvature, enclose the central white hole and five petal openings, and form one continuous black emblem on white without text, texture or shadows.
+
+For Claude when Bryson passes this off: reuse the approved PNG itself for consistent branding on future assets. The prop designs and their remaining views still await Bryson’s selection separately.
