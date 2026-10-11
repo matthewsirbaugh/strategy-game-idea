@@ -24,7 +24,7 @@ static func card(state: BattleState, cell: Vector2i, pick := {}, token: Unit = n
 	var node := state.node_at(cell)
 	var receptacle := state.receptacle_at(cell)
 	if token:
-		result = _ai(state, token)
+		result = _ai(token)
 	elif unit and state.player_sees(unit) and not unit.is_turret():
 		result = _unit(state, unit)
 	elif node != "" and not state.is_hidden_turret(node):
@@ -101,7 +101,7 @@ static func _unit(state: BattleState, unit: Unit) -> Dictionary:
 	return {"kicker": kicker, "title": unit.display_name, "initial": unit.display_name.left(1), "color": ENEMY, "lines": lines}
 
 
-static func _ai(state: BattleState, unit: Unit) -> Dictionary:
+static func _ai(unit: Unit) -> Dictionary:
 	var lines: Array = [
 		{"text": "AI AP   %d" % unit.ai_ap, "color": TEXT},
 		{"text": "Context   %dM / %dM" % [unit.context, BattleState.CONTEXT_MAX], "color": TEXT},

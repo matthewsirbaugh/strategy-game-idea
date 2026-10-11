@@ -85,6 +85,7 @@ func _ready() -> void:
 	_build_inspect()
 	_build_card()
 	_build_banner()
+	$Root.move_child(_action_menu, -1)
 
 
 # The menu has to close before the pause menu sees Esc, so this runs in _input. In a submenu, Esc
@@ -408,6 +409,7 @@ func _menu_row(action: Dictionary, accent: Color) -> Control:
 	row.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	row.theme_type_variation = &"MenuBack" if style == "back" else &"MenuRow"
 	row.disabled = not action.get("enabled", true)
+	row.tooltip_text = action.get("tip", "")
 	for state_name in ROW_STATES:
 		row.add_theme_stylebox_override(state_name, _row_style(accent, state_name))
 	var tags := HBoxContainer.new()
@@ -426,7 +428,10 @@ func _menu_row(action: Dictionary, accent: Color) -> Control:
 		tags.modulate.a = 0.45
 	row.add_child(tags)
 	row.pressed.connect(_choose.bind(action.id))
-	row.mouse_entered.connect(row.grab_focus)
+	if row.disabled:
+		row.mouse_entered.connect(_on_row_focused.bind("", row.tooltip_text))
+	else:
+		row.mouse_entered.connect(row.grab_focus)
 	row.focus_entered.connect(_on_row_focused.bind(action.id, action.get("tip", "")))
 	return row
 
@@ -757,6 +762,8 @@ func show_errors(errors: PackedStringArray) -> void:
 
 
 func _choose(id: String) -> void:
+	# Rebuilding the menu removes the clicked row before its release can be consumed.
+	get_viewport().set_input_as_handled()
 	close_menu()
 	action_chosen.emit(id)
 

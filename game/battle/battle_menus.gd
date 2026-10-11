@@ -30,9 +30,8 @@ static func nest(actions: Array, back_id: String) -> Dictionary:
 			top.append(action)
 		elif not groups.has(group):
 			groups[group] = members[group] + [_back(back_id)]
-			var usable: bool = members[group].any(func(entry: Dictionary) -> bool: return entry.get("enabled", true))
 			var names: Array = members[group].map(func(entry: Dictionary) -> String: return entry.text)
-			top.append({"id": "group:" + group, "text": group, "submenu": true, "enabled": usable, "tip": ", ".join(names)})
+			top.append({"id": "group:" + group, "text": group, "submenu": true, "tip": ", ".join(names)})
 	return {"top": top, "groups": groups}
 
 
@@ -53,12 +52,9 @@ static func operator_actions(state: BattleState, unit: Unit, hand_over := false)
 		actions.append({"group": "Shoot", "id": "overwatch", "text": "Overwatch", "costs": [["Uses the shot", "info"]],
 			"tip": "Fires at the first enemy that moves into your line of fire, until your next turn."})
 	for option in state.door_options(unit):
-		var locking: bool = option.action == "lock"
-		actions.append({"group": "Interact", "id": "door:%s:%s" % [option.node, option.action], "text": "%s door %s" % [option.action.capitalize(), option.node.to_upper()],
-			"costs": [["%d AP" % BattleState.LOCK_COST, "ap"] if locking else ["Free", "free"]], "tip": "Only an AI can unlock it again." if locking else ""})
+		actions.append(_door_action(option))
 	for id in state.peek_options(unit):
-		actions.append({"group": "Interact", "id": "peek:" + id, "text": "Peek through %s" % id.to_upper(), "costs": [["%d AP" % BattleState.PEEK_COST, "ap"]],
-			"tip": "See past the door until your turn ends."})
+		actions.append(_peek_action(id))
 	for body in state.tie_targets(unit):
 		actions.append({"group": "Interact", "id": "tie:%d" % body.id, "text": "Tie up %s" % body.display_name, "costs": [["%d AP" % BattleState.TIE_COST, "ap"]],
 			"tip": "Out of the battle unless another guard finds and frees them."})
@@ -84,6 +80,43 @@ static func operator_actions(state: BattleState, unit: Unit, hand_over := false)
 	else:
 		actions.append(_end())
 	return actions
+
+
+static func door_actions(state: BattleState, unit: Unit, id: String) -> Array:
+	var actions := []
+	var device: Dictionary = state.devices[id]
+	var options := state.door_options(unit)
+	var operation := "close" if device.open else "open"
+	var primary := _door_action({"node": id, "action": operation})
+	primary.enabled = options.has({"node": id, "action": operation})
+	if not primary.enabled:
+		if device.locked:
+			primary.tip = "Unlock it from the network first."
+		elif unit.carrying >= 0:
+			primary.tip = "Put the body down before using the door."
+		elif device.open and state.unit_at(state.node_cell(id)) != null:
+			primary.tip = "The doorway is occupied."
+		else:
+			primary.tip = "This Operator cannot act right now."
+	actions.append(primary)
+	for option in options:
+		if option.node == id and option.action != operation:
+			actions.append(_door_action(option))
+	if state.peek_options(unit).has(id):
+		actions.append(_peek_action(id))
+	actions.append(_back("physical"))
+	return actions
+
+
+static func _door_action(option: Dictionary) -> Dictionary:
+	var locking: bool = option.action == "lock"
+	return {"group": "Interact", "id": "door:%s:%s" % [option.node, option.action], "text": "%s door %s" % [option.action.capitalize(), option.node.to_upper()],
+		"costs": [["%d AP" % BattleState.LOCK_COST, "ap"] if locking else ["Free", "free"]], "tip": "Only an AI can unlock it again." if locking else ""}
+
+
+static func _peek_action(id: String) -> Dictionary:
+	return {"group": "Interact", "id": "peek:" + id, "text": "Peek through %s" % id.to_upper(), "costs": [["%d AP" % BattleState.PEEK_COST, "ap"]],
+		"tip": "See past the door until your turn ends."}
 
 
 # The AI's own menu, in the network view. An AI still in the backpack is offered the access points it
@@ -120,10 +153,10 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 			"tip": "Keeps a quarter of the context. Every loaded chip degrades a step."})
 	for id in state.load_options(unit):
 		var chip := state.chip_def(id)
-		actions.append({"group": "Chips", "id": "load:" + id, "text": "Load %s" % chip.display_name, "costs": [["+%dM" % chip.load_cost, "context"]], "tip": chip.effect})
+		actions.append({"group": "Chips", "fold": true, "id": "load:" + id, "text": "Load %s" % chip.display_name, "costs": [["+%dM" % chip.load_cost, "context"]], "tip": chip.effect})
 	for id in unit.chips:
 		var chip := state.chip_def(id)
-		if chip.type != ChipDef.Type.ACTIVE or not unit.connected():
+		if chip.type != ChipDef.Type.ACTIVE:
 			continue
 		var costs := [["1 AI AP", "ai"]]
 		if unit.next_hack.has(id):
@@ -131,14 +164,17 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 		elif unit.chips[id] == 0:
 			costs.push_front(["+%dM" % chip.load_cost, "context"])
 		var ready := state.chip_ready(unit, id)
-		actions.append({"group": "Chips", "id": "chip:" + id, "text": chip.display_name, "costs": costs, "enabled": ready,
-			"tip": chip.effect if ready else _chip_blocker(state, unit, id)})
-	for id in controlled_devices(state, unit):
-		var controls := device_actions(state, unit, id)
+		var effect := chip.degraded_effect if unit.chips[id] == 1 else chip.effect
+		actions.append({"group": "Chips", "fold": true, "id": "chip:" + id, "text": chip.display_name, "costs": costs, "enabled": ready,
+			"tip": effect if ready else _chip_blocker(unit, id)})
+	var options := state.verb_options(unit)
+	var turrets := state.turret_controls(unit)
+	for id in _controlled_devices(options, turrets):
+		var controls := _device_actions(state, unit, id, options, turrets, "ai")
 		controls.pop_back()
 		var orders := ", ".join(controls.map(func(action: Dictionary) -> String: return action.text.to_lower()))
 		actions.append({"group": "Devices", "fold": true, "id": "device:" + id, "text": "%s %s" % [state.node_def(id).display_name, id.to_upper()], "submenu": true,
-			"enabled": controls.any(func(action: Dictionary) -> bool: return action.enabled), "tip": orders.left(1).to_upper() + orders.substr(1) + "."})
+			"tip": orders.left(1).to_upper() + orders.substr(1) + "."})
 	for other in state.share_targets(unit):
 		actions.append({"id": "share:%d" % other.id, "text": "Give %s's AI 1 AP" % other.display_name, "costs": [["1 AI AP", "ai"]],
 			"tip": "Shared compute: it arrives on their next turn, and lapses if unused."})
@@ -156,11 +192,15 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 
 # The Breached devices the AI can give orders to, each once.
 static func controlled_devices(state: BattleState, unit: Unit) -> Array[String]:
+	return _controlled_devices(state.verb_options(unit), state.turret_controls(unit))
+
+
+static func _controlled_devices(options: Array[Dictionary], turrets: Array[String]) -> Array[String]:
 	var ids: Array[String] = []
-	for option in state.verb_options(unit):
+	for option in options:
 		if not ids.has(option.node):
 			ids.append(option.node)
-	for id in state.turret_controls(unit):
+	for id in turrets:
 		if not ids.has(id):
 			ids.append(id)
 	return ids
@@ -168,11 +208,15 @@ static func controlled_devices(state: BattleState, unit: Unit) -> Array[String]:
 
 # One device's orders. The header names the device, so each row is just the order.
 static func device_actions(state: BattleState, unit: Unit, id: String, back := "ai") -> Array:
+	return _device_actions(state, unit, id, state.verb_options(unit), state.turret_controls(unit), back)
+
+
+static func _device_actions(state: BattleState, unit: Unit, id: String, options: Array[Dictionary], turrets: Array[String], back: String) -> Array:
 	var actions := []
-	for option in state.verb_options(unit):
+	for option in options:
 		if option.node == id:
 			actions.append(_verb_action(state, unit, option))
-	if state.turret_controls(unit).has(id):
+	if turrets.has(id):
 		var mode := "hold" if state.devices[id].mode == "target" else "target"
 		actions.append({"id": "turret:%s:%s" % [id, mode], "text": "Hold fire" if mode == "hold" else "Target enemies", "costs": [["Free", "free"]],
 			"enabled": true, "tip": "It picks the nearest enemy itself; you only say whether it fires."})
@@ -262,16 +306,18 @@ static func deploy_blocker(state: BattleState, unit: Unit) -> String:
 	return "Get within %d tiles of an access point to deploy." % BattleState.TETHER
 
 
-static func _chip_blocker(state: BattleState, unit: Unit, id: String) -> String:
-	if unit.ai_ap < 1:
-		return "Needs 1 AI AP."
+static func _chip_blocker(unit: Unit, id: String) -> String:
+	if not unit.connected():
+		return "Deploy the AI to the network first."
 	if unit.next_hack.has(id):
 		return "Already waiting for the next hack."
+	if unit.ai_ap < 1:
+		return "Needs 1 AI AP."
 	match id:
 		BattleState.LOCATE:
-			return "Every enemy is already in sight."
+			return "No unseen enemy available to locate."
 		BattleState.PREDICT:
-			return "No guard in sight to predict."
+			return "Needs a visible guard that isn't already predicted."
 	return ""
 
 

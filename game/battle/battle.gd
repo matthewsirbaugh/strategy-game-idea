@@ -481,6 +481,8 @@ func _set_pick(choices: Dictionary, on_pick: Callable, on_hover := Callable()) -
 
 func _clear_pick() -> void:
 	_choices = {}
+	_on_pick = Callable()
+	_on_pick_hover = Callable()
 	for layer in PICK_LAYERS:
 		_grid.clear_overlay(layer)
 	_grid.clear_overlay("preview_area")
@@ -503,6 +505,7 @@ func _click(screen_position: Vector2) -> void:
 		return
 	var unit := state.active
 	var node := state.node_at(cell) if _network_shown else ""
+	var door := _door_at(unit, cell) if not _network_shown else ""
 	var teammate := _teammate_at(cell, token)
 	match _mode:
 		# Acting beats looking: a teammate's AI token on the access point doesn't stop a deploy.
@@ -514,6 +517,12 @@ func _click(screen_position: Vector2) -> void:
 		Mode.IDLE when token == null and _node_click(unit, node) == "device":
 			_hud.view_unit(state, null)
 			_open_device_menu(unit, node)
+		Mode.IDLE when door != "":
+			_hud.view_unit(state, null)
+			var status := NetworkView.status(state, door)
+			if not state.devices[door].locked:
+				status += "   UNLOCKED"
+			_open_menu(BattleMenus.door_actions(state, unit, door), "%s %s  ·  %s" % [state.node_def(door).display_name.to_upper(), door.to_upper(), status])
 		Mode.IDLE:
 			_hud.view_unit(state, null)
 			_open_menu()
@@ -533,10 +542,17 @@ func _is_choice(cell: Vector2i, token: Unit = null) -> bool:
 				return true
 			if _network_shown:
 				return token == unit if token else cell == unit.cell or _node_click(unit, node) != ""
-			return cell == unit.cell
+			return cell == unit.cell or _door_at(unit, cell) != ""
 		Mode.PICK:
 			return _choices.has(cell)
 	return false
+
+
+func _door_at(unit: Unit, cell: Vector2i) -> String:
+	if not unit.is_operator() or Grid.distance(unit.cell, cell) != 1:
+		return ""
+	var id := state.node_at(cell)
+	return id if state.map.node_kind(id) in NodeDef.DOORS else ""
 
 
 # What clicking a node in the network view does: the AI's own node opens its menu, an access point
