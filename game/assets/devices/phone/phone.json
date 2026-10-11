@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "phone",
+  "name": "Phone",
+  "category": "devices",
+  "status": "proof",
+  "model": "phone.glb",
+  "height_m": 0.4,
+  "fit_to_height": false,
+  "device": "phone",
+  "description": "A wall-mounted campus intercom: white slab, black glass face, a lens, a lit speaker grille and a call button.",
+  "brief": "art/briefs/batch-2-devices.md",
+  "sources": "art/sources/devices/phone/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12978-a37d-711e-876f-cc4145caccd0",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 4,003 triangles; 0.17 x 0.07 m, mounted on walls and posts, back at +Y in Blender. Nothing glows yet: its red light is too faint for --glow 2."
+}

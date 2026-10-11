@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "machine",
+  "name": "Machine (backup generator)",
+  "category": "devices",
+  "status": "proof",
+  "model": "machine.glb",
+  "height_m": 1.4,
+  "fit_to_height": false,
+  "device": "machine",
+  "description": "A backup diesel generator in a white weatherproof enclosure with black vents, an exhaust stack and a skid base.",
+  "brief": "art/briefs/batch-2-devices.md",
+  "sources": "art/sources/devices/machine/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12978-a872-75e9-8dcb-bac645a2fdce",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 3,711 triangles; 2.17 x 1.06 m. Nothing glows yet."
+}

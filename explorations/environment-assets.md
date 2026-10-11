@@ -3,9 +3,9 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: Bryson and Astra design batch 2's six devices from
-  [the briefs](../art/briefs/batch-2-devices.md) (request 5); Claude takes them through Meshy and
-  re-textures the night-vision camera.
+- Next action: Astra makes batch 3's images ([briefs](../art/briefs/batch-3-vehicles-and-fixtures.md),
+  request 6); [batch 4](../art/briefs/batch-4.md) collects what comes next, starting with the
+  revised turret.
 
 ## The question
 
@@ -166,6 +166,14 @@ Seen in Blender renders only; not yet in the night stage or played.
 Bryson saw the three props in the night stage: "they look good". The Meshy route works for this
 game, and the three are approved. Batch 2 is the seven remaining standalone devices,
 [briefed here](../art/briefs/batch-2-devices.md), about 115 credits; vehicles and doors come after.
+
+### 2026-10-11 — Batch 2: five devices modelled, the turret sent back (Bryson)
+
+Bryson approved five of Astra's six images; the turret read as a camera with a gun, so its
+revision went to [batch 4](../art/briefs/batch-4.md). The five went through smart topology, 75
+credits: the Prime Data Cache, the phone, the machine (a backup generator), the ad screen and the
+power hub, all faithful to their images. The night-vision camera, a re-texture of the camera head,
+cost 10 more. Seen in Blender renders only.
 
 ## Open questions
 

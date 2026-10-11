@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "ad_screen",
+  "name": "Ad screen",
+  "category": "devices",
+  "status": "proof",
+  "model": "ad_screen.glb",
+  "height_m": 2.2,
+  "fit_to_height": false,
+  "device": "adscreen",
+  "description": "A freestanding portrait digital sign on a black post, glowing with a calm OpenBrain brand image.",
+  "brief": "art/briefs/batch-2-devices.md",
+  "sources": "art/sources/devices/ad_screen/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12978-ad49-77f0-b759-a03c8a379d4d",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 4,390 triangles; 0.86 x 0.43 m. --glow 0.75: the whole screen glows."
+}

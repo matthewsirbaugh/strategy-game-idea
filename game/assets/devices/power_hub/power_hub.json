@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "power_hub",
+  "name": "Power hub",
+  "category": "devices",
+  "status": "proof",
+  "model": "power_hub.glb",
+  "height_m": 1.4,
+  "fit_to_height": false,
+  "device": "hub",
+  "description": "A white electrical cabinet with two doors, a status light column, the emblem, and conduits into a black plinth.",
+  "brief": "art/briefs/batch-2-devices.md",
+  "sources": "art/sources/devices/power_hub/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12978-b163-731e-a23d-7d7154c66045",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 3,660 triangles; 0.91 x 0.46 m. Nothing glows yet: its lights are too faint for --glow 2."
+}

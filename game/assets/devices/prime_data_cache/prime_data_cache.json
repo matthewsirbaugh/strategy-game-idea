@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "prime_data_cache",
+  "name": "Prime Data Cache",
+  "category": "devices",
+  "status": "proof",
+  "model": "prime_data_cache.glb",
+  "height_m": 2.2,
+  "fit_to_height": false,
+  "device": "cache",
+  "description": "OpenBrain's sealed data vault: a black server monolith behind smoked glass in a white frame, glowing red. The level's objective.",
+  "brief": "art/briefs/batch-2-devices.md",
+  "sources": "art/sources/devices/prime_data_cache/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12978-9c8e-76eb-b6ce-84726c66140d",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 626 triangles; 1.09 x 0.88 m. --glow 2: the red server lights glow; the warm frame strips don't yet."
+}
