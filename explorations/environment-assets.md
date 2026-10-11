@@ -3,9 +3,9 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: Bryson and Astra design the three proof-run props from
-  [the briefs](../art/briefs/proof-run.md), and Bryson hands Claude the images. The tools are
-  ready.
+- Next action: Bryson and Astra design batch 2's six devices from
+  [the briefs](../art/briefs/batch-2-devices.md) (request 5); Claude takes them through Meshy and
+  re-textures the night-vision camera.
 
 ## The question
 
@@ -160,6 +160,12 @@ credits in all.
   finds nothing on these two: the camera's red light is too faint in Meshy's texture.
 
 Seen in Blender renders only; not yet in the night stage or played.
+
+### 2026-10-11 — Proof run approved; batch 2 briefed (Bryson)
+
+Bryson saw the three props in the night stage: "they look good". The Meshy route works for this
+game, and the three are approved. Batch 2 is the seven remaining standalone devices,
+[briefed here](../art/briefs/batch-2-devices.md), about 115 credits; vehicles and doors come after.
 
 ## Open questions
 

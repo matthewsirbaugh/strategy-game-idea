@@ -3,7 +3,7 @@
   "id": "access_terminal",
   "name": "Access terminal",
   "category": "devices",
-  "status": "proof",
+  "status": "approved",
   "model": "access_terminal.glb",
   "height_m": 1.3,
   "fit_to_height": false,

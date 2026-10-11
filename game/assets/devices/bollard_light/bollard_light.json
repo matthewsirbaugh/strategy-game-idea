@@ -3,7 +3,7 @@
   "id": "bollard_light",
   "name": "Bollard light",
   "category": "devices",
-  "status": "proof",
+  "status": "approved",
   "model": "bollard_light.glb",
   "height_m": 1.0,
   "fit_to_height": false,

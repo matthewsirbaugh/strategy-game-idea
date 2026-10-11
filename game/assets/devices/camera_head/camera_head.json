@@ -3,7 +3,7 @@
   "id": "camera_head",
   "name": "Camera head",
   "category": "devices",
-  "status": "proof",
+  "status": "approved",
   "model": "camera_head.glb",
   "height_m": 0.207,
   "fit_to_height": false,
