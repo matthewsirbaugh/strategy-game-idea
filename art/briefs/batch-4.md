@@ -10,8 +10,8 @@ Blender, so neither is here.
 Everything in [the proof run's "What every image needs"](proof-run.md#what-every-image-needs-for-meshy)
 applies. Each prompt is the proof run's style block, then the object below, then its framing block.
 Main view only. Attach the finished images in `art/sources/` for the shared design language, and
-the [terrace](../reference/openbrain-research-park-terrace.png) and
-[robotics lab](../reference/openbrain-research-park-robotics-lab.png) references for design only.
+the [terrace](../reference/openbrain-research-park-terrace.png) reference for design only.
+Interiors wait for now (Bryson, 2026-10-11), so the lab robot arm was dropped.
 Save Bryson's chosen image as `art/sources/<category>/<id>/01-main.png`.
 
 ## 1. Turret, revised: `devices/turret`
@@ -80,15 +80,3 @@ no camera has. Don't attach the camera head or the first turret as references fo
 > group. About 1.5 metres across. A round white table top on a single black pedestal, with four
 > minimal chairs of black powder-coated metal and warm wood slat seats tucked in around it. Clean,
 > modern and new.
-
-## 6. Lab robot arm: `props/robot_arm`
-
-- **In the world:** the industrial robot arms in the research park's labs, seen through the glass.
-- **In the game:** an obstacle inside labs; it may become a device later.
-- **Size:** about 1.8 m tall when raised, on a 0.6 m square base.
-
-> The object: a six-axis industrial research robot arm, raised in a poised working pose, on its
-> own low black square base. About 1.8 metres tall. Smooth white arm segments with chamfered
-> joints, black rotary joint housings with thin warm white light rings, a black two-finger
-> gripper at its end, one small red status light on its base. Precise, quiet and slightly
-> uncanny. No cables trailing loose, no table.
