@@ -17,8 +17,13 @@
     "settings": "retexture of camera_head's task, text prompt, PBR",
     "task": "01a12959-ccfb-75a5-842d-69f6e8407c1b",
     "credits": 10,
-    "date": "2026-10-11"
+    "date": "2026-10-11",
+    "remesh": {
+      "task": "01a12a0d-37b5-7328-99a7-13daebcf6b8d",
+      "credits": 5,
+      "triangles": null
+    }
   },
   "animations": [],
-  "notes": "Same shape as camera_head: 0.60 m long, lens facing -X. Full resolution, 644,646 triangles (Bryson, 2026-10-11), then prep_prop.py --glow 2: the infrared emitters and the recording light glow."
+  "notes": "Same shape as camera_head: 0.60 m long, lens facing -X. Full resolution, 644,646 triangles (Bryson, 2026-10-11), then prep_prop.py --glow 2: the infrared emitters and the recording light glow. Lowered 2026-10-11 (Bryson): Meshy remesh, textures shrunk to 2K with prep_prop.py --max-texture 2048; looks the same, loads far faster."
 }

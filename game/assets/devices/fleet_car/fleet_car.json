@@ -17,8 +17,13 @@
     "settings": "multi-image (main and side views), textured, PBR",
     "task": "01a12992-b3c9-7396-9190-a8076ef8f1ab",
     "credits": 30,
-    "date": "2026-10-11"
+    "date": "2026-10-11",
+    "remesh": {
+      "task": "01a12a0d-2d69-7291-9f55-53b8fa6aa238",
+      "credits": 5,
+      "triangles": 59973
+    }
   },
   "animations": [],
-  "notes": "Prepared with tools/prep_prop.py. 4.61 m long. Full resolution, 901,904 triangles: collapsing to 40,000 made the panels rough (Bryson, 2026-10-11). --glow 2: the red tail light glows. tools/build_fixtures.py adds the OpenBrain emblem to both doors as decals, from the prepared model kept in sources."
+  "notes": "Prepared with tools/prep_prop.py. 4.61 m long. Full resolution, 901,904 triangles: collapsing to 40,000 made the panels rough (Bryson, 2026-10-11). --glow 2: the red tail light glows. tools/build_fixtures.py adds the OpenBrain emblem to both doors as decals, from the prepared model kept in sources. Lowered 2026-10-11 (Bryson): Meshy remesh to 59973 triangles, textures shrunk to 2K with prep_prop.py --max-texture 2048; looks the same, loads far faster."
 }

@@ -3,6 +3,7 @@
 # Run: blender -b --python tools/prep_prop.py -- <in.glb> <out.glb> --height 1.0 [--max-tris 8000]
 #      [--glow 0.75] lights up texels brighter than that, and saturated reds, as emission.
 #      --glow 2 lights only the reds, for white bodies.
+#      [--max-texture 4096] shrinks larger textures to that size, for load time.
 #      [--glow-box x0 y0 z0 x1 y1 z1] limits the brightness test to faces inside that box (metres,
 #      after scaling, Blender axes), for a screen on a white body.
 import argparse
@@ -19,6 +20,7 @@ args.add_argument("--max-tris", type=int, default=0)
 args.add_argument("--glow", type=float, default=0.0, help="luminance above which the base colour glows")
 args.add_argument("--glow-strength", type=float, default=4.0)
 args.add_argument("--glow-box", type=float, nargs=6, default=None)
+args.add_argument("--max-texture", type=int, default=0)
 opts = args.parse_args(sys.argv[sys.argv.index("--") + 1:])
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -122,6 +124,11 @@ def add_glow(material) -> None:
     bsdf.inputs["Emission Strength"].default_value = opts.glow_strength
     print("PREP glow: %.1f%% of %s lit" % (100.0 * lit.mean(), material.name))
 
+
+if opts.max_texture:
+    for image in bpy.data.images:
+        if max(image.size) > opts.max_texture:
+            image.scale(opts.max_texture, opts.max_texture)
 
 if opts.glow:
     for material in prop.data.materials:

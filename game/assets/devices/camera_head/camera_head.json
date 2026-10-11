@@ -17,8 +17,13 @@
     "settings": "multi-image (main and side views), textured, PBR",
     "task": "01a12946-e3c6-74d5-b8c1-78f83046a81f",
     "credits": 30,
-    "date": "2026-10-11"
+    "date": "2026-10-11",
+    "remesh": {
+      "task": "01a12a0d-347b-76e7-a695-723ca8c99e47",
+      "credits": 5,
+      "triangles": null
+    }
   },
   "animations": [],
-  "notes": "0.60 m long, lens facing -X, mounting plate at +X. Full resolution, 644,646 triangles (Bryson, 2026-10-11: max quality; reductions made surfaces rough). Smart topology can't take more than one image, so this one is Meshy 7 (Bryson chose, 2026-10-11). Its small red light is too faint in the texture for --glow, so nothing glows yet. Claude still builds the pole."
+  "notes": "0.60 m long, lens facing -X, mounting plate at +X. Full resolution, 644,646 triangles (Bryson, 2026-10-11: max quality; reductions made surfaces rough). Smart topology can't take more than one image, so this one is Meshy 7 (Bryson chose, 2026-10-11). Its small red light is too faint in the texture for --glow, so nothing glows yet. Claude still builds the pole. Lowered 2026-10-11 (Bryson): Meshy remesh, textures shrunk to 2K with prep_prop.py --max-texture 2048; looks the same, loads far faster."
 }

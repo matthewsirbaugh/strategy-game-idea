@@ -3,8 +3,9 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: Bryson looks at the props in the night stage and the model viewer. Then the
-  architecture and character models explorations can start.
+- Next action: move Meshy's raw downloads out of the repository to
+  `~/Desktop/AI Strategy Game Model Archive/` (Bryson chose this over Git LFS, 2026-10-11), then put
+  the art in the game.
 
 ## The question
 
@@ -222,6 +223,25 @@ car, the van and both camera heads are back at full resolution, and the turret a
 were regenerated with Meshy 7 Ultra and 8K textures (40 credits each). The Ultra charger fixed a
 fan of spiked triangles smart topology had put across its open frame; the Ultra turret lost its
 red visor, which Claude rebuilt as a glowing bar. The models now total about 1 GB on disk.
+
+### 2026-10-11 — Max quality only where it's needed; the plan from here (Bryson)
+
+- Ultra is for props that need it, the less angular ones: the car, van, turret and charger. The
+  other props are fine as they are, and smart topology stays the default.
+- Bryson saw everything in the night stage: "everything looks good." Only the EV charger loaded
+  slowly.
+- Next, in order: decide how the repository stores large models; lower the heavy models'
+  triangle counts while keeping them looking good; put the art in the game; then the story and
+  personalities, so the character models are made informed.
+
+### 2026-10-11 — Lighter heavy models (Bryson approved; Claude ran it)
+
+Tested on the EV charger: a Blender bake to 30,000 triangles came out greyer and smudged; Meshy's
+remesh to 27,000 looked nearly identical to the 343,000-triangle original; 2K textures looked the
+same as 8K and quartered the file. So the six heavy models (car, van, turret, both camera heads,
+charger) were remeshed (5 credits each, 30 in all) and shrunk to 2K textures: 11 to 16 MB each,
+down from 30 to 60 MB. The turret's visor, the emblems and the camera poles were rebuilt on the
+new meshes. Seen in Blender renders only.
 
 ## Open questions
 

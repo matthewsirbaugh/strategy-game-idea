@@ -17,8 +17,13 @@
     "settings": "Ultra, 8K textures, PBR, main view only",
     "task": "01a129df-1f97-74b2-8847-1a05e0e1f0f2",
     "credits": 40,
-    "date": "2026-10-11"
+    "date": "2026-10-11",
+    "remesh": {
+      "task": "01a12a05-1ac9-715c-b274-380097be65d0",
+      "credits": 5,
+      "triangles": 26982
+    }
   },
   "animations": [],
-  "notes": "Regenerated at Meshy's highest quality (Bryson, 2026-10-11), full resolution: 343,584 triangles, 0.73 x 0.35 m. Smart topology had filled the open frame with a fan of spiked triangles; the Ultra mesh models the opening cleanly. Its open frame keeps it from reading as the access terminal."
+  "notes": "Regenerated at Meshy's highest quality (Bryson, 2026-10-11), full resolution: 343,584 triangles, 0.73 x 0.35 m. Smart topology had filled the open frame with a fan of spiked triangles; the Ultra mesh models the opening cleanly. Its open frame keeps it from reading as the access terminal. Lowered 2026-10-11 (Bryson): Meshy remesh to 26982 triangles, textures shrunk to 2K with prep_prop.py --max-texture 2048; looks the same, loads far faster."
 }
