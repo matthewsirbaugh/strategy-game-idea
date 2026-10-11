@@ -11,6 +11,8 @@ Needs Godot 4.7 (`brew install --cask godot`).
   scripts added elsewhere fail with "Identifier not declared".
 - Edit: open `game/project.godot` in the Godot editor, then press F5 to run.
 - Preview a character with the toon shader and its animations: `godot --path game res://preview/character_preview.tscn`
+- Preview new props under night light, close up and from the battle camera: `godot --path game res://preview/prop_preview.tscn`. It shows every model in `game/art/proof/`.
+- Ready a Meshy model for the game (real height, origin at its base, a triangle budget): `blender -b --python tools/prep_prop.py -- in.glb out.glb --height 1.0 --max-tris 8000`
 - Verify imports and every test suite: `bash tools/check.sh`. Prints one line per successful
   check; on failure, prints the Godot output and exits nonzero, including script errors that
   Godot itself can report with a successful exit code. This checks code, not rendering or feel.

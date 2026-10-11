@@ -3,8 +3,9 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: Bryson approves the first proof run below (three props, about 105 Meshy
-  credits), and says who makes the prop sheets.
+- Next action: Bryson and Sol design the three proof-run props from
+  [the briefs](../art/briefs/proof-run.md), and Bryson hands Claude the images. The tools are
+  ready.
 
 ## The question
 
@@ -101,8 +102,20 @@ Meshy task, credits and cleanup notes.
 
 None yet.
 
+## Findings
+
+### 2026-10-10 — How the work runs, and the proof run's tools (Bryson; Claude built the tools)
+
+- Bryson: Sol makes all the reference images. Claude says what's being made; Bryson works with Sol
+  to the right design and hands Claude the images; Claude takes them to Meshy. Meshy's image tool
+  isn't used, to save its credits for models. Recorded in AGENTS.md.
+- Bryson approved the proof run, to judge how close Meshy can get us. He might also try Unreal to
+  see what it can do (on the board).
+- Built: [the briefs](../art/briefs/proof-run.md) for the bollard light, the camera head and the
+  access terminal; `tools/prep_prop.py`, which readies a Meshy model in Blender, tested on an old
+  prop; `game/preview/prop_preview.tscn`, a night look-dev stage with the battle camera's view and
+  a 1.8 m person for scale; and [the Meshy log](../art/meshy/log.md).
+
 ## Open questions
 
-1. Does Bryson make the prop sheets in GPT-6 Sol, or Claude through Meshy's image tool (3 to 9
-   credits a sheet)?
-2. Approve the first proof run: three props, about 105 credits?
+None for now.

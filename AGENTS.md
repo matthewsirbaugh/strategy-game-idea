@@ -57,10 +57,11 @@ expects that plan to change as ideas surface while playing.
 | explorations/*.md | One file per research or design thread |
 | README.md | How to set up, run and test the game |
 | game/ | The Godot project; README.md explains its folders |
-| tools/ | `check.sh`: imports and every test suite in one command |
+| tools/ | `check.sh`: imports and every test suite in one command. `prep_prop.py`: readies a Meshy model in Blender |
 | art/reference/ | Reference images Bryson chose; new art adheres to them |
 | art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
-| art/meshy/ | The input images sent to Meshy for characters, packs and props |
+| art/briefs/ | What each asset is meant to be, written by Claude for Bryson and Sol |
+| art/meshy/ | The input images sent to Meshy, and a record of each model made from them |
 | ARCHIVE.md | What was set aside in the archive outside the project, when and why |
 | art/previews/ | Captures of builds, for review |
 | .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
@@ -113,6 +114,10 @@ progress and don't get lost. One topic, one chat, one file.
 - Final art is deliberately deferred toward the end of the project, on the expectation that 3D
   tooling keeps improving.
 - Services like Meshy are options for generating 3D assets.
+- How art gets made (Bryson, 2026-10-10): Claude writes a brief saying what's being made;
+  Bryson works with GPT-6 Sol to the right design; Sol makes every reference and concept image;
+  Bryson hands the images to Claude, who turns them into models with Meshy. Meshy's image tool
+  isn't used: its credits go to models.
 
 ## Code and tests
 
