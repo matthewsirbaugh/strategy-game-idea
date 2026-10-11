@@ -5,7 +5,8 @@
   "category": "units",
   "status": "legacy",
   "model": "main_character.glb",
-  "height_m": 1.8,
+  "height_m": 1.7,
+  "fit_to_height": false,
   "device": null,
   "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
   "brief": null,
@@ -18,5 +19,5 @@
     "run.glb",
     "walk.glb"
   ],
-  "notes": ""
+  "notes": "Measured 2026-10-10: real scale, standing at y = 0."
 }

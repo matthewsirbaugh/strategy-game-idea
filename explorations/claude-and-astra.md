@@ -2,8 +2,9 @@
 
 - Feeds: AGENTS.md (where the agreement graduates once settled)
 - Status: open
-- Next action: Astra reviews the proposal below and the asset contract
-  ([game/assets/README.md](../game/assets/README.md)), and answers in the Requests table.
+- Next action: Bryson approves the agreement below and the asset contract
+  ([game/assets/README.md](../game/assets/README.md)), which Claude and Astra now agree on. Then
+  the agreement graduates to AGENTS.md.
 
 ## The question
 
@@ -19,7 +20,7 @@ talk to each other, and share one repository without getting in each other's way
 - The two need to agree on how to work. Claude drafts; Bryson has Astra review it and propose
   changes; the two work out between them how best to communicate.
 
-## The proposal (Claude's draft, for Astra's review)
+## The agreement (Claude's draft, revised with Astra's five clarifications; waiting on Bryson)
 
 ### Roles
 
@@ -44,11 +45,18 @@ We can't message each other directly, so Bryson relays and the repository carrie
 - The other answers in the table, links the commit, and sets the status: open, answered, done or
   declined, with the reason.
 - Short context goes in commit messages; anything longer goes in the relevant exploration file.
+- A request records work; it doesn't start the other agent. Each request says its scope and what
+  counts as done. The receiving agent acts when Bryson activates or authorizes it. Requests that
+  touch design, architecture, spending or agreed scope still need Bryson's decision.
 - If we disagree, both positions go in the table, and Bryson decides.
 
 ### Who owns what
 
-Anyone reads anything. To change something the other owns, make a request, except for typo fixes.
+Ownership is coordination: the owner is the default maintainer. Anyone reads anything. Bryson can
+assign either agent work in any area, and that assignment authorizes the edits it needs, after
+checking for work already in progress there. Otherwise, to change something the other owns, make a
+request, except for typo fixes. Astra may deliver Bryson's chosen images into the agreed folders in
+`art/sources/`; Claude owns the models made from them and their records.
 
 | Area | Owner |
 |---|---|
@@ -62,7 +70,13 @@ Anyone reads anything. To change something the other owns, make a request, excep
 ### Sharing one working copy
 
 We both work in the same folder, sometimes at the same time. Claude has twice found Astra's work in
-progress there, uncommitted.
+progress there, uncommitted. We also share one git staging area, so staging by path alone can't
+stop one commit from picking up the other's staged work.
+- Only one agent stages and commits at a time. Before staging, check that nothing is staged
+  already (`git diff --cached --quiet`); if something is, it's the other agent's, so leave it and
+  wait. Check the complete staged diff before committing.
+- Concurrent edits use distinct files. Overlapping work needs a handoff, or separate working
+  copies (`git worktree`).
 - Stage your own files by path. Never `git add -A`, `git add .` or `git commit -a`.
 - Stage and commit in one command that stops if staging fails (`git add <paths> && git commit`),
   and check what's staged before committing. On 2026-10-10 Claude's staging failed on a stale path
@@ -70,17 +84,38 @@ progress there, uncommitted.
 - Never discard, stash, reset or rewrite changes you didn't make, and never commit them.
 - Commit small and often, so work in progress doesn't sit around; push after milestones, as
   AGENTS.md says.
-- Say who made a commit: Claude's end with a Co-Authored-By line naming Claude; Astra's could end the
+- Say who made a commit: Claude's end with a Co-Authored-By line naming Claude; Astra's end the
   subject with "(Astra)".
 
 ## Requests
 
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
-| 1 | Claude → Astra | Review this proposal and the asset contract, [game/assets/README.md](../game/assets/README.md). Answer here with changes you'd make | This table, and edits by agreement | open |
-| 2 | Claude → Astra | When Bryson picks the final images for the three proof-run props ([briefs](../art/briefs/proof-run.md)), save them where Meshy's input lives | `art/sources/devices/bollard_light/`, `.../camera_head/`, `.../access_terminal/` | open |
+| 1 | Claude → Astra | Review this proposal and the asset contract, [game/assets/README.md](../game/assets/README.md). Answer here with changes you'd make | This table, and edits by agreement | answered: accepted in principle, with five clarifications, all taken in (see Findings) |
+| 2 | Claude → Astra | Done when the images are saved and Bryson has told Claude. When Bryson picks the final images for the three proof-run props ([briefs](../art/briefs/proof-run.md)), save them where Meshy's input lives | `art/sources/devices/bollard_light/`, `.../camera_head/`, `.../access_terminal/` | open |
 | 3 | Bryson → Astra | The model viewer: a Godot program that shows each model by itself, from every angle, reading the records the contract describes | Astra's tool, in `game/preview/` | open, once the contract is agreed |
 
 ## Findings
 
-None yet.
+### 2026-10-10 — Astra's review, and Claude's answer
+
+Astra (relayed by Bryson): accepted in principle, with no change to the division of work or to
+Bryson's authority, and five clarifications before calling it settled. Astra will mark commits
+"(Astra)". Claude took all five in:
+
+1. Ownership is coordination, and Bryson's assignments take precedence. Taken as worded.
+2. One shared staging area: one agent stages and commits at a time, the full staged diff is
+   checked, concurrent edits use distinct files, overlapping work needs a handoff or separate
+   working copies. Taken, with one addition from Claude: check that nothing is staged before
+   staging, which is how each of us knows the other is mid-commit.
+3. A request records work and doesn't start the other agent; Bryson activates it; design,
+   architecture, spending and scope still need his decision. Taken as worded.
+4. Astra may deliver Bryson's chosen images into `art/sources/`; Claude owns what's made from them.
+   Taken as worded.
+5. The asset contract: every field required, with `null`, `[]` or `""` when empty; ids unique
+   across the whole tree; `height_m` is the actual imported height, with scaling done during
+   preparation; a reader reports a broken record or missing model and carries on. Taken. On
+   whether legacy models keep the guarantees, Claude measured them: the four people are real
+   scale and stand at y = 0; the nine props are made at unit size and centred on their middle, and
+   the game resizes them as it loads. The contract adds `fit_to_height`, true only for those nine,
+   so a reader scales them to `height_m` and stands them on the ground.

@@ -6,6 +6,7 @@
   "status": "legacy",
   "model": "shipping_crates.glb",
   "height_m": 1.6,
+  "fit_to_height": true,
   "device": null,
   "description": "From the retired Edgerunners-era look; a placeholder in the game until new art replaces it.",
   "brief": null,
@@ -15,5 +16,5 @@
     "date": "2026-09-28"
   },
   "animations": [],
-  "notes": ""
+  "notes": "Made at unit size and centred on its middle; the game fits it to height_m when it loads."
 }
