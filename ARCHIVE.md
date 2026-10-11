@@ -7,11 +7,15 @@ Old ideas and assets that still have value but aren't part of this project live 
 | Date | Batch | What and why |
 |---|---|---|
 | 2026-10-10 | `2026-10-10-edgerunners-era-art` | 107 files from the retired Edgerunners and Anthropomorphic-facility look: the old references, the Operator, AI partner and compute-pack concepts, and the images sent to Meshy. Bryson abandoned the previous art when the look turned realistic. Last in the project at commit `df98077` |
+| 2026-10-11 | AI Strategy Game Model Archive | 35 Meshy downloads (525 MB), every `art/sources/**/meshy-*.glb`, moved out so the repository stops growing by tens of MB per model; Bryson chose this over Git LFS. 29 were committed and remain in git history up to commit `81b161e`; 6 remesh downloads never were |
 
 Older docs still name these files by their project paths: anything under
 `art/reference/retired/`, `art/concepts/companions/`, `art/concepts/operator-turnarounds/`,
 `art/concepts/ai-*` or `art/meshy/` as of that date. The archive keeps the same paths under the
 batch's `files/` folder, and git has them at `df98077`.
+
+Meshy's raw model downloads live in a second archive of their own,
+`~/Desktop/AI Strategy Game Model Archive/`, laid out like `art/sources/`: `<category>/<id>/meshy-*.glb`.
 
 The models the game loads stay in `game/` as placeholders until new art replaces them (Bryson,
 2026-10-10).
