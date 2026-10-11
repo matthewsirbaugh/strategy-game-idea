@@ -583,7 +583,10 @@ func _add_prop(prop: String, at: Vector3, yaw: float, height: float, width := 0.
 	add_child(holder)
 	var model := ToonModel.new()
 	holder.add_child(model)
-	model.build(load(PROP_PATH % [prop, prop]))
+	var loading := StartupTiming.begin()
+	var scene: PackedScene = load(PROP_PATH % [prop, prop])
+	StartupTiming.loaded(PROP_PATH % [prop, prop], loading)
+	model.build(scene)
 	if width > 0.0:
 		model.fit_width(width)
 	else:

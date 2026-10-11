@@ -43,4 +43,46 @@ for Bryson, rather than silently changing rules.
 
 ## Findings
 
-Implementation and validation pending. Startup architecture has not been changed.
+### Startup baseline, 2026-10-11
+
+Godot 4.7.2, Apple M1 Pro (10 CPU cores, 16 GPU cores), 16 GB RAM; native Metal Forward+
+at 1280 × 800. Existing imported resources, warm operating-system disk cache and existing shader
+cache; no cache flush, asset reimport or loading changes between samples. Five new processes,
+then one additional fresh-process warm-up followed by five restarts in that process. Startup
+begins immediately before loading battle.tscn, excluding engine/window initialization. First
+frame is RenderingServer.frame_post_draw after synchronous battle construction; the player is
+controllable at that point. Probe: [profile_startup.py](../tools/profile_startup.py), raw samples:
+[before/samples.json](../art/previews/startup-and-fog-2026-10-11/before/samples.json).
+
+| Stage, milliseconds | Fresh: median (range) | Restart: median (range) |
+|---|---|---|
+| Resources | 8,256.4 (8,244.5–8,348.6) | 84.5 (84.3–85.3) |
+| Rules/session | 3.4 (3.3–3.4) | 2.3 (2.3–2.4) |
+| Environment, excluding resource/animation work | 109.8 (106.7–112.9) | 58.4 (57.3–60.2) |
+| Characters, excluding resource/animation work | 6.4 (6.2–7.0) | 6.8 (6.3–7.0) |
+| Animation preparation, excluding resource loading | 141.8 (140.5–142.2) | 64.0 (63.0–65.8) |
+| Interface and initial refresh | 25.6 (25.0–29.2) | 13.2 (12.9–13.3) |
+| Total synchronous setup | 8,554.7 (8,540.5–8,652.7) | 233.9 (232.7–235.6) |
+| Through first rendered frame | 8,710.2 (8,698.8–9,015.7) | 310.5 (307.8–312.3) |
+
+Stages are exclusive; total setup also includes scene instantiation and unclassified overhead.
+An instrumented headless cross-check measured 7,993.6 ms setup (one observation, not five).
+Animation retargeting is a small fraction of startup. Each distinct large legacy scene costs
+roughly 0.4–0.6 seconds on its first load, including textures; cached repeats are much faster.
+
+Native settled rendering (60 warm-up frames, then 120 samples per entry) used a median 1.764 ms
+of rendering CPU time across fresh entries (1.626–1.938), with 1,141 draw calls. Restart median
+was 1.781 ms (1.616–1.868), 1,107 draws. These CPU figures include frame setup, not game-script
+time. Godot's GPU-time monitor returned zero on this Metal build, so GPU duration is unavailable;
+zero is not a zero-cost frame. They do not establish human playtest performance.
+
+### Focused startup proposal for joint review
+
+Pilot a smaller, GPU-compressed texture import for **one legacy security camera**, comparing
+its first-load time and native appearance against the current 2048-pixel lossless import. Keep
+the model geometry, original source and animation flow unchanged. Large scene loads dominate
+the measured delay; first test whether the embedded textures account for that cost before
+expanding to other assets. This is a proposal, not an approved asset-pipeline change. Claude and
+Bryson review the import/visual tradeoff; no loading architecture or animation changes were made.
+
+Fog implementation and its before/after verification follow this baseline.

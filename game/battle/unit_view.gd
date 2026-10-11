@@ -36,7 +36,13 @@ func setup(p_unit: Unit, at: Vector3) -> void:
 	add_child(_model)
 	var top := PERSON_HEIGHT
 	if unit.def.model != "":
-		_model.build(load(unit.def.model), load(unit.def.pack) if unit.def.pack else null)
+		var loading := StartupTiming.begin()
+		var scene: PackedScene = load(unit.def.model)
+		StartupTiming.loaded(unit.def.model, loading)
+		loading = StartupTiming.begin()
+		var pack: PackedScene = load(unit.def.pack) if unit.def.pack else null
+		StartupTiming.loaded(unit.def.pack, loading)
+		_model.build(scene, pack)
 	else:
 		_model.adopt(_robot_body(unit.def))
 		top = DRONE_HOVER + 0.3 if unit.def.flies else 0.9

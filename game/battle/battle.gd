@@ -76,19 +76,28 @@ var _card := {}
 
 
 func _ready() -> void:
+	var started := StartupTiming.begin()
 	if SceneRouter.session == null:
 		SceneRouter.session = BattleSession.from_presets(map, content)
 	state = SceneRouter.session.start()
+	StartupTiming.end("rules_session", started)
 	if not state.errors.is_empty():
 		set_process(false)
 		_hud.show_errors(state.errors)
 		return
+	started = StartupTiming.begin()
+	var nested := StartupTiming.nested()
 	_grid.build(state)
 	_level.build(state, _grid)
 	_hover.scale = Vector3.ONE * GridView.CELL
 	_network.build(state, _grid)
+	StartupTiming.end("environment", started, StartupTiming.nested() - nested)
+	started = StartupTiming.begin()
+	nested = StartupTiming.nested()
 	for unit in state.units:
 		_add_view(unit)
+	StartupTiming.end("characters", started, StartupTiming.nested() - nested)
+	started = StartupTiming.begin()
 	for id in state.devices:
 		_scan_badges[id] = _make_badge(state.map.node_kind(id))
 	var team := Vector3.ZERO
@@ -103,6 +112,7 @@ func _ready() -> void:
 	_hud.operator_chosen.connect(_on_operator_chosen)
 	_refresh()
 	_run_turns()
+	StartupTiming.end("interface_refresh", started)
 
 
 func _add_view(unit: Unit) -> void:

@@ -56,6 +56,8 @@ func adopt(body: Node3D, pack: PackedScene = null, path := "") -> void:
 	add_child(body)
 	var skeletons := body.find_children("*", "Skeleton3D", true, false)
 	if not skeletons.is_empty():
+		var started := StartupTiming.begin()
+		var nested := StartupTiming.nested()
 		var skeleton: Skeleton3D = skeletons[0]
 		if pack:
 			CharacterRig.attach_pack(skeleton, skeleton.find_children("*", "MeshInstance3D", false, false)[0], pack.instantiate())
@@ -64,6 +66,9 @@ func adopt(body: Node3D, pack: PackedScene = null, path := "") -> void:
 		player.add_animation_library("", _library(path, skeleton))
 		player.animation_finished.connect(_on_clip_finished)
 		play(idle)
+		var elapsed := StartupTiming.end("animations", started, StartupTiming.nested() - nested)
+		if StartupTiming.enabled:
+			StartupTiming.rigs[path] = StartupTiming.rigs.get(path, 0.0) + elapsed
 	for mesh: MeshInstance3D in find_children("*", "MeshInstance3D", true, false):
 		for surface in mesh.mesh.get_surface_count():
 			var original := mesh.get_active_material(surface)
@@ -167,7 +172,10 @@ static func _library(path: String, skeleton: Skeleton3D) -> AnimationLibrary:
 	var walk := _first_clip(folder + "/walk.glb")
 	library.add_animation("Walk", walk)
 	library.add_animation("Run", _first_clip(folder + "/run.glb"))
-	var source: Node = load(CLIP_SOURCE + "clip_source.glb").instantiate()
+	var loading := StartupTiming.begin()
+	var scene: PackedScene = load(CLIP_SOURCE + "clip_source.glb")
+	StartupTiming.loaded(CLIP_SOURCE + "clip_source.glb", loading)
+	var source: Node = scene.instantiate()
 	var source_player: AnimationPlayer = source.find_child("AnimationPlayer", true, false)
 	var source_skeleton: Skeleton3D = source.find_children("*", "Skeleton3D", true, false)[0]
 	var source_walk := _first_clip(CLIP_SOURCE + "walk.glb")
@@ -206,7 +214,10 @@ static func _neutral(skeleton: Skeleton3D, prefix: String) -> Animation:
 
 
 static func _first_clip(path: String) -> Animation:
-	var source: Node = load(path).instantiate()
+	var loading := StartupTiming.begin()
+	var scene: PackedScene = load(path)
+	StartupTiming.loaded(path, loading)
+	var source: Node = scene.instantiate()
 	var player: AnimationPlayer = source.find_child("AnimationPlayer", true, false)
 	var clip := player.get_animation(player.get_animation_list()[0])
 	source.free()
