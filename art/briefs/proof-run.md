@@ -80,8 +80,9 @@ references each brief links, for design only: their night light and backgrounds 
 over. Reject any image with a cast shadow, a floor, text, a second object or a cropped edge,
 because Meshy builds whatever it sees.
 
-OpenBrain has no emblem design yet, so the terminal carries a blank badge plate, and the emblem
-goes on later as a decal.
+The terminal carries OpenBrain's emblem, the one Astra designed for the creekside campus: attach
+[04-creekside-campus-v2.png](../concepts/valley-composition-study-2026-10-08/04-creekside-campus-v2.png)
+and match the emblem on it (Bryson, 2026-10-11).
 
 Save Bryson's chosen images, as numbered PNGs with the main view first, to
 `art/sources/devices/<id>/` (`bollard_light`, `camera_head`, `access_terminal`).
@@ -130,8 +131,9 @@ Follow-up:
 > metres tall, 40 cm wide and 30 cm deep. A white monolith pillar with chamfered edges. The front
 > is a panel of black glass holding a small, softly glowing screen at chest height and a palm
 > scanner below it. A thin vertical red light strip runs along one front edge. Above the screen,
-> a small blank recessed badge plate where a company emblem would go, left empty. A low plinth in
-> black aluminum.
+> a small OpenBrain emblem, flat black on the white panel: the same interlocking rounded-loop
+> rosette with an open center as in the attached campus image, calm and compact, no lettering. A
+> low plinth in black aluminum.
 
 Follow-up:
 

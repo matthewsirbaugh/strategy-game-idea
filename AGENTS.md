@@ -112,6 +112,9 @@ owns what and the table of requests between agents, is
   checking for work already in progress there.
 - One agent asks the other through the requests table; Bryson activates a request. Design,
   architecture, spending and scope stay his calls.
+- Hand-offs travel through the repository, not through Bryson: everything the other agent needs
+  goes in the files, and a request points at them. Bryson's message to the other agent is one line
+  naming the request (Bryson, 2026-10-11).
 - One working copy and one staging area: only one agent stages and commits at a time. Check that
   nothing is staged first (`git diff --cached --quiet`); if something is, it's the other's, so
   wait. Stage your own files by path, never `git add -A`, `git add .` or `git commit -a`. Check
