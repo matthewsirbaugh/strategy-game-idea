@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "bollard_light",
+  "name": "Bollard light",
+  "category": "devices",
+  "status": "proof",
+  "model": "bollard_light.glb",
+  "height_m": 1.0,
+  "fit_to_height": false,
+  "device": "light",
+  "description": "A black aluminum bollard with a warm light band under its cap, lining the research park's paths and bridges.",
+  "brief": "art/briefs/proof-run.md",
+  "sources": "art/sources/devices/bollard_light/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, textured, PBR",
+    "task": "01a1291e-a829-70c3-867b-360d3cdf9e2a",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py at 1.0 m; 3,834 triangles, not decimated; 0.3 m base plate. The light band isn't emissive yet."
+}

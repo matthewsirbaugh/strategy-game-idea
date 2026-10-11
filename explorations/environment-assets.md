@@ -125,6 +125,21 @@ the game looks the same. Sources for Meshy go to `art/sources/`. The record form
 contract, [game/assets/README.md](../game/assets/README.md), for Astra to review, alongside
 [how Claude and Astra work together](claude-and-astra.md).
 
+### 2026-10-11 — The bollard light, first through Meshy (Bryson approved; Claude ran it)
+
+Bryson approved all three of Astra's main views, the 45-credit bollard comparison, and the
+terminal's emblem as a decal from [the logo](../art/reference/openbrain-logo-white.png).
+Both Meshy models of the bollard came out faithful to the image and almost identical in shape:
+
+| Model | Credits | Triangles | Asset |
+|---|---|---|---|
+| Meshy 7, textured, PBR | 30 | 62,946 | `devices/bollard_light_meshy7` |
+| Smart topology (meshy-t2), textured, PBR | 15 | 3,834 | `devices/bollard_light` |
+
+Claude recommends smart topology for hard-surface props: half the credits and a sixteenth of the
+triangles, with no visible loss at this size. Not yet seen in the night stage or played. The
+light band isn't emissive yet; that's a cleanup step.
+
 ## Open questions
 
 None for now.
