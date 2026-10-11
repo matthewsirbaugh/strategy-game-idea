@@ -12,7 +12,6 @@ uniform float width_pixels = 2.0;
 // Thinned with the model, so a ghosted prop doesn't show its own dark hull through the gaps.
 instance uniform float ghost : instance_index(2) = 0.0;
 instance uniform bool scenery : instance_index(5) = false;
-instance uniform bool fog_partial : instance_index(6) = true;
 varying vec3 world_position;
 
 void vertex() {
@@ -25,7 +24,8 @@ void vertex() {
 }
 
 void fragment() {
-	if (scenery && fog_partial && !fog_visible(world_position)) {
+	// Screen-space expansion can cross a cell even when the mesh bounds do not.
+	if (scenery && !fog_visible(world_position)) {
 		discard;
 	}
 	if (ghosted(FRAGCOORD.xy, ghost)) {

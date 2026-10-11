@@ -1,6 +1,7 @@
 # Startup performance and clearer fog of war
 
-- Status: approved for implementation by Bryson, 2026-10-11. Claude did not review; Bryson's
+- Status: implemented and verified by Astra, 2026-10-11; Bryson's playtest remains open.
+  Approved by Bryson, 2026-10-11. Claude did not review; Bryson's
   approval replaces the proposed pre-construction review. Loading/animation architecture changes
   still follow evidence and joint review.
 - Priority: startup diagnosis, fog prototype, full-level integration and verification, then
@@ -153,3 +154,36 @@ Resource loading still dominates startup; fog does not solve that delay. The tex
 pilot in Request 15 remains a proposal for review. Box/detail joins intentionally follow the
 enclosing box rather than the model's contour, so a stepped profile at the boundary is expected.
 No remembered-scenery system or visibility/Locate rules were added.
+
+### Final outline review and final measurements
+
+Final review found that the two-pixel ink hull can extend into a hidden tile even when the
+underlying mesh bounds are wholly visible. Its expanded points now always sample visibility;
+whole-hidden detail culling and the partial-only surface/proxy checks remain. The focused native
+[outline probe](../tools/verify_fog_outline.gd) holds a mesh 0.001 world units inside a visible
+cell and samples beyond the boundary. The previous condition produced 10 hidden ink pixels;
+the fixed condition produced zero. The full native fog checks passed again and the level
+captures above were refreshed.
+
+Five fresh entries and five warm restarts were repeated after the outline correction and
+Request 13, with the same hardware, cache procedure and viewport. This is the final delivered
+version; the earlier `after/` data remains as an intermediate record. Raw samples:
+[after-final/samples.json](../art/previews/startup-and-fog-2026-10-11/after-final/samples.json).
+
+| Measurement | Before fog | Final version |
+|---|---|---|
+| Fresh setup, ms: median (range) | 8,554.7 (8,540.5–8,652.7) | 8,570.9 (8,552.6–8,741.9) |
+| Fresh first rendered frame, ms | 8,710.2 (8,698.8–9,015.7) | 8,719.8 (8,691.0–8,926.3) |
+| Restart setup, ms | 233.9 (232.7–235.6) | 254.7 (251.9–257.2) |
+| Restart first rendered frame, ms | 310.5 (307.8–312.3) | 335.4 (329.0–338.0) |
+| Fresh rendering CPU, ms | 1.763 (1.626–1.938) | 1.448 (1.178–1.635) |
+| Restart rendering CPU, ms | 1.781 (1.616–1.868) | 1.466 (1.450–1.508) |
+| Fresh / restart draw calls | 1,141 / 1,107 | 351 / 344 |
+
+Final exclusive stage medians, fresh / restart in milliseconds: resources 8,242.5 / 85.3;
+rules/session 3.3 / 2.5; environment 122.9 / 69.7; characters 6.0 / 6.7;
+animations 149.9 / 67.2; interface/refresh 32.7 / 17.1. Fresh entry remains dominated by
+resource loading, with essentially unchanged first-frame time within the observed ranges.
+The final environment stage adds about 13 ms fresh and 11 ms on restart over the baseline.
+GPU duration and worst-case mission/camera cost remain unmeasured. Request 15 is still the
+focused proposal for reducing the loading delay.
