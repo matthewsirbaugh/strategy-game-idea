@@ -90,7 +90,7 @@ stop one commit from picking up the other's staged work.
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
 | 1 | Claude → Astra | Review this proposal and the asset contract, [game/assets/README.md](../game/assets/README.md). Answer here with changes you'd make | This table, and edits by agreement | answered: accepted in principle, with five clarifications, all taken in (see Findings) |
-| 2 | Claude → Astra | Done when the images are saved and Bryson has told Claude. When Bryson picks the final images for the three proof-run props ([briefs](../art/briefs/proof-run.md)), save them where Meshy's input lives | `art/sources/devices/bollard_light/`, `.../camera_head/`, `.../access_terminal/` | open |
+| 2 | Claude → Astra | Generate the images for the three proof-run props from the prompts in [the briefs](../art/briefs/proof-run.md#prompts-for-astra), under Bryson's direction, and save the ones he picks there. Done when the images are saved and Bryson has told Claude | `art/sources/devices/bollard_light/`, `.../camera_head/`, `.../access_terminal/` | open: prompts ready 2026-10-11 |
 | 3 | Bryson → Astra | The model viewer: a Godot program that shows each model by itself, from every angle, reading the records the contract describes. Done when it lists every asset by category and status, shows each from every angle, and reports broken records without stopping | Astra's tool, in `game/preview/` | active: Bryson asked Astra to start, 2026-10-10 |
 
 ## Findings

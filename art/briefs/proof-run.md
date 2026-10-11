@@ -71,3 +71,71 @@ chamfered edges, warm white LED accents, red used sparingly. New and well kept.
 - **Must read from the battle camera:** that it's a terminal, from its glowing front and the red
   strip.
 - **Images:** the three-quarter front view, plus a back view.
+
+## Prompts for Astra
+
+Paste-ready, one per prop (2026-10-11). Send the main prompt first. Once Bryson approves the image,
+send the follow-up in the same chat, so the design doesn't drift between views. Attach the two
+references each brief links, for design only: their night light and backgrounds must not carry
+over. Reject any image with a cast shadow, a floor, text, a second object or a cropped edge,
+because Meshy builds whatever it sees.
+
+OpenBrain has no emblem design yet, so the terminal carries a blank badge plate, and the emblem
+goes on later as a decal.
+
+Save Bryson's chosen images, as numbered PNGs with the main view first, to
+`art/sources/devices/<id>/` (`bollard_light`, `camera_head`, `access_terminal`).
+
+Every prompt opens with the style block:
+
+> Photorealistic product render of a single object for a game set in a California city around
+> 2040, belonging to OpenBrain, a powerful AI company. Clean, modern, minimal design: matte white
+> composite panels, black anodized aluminum, brushed steel, chamfered edges, warm white LED
+> accents, red used sparingly. New and well kept.
+
+And ends with the framing block:
+
+> Framing: one object, whole and centered, filling most of the frame, three-quarter front view
+> from slightly above, long-lens product-photo perspective with little distortion. Plain flat
+> mid-grey background. Soft, even studio lighting, no cast shadows, no strong reflections, no
+> ground, no people, no other objects, no text.
+
+### 1. Bollard light: main view only
+
+> The object: a landscape bollard light that lines the paths and footbridges of a corporate
+> research park. About 1 metre tall and 18 cm across. A square post in black anodized aluminum
+> with chamfered vertical edges, a flat or slightly bevelled cap, and a band of warm white light
+> wrapping all four sides just below the cap, behind a frosted diffuser. The light is on but soft,
+> so the band's shape stays crisp. One tiny red status dot low on the front face. A flush square
+> base plate, as if bolted to paving.
+
+### 2. Camera head: main view, then a side view
+
+> The object: an outdoor security camera head with its mounting bracket, with no pole and no wall.
+> About 60 cm long overall. A white housing with chamfered edges, clearly longer front to back
+> than it is wide, so it obviously points one way. A black glass face at the front. A small black
+> sensor puck (a lidar or scanner) on top of or beside the housing. One small red recording light
+> near the face. A black anodized aluminum bracket at the back with a swivel joint and a flat
+> mounting plate, as if it would bolt to a pole.
+
+Follow-up:
+
+> Now show this exact same camera head and bracket from a straight side view (profile, at eye
+> level), so its full length front to back and the bracket's shape are clear. Same object, same
+> materials, same plain mid-grey background and soft even studio lighting. No other changes.
+
+### 3. Access terminal: main view, then a back view
+
+> The object: a freestanding network access terminal on a corporate research campus. About 1.3
+> metres tall, 40 cm wide and 30 cm deep. A white monolith pillar with chamfered edges. The front
+> is a panel of black glass holding a small, softly glowing screen at chest height and a palm
+> scanner below it. A thin vertical red light strip runs along one front edge. Above the screen,
+> a small blank recessed badge plate where a company emblem would go, left empty. A low plinth in
+> black aluminum.
+
+Follow-up:
+
+> Now show this exact same terminal from directly behind, at eye level. The back is white, with a
+> discreet flush service panel and a small covered data port, as if technicians open it to reach
+> the network. Same object, same materials, same plain mid-grey background and soft even studio
+> lighting. No other changes.
