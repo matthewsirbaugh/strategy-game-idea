@@ -3,7 +3,7 @@
   "id": "bollard_light_meshy7",
   "name": "Bollard light (Meshy 7 comparison)",
   "category": "devices",
-  "status": "proof",
+  "status": "rejected",
   "model": "bollard_light_meshy7.glb",
   "height_m": 1.0,
   "fit_to_height": false,
@@ -20,5 +20,5 @@
     "date": "2026-10-11"
   },
   "animations": [],
-  "notes": "Prepared with tools/prep_prop.py at 1.0 m; 62,946 triangles, not decimated; 0.3 m base plate. The light band isn't emissive yet."
+  "notes": "Prepared with tools/prep_prop.py at 1.0 m; 62,946 triangles, not decimated; 0.3 m base plate. The light band isn't emissive yet. Rejected 2026-10-11: Bryson chose smart topology as the default for props; this one has 16 times the triangles for no visible gain."
 }

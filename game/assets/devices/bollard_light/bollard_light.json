@@ -20,5 +20,5 @@
     "date": "2026-10-11"
   },
   "animations": [],
-  "notes": "Prepared with tools/prep_prop.py at 1.0 m; 3,834 triangles, not decimated; 0.3 m base plate. The light band isn't emissive yet."
+  "notes": "Prepared with tools/prep_prop.py --height 1.0 --glow 0.75: 3,834 triangles, not decimated; 0.3 m base plate. The light band and the red dot glow (emission strength 4). Smart topology chosen over Meshy 7 by Bryson, 2026-10-11."
 }

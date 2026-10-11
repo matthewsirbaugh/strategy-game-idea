@@ -140,6 +140,10 @@ Claude recommends smart topology for hard-surface props: half the credits and a 
 triangles, with no visible loss at this size. Not yet seen in the night stage or played. The
 light band isn't emissive yet; that's a cleanup step.
 
+Bryson, the same day: smart topology is the default for props; the Meshy 7 bollard is rejected.
+`tools/prep_prop.py --glow` now turns a model's lit parts into emission: texels brighter than a
+threshold and saturated reds. The bollard's band and status dot glow; its body stays dark.
+
 ## Open questions
 
 None for now.
