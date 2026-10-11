@@ -87,6 +87,9 @@ var _neon_material: StandardMaterial3D
 # Each device's parts, by node id: its model, and the lights and glowing parts that follow its power.
 var _devices := {}
 var _scenery: Array[SceneryFog] = []
+var _scenery_roots := {}
+var _wall_roots := {}
+var _construction_root: Node3D
 
 
 func register_scenery(root: Node3D) -> SceneryFog:
@@ -117,10 +120,19 @@ func build(state: BattleState, grid: GridView) -> void:
 	_build_rooftops()
 	for item in map.dressing_items():
 		_build_dressing(item)
+	_finish_scenery()
 	if not map.indoors:
 		var city := CityBackdrop.new()
 		add_child(city)
 		city.build(map, grid, _signs)
+		# The road continues through the border; only its portion inside fog loses detail.
+		for mesh: MeshInstance3D in city.find_children("*", "MeshInstance3D", true, false):
+			var material := mesh.material_override as ShaderMaterial
+			if material and material.shader == Surfaces.GROUND:
+				mesh.set_instance_shader_parameter("scenery", true)
+		for stroke in _signs.get_children():
+			if stroke is MeshInstance3D:
+				stroke.set_instance_shader_parameter("scenery", true)
 		var rain := Rain.new()
 		add_child(rain)
 		rain.setup(Vector3.ZERO, grid.extent(), RAIN_MARGIN)
@@ -143,10 +155,11 @@ func update_nodes(state: BattleState) -> void:
 			model.tint = color
 			if kind in NodeDef.DOORS:
 				model.visible = not device.open
+				parts.fog.enabled = not device.open
 		for light: Light3D in parts.get("lights", []):
 			light.visible = device.powered
-		for glow: GeometryInstance3D in parts.get("glows", []):
-			glow.visible = device.powered
+		for glow: MeshInstance3D in parts.get("glows", []):
+			parts.fog.set_detail_visible(glow, device.powered)
 		if kind in NodeDef.VEHICLES and not parts.get("moving", false):
 			parts.root.position = _grid.cell_to_world(device.cell)
 
@@ -158,10 +171,19 @@ func drive(id: String, path: Array) -> void:
 	var parts: Dictionary = _devices[id]
 	parts.moving = true
 	var tween := create_tween()
+	var from: Vector3 = parts.root.position
 	for cell: Vector2i in path:
-		tween.tween_property(parts.root, "position", _grid.cell_to_world(cell), VEHICLE_SECONDS)
+		var to := _grid.cell_to_world(cell)
+		tween.tween_method(_pose_vehicle.bind(parts), from, to, VEHICLE_SECONDS)
+		from = to
 	await tween.finished
 	parts.moving = false
+	parts.fog.refresh(_grid)
+
+
+func _pose_vehicle(at: Vector3, parts: Dictionary) -> void:
+	parts.root.position = at
+	parts.fog.refresh(_grid)
 
 
 func device_height(id: String) -> float:
@@ -213,6 +235,8 @@ func _process(delta: float) -> void:
 		if ghost != model.ghost:
 			model.ghost = ghost
 		_ghosting_active = _ghosting_active or ghost != target
+	for asset in _scenery:
+		asset.sync_ghost(_walls)
 
 
 # Walks the line from a point on a unit to the camera and marks every wall, or wall-standing prop,
@@ -251,10 +275,12 @@ func _build_ground() -> void:
 			if map.is_wall(cell):
 				_add_wall(cell, _wall_style(cell))
 			else:
-				_add_mesh(tile, street_surface if map.is_street(cell) else floor_surface, _grid.cell_to_world(cell) + Vector3(0, -TILE_HEIGHT / 2.0, 0))
+				var ground_tile := _add_mesh(tile, street_surface if map.is_street(cell) else floor_surface, _grid.cell_to_world(cell) + Vector3(0, -TILE_HEIGHT / 2.0, 0))
+				ground_tile.set_instance_shader_parameter("scenery", true)
 	var ground := PlaneMesh.new()
 	ground.size = Vector2(GROUND_SIZE, GROUND_SIZE)
-	_add_mesh(ground, Surfaces.named("corporate" if map.indoors else "sidewalk"), _grid.center() + Vector3(0, -0.03, 0))
+	var surrounding_ground := _add_mesh(ground, Surfaces.named("corporate" if map.indoors else "sidewalk"), _grid.center() + Vector3(0, -0.03, 0))
+	surrounding_ground.set_instance_shader_parameter("scenery", true)
 
 
 func _wall_style(cell: Vector2i) -> String:
@@ -287,8 +313,9 @@ func _build_device(id: String, filled: Dictionary) -> void:
 			if set_in_wall:
 				parts.model = _hang("security_camera", cell, facing, CAMERA_MOUNT_Y)
 			else:
-				_add_pole(at, CAMERA_POLE_HEIGHT)
+				var pole := _add_pole(at, CAMERA_POLE_HEIGHT)
 				parts.model = _add_prop("security_camera", at + Vector3(0, CAMERA_POLE_HEIGHT, 0), _yaw_toward(Vector3(facing.x, 0, facing.y)), PROP_HEIGHTS["security_camera"])
+				pole.reparent(parts.model.get_parent_node_3d(), true)
 		"door":
 			var spans_x := map.is_wall(cell + Vector2i(1, 0)) or map.is_wall(cell + Vector2i(-1, 0))
 			parts.model = _add_prop("security_door", at, 0.0 if spans_x else PI / 2.0, 0.0, GridView.CELL)
@@ -357,6 +384,7 @@ func _place_root(at: Vector3, facing: Vector2i) -> Node3D:
 	root.position = at
 	root.rotation.y = _yaw_toward(Vector3(facing.x, 0, facing.y))
 	add_child(root)
+	_scenery_roots[root] = {"cells": [], "model": null}
 	return root
 
 
@@ -434,6 +462,7 @@ func _build_dressing(item: Dictionary) -> void:
 		for i in tiles:
 			covered.append(cell + run * i)
 		for piece in _signs.place(prop, face, yaw):
+			_scenery_roots[piece.get_parent_node_3d()] = {"cells": covered if on_wall else [], "model": null}
 			if on_wall:
 				_ghosting.append({"node": piece, "cells": covered, "ghost": 0.0})
 	elif _walls.has(cell) and prop in MOUNTED:
@@ -445,6 +474,7 @@ func _build_dressing(item: Dictionary) -> void:
 		else:
 			model = _add_prop(prop, middle, yaw, 0.0, tiles * GridView.CELL)
 		_standin_models.append(model)
+		_scenery_roots[model.get_parent_node_3d()].model = model
 		var standin := {"model": model, "top": model.bounds().end.y}
 		for i in tiles:
 			_standins[cell + run * i] = standin
@@ -475,6 +505,8 @@ func _run_direction(yaw: float) -> Vector2i:
 # Neighbouring pieces overlap on the same planes; the world-space shaders draw them identically,
 # so no seam shows.
 func _add_wall(cell: Vector2i, style: String) -> void:
+	var previous_root := _construction_root
+	_construction_root = _wall_root(cell, style)
 	var look: Dictionary = WALLS[style]
 	var height: float = look.height
 	var bottom := -TILE_HEIGHT
@@ -500,6 +532,7 @@ func _add_wall(cell: Vector2i, style: String) -> void:
 		var band_height := HAZARD_TOP - PLINTH_HEIGHT
 		var band := _add_box(Vector3(band_width, band_height, band_width), Surfaces.named("hazard"), at + Vector3(0, PLINTH_HEIGHT + band_height / 2.0, 0))
 		_ghosting.append({"node": band, "cells": [cell], "ghost": 0.0})
+	_construction_root = previous_root
 
 
 # A post on every fenced wall tile, and wire and razor wire to its fenced neighbours east and south.
@@ -513,6 +546,7 @@ func _build_fences() -> void:
 	for cell: Vector2i in _walls:
 		if not _walls[cell].fence:
 			continue
+		_construction_root = _wall_roots[cell]
 		var base := _grid.cell_to_world(cell) + Vector3(0, _walls[cell].top + CAP_THICKNESS - 0.02, 0)
 		_add_mesh(post, Surfaces.named("metal"), base + Vector3(0, FENCE_HEIGHT / 2.0, 0))
 		for direction: Vector2i in [Vector2i(1, 0), Vector2i(0, 1)]:
@@ -521,6 +555,7 @@ func _build_fences() -> void:
 				var span := _add_mesh(wire, wire_material, base)
 				span.rotation.y = 0.0 if direction.x == 1 else -PI / 2.0
 				span.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_construction_root = null
 
 
 # Air conditioners and vents on the building's roof, away from its edges, so it has a skyline of
@@ -534,7 +569,9 @@ func _build_rooftops() -> void:
 			continue
 		var size := Vector3(0.7 + (roll >> 4) % 5 * 0.15, 0.5 + (roll >> 8) % 4 * 0.2, 0.7 + (roll >> 12) % 5 * 0.15)
 		var roof := _grid.cell_to_world(cell) + Vector3(0, _walls[cell].top + CAP_THICKNESS - 0.02, 0)
+		_construction_root = _wall_roots[cell]
 		_add_box(size, Surfaces.named("metal"), roof + Vector3(0, size.y / 2.0, 0))
+	_construction_root = null
 
 
 # Lines along +x for one tile: straight wires, and a coil of razor wire along the top.
@@ -597,6 +634,7 @@ func _add_prop(prop: String, at: Vector3, yaw: float, height: float, width := 0.
 	var holder := Node3D.new()
 	holder.position = at
 	add_child(holder)
+	_scenery_roots[holder] = {"cells": [], "model": null}
 	var model := ToonModel.new()
 	holder.add_child(model)
 	var loading := StartupTiming.begin()
@@ -621,12 +659,12 @@ func _hang(prop: String, cell: Vector2i, facing: Vector2i, height: float) -> Too
 	return model
 
 
-func _add_pole(at: Vector3, height: float) -> void:
+func _add_pole(at: Vector3, height: float) -> MeshInstance3D:
 	var pole := CylinderMesh.new()
 	pole.top_radius = 0.04
 	pole.bottom_radius = 0.06
 	pole.height = height
-	_add_mesh(pole, Surfaces.named("metal"), at + Vector3(0, height / 2.0, 0))
+	return _add_mesh(pole, Surfaces.named("metal"), at + Vector3(0, height / 2.0, 0))
 
 
 func _wall_beside(cell: Vector2i) -> Vector2i:
@@ -651,8 +689,43 @@ func _add_mesh(mesh: Mesh, material: Material, at: Vector3) -> MeshInstance3D:
 	instance.mesh = mesh
 	instance.material_override = material
 	instance.position = at
-	add_child(instance)
+	if _construction_root:
+		_construction_root.add_child(instance)
+		instance.global_position = to_global(at)
+	else:
+		add_child(instance)
 	return instance
+
+
+func _wall_root(cell: Vector2i, style: String) -> Node3D:
+	if not _wall_roots.has(cell):
+		var assembly := Node3D.new()
+		assembly.position = _grid.cell_to_world(cell)
+		add_child(assembly)
+		var cells: Array[Vector2i] = [cell]
+		_wall_roots[cell] = assembly
+		if style == "building":
+			var i := 0
+			while i < cells.size():
+				for direction in Grid.DIRECTIONS:
+					var next := cells[i] + direction
+					if map.is_building(next) and not _wall_roots.has(next):
+						_wall_roots[next] = assembly
+						cells.append(next)
+				i += 1
+		_scenery_roots[assembly] = {"cells": cells, "model": null}
+	return _wall_roots[cell]
+
+
+func _finish_scenery() -> void:
+	for root: Node3D in _scenery_roots:
+		var asset := register_scenery(root)
+		asset.ghost_cells.assign(_scenery_roots[root].cells)
+		asset.ghost_model = _scenery_roots[root].model
+		_scenery_roots[root].fog = asset
+	for parts: Dictionary in _devices.values():
+		if parts.has("root"):
+			parts.fog = _scenery_roots[parts.root].fog
 
 
 static func _glow(color: Color, energy: float) -> StandardMaterial3D:

@@ -60,7 +60,7 @@ controllable at that point. Probe: [profile_startup.py](../tools/profile_startup
 | Rules/session | 3.4 (3.3–3.4) | 2.3 (2.3–2.4) |
 | Environment, excluding resource/animation work | 109.8 (106.7–112.9) | 58.4 (57.3–60.2) |
 | Characters, excluding resource/animation work | 6.4 (6.2–7.0) | 6.8 (6.3–7.0) |
-| Animation preparation, excluding resource loading | 141.8 (140.5–142.2) | 64.0 (63.0–65.8) |
+| Animation preparation, excluding resource loading | 141.8 (140.5–142.2) | 63.5 (63.0–65.8) |
 | Interface and initial refresh | 25.6 (25.0–29.2) | 13.2 (12.9–13.3) |
 | Total synchronous setup | 8,554.7 (8,540.5–8,652.7) | 233.9 (232.7–235.6) |
 | Through first rendered frame | 8,710.2 (8,698.8–9,015.7) | 310.5 (307.8–312.3) |
@@ -70,7 +70,7 @@ An instrumented headless cross-check measured 7,993.6 ms setup (one observation,
 Animation retargeting is a small fraction of startup. Each distinct large legacy scene costs
 roughly 0.4–0.6 seconds on its first load, including textures; cached repeats are much faster.
 
-Native settled rendering (60 warm-up frames, then 120 samples per entry) used a median 1.764 ms
+Native settled rendering (60 warm-up frames, then 120 samples per entry) used a median 1.763 ms
 of rendering CPU time across fresh entries (1.626–1.938), with 1,141 draw calls. Restart median
 was 1.781 ms (1.616–1.868), 1,107 draws. These CPU figures include frame setup, not game-script
 time. Godot's GPU-time monitor returned zero on this Metal build, so GPU duration is unavailable;
@@ -101,4 +101,55 @@ angles) are [prototype-0.png](../art/previews/startup-and-fog-2026-10-11/prototy
 detailed and the hidden half gray; the rendering log is clean. The headless regression checks
 pass for immediate visibility independent of lighting, border handling, culling, movement,
 rotation and preserving power/door state. These checks are not Bryson's art approval or playtest.
-Full-level integration and before/after measurements follow.
+### Full-level integration and validation
+
+LevelView registers 220 logical scenery groups on the facility yard. Connected building tiles
+share one enclosure with their trims/rooftop fixtures; other wall tiles group their block,
+trim, hazard/neon and fence. Compound devices include their screens, text and mounting poles.
+Signs and standalone props have their own fitted boxes. Culling uses conservative transformed
+bounds; detail/proxy shaders handle the actual surface boundary. Vehicle tween steps update
+position and coverage together, avoiding a frame of stale culling during movement.
+
+Ground and road paint inside the grid/border lose their texture. Outside road/decorative city
+geometry and rain retain their presentation. Doors' live open/closed state controls their proxy;
+power controls screen detail without revealing it through fog. Ghosting follows wall/model
+occlusion; a combined building proxy uses the maximum ghost amount of its wall pieces.
+
+`bash tools/check.sh` passed all six suites. Native Metal checks via
+[verify_fog.gd](../tools/verify_fog.gd) passed for partial cars (including rotation and reverse
+camera), driving, opening/closing hidden doors, power cycling, wall-ghost input, both Network
+transitions, Locate, hidden characters, last-seen markers and team visibility. Captures were
+visually inspected: [normal level](../art/previews/startup-and-fog-2026-10-11/level-initial.png),
+[rotated car](../art/previews/startup-and-fog-2026-10-11/level-car-rotated.png),
+[clipped sign and lettering](../art/previews/startup-and-fog-2026-10-11/level-sign-partial.png),
+[Network](../art/previews/startup-and-fog-2026-10-11/level-network.png).
+The car/sign fixtures were moved/sized in the verification tool to expose a clean boundary;
+the playable map/content were not changed. This is native scripted interaction, not a full
+mission playthrough or Bryson's creative approval. Bryson's playtest remains open.
+
+### After fog: identical five-run procedure
+
+Raw samples: [after/samples.json](../art/previews/startup-and-fog-2026-10-11/after/samples.json).
+The conditions, start point, camera and sample counts match the baseline. GPU time remains
+unavailable from this Metal monitor. This comparison measures the initial static battle view;
+it does not establish worst-case camera/mission performance.
+
+| Measurement | Before | After |
+|---|---|---|
+| Fresh setup, ms: median (range) | 8,554.7 (8,540.5–8,652.7) | 8,660.6 (8,565.6–8,668.1) |
+| Fresh first rendered frame, ms | 8,710.2 (8,698.8–9,015.7) | 8,798.9 (8,702.2–8,852.9) |
+| Restart setup, ms | 233.9 (232.7–235.6) | 258.6 (257.5–259.8) |
+| Restart first rendered frame, ms | 310.5 (307.8–312.3) | 336.7 (336.5–339.8) |
+| Fresh rendering CPU, ms | 1.763 (1.626–1.938) | 1.415 (1.344–1.526) |
+| Restart rendering CPU, ms | 1.781 (1.616–1.868) | 1.283 (1.120–1.323) |
+| Fresh / restart draw calls | 1,141 / 1,107 | 347 / 340 |
+
+After-fog stage medians, fresh / restart in milliseconds: resources 8,322.4 / 87.7; rules
+3.3 / 2.4; environment 129.5 / 72.9; characters 6.8 / 7.2; animations 150.1 / 65.1;
+interface/refresh 33.2 / 17.5. Environment construction increased by about 20 ms fresh and
+15 ms on restart; the total differences also include resource-loading variation.
+
+Resource loading still dominates startup; fog does not solve that delay. The texture-loading
+pilot in Request 15 remains a proposal for review. Box/detail joins intentionally follow the
+enclosing box rather than the model's contour, so a stepped profile at the boundary is expected.
+No remembered-scenery system or visibility/Locate rules were added.

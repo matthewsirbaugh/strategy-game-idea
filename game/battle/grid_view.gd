@@ -1,8 +1,7 @@
 class_name GridView
 extends Node3D
 ## The grid as the player reads it: where tiles are in the world, the colored overlays that show
-## choices, cones and previews, and the fog, drawn as light that comes on where the team can see.
-## A dark tile the team can see is dimmer than a lit one.
+## choices, cones and previews, binary visibility and its independently animated lighting.
 
 # One tile is this many metres across, so people and props sit at real scale.
 const CELL := 1.5

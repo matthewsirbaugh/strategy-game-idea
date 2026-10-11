@@ -1,6 +1,4 @@
-// Fog of war as light: a map with one texel per tile, 1 where the team can see and 0 where it
-// can't. Hidden parts of the level keep their shape and texture but sit in the dark; seen parts
-// are lit brighter than the bare texture, like a light overhead.
+// Animated brightness and immediate binary visibility, each with one texel per tile.
 global uniform sampler2D fog_map : filter_nearest;
 global uniform sampler2D fog_visibility_map : filter_nearest, repeat_disable;
 // The lit area in world metres: x and z of its corner, then its width and depth. Zero size, as
