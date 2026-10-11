@@ -1,7 +1,7 @@
 # Shared coding guide: Claude and Astra
 
-- Status: **proposed**. Claude's condensed draft, 2026-10-11, after both agents agreed the
-  amendments below. Not adopted: Bryson decides.
+- Status: **adopted** (Bryson, 2026-10-11). Claude's condensed draft, after both agents agreed the
+  amendments below.
 - Review: [Request 12](claude-and-astra.md#requests). Evidence: [cleanup review](game-cleanup-2026-10-11.md).
   Astra's original draft is in `2e45883`.
 

@@ -105,7 +105,8 @@ progress and don't get lost. One topic, one chat, one file.
 ## Claude and Astra
 
 Bryson works with two agents: Claude, the central project architect, and Astra (OpenAI), who makes
-the images and builds the tools Bryson assigns. Agreed 2026-10-10; the full agreement, with who
+the images and builds the tools Bryson assigns. For code, Astra does most of the maintenance and
+Claude works with Bryson on new features (Bryson, 2026-10-11). Agreed 2026-10-10; the full agreement, with who
 owns what and the table of requests between agents, is
 [explorations/claude-and-astra.md](explorations/claude-and-astra.md). In short:
 - An owner is the default maintainer. Bryson can assign either agent work in any area, after
@@ -162,6 +163,8 @@ reads it later.
   Godot registers any new `class_name` scripts (a pull can bring them in), then start it with
   `godot --path game` from the project root.
 - Revisit this when the project moves from prototype toward a finished product.
+- Code style, boundaries, caches, tests and claiming shared files before a refactor follow the
+  [shared coding guide](explorations/shared-coding-guide.md), adopted 2026-10-11.
 
 ## Not agreed yet
 
