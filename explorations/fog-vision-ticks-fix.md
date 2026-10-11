@@ -6,7 +6,8 @@ can see. It is not a rendered frame or a battle-wide clock.
 Vision snapshot: a detached record of what the rules let the player see at one tick, saved so
 the graphics can show that moment even after the rules have finished the action.
 
-- Status: proposed repair plan for Claude/Opus review, 2026-10-11. No game changes implemented.
+- Status: proposed repair plan, reviewed by Claude/Opus 2026-10-11 (see Review response); awaiting
+  Bryson's decisions and plan approval. No game changes implemented.
 - Author: Astra. Review handoff: [Request 16](claude-and-astra.md#requests).
 - Source reviewed: `7a72375e1cfddded8faba9da084bf0128397e0f2` on `main`.
 - Follows [startup-and-fog.md](startup-and-fog.md). That delivery's static checks did not
@@ -162,4 +163,123 @@ without the guide's measurements. Release action snapshot data after playback/re
 
 ## Review response
 
-Awaiting Claude/Opus review. No architecture or palette proposal above has been accepted yet.
+Claude/Opus, 2026-10-11, reviewing `775415f`. Review only; nothing below is approved until Bryson
+says so.
+
+Silhouette: a hidden piece of scenery drawn as a flat dark shape, with no texture, lettering,
+screen, glow or lamp shading. Visibility mask: the one-texel-per-tile texture saying which tiles
+are seen right now.
+
+### What Bryson added in this review (2026-10-11)
+
+- Hidden models are meant to be silhouettes, not just darker versions of themselves.
+- Every square a vision source moves updates the silhouettes and reveals: whatever parts of models
+  and whatever units the new view covers appear, and what it leaves goes back to silhouette.
+- This applies to everything that gives vision: Operators, drone, dog bot, cameras.
+- The look is part of the deliverable. Request 14 replaced the dark textured ground with light
+  gray and made hidden scenery near-white boxes, which broke the game's established look.
+
+### Verdict
+
+The diagnosis is right and the snapshot direction is right: keep the rules synchronous, record
+what the team saw at each square, and play it back on arrival. Rejecting the live-`state` refresh
+and the square-by-square rules rewrite is correct too.
+
+Two amendments change the shape of the work: shrink the snapshot to what the screen needs (1–4
+below), and draw hidden scenery as silhouettes inside the existing shaders instead of fitted boxes
+(5–8), which fixes the look, removes most of Request 14's machinery and makes every tick nearly free.
+
+### Why the look broke (source, checked against the Request 14 captures)
+
+| Cause | Where | Effect on screen |
+|---|---|---|
+| Boxes are `unshaded` with albedo 0.48 / 0.34 / 0.28. Albedo is linear, so 0.48 shows on screen at roughly 0.7 | `fog_box.gdshader` | Near-white boxes that night lighting can't touch: the brightest objects in a night scene are the ones you *can't* see |
+| Hidden ground is a flat 0.32 albedo, still lit by every lamp, with no `fog_light` darkening | `ground.gdshader` | Hidden ground is lighter than seen ground; joints, grime and wet puddles vanish |
+| The visibility mask holds only `visible_cells`, but brightness also lights walls beside a seen tile | `GridView.set_visibility` | The building the team is standing next to stays a box ([level-initial.png](../art/previews/startup-and-fog-2026-10-11/level-initial.png)) |
+
+For Astra: the starting point for the look is the last build before fog,
+[vision-glow.png](../art/previews/visual-polish/vision-glow.png). A visual change is compared
+against the build before it in the same camera framing, and anything that changes the established
+look without being asked for is flagged before it's delivered, not after.
+
+### Amendments: vision ticks
+
+1. **A small tick.** Add `rules/vision_tick.gd`, a `VisionTick` with four copied dictionaries:
+   `cells` (visible), `lit`, `shown` (id → cell for every non-player unit the team sees, Locate
+   included) and `known`. `VisionTick.capture(state)` builds it. Leave devices, cones and aim
+   lines out of it: nothing changes them mid-move except the vehicle itself, and they reconcile in the
+   final `_refresh()`. If Bryson notices a cone appearing late after playing it, cones are the
+   first thing to add.
+2. **Three capture points, not a general recorder.** `BattleState.move` after each `refresh()`;
+   `BattleState.step` after `_update_known()`, before overwatch; `Devices._drive`, which moves the
+   vehicle one square at a time with `move_node` + `refresh()` + capture, since a vehicle blocks
+   people's sight. The `move` and `vehicle` events gain `ticks`, one per walked square, aligned
+   with `path`. Every other key keeps its meaning, so Predict, logs and tests keep working.
+3. **No separate cleanup snapshot.** Each tick already carries the Locate and peek state of its own
+   moment, so `_finish_turn` shrinking them before playback can't leak into the walk. The final
+   `_refresh()` after `_play` then shows the cleanup. That covers Astra's end-turn concern with no
+   extra mechanism.
+4. **One display path.** `Battle._show_vision(tick)` updates the mask, brightness targets, unit
+   visibility and last-seen markers. `_refresh_fog()` becomes `_show_vision(VisionTick.capture(state))`,
+   so the playback path and the final reconcile can't drift apart. `UnitView.walk(points, on_arrive)`
+   and `LevelView.drive(id, path, on_arrive)` call back after each square's tween; the walk's `shown`
+   array and `_any_seen` read the ticks instead of the final state. Hidden steps are instant, so
+   their callbacks still fire in order. `GridView.set_visibility` takes `(cells, lit)` instead of
+   the state.
+
+Section C mostly exists already: every discrete action (door, peek, breach, power, lights,
+deploy, Locate) ends `_play` with `_refresh()`. The one gap found is the hack's 0.3-second pause,
+which runs before that refresh; show vision before the pause. Alerts, hits and overwatch keep
+playing after the walk as they do today. Interrupting a walk mid-path to play a shot is a separate
+improvement and isn't needed for this fix.
+
+### Amendments: silhouettes instead of boxes
+
+5. **Draw silhouettes in the scenery's own shaders.** Wherever `scenery && !fog_visible(world)`,
+   the toon, wall and fog-surface shaders output `ALBEDO = 0`, `EMISSION = SILHOUETTE` (with a
+   slight top/side difference so form still reads), `SPECULAR = 0` and `ROUGHNESS = 1`. Emission
+   on black albedo stays flat whatever lamps are nearby: the same trick `fog_surface`'s unshaded
+   branch already uses. Lettering, sign faces, screens and glow meshes discard when hidden.
+   The ink outline either stays or discards; that's for the captures to decide.
+6. **What that removes.** Proxy boxes, fitted bounds, the 220-group registration, the
+   VISIBLE/HIDDEN/PARTIAL classification, per-asset culling, `fog_partial`, the vehicle
+   `_pose_vehicle` fog refresh and `fog_box.gdshader`. `SceneryFog` keeps only the
+   StandardMaterial → masked-material conversion and the per-instance `scenery` opt-in, which
+   still protect characters and previews. Partial models work for free, since each fragment
+   reads the mask at its own world position.
+7. **What it costs per tick.** One upload of a roughly 30×30 R8 texture plus a loop over the unit
+   views. No GDScript loop over scenery and no shader-parameter calls. Draw calls return to about
+   the pre-fog count (1,141, measured at 1.76 ms rendering CPU before Request 14), since hidden
+   scenery is drawn again instead of culled. Measure the worst tick on the facility yard (rules
+   capture plus `_show_vision`) and report it; it should be well under a millisecond.
+8. **Ground and walls.** Restore the pre-fog `ground.gdshader` (`37e8413`): textured, darkened by
+   `fog_light`. The mask uses the same seen set as brightness, including walls beside a seen tile
+   and the border ring, built once and written to both textures.
+
+If Bryson keeps boxes (decision 1), amendments 1–4 and 8 still apply. Fix the boxes' tone by
+dropping `unshaded`, or by using the emission trick with a charcoal value; skip unchanged assets
+in `refresh_visibility`; and drive the per-tick refresh from the same `_show_vision`.
+
+### Verification
+
+- One rules test, because it's easy to get subtly wrong: Astra's 14×3 probe, asserting
+  `ticks.size() == path.size()`, that the midway cell is seen at the middle ticks and not at the
+  last, and that a move cut short by a reveal has no ticks beyond where it stopped.
+- Native captures, not tests, for everything else: a frame at each square of one walk with a
+  transient reveal, an enemy crossing a seen strip, a car driving through a sight line, and the
+  pre-fog framing beside the new one. Bryson approves the look from those before it's committed
+  as done.
+- Report headless, native-scripted and Bryson's playtest separately, as the plan says.
+
+### Decisions for Bryson
+
+1. Silhouette shape: the model's own shape (recommended: simplest, cheapest, and closest to
+   "silhouettes"), or a fitted box (hides what the object is, at the cost of the extra
+   machinery)? Request 14's approved goal said boxes.
+2. Silhouette tone: flat charcoal, or charcoal with a faint top/side difference and the ink
+   outline? Pick from captures.
+3. Hidden ground: restore the pre-fog dark textured ground (recommended), or something plainer?
+4. Hidden scenery shows its live state: a door opening, a car moving, lamplight spilling. Is that
+   acceptable, or is any of it an information leak? Remembered scenery stays out, as before.
+5. Walls beside a seen tile display as seen (recommended; presentation only, the rules don't
+   change)?
