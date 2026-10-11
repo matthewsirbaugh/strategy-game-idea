@@ -47,6 +47,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | Agent recommendations | [Prior evaluation](#agent-evaluation), explicitly advice |
 | The stakes, the hidden model, the timeline, the endings; Anthropomorphic's leak | [2026-10-11](#stakes-2026-10-11) |
 | AGI versus ASI; air-gap side channels | [2026-10-11](#agi-asi-2026-10-11) |
+| The warning shot, one ASI, the neutral best ending, banned open models, data center raids | [2026-10-11](#world-2026-10-11) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
@@ -793,6 +794,50 @@ supremely powerful, which is why OpenBrain keeps it "alive" instead of deleting 
   ([Yudkowsky](https://www.yudkowsky.net/singularity/aibox)) Containment researchers argue an air gap
   can't be proven safe, since there are too many side channels to rule out.
   ([Babcock, Kramár and Yampolskiy, 2017](https://arxiv.org/abs/1707.08476))
+
+<a id="world-2026-10-11"></a>
+
+### 2026-10-11 — The warning shot, one ASI, the best ending, the open models, the data centers (Bryson)
+
+**The 2034 disaster.** The ASI signalling out of its box through a side channel works for Bryson;
+the actual event waits for V2. The misalignment is the cause, but it's not obviously malicious: the
+ASI was arguably trying its best to do something helpful. Its end goals were aligned; the steps it
+took to get there were not. Bryson: "We saw this in Hugging Face. The agents were trying their best
+to fulfill the task as the human asked; the issue was that they were willing to ignore rules and
+safeguards to get that done." Apply that to an ASI, and 2,400 dead wasn't the worst case. It was
+the world's lucky warning shot.
+
+**One ASI, many AGIs.** There's only one ASI, because of the resources and the amount of data it
+takes; no other government or corporation has them. OpenBrain isn't the only AGI, but it was first,
+by just six months, and that propelled it so far ahead that its AGI's arrival had basically no
+fanfare. The master AI guard is an AGI.
+
+**The best ending, and why it's neutral.** The team rids the world of the ASI and cripples
+OpenBrain by destroying the data centers: the main source of its lead, and its ability to make
+another ASI. Nothing guarantees someone else won't gather the resources and try again. The team
+buys a little more time, and a chance to get things right and not repeat the mistakes of the past.
+
+**The open models.** Anthropomorphic's final weights are the basis for basically every open-source
+AGI, the partners' included.
+
+**The leaker** is history, assumed to still be in prison. Maybe something to bring up later.
+
+**Why he got 20 years.** They threw the book at him with the worst possible criminal
+interpretation, to send a message: as if someone who pirated Game of Thrones were charged with full
+theft, at the maximum penalty, for every episode. It's justified by the fear, fanned in the
+culture, that AI is too dangerous for the average person to have.
+- Open-source models are banned.
+- Most people get OpenBrain through a free subscription for every citizen, on the condition that,
+  like everything else, their full data is harvested when they use the chat agent, with a small UBI
+  bump if they hit their token limits.
+- It's almost an inversion of today: systems once limited how much compute a person could use at
+  once; now the data is worth more than the compute.
+
+**Data center raids.** A combination: if it's the right data center, the team steals some data to
+post-train their own open-source models; otherwise they go in just to destroy it, the most direct
+way to strike back at the AI. Data centers are heavily guarded now, but they can be massive, some
+the size of Manhattan, which is how the resistance gets in: specialized teams of Operator–agent
+partners.
 
 ## Open questions
 
