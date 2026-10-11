@@ -6,8 +6,8 @@ can see. It is not a rendered frame or a battle-wide clock.
 Vision snapshot: a detached record of what the rules let the player see at one tick, saved so
 the graphics can show that moment even after the rules have finished the action.
 
-- Status: proposed repair plan, reviewed by Claude/Opus 2026-10-11 (see Review response); awaiting
-  Bryson's decisions and plan approval. No game changes implemented.
+- Status: approved by Bryson 2026-10-11 with Claude/Opus's amendments; Astra builds it under
+  Request 17, following [the build guide](#approved-plan-and-astras-build-guide).
 - Author: Astra. Review handoff: [Request 16](claude-and-astra.md#requests).
 - Source reviewed: `7a72375e1cfddded8faba9da084bf0128397e0f2` on `main`.
 - Follows [startup-and-fog.md](startup-and-fog.md). That delivery's static checks did not
@@ -283,3 +283,68 @@ in `refresh_visibility`; and drive the per-tick refresh from the same `_show_vis
    acceptable, or is any of it an information leak? Remembered scenery stays out, as before.
 5. Walls beside a seen tile display as seen (recommended; presentation only, the rules don't
    change)?
+
+## Approved plan, and Astra's build guide
+
+Bryson approved the review's plan on 2026-10-11 ("I like your plans"), which settles decisions 1,
+3 and 5 as recommended: silhouettes in each model's own shape, the pre-fog ground restored, and
+walls beside a seen tile shown as seen. Decision 2 (silhouette tone) is picked from captures in
+step 1. Decision 4 (live state of hidden scenery) stays open: keep today's behavior and list any
+leaks the captures show. Work under [Request 17](claude-and-astra.md#requests).
+
+Build in three commits, each one playable, so any of them can be undone on its own.
+
+### Step 1: the look
+
+1. Restore `ground.gdshader` from `37e8413` (textured, darkened by `fog_light`), then keep the
+   `scenery` instance flag only if something still needs it.
+2. In `fog.gdshaderinc`, add the silhouette color and a helper that returns it with a slight
+   top/side difference. Have the toon, wall and fog-surface shaders call it wherever
+   `scenery && !fog_visible(world)`: `ALBEDO = 0`, `EMISSION = silhouette`, `SPECULAR = 0`,
+   `ROUGHNESS = 1`. The sign shader, lettering, screens and glow meshes discard when hidden.
+3. `GridView` builds the seen set once (visible cells, walls beside them, the border ring) and
+   writes it to both the mask and the brightness targets.
+4. Delete the boxes: `fog_box.gdshader`, the proxy and bounds code in `SceneryFog`, the coverage
+   enum, `fog_partial`, culling, the 220-group registration in `LevelView` and `_pose_vehicle`'s
+   fog refresh. `SceneryFog` keeps the material conversion and the `scenery` opt-in (or that moves
+   into `LevelView` if it's all that's left). Check that characters and the Model Library are
+   untouched.
+5. Captures, same camera framing as
+   [vision-glow.png](../art/previews/visual-polish/vision-glow.png) and
+   [level-initial.png](../art/previews/startup-and-fog-2026-10-11/level-initial.png), each beside
+   its new version: two tones (flat charcoal; charcoal with a faint top/side difference and the ink
+   outline), plus a partial car and the building beside the team. Bryson picks the tone from these
+   before step 2 is delivered. If silhouettes vanish against the dark ground, say so, with the
+   capture.
+
+### Step 2: vision ticks
+
+1. `rules/vision_tick.gd`: `VisionTick` with copied `cells`, `lit`, `shown` (id → cell for every
+   non-player unit the team sees, Locate included) and `known`; `static func capture(state)`.
+2. Capture in `BattleState.move` after each `refresh()`, in `BattleState.step` after
+   `_update_known()` (before overwatch), and in `Devices._drive`, which now moves the vehicle a
+   square at a time with `move_node`, `refresh()` and a capture. `move` and `vehicle` events gain
+   `ticks`, aligned with `path`; no other key changes meaning.
+3. `Battle._show_vision(tick)` updates the mask, brightness, unit visibility and last-seen
+   markers. `_refresh_fog()` calls it with a fresh capture. `GridView.set_visibility(cells, lit)`.
+4. `UnitView.walk(points, on_arrive)` and `LevelView.drive(id, path, on_arrive)` call back after
+   each square's tween, including instant hidden steps. `_walk` and `_any_seen` read the ticks,
+   replacing the `shown` array and the final-state reads.
+5. Show vision before the hack's 0.3-second pause.
+6. One rules test in the existing suites: the 14×3 probe from this plan, asserting one tick per
+   walked square, the midway cell seen at the middle ticks and not the last, and no ticks past a
+   move cut short by a reveal.
+
+### Step 3: verify and hand over
+
+1. `bash tools/check.sh`.
+2. Native frames at each square of one walk with a transient reveal; a drone or dog bot moving
+   while an Operator stands still; an enemy crossing a seen strip; a car driving through a sight
+   line; and a door, a camera breach and Locate.
+3. The worst tick on the facility yard (capture plus `_show_vision`) in milliseconds, and the
+   settled draw calls. No speedup claims beyond what's measured.
+4. Report headless, native-scripted and Bryson's playtest separately, update this file and
+   Request 17, then restart the game for Bryson as AGENTS.md says.
+
+Out of scope: interrupting a walk to play a shot mid-path, cones and aim lines per tick (they
+reconcile at the end of the action; add them only if Bryson notices), and remembered scenery.

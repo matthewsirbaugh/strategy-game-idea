@@ -158,6 +158,9 @@ reads it later.
 - Write a test only when it earns its keep: rules math that's easy to get subtly wrong, or a bug
   that has already come back once. Never for coverage, and never "just because".
 - Verify by running and playing the build. Report which of the two actually happened.
+- The established look is part of every deliverable. Compare a visual change against the
+  previous build in the same camera framing, and flag anything that changes the look without
+  being asked for before delivering it (Bryson, 2026-10-11).
 - After committing a change to the game, restart it so Bryson can play the new build: close any
   running copy with `pkill -f "^godot --path"`, run `godot --headless --path game --import` so
   Godot registers any new `class_name` scripts (a pull can bring them in), then start it with
