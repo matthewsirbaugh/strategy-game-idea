@@ -25,12 +25,14 @@ uniform float window_glow = 1.0;
 // Buildings around the map thin out within this many metres of the camera, so it can pass behind
 // them. Zero for the level's own walls, which ghost by line of sight instead.
 uniform float camera_fade = 0.0;
-instance uniform float ghost = 0.0;
+instance uniform float ghost : instance_index(2) = 0.0;
 // Each wall's top in world metres: the tone lifts toward it and streaks run down from it. Zero
 // for pieces with no top of their own, like caps and plinths.
-instance uniform float top = 0.0;
+instance uniform float top : instance_index(0) = 0.0;
 // The light in a building's windows, so each building on a street can have its own.
-instance uniform vec3 window_light : source_color = vec3(1.0, 0.8, 0.62);
+instance uniform vec3 window_light : source_color, instance_index(1) = vec3(1.0, 0.8, 0.62);
+instance uniform bool scenery : instance_index(5) = false;
+instance uniform bool fog_partial : instance_index(6) = true;
 
 varying vec3 world_position;
 varying vec3 world_normal;
@@ -41,6 +43,9 @@ void vertex() {
 }
 
 void fragment() {
+	if (scenery && fog_partial && !fog_visible(world_position)) {
+		discard;
+	}
 	float near = 0.0;
 	if (camera_fade > 0.0) {
 		near = 1.0 - smoothstep(camera_fade * 0.5, camera_fade, distance(world_position, CAMERA_POSITION_WORLD));

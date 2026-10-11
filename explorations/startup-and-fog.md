@@ -85,4 +85,20 @@ the measured delay; first test whether the embedded textures account for that co
 expanding to other assets. This is a proposal, not an approved asset-pipeline change. Claude and
 Bryson review the import/visual tradeoff; no loading architecture or animation changes were made.
 
-Fog implementation and its before/after verification follow this baseline.
+### Small fog prototype
+
+Binary GridView visibility is separate from animated brightness. SceneryFog fits a shared cube
+to combined local mesh bounds, so rotation and movement preserve the fit. Shared model, outline,
+wall/sign and effect shaders use per-instance opt-in; character and preview instances retain
+their existing behavior. Whole assets cull the unused representation, while partial ones clip
+both passes at world-space tile boundaries, including shadow passes. Advertisement lettering
+is now a flat TextMesh.
+
+Native Metal captures of a building, sign and multi-tile car (straight and rotated, two camera
+angles) are [prototype-0.png](../art/previews/startup-and-fog-2026-10-11/prototype-0.png),
+[prototype-1.png](../art/previews/startup-and-fog-2026-10-11/prototype-1.png) and
+[prototype-2.png](../art/previews/startup-and-fog-2026-10-11/prototype-2.png). The visible half is
+detailed and the hidden half gray; the rendering log is clean. The headless regression checks
+pass for immediate visibility independent of lighting, border handling, culling, movement,
+rotation and preserving power/door state. These checks are not Bryson's art approval or playtest.
+Full-level integration and before/after measurements follow.

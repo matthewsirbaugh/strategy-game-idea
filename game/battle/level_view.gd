@@ -86,6 +86,18 @@ var _soft_shading := true
 var _neon_material: StandardMaterial3D
 # Each device's parts, by node id: its model, and the lights and glowing parts that follow its power.
 var _devices := {}
+var _scenery: Array[SceneryFog] = []
+
+
+func register_scenery(root: Node3D) -> SceneryFog:
+	var asset := SceneryFog.new(root)
+	_scenery.append(asset)
+	return asset
+
+
+func refresh_visibility() -> void:
+	for asset in _scenery:
+		asset.refresh(_grid)
 
 
 func build(state: BattleState, grid: GridView) -> void:
@@ -377,12 +389,16 @@ func _glow_quad(root: Node3D, size: Vector2, at: Vector3, color: Color, energy: 
 
 func _ad_screen(root: Node3D) -> MeshInstance3D:
 	var screen := _glow_quad(root, Vector2(1.25, 0.75), Vector3(0, 0, 0.065), SCREEN_COLOR, 1.6)
-	var words := Label3D.new()
-	words.text = AD_WORDS[hash(root.position) % AD_WORDS.size()]
-	words.font = preload("res://art/fonts/BarlowCondensed-Bold.ttf")
-	words.font_size = 96
-	words.pixel_size = 0.004
-	words.modulate = Color(1.0, 0.95, 0.85)
+	var text := TextMesh.new()
+	text.text = AD_WORDS[hash(root.position) % AD_WORDS.size()]
+	text.font = preload("res://art/fonts/BarlowCondensed-Bold.ttf")
+	text.font_size = 48
+	text.pixel_size = 0.008
+	text.depth = 0.0
+	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	var words := MeshInstance3D.new()
+	words.mesh = text
+	words.material_override = ToonModel.flat(Color(1.0, 0.95, 0.85))
 	words.position = Vector3(0, 0, 0.01)
 	screen.add_child(words)
 	return screen

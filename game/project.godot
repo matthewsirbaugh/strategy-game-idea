@@ -99,6 +99,10 @@ fog_map={
 "type": "sampler2D",
 "value": ""
 }
+fog_visibility_map={
+"type": "sampler2D",
+"value": ""
+}
 fog_bounds={
 "type": "vec4",
 "value": Vector4(0, 0, 0, 0)

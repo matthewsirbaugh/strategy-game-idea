@@ -26,16 +26,26 @@ uniform sampler2D albedo_texture : source_color, filter_linear_mipmap;
 instance uniform vec3 tint : source_color, instance_index(0) = vec3(1.0);
 instance uniform float flash : instance_index(1) = 0.0;
 instance uniform float ghost : instance_index(2) = 0.0;
+instance uniform bool scenery : instance_index(5) = false;
+instance uniform bool fog_partial : instance_index(6) = true;
+varying vec3 world_position;
+
+void vertex() {
+	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+}
 
 float rim(vec3 normal, vec3 view) {
 	return smoothstep(1.0 - RIM_WIDTH, 1.0 - RIM_WIDTH * 0.6, 1.0 - clamp(dot(normal, view), 0.0, 1.0));
 }
 
 void fragment() {
+	if (scenery && fog_partial && !fog_visible(world_position)) {
+		discard;
+	}
 	if (ghosted(FRAGCOORD.xy, ghost)) {
 		discard;
 	}
-	vec3 world = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	vec3 world = world_position;
 	float seen = fog_light(world);
 	ALBEDO = mix(texture(albedo_texture, UV).rgb * tint * seen, vec3(1.0), flash);
 	ROUGHNESS = 1.0;

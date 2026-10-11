@@ -15,7 +15,9 @@ uniform float glow = 0.0;
 uniform float wear : hint_range(0.0, 1.0) = 0.3;
 // Paint on a wet road shines like the road.
 uniform float wet : hint_range(0.0, 1.0) = 0.0;
-instance uniform float ghost = 0.0;
+instance uniform float ghost : instance_index(2) = 0.0;
+instance uniform bool scenery : instance_index(5) = false;
+instance uniform bool fog_partial : instance_index(6) = true;
 
 varying vec3 world_position;
 
@@ -24,6 +26,9 @@ void vertex() {
 }
 
 void fragment() {
+	if (scenery && fog_partial && !fog_visible(world_position)) {
+		discard;
+	}
 	if (ghosted(FRAGCOORD.xy, ghost)) {
 		discard;
 	}

@@ -32,6 +32,9 @@ var _zone_range := -1
 # The fog map covers the map plus a one-tile ring, so the building's outer wall darkens too.
 var _light_image: Image
 var _light_texture: ImageTexture
+var _visibility_image: Image
+var _visibility_texture: ImageTexture
+var _visible_cells := {}
 var _targets := {}
 var _brightness := {}
 var _lit_since := {}
@@ -46,6 +49,10 @@ func build(state: BattleState) -> void:
 	_light_image.fill(Color.BLACK)
 	_light_texture = ImageTexture.create_from_image(_light_image)
 	RenderingServer.global_shader_parameter_set("fog_map", _light_texture)
+	_visibility_image = Image.create(map.size.x + 2, map.size.y + 2, false, Image.FORMAT_R8)
+	_visibility_image.fill(Color.BLACK)
+	_visibility_texture = ImageTexture.create_from_image(_visibility_image)
+	RenderingServer.global_shader_parameter_set("fog_visibility_map", _visibility_texture)
 	RenderingServer.global_shader_parameter_set("fog_bounds", Vector4(-CELL, -CELL, (map.size.x + 2) * CELL, (map.size.y + 2) * CELL))
 	set_process(false)
 
@@ -57,6 +64,12 @@ func _exit_tree() -> void:
 # Tiles the team can see are lit, dimmer where they're dark, and so is any wall beside one;
 # everything else goes dark.
 func set_visibility(state: BattleState) -> void:
+	if _visible_cells != state.visible_cells:
+		_visible_cells = state.visible_cells.duplicate()
+		_visibility_image.fill(Color.BLACK)
+		for cell: Vector2i in _visible_cells:
+			_visibility_image.set_pixel(cell.x + 1, cell.y + 1, Color.WHITE)
+		_visibility_texture.update(_visibility_image)
 	var targets := {}
 	for cell in state.visible_cells:
 		var brightness := 1.0 if state.is_lit(cell) else DARK_BRIGHTNESS
@@ -75,6 +88,10 @@ func set_visibility(state: BattleState) -> void:
 			_changing[cell] = true
 	_targets = targets
 	set_process(not _changing.is_empty())
+
+
+func cell_visible(cell: Vector2i) -> bool:
+	return cell.x < -1 or cell.y < -1 or cell.x > map.size.x or cell.y > map.size.y or _visible_cells.has(cell)
 
 
 func _process(delta: float) -> void:

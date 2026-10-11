@@ -7,10 +7,11 @@ render_mode unshaded, depth_test_disabled, depth_draw_never, cull_back, shadows_
 
 instance uniform vec4 silhouette : source_color, instance_index(3) = vec4(0.0);
 instance uniform float hidden_by : instance_index(4) = 0.4;
+instance uniform bool scenery : instance_index(5) = false;
 uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
 
 void fragment() {
-	if (silhouette.a <= 0.0) {
+	if (scenery || silhouette.a <= 0.0) {
 		discard;
 	}
 	float depth = texture(depth_texture, SCREEN_UV).r;

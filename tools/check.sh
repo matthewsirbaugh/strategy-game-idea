@@ -25,3 +25,4 @@ run_check 'Battle rules' -s tests/test_rules.gd
 run_check 'Hacking and context math' -s tests/test_hacking.gd
 run_check 'Random playthroughs' -s tests/test_playthrough.gd
 run_check 'Battle flow: into the AI' -s tests/test_battle_flow.gd
+run_check 'Scenery fog: visibility and bounds' -s tests/test_scenery_fog.gd
