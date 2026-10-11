@@ -156,8 +156,8 @@ credits in all.
 - **Access terminal:** clean at 4,172 triangles; Astra's emblem came through in the texture. Meshy
   dropped the red edge strip, so Claude added it by hand as a glowing bar. The screen doesn't glow
   yet.
-- `--glow` lights nothing on white bodies without picking up the white; `--glow 2` now lights only
-  reds, and finds nothing on these two.
+- `--glow` by brightness would light up white bodies too, so `--glow 2` now lights only reds. It
+  finds nothing on these two: the camera's red light is too faint in Meshy's texture.
 
 Seen in Blender renders only; not yet in the night stage or played.
 
