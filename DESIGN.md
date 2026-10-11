@@ -119,7 +119,11 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
 - The enemy is like OpenAI: black and white, very modern, mostly white, with red accents in very
   few places, after Nothing's design philosophy. It leans into the tech oligarchy and stands out
   against dim backgrounds. (2026-10-08)
-- No general humanoid robots. The robots are AI-controlled drones and robot dogs. (2026-10-08)
+- No humanoid robots exist in the game. Robotics lags behind language models because it lacks
+  real-world data; OpenBrain is racing to gather that data and build general humanoids, and
+  stopping it is the story. The robots that exist are AI-controlled drones and robot dogs.
+  (2026-10-08, reframed 2026-10-10;
+  [lore](explorations/core-idea-and-story.md#data-economy))
 - The AI has no appearance, only text and voice. Its personality comes through dialogue, and the
   player makes up their own mind. The relationships are real, never cutesy: a serious story for a
   player living through the current birth of AI. (2026-10-08)

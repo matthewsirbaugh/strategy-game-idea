@@ -35,6 +35,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | Hardware, harnesses and post-training | [Local-agent upgrades](#upgrades) |
 | Corporate strength and access-point ownership | [Two corporate factions](#corporations) |
 | Subsistence, concentrated wealth and human labor | [Society and robotics](#society) |
+| The data economy, ownership without a vote, the race for the robots, OpenBrain | [Data economy](#data-economy) |
 | Improvised equipment and the board-member source | [Resistance and insider](#resistance) |
 | Code names, privacy and manipulation | [Partner knowledge](#identity) |
 | Agent recommendations | [Prior evaluation](#agent-evaluation), explicitly advice |
@@ -550,6 +551,67 @@ Codex also corrected its earlier advice; these are qualifications, not new desig
 The new hacking-gameplay exploration (renamed [battle core](battle-core.md) on 2026-09-23) owns the confirmed attempt/reset/
 carryover structure, illustrative upgrades, three candidate games, source-backed research,
 evaluation criteria and the exact unanswered comparison question. No candidate is selected.
+
+<a id="data-economy"></a>
+
+### 2026-10-10 — The data economy, ownership without a vote, and the race for the robots (Bryson)
+
+From Bryson's notes on the first images of the new art direction: the
+[commercial street](../art/concepts/city-and-campus-study-2026-10-10/01-city-commercial-street.png),
+[residential courtyard](../art/concepts/city-and-campus-study-2026-10-10/02-city-residential-courtyard.png),
+[security threshold](../art/concepts/city-and-campus-study-2026-10-10/06-campus-headset-security-threshold-v2-ar.png)
+and [vehicle forecourt](../art/concepts/city-and-campus-study-2026-10-10/05-campus-autonomous-vehicle-forecourt-v2-ar.png).
+
+**Ownership without a vote.**
+- The tech companies used the idea of shared ownership to set up their own basic-income booths.
+- Only the portion of the stock that wasn't already owned was split among the American people
+  (Bryson: "or something like that"; the exact split is open).
+- There's technically shared ownership, but no democratic participation.
+- The income it pays is so small you can still be homeless while receiving it, as the homeless
+  man beside the kiosk shows.
+- This sharpens 2026-09-21's subsistence income, "enough to live, not enough to thrive": now it
+  isn't always enough to stay housed.
+
+**A surveillance state, built from the bottom up.**
+- An evolution of Flock cameras, adopted broadly by landlords and private property owners, and by
+  the government on public land.
+- The data gathered trains OpenBrain's humanoid robots.
+
+**The stakes.**
+- Robotics lags behind language models because there's far more easily available data to train
+  language models than robots. This is the robotics wall from 2026-09-21: a wall of data.
+- The protagonists try to take OpenBrain down before the robots gather enough data to reach the
+  heights of its AGI-level language models. If they succeed, there's still hope for democracy to
+  come back.
+- No humanoid robots exist in the game; building them is OpenBrain's goal, and stopping it is the
+  story (DESIGN.md).
+
+**People who sell their lives as data.**
+- Everyday people offer to wear cameras, essentially GoPros, 24/7 to give the robots more data,
+  in exchange for a raise in their monthly income: just enough not to be homeless.
+- They're forced to train the humanoids that will make them useless. That's interesting both for
+  the person who says yes and for society. They might be treated as pariahs, traitors to the
+  species, once everyone is really feeling AI's effects on their lives. Today, sharing your data
+  with an AI company is mostly a privacy concern.
+- A mother is criticized because, to provide for her son, she sells all the video of his
+  childhood to an AI company. Bryson: profoundly disturbing, for reasons that are hard to
+  articulate but seem obvious nonetheless.
+- Why it disturbs, in Claude's words, which Bryson asked to include:
+  - The son can't consent. His childhood is sold before he knows what privacy is, and it can't
+    be taken back.
+  - Love becomes labor. The most private, unrepeatable moments become work done for a machine.
+  - He trains his own replacement: the robots learn to be human from his life, to make people
+    like him unnecessary.
+  - It's coercion dressed as choice. Nobody forces her, which is exactly why the shame lands on
+    her and not on the system that priced her son's childhood at a month's rent. The anger goes
+    sideways, at her, not up at OpenBrain; that's how systems like this protect themselves.
+
+**OpenBrain.**
+- Its campus architecture is very different from the surrounding city.
+- Its guards are ordinary people wearing AR glasses, with compute pucks on their hips.
+- A master AI guard has vision on every camera, and on every person, robot and vehicle under its
+  control. It directs the guards and gives them orders. It will probably be a named character.
+- Breaking directly into OpenBrain's headquarters is maybe a late-game mission.
 
 ## Open questions
 
