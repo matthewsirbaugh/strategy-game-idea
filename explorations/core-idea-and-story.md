@@ -1,14 +1,18 @@
 # The core idea and story
 
 - Feeds: DESIGN.md open questions 1, 4, 5
-- Status: parked; further character and plot development is on the back burner.
+- Status: open since 2026-10-11: Bryson resumed it to flesh out the story and the characters'
+  personalities, so the character models can be made informed.
 > 2026-10-09: parts of the world graduated to [DESIGN.md](../DESIGN.md): a California city (not
 > Silicon Valley, since 2026-10-10) in the late 2030s to early 2040s, OpenBrain the villain, no humanoid robots, and AIs with no
 > appearance, only text and voice. The chibi partners and companions in the findings below are
 > history.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
   [exploration](battle-core.md).
-- Next lore session: Bryson asked on 2026-10-11 to retain [Astra's 18 review questions](astra-review-2026-10-11.md#lore-questions) for discussion. They are open questions, not lore decisions; Claude's filing task is [Request 11](claude-and-astra.md#requests).
+- Next action: work through the [question guide](#question-guide), starting with the foundations
+  in [Astra's review](#astras-review-2026-10-11), then the team's personalities.
+- Astra's 18 lore questions (2026-10-11) are filed in the question guide below. They are open
+  questions, not lore decisions.
 
 ## The question
 
@@ -688,6 +692,27 @@ without making the whole historical list a work queue.
 | How partners learn their human's identity | 29 |
 | Insider's concrete culpability | 30; expressly deferred by Bryson |
 | Scope, exploration, loss and permadeath | DESIGN.md questions 1–3 and the parked board topics |
+
+<a id="astras-review-2026-10-11"></a>
+
+**From Astra's review, 2026-10-11.** The full text of each lives in
+[the review](astra-review-2026-10-11.md#lore-questions), with its labels: *development* (an
+unresolved story question) or *recommendation to punch up*. Where one extends a question in the
+record below, that number is its other home.
+
+| Subject | Astra's questions | Overlaps |
+|---|---|---|
+| What the resistance can change: victory, what a raid accomplishes, why the robots are the threshold | L01, L02, L03 | 9, 12 |
+| Why OpenBrain dominates: the open models' failure, its political machinery, the economic collapse, the recordings' value | L04, L06, L07, L08 | — |
+| The resistance's advantage over OpenBrain | L05 | 25, 26 |
+| The team: personal stakes, bonds and disagreements | L10 | — |
+| Partner knowledge, trust, and what changes when an AI is rebuilt | L11, L12 | 17, 19–21, 29 |
+| The insider's concrete act | L13 | 30 |
+| Moral reality: guards and non-lethal force; the resistance's own use of data | L14, L15 | Astra's game question G22, held |
+| The data sellers, the mother and her son, as people | L09 | — |
+| The town as relationships and discovery | L17 | Parked board topic |
+| How close OpenBrain and Anthropomorphic sit to real companies | L16 | — |
+| Fiction versus game abstraction | L18 | 22–24, [battle core](battle-core.md) |
 
 Older question A predates the September 21 network-map proposal. The September 22 clarification
 leaves the digital activity and map structure open; see the hacking exploration for later work.
