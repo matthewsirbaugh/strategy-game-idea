@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "camera_pole",
+  "name": "Camera on a pole",
+  "category": "devices",
+  "status": "proof",
+  "model": "camera_pole.glb",
+  "height_m": 3.38,
+  "fit_to_height": false,
+  "device": "camera",
+  "description": "The camera head on a black pole, about 3 m up.",
+  "brief": "art/briefs/proof-run.md",
+  "sources": "art/sources/devices/camera_head/",
+  "made_with": {
+    "tool": "claude (blender)",
+    "model": null,
+    "settings": "tools/build_fixtures.py",
+    "task": null,
+    "credits": 0,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Built by tools/build_fixtures.py from devices/camera_head; the pole is Claude's. Lens faces -X, away from the pole."
+}

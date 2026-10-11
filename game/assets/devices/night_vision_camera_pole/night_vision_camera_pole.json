@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "night_vision_camera_pole",
+  "name": "Night-vision camera on a pole",
+  "category": "devices",
+  "status": "proof",
+  "model": "night_vision_camera_pole.glb",
+  "height_m": 3.38,
+  "fit_to_height": false,
+  "device": "nvcamera",
+  "description": "The night-vision camera head on a black pole, about 3 m up.",
+  "brief": "art/briefs/batch-2-devices.md",
+  "sources": "art/sources/devices/night_vision_camera/",
+  "made_with": {
+    "tool": "claude (blender)",
+    "model": null,
+    "settings": "tools/build_fixtures.py",
+    "task": null,
+    "credits": 0,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Built by tools/build_fixtures.py from devices/night_vision_camera; the pole is Claude's. The infrared ring glows."
+}

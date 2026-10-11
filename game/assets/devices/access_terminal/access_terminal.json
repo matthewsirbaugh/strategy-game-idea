@@ -20,5 +20,5 @@
     "date": "2026-10-11"
   },
   "animations": [],
-  "notes": "4,172 triangles; 0.37 x 0.33 m, front facing -Z in Godot (-Y in Blender). Meshy left out the red edge strip, so Claude added it by hand: a 1 cm emissive red bar on the front-left edge. The emblem came through in Meshy's texture, readable up close; the decal from art/reference/openbrain-logo-white.png can replace it if needed. The screen doesn't glow yet. The back view (02-back.png) went unused, as smart topology takes one image."
+  "notes": "4,172 triangles; 0.37 x 0.33 m, front facing -Z in Godot (-Y in Blender). Meshy left out the red edge strip, so Claude added it by hand: a 1 cm emissive red bar on the front-left edge. The emblem came through in Meshy's texture, readable up close; the decal from art/reference/openbrain-logo-white.png can replace it if needed. The screen's ring and dot glow: prep_prop.py --glow 0.55 --glow-box -0.13 -0.25 0.6 0.13 -0.1 1.12, then the red strip. The back view (02-back.png) went unused, as smart topology takes one image."
 }

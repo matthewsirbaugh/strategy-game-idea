@@ -3,8 +3,8 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: Astra makes batch 6, the EV charger's revision (request 9); Claude models it. Then
-  the props are done, and the architecture and character models explorations can start.
+- Next action: Bryson looks at the props in the night stage and the model viewer. Then the
+  architecture and character models explorations can start.
 
 ## The question
 
@@ -200,6 +200,18 @@ needed Blender surgery: Meshy modelled the uplight's buried housing, so Claude s
 rim; and Meshy can't make transparency, so the turnstile's glass wings were cut away and rebuilt as
 real glass. With this batch every exterior prop the research park needs has a model, except the
 EV charger, whose revision is with Astra (batch 6). Seen in Blender renders only.
+
+### 2026-10-11 — Batch 6 and the finishing pass (Bryson asked; Claude built)
+
+- The EV charger: Bryson's approved v4, adapted from his own photo, its open frame keeping it apart
+  from the access terminal. 15 credits.
+- `tools/build_fixtures.py` builds what AI 3D can't: black poles under the pole light, the camera,
+  the night-vision camera and the scanner, the barrier's 4 m arm, and the OpenBrain emblem as
+  decals on the car's doors and the van's flanks.
+- Glow, by Bryson's rule that only real lights glow: `prep_prop.py --glow-box` limits the
+  brightness test to one region, so the terminal's screen glows while its white body doesn't.
+- Not done: the camera's red recording light, too faint in Meshy's texture to find. Everything
+  is seen in Blender renders only, not yet in the night stage.
 
 ## Open questions
 

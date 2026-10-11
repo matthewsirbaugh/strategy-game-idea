@@ -3,6 +3,8 @@
 # Run: blender -b --python tools/prep_prop.py -- <in.glb> <out.glb> --height 1.0 [--max-tris 8000]
 #      [--glow 0.75] lights up texels brighter than that, and saturated reds, as emission.
 #      --glow 2 lights only the reds, for white bodies.
+#      [--glow-box x0 y0 z0 x1 y1 z1] limits the brightness test to faces inside that box (metres,
+#      after scaling, Blender axes), for a screen on a white body.
 import argparse
 import sys
 
@@ -16,6 +18,7 @@ args.add_argument("--height", type=float, required=True, help="metres, base to t
 args.add_argument("--max-tris", type=int, default=0)
 args.add_argument("--glow", type=float, default=0.0, help="luminance above which the base colour glows")
 args.add_argument("--glow-strength", type=float, default=4.0)
+args.add_argument("--glow-box", type=float, nargs=6, default=None)
 opts = args.parse_args(sys.argv[sys.argv.index("--") + 1:])
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -54,6 +57,36 @@ if opts.max_tris and before > opts.max_tris:
 
 
 
+def box_mask(width, height):
+    import numpy as np
+    x0, y0, z0, x1, y1, z1 = opts.glow_box
+    mask = np.zeros((height, width), dtype=bool)
+    uv = prop.data.uv_layers.active.data
+    for poly in prop.data.polygons:
+        c = poly.center
+        if x0 <= c.x <= x1 and y0 <= c.y <= y1 and z0 <= c.z <= z1:
+            pts = [(uv[i].uv.x * width, uv[i].uv.y * height) for i in poly.loop_indices]
+            for k in range(1, len(pts) - 1):
+                fill_triangle(mask, pts[0], pts[k], pts[k + 1])
+    return mask.ravel()
+
+
+def fill_triangle(mask, a, b, c):
+    import numpy as np
+    x0, x1 = int(min(a[0], b[0], c[0])), int(max(a[0], b[0], c[0])) + 1
+    y0, y1 = int(min(a[1], b[1], c[1])), int(max(a[1], b[1], c[1])) + 1
+    ys, xs = np.mgrid[y0:y1, x0:x1] + 0.5
+    area = (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1])
+    if area == 0:
+        return
+    w0 = ((b[0] - xs) * (c[1] - ys) - (c[0] - xs) * (b[1] - ys)) / area
+    w1 = ((c[0] - xs) * (a[1] - ys) - (a[0] - xs) * (c[1] - ys)) / area
+    inside = (w0 >= 0) & (w1 >= 0) & (w0 + w1 <= 1)
+    h, w = mask.shape
+    sub = mask[max(y0, 0):min(y1, h), max(x0, 0):min(x1, w)]
+    sub |= inside[max(-y0, 0):max(-y0, 0) + sub.shape[0], max(-x0, 0):max(-x0, 0) + sub.shape[1]]
+
+
 def add_glow(material) -> None:
     import numpy as np
     bsdf = material.node_tree.nodes.get("Principled BSDF")
@@ -70,7 +103,10 @@ def add_glow(material) -> None:
     r, g, b = rgba[:, 0], rgba[:, 1], rgba[:, 2]
     luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
     # Meshy paints lit parts into the base colour; the bright band and red status lights are the lamps.
-    lit = (luminance > opts.glow) | ((r > 0.35) & (r > 2.5 * g) & (r > 2.5 * b))
+    bright = luminance > opts.glow
+    if opts.glow_box:
+        bright &= box_mask(width, height)
+    lit = bright | ((r > 0.35) & (r > 2.5 * g) & (r > 2.5 * b))
     if not lit.any():
         print("PREP glow: nothing lit in %s" % material.name)
         return

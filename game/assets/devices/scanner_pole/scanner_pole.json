@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "scanner_pole",
+  "name": "Scanner on a pole",
+  "category": "devices",
+  "status": "proof",
+  "model": "scanner_pole.glb",
+  "height_m": 3.23,
+  "fit_to_height": false,
+  "device": "camera",
+  "description": "The security scanner capsule clamped to a black pole, about 2.8 m up.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/devices/scanner_head/",
+  "made_with": {
+    "tool": "claude (blender)",
+    "model": null,
+    "settings": "tools/build_fixtures.py",
+    "task": null,
+    "credits": 0,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Built by tools/build_fixtures.py from devices/scanner_head; the pole is Claude's."
+}

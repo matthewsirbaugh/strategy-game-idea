@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "barrier_gate",
+  "name": "Barrier gate",
+  "category": "props",
+  "status": "proof",
+  "model": "barrier_gate.glb",
+  "height_m": 1.1,
+  "fit_to_height": false,
+  "device": null,
+  "description": "The forecourt's vehicle barrier: the white housing with a 4 m white arm banded in red, lowered across the lane.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/props/barrier_housing/",
+  "made_with": {
+    "tool": "claude (blender)",
+    "model": null,
+    "settings": "tools/build_fixtures.py",
+    "task": null,
+    "credits": 0,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Built by tools/build_fixtures.py from props/barrier_housing; the arm is Claude's, from the hub on the housing's +X face along +Y."
+}

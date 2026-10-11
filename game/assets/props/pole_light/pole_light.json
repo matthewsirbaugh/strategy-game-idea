@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "pole_light",
+  "name": "Pole light",
+  "category": "props",
+  "status": "proof",
+  "model": "pole_light.glb",
+  "height_m": 5.12,
+  "fit_to_height": false,
+  "device": "light",
+  "description": "A campus street light: the pole light head on a 5 m black anodized pole with a base plate.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/props/pole_light_head/",
+  "made_with": {
+    "tool": "claude (blender)",
+    "model": null,
+    "settings": "tools/build_fixtures.py",
+    "task": null,
+    "credits": 0,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Built by tools/build_fixtures.py from props/pole_light_head; the pole is Claude's. The LED panel glows."
+}

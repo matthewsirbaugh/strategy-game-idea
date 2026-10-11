@@ -20,5 +20,5 @@
     "date": "2026-10-11"
   },
   "animations": [],
-  "notes": "Prepared with tools/prep_prop.py. 4.91 m long, 2.8 m tall with its sensors. Meshy's 913,030 triangles collapsed to 40,000. --glow 2: the red lights glow. No emblem; a decal can add it."
+  "notes": "Prepared with tools/prep_prop.py. 4.91 m long, 2.8 m tall with its sensors. Meshy's 913,030 triangles collapsed to 40,000. --glow 2: the red lights glow. tools/build_fixtures.py adds the OpenBrain emblem to both flanks as decals, from the prepared model kept in sources."
 }
