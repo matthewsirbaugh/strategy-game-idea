@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "fleet_car",
+  "name": "Fleet car",
+  "category": "devices",
+  "status": "proof",
+  "model": "fleet_car.glb",
+  "height_m": 1.44,
+  "fit_to_height": false,
+  "device": "car",
+  "description": "A sleek white autonomous electric car from OpenBrain's fleet, black glass roof, lidar dome, light bars front and back.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/devices/fleet_car/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-7",
+    "settings": "multi-image (main and side views), textured, PBR",
+    "task": "01a12992-b3c9-7396-9190-a8076ef8f1ab",
+    "credits": 30,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 4.61 m long. Meshy's 901,904 triangles collapsed to 40,000. --glow 2: the red tail light glows. The emblem on the door is missing; a decal can add it."
+}

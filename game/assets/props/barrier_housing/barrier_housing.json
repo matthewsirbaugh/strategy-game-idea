@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "barrier_housing",
+  "name": "Barrier gate housing",
+  "category": "props",
+  "status": "proof",
+  "model": "barrier_housing.glb",
+  "height_m": 1.1,
+  "fit_to_height": false,
+  "device": null,
+  "description": "The motor housing of the forecourt's vehicle barrier: a white pillar with a red light strip, a camera lens and a hub for the arm.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/props/barrier_housing/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12992-cfe3-72bc-b518-d0d54a12c639",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. Claude builds the arm, on the hub. --glow 2: the red strip glows."
+}

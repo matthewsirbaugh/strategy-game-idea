@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "pole_light_head",
+  "name": "Pole light head",
+  "category": "props",
+  "status": "proof",
+  "model": "pole_light_head.glb",
+  "height_m": 0.119,
+  "fit_to_height": false,
+  "device": null,
+  "description": "The head of a campus street light: a black aluminum blade with a warm LED panel underneath and a collar for the pole.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/props/pole_light_head/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12992-c602-7427-8540-38d2b03dfc07",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 0.60 m long; collar at one end. Claude builds the pole. --glow 0.75: the LED panel glows."
+}

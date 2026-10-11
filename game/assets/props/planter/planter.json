@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "planter",
+  "name": "Concrete planter",
+  "category": "props",
+  "status": "proof",
+  "model": "planter.glb",
+  "height_m": 0.75,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A long white precast concrete planter with ornamental grasses and small shrubs.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/props/planter/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12992-d47a-718e-8f5b-f323e46ca512",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 1.50 m long, one grid tile, 0.75 m tall with its plants. Meshy turned the grass into broad leaves, which read fine from above. The uplight in one end doesn't glow yet."
+}

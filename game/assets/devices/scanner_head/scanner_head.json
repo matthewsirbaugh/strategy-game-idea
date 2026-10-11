@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "scanner_head",
+  "name": "Security scanner head",
+  "category": "devices",
+  "status": "proof",
+  "model": "scanner_head.glb",
+  "height_m": 0.35,
+  "fit_to_height": false,
+  "device": "camera",
+  "description": "A pole-mounted security sensor: an upright white capsule with a black glass band, a lidar puck on top and a rear clamp.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/devices/scanner_head/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-t2",
+    "settings": "smart topology, main view only, textured, PBR",
+    "task": "01a12992-cb47-74f3-beb0-0d984822ef74",
+    "credits": 15,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. Plays a camera for now; it may become its own device. Claude builds the pole. Nothing glows yet."
+}

@@ -1,0 +1,24 @@
+{
+  "spec": 1,
+  "id": "service_van",
+  "name": "Service van",
+  "category": "devices",
+  "status": "proof",
+  "model": "service_van.glb",
+  "height_m": 2.8,
+  "fit_to_height": false,
+  "device": "truck",
+  "description": "A boxy white autonomous electric service van with a black glass front, roof sensors and light bars: the rules' truck.",
+  "brief": "art/briefs/batch-3-vehicles-and-fixtures.md",
+  "sources": "art/sources/devices/service_van/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "meshy-7",
+    "settings": "multi-image (main and side views), textured, PBR",
+    "task": "01a12992-be62-713a-931b-81b6167d7326",
+    "credits": 30,
+    "date": "2026-10-11"
+  },
+  "animations": [],
+  "notes": "Prepared with tools/prep_prop.py. 4.91 m long, 2.8 m tall with its sensors. Meshy's 913,030 triangles collapsed to 40,000. --glow 2: the red lights glow. No emblem; a decal can add it."
+}

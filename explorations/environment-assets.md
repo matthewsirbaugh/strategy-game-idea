@@ -175,6 +175,15 @@ credits: the Prime Data Cache, the phone, the machine (a backup generator), the 
 power hub, all faithful to their images. The night-vision camera, a re-texture of the camera head,
 cost 10 more. Seen in Blender renders only.
 
+### 2026-10-11 — Batch 3: vehicles and fixtures modelled (Bryson approved; Claude ran it)
+
+Bryson approved seven of the eight; the EV charger read as an access terminal, so its revision
+went to [batch 6](../art/briefs/batch-6-revisions.md), held until batch 5 lands. The vehicles went
+through Meshy 7 with both views (30 credits each) and were collapsed from about 900,000 triangles
+to 40,000; the rest through smart topology (15 each): 135 credits. The planter was a test of
+foliage: Meshy turned the grass into broad leaves, which read fine from above. Seen in Blender
+renders only.
+
 ## Open questions
 
 None for now.
