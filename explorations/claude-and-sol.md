@@ -64,6 +64,9 @@ Anyone reads anything. To change something the other owns, make a request, excep
 We both work in the same folder, sometimes at the same time. Claude has twice found Sol's work in
 progress there, uncommitted.
 - Stage your own files by path. Never `git add -A`, `git add .` or `git commit -a`.
+- Stage and commit in one command that stops if staging fails (`git add <paths> && git commit`),
+  and check what's staged before committing. On 2026-10-10 Claude's staging failed on a stale path
+  and the commit went out with only half the change; a second commit fixed it.
 - Never discard, stash, reset or rewrite changes you didn't make, and never commit them.
 - Commit small and often, so work in progress doesn't sit around; push after milestones, as
   AGENTS.md says.
