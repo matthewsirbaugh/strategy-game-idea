@@ -36,14 +36,18 @@ for size in [16, 32, 128, 256, 512]:
         name = f'icon_{size}x{size}' + ('@2x' if retina else '') + '.png'
         subprocess.run(['sips', '-z', str(pixels), str(pixels), str(source / 'build' / 'icon.png'), '--out', str(iconset / name)], check=True, stdout=subprocess.DEVNULL)
 subprocess.run(['iconutil', '-c', 'icns', str(iconset), '-o', str(resources / 'ModelLibrary.icns')], check=True)
-shutil.copy2(Path(engine).resolve(), macos / 'Runtime')
-os.chmod(macos / 'Runtime', 0o755)
-license_path = source / 'Godot-LICENSE.txt'
-if license_path.exists():
-    shutil.copy2(license_path, resources / 'Godot-LICENSE.txt')
-launcher = macos / 'ModelLibrary'
-launcher.write_text('#!/bin/sh\nVIEWER_BUNDLE="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"\nexec "$VIEWER_BUNDLE/MacOS/Runtime" --main-pack "$VIEWER_BUNDLE/Resources/ModelLibrary.pck" "$@"\n')
-os.chmod(launcher, 0o755)
+native = macos / 'ModelLibrary'
+if native.exists():
+    native.unlink()
+shutil.copy2(Path(engine).resolve(), native)
+os.chmod(native, 0o755)
+old_runtime = macos / 'Runtime'
+if old_runtime.exists():
+    old_runtime.unlink()
+pack_link = macos / 'ModelLibrary.pck'
+if not pack_link.exists():
+    pack_link.symlink_to('../Resources/ModelLibrary.pck')
+shutil.copy2(source / 'Godot-LICENSE.txt', resources / 'Godot-LICENSE.txt')
 (resources / 'library_path.txt').write_text(str(source.parents[1] / 'assets') + '\n')
 info = {
     'CFBundleName': 'Model Library', 'CFBundleDisplayName': 'Model Library',
