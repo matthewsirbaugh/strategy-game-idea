@@ -10,6 +10,7 @@ Needs Godot 4.7 (`brew install --cask godot`).
 - Play: `godot --path game`. After a pull, run `godot --headless --path game --import` first, or
   scripts added elsewhere fail with "Identifier not declared".
 - Edit: open `game/project.godot` in the Godot editor, then press F5 to run.
+- Review all recorded 3D assets in Model Library: `godot --path game/preview/model_viewer`. The standalone Mac app, controls and build instructions are in [the viewer README](game/preview/model_viewer/README.md).
 - Preview a character with the toon shader and its animations: `godot --path game res://preview/character_preview.tscn`
 - Preview new props under night light, close up and from the battle camera: `godot --path game res://preview/prop_preview.tscn`. It shows every new model in `game/assets/` (not `legacy/`).
 - Ready a Meshy model for the game (real height, origin at its base, a triangle budget): `blender -b --python tools/prep_prop.py -- in.glb out.glb --height 1.0 --max-tris 8000`
