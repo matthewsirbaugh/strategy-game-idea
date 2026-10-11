@@ -1,0 +1,62 @@
+{
+  "created_on": "2026-10-10",
+  "tool": "built-in image_gen",
+  "mode": "edit",
+  "use_case": "precise-object-edit",
+  "user_direction": [
+    "Preserve the selected intricate tiered research park, but build it into a former California mountainside above the city so terrain elevation makes the campus visible at night. Add a perimeter privacy wall or similar enclosure. Reduce nighttime lighting and occupancy to a few guards and guard dogs, leaving room to sneak around while keeping visual details readable.",
+    "Bryson liked the mountainside night revision and clarified that the guard dogs must be robot dogs, like Boston Dynamics' quadrupeds."
+  ],
+  "current_output_file": "01-rear-campus-overview-v3-hillside-night-robot-dogs.png",
+  "revisions": [
+    {
+      "version": 2,
+      "prompt_file": "hillside-night-prompt.txt",
+      "prompt": "Use case: precise-object-edit.\nAsset type: realistic video game environment concept, a revised nighttime rear-campus overview.\nInput Image 1 is the EDIT TARGET: the selected OpenBrain terraced research park. Preserve its architectural identity, intricate interior gardens, overall composition and convincing human scale. Make the requested site, enclosure, lighting and occupancy changes rather than redesigning the complex.\n\nSite and elevation: This is near-future California, in the Valley / Los Angeles region. The entire campus has been excavated into the flank of a substantial former mountain overlooking the city. Emphasize real stepped terrain: the research pavilions, gardens and paths climb several distinct hillside terraces toward the massive main building, which crowns the upper cut. Show exposed pale California rock, retaining structures and dry chaparral at the outer margins. The city and its flatter street grid lie visibly far BELOW the campus across the valley to the left, with a few distant towers below the campus elevation. This institution is a recognizable landmark above the city because of its mountainside position. Keep the main building broad and massive with the existing silhouette, not a taller skyscraper. Make the hillside relationship unmistakable within the same wide elevated three-quarter view, pulling back only a little if necessary.\n\nContainment: Add a coherent 3–4 meter privacy perimeter wall around the site's outer boundary, following and stepping with the slope. Smooth off-white concrete, a restrained dark coping, integrated retaining-wall sections and a discreet closed service gate match the campus design. Show enough continuous wall along the lower foreground and side boundaries that the complex reads as a contained private estate. The camera is above the wall so the rich connected interior remains visible. Small existing-style camera and reader hardware at the gate and a few wall corners. No continuous perimeter light strips or floodlights.\n\nNight operations: Make this actual night, later than the source. The park is largely unoccupied. Remove the scientists, social groups, diners and ordinary employees from paths, terraces and laboratory windows. Show just THREE small, widely separated security officers across the whole wide scene, two with ONE realistic guard dog each on a lead, calm and attentive. No other visible people. Guards wear the established simple white work shirts, dark trousers, sporty wraparound augmented reality glasses with hair exposed, a cable to a compute puck on their belt; natural professional workwear at the scale of the scene. Most lab interiors and the greenhouse are empty and dark, with only a few softly lit rooms and one subdued automated experiment area. Existing autonomous vehicles are parked.\n\nLighting: Switch OFF roughly three quarters of the source's decorative garden uplights, facade washers, window lights and continuous illuminated path-edge strips. Keep the fixtures physically intact; this rich campus has intentionally reduced overnight lighting. Use sparse warm pools at a few entrances, stair landings and security thresholds, a restrained illumination of the existing friendly loop emblem, and tiny red access/device indicators. Long stretches of routes, planting beds and roof lawns sit in cool dim ambient light, alternating with small local warm pools. Preserve readable midtones, material separation and useful detail throughout the composition with soft blue night skylight and a properly exposed image. The viewer must still be able to distinguish every important staircase, door, planter, bridge, roof edge and possible route; shaded areas retain detail without becoming lit display gardens. Attractive, hushed and watchful, with credible gaps between patrols and substantial cover behind retained planted beds, hedges, low walls and terraces.\n\nInvariants: Preserve the source's pristine white panels, black-framed glazing, sparse red accents, simple friendly loop emblem, grass-covered roofs, lush engineered gardens, water channels, branching photovoltaic canopies, varied connected research buildings, roof doors, stairs, bridges, practical experiments and networked devices. Keep the clean realistic photographic / architectural concept finish, without oil paint texture or excessive grime. No explicit text, letters, numbers, wordmarks, real brands, labels, captions, watermark or game interface. No humanoid robots, weapons display, military costumes, laser beams, holograms, fantastical buildings or apocalyptic ruin.\n\nOutput: ONE full-bleed landscape image, matching the source's approximately 16:9 composition.",
+      "referenced_image_paths": [
+        "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-c2a86b67-0f3c-49b2-a9a4-4bc52426d968.png"
+      ],
+      "project_reference_files": [
+        "01-rear-campus-overview.png"
+      ],
+      "generated_source_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-c66b3fd5-09e1-482b-94f1-c62b45c23d7d.png",
+      "output_file": "01-rear-campus-overview-v2-hillside-night.png",
+      "output_metadata": {
+        "width": 1672,
+        "height": 941,
+        "bit_depth": 8,
+        "color": "RGB",
+        "bytes": 2865871,
+        "sha256": "e909a0ff572e471670eb24cd68ceebd92d2ab829dac893c58d3c0174ba461ad0"
+      },
+      "review": "The rocky hillside, city below, privacy perimeter and gate, sparse occupants, darker offices and readable terrace/garden detail were visually checked. This intermediate rendition has living dogs.",
+      "status": "Bryson said this is much better, then requested robot dogs. Retained as the correction's source and comparison."
+    },
+    {
+      "version": 3,
+      "prompt_file": "robot-dogs-prompt.txt",
+      "prompt": "Use case: precise-object-edit.\nAsset type: realistic video game environment concept art.\nInput Image 1 is the EDIT TARGET: the approved-looking mountainside nighttime OpenBrain campus overview.\n\nChange ONLY the dogs and their leashes. Replace ALL THREE living guard dogs — beside the guard along the lower-left perimeter wall, beside the guard at the lower-right foreground gate, and beside the guard on the upper-right planted terrace — with physically plausible industrial quadruped robots resembling the form and scale of Boston Dynamics' Spot. Each robot has a compact rectangular chassis, white protective body panels over black hardware, four distinct slender articulated mechanical legs with visible rotary joints and small rubber feet, and a small optical camera/sensor package. Sparse tiny red status indicators match the campus. Make the mechanical quadruped silhouette unmistakable even at the wide scene's scale, with clean detail on the two foreground robots. These are practical autonomous patrol machines: no fur, animal ears, animal muzzle, organic dog anatomy, tail, giant armor or mounted weapons. Remove every dog leash and collar; the robots patrol alongside their assigned guards wirelessly. Keep each replacement at the same location and comparable size as its original dog, naturally grounded with matched perspective, contact shadows and nighttime reflections. Preserve the guards' positions, clothing and body poses, except remove the leash from their hands.\n\nKeep EVERYTHING ELSE unchanged: camera viewpoint and wide framing, California rocky mountainside, the lower distant city, terraced architecture and building scale, perimeter privacy wall and closed gate, original friendly loop emblems, white/black materials and sparse red accents, greenery and roof lawns, courtyards, paths, doors, bridges, stairs, solar canopies, water features, parked autonomous vehicles, cameras and sensors. Preserve the existing reduced nighttime lighting and readable shadow detail exactly; do not brighten or dim the scene, change windows, add people or redistribute patrols.\n\nStyle: match the source's clean realistic architectural photographic concept finish.\nText: none; no brand name, words, letters, numbers, watermark, captions or game interface.\nOutput: one full-bleed landscape image matching the source composition and aspect ratio.",
+      "referenced_image_paths": [
+        "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-c66b3fd5-09e1-482b-94f1-c62b45c23d7d.png"
+      ],
+      "project_reference_files": [
+        "01-rear-campus-overview-v2-hillside-night.png"
+      ],
+      "generated_source_path": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-bd50a7c3-9873-4451-825b-5731c31a2a91.png",
+      "output_file": "01-rear-campus-overview-v3-hillside-night-robot-dogs.png",
+      "output_metadata": {
+        "width": 1672,
+        "height": 941,
+        "bit_depth": 8,
+        "color": "RGB",
+        "bytes": 2695505,
+        "sha256": "6692d54b8094f8dcb9193dbb85246f35a265dd82c72d1f1eb40eca2dd0f75f14"
+      },
+      "review": "Visually checked all three dog locations: white/black industrial quadrupeds with mechanical legs and sensor hardware replace the living dogs and leashes. Hillside site, lower city, enclosed terraced campus, sparse guards and readable night exposure remain visually consistent.",
+      "status": "Latest concept, generated and agent visually reviewed; pending Bryson review of the robot-dog correction."
+    }
+  ],
+  "rendered_interpretation": "Wall height, terrain proportions, exact patrol count and robot details are visual choices supporting the requested aesthetic. This is a concept study rather than an adopted level layout, measured map or gameplay stealth/pathfinding test.",
+  "native_outputs_preserved": true,
+  "source_images_preserved": true
+}

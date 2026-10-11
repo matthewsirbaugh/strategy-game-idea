@@ -3,6 +3,9 @@
 Three realistic environment concepts generated October 10, 2026 with the built-in image
 generation tool. Native PNGs are saved alongside the exact prompts in this folder.
 
+The latest overview is the [mountainside night revision with robot dogs](01-rear-campus-overview-v3-hillside-night-robot-dogs.png).
+Its [revision record](hillside-night-revision-record.json) preserves the two successive edits.
+
 ## Bryson's direction
 
 Behind the massive principal building is a large connected research complex: courtyards,
@@ -61,3 +64,34 @@ exterior images are retained in their original study folder.
 ### 3. Green roof and research connections
 
 ![Green roof and research connections](03-green-roof-research-connections.png)
+
+## Mountainside night revisions — October 10, 2026
+
+Bryson likes the overview's intricate tiered terraces. He asks for a campus built into a former
+California mountainside, physically above the city so it is visible across the city at night,
+with a perimeter privacy wall or similar enclosure. Night operation has fewer lights and only
+sparse guards and dogs, leaving a credible opportunity to sneak through the gardens and terraces.
+The earlier requirement for readable image detail still applies.
+
+He said the mountainside night rendition is much better, then clarified that the guard dogs
+must be robot dogs resembling Boston Dynamics' quadrupeds. The latest edit replaces the living
+dogs with compact white/black machines with articulated legs, cameras and small red indicators.
+
+| Version | View | Purpose |
+|---|---|---|
+| 2 | [Mountainside night overview](01-rear-campus-overview-v2-hillside-night.png) | Intermediate edit: rocky slope, city below, privacy wall, sparse occupancy and reduced lighting. Living dogs are present in this correction source. |
+| 3 | [Mountainside night overview with robot dogs](01-rear-campus-overview-v3-hillside-night-robot-dogs.png) | Latest edit: mechanical patrol quadrupeds replace all three living dogs and their leashes. |
+
+The exterior's white/black/red material family, planted roofs, detailed research gardens,
+bridges, stairs and roof access remain the visual anchors. Most offices are dark; selected
+entrances and paths retain local warm light with readable cool shadow detail. The wall height,
+exact terrain, patrol count and robot details are rendered choices, not adopted gameplay rules
+or a validated level layout.
+
+Both edits were generated with the built-in image tool, visually inspected and copied as native
+1672 × 941 RGB PNGs without resampling. The original overview and generated sources remain intact.
+Exact prompts are in [hillside-night-prompt.txt](hillside-night-prompt.txt) and
+[robot-dogs-prompt.txt](robot-dogs-prompt.txt); ordered references, output paths and hashes are in
+[hillside-night-revision-record.json](hillside-night-revision-record.json).
+
+![Mountainside night overview with robot dogs](01-rear-campus-overview-v3-hillside-night-robot-dogs.png)

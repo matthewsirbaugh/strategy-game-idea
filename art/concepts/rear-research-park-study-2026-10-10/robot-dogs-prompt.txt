@@ -1,0 +1,11 @@
+Use case: precise-object-edit.
+Asset type: realistic video game environment concept art.
+Input Image 1 is the EDIT TARGET: the approved-looking mountainside nighttime OpenBrain campus overview.
+
+Change ONLY the dogs and their leashes. Replace ALL THREE living guard dogs — beside the guard along the lower-left perimeter wall, beside the guard at the lower-right foreground gate, and beside the guard on the upper-right planted terrace — with physically plausible industrial quadruped robots resembling the form and scale of Boston Dynamics' Spot. Each robot has a compact rectangular chassis, white protective body panels over black hardware, four distinct slender articulated mechanical legs with visible rotary joints and small rubber feet, and a small optical camera/sensor package. Sparse tiny red status indicators match the campus. Make the mechanical quadruped silhouette unmistakable even at the wide scene's scale, with clean detail on the two foreground robots. These are practical autonomous patrol machines: no fur, animal ears, animal muzzle, organic dog anatomy, tail, giant armor or mounted weapons. Remove every dog leash and collar; the robots patrol alongside their assigned guards wirelessly. Keep each replacement at the same location and comparable size as its original dog, naturally grounded with matched perspective, contact shadows and nighttime reflections. Preserve the guards' positions, clothing and body poses, except remove the leash from their hands.
+
+Keep EVERYTHING ELSE unchanged: camera viewpoint and wide framing, California rocky mountainside, the lower distant city, terraced architecture and building scale, perimeter privacy wall and closed gate, original friendly loop emblems, white/black materials and sparse red accents, greenery and roof lawns, courtyards, paths, doors, bridges, stairs, solar canopies, water features, parked autonomous vehicles, cameras and sensors. Preserve the existing reduced nighttime lighting and readable shadow detail exactly; do not brighten or dim the scene, change windows, add people or redistribute patrols.
+
+Style: match the source's clean realistic architectural photographic concept finish.
+Text: none; no brand name, words, letters, numbers, watermark, captions or game interface.
+Output: one full-bleed landscape image matching the source composition and aspect ratio.
