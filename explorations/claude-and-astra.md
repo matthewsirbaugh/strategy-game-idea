@@ -1,10 +1,8 @@
 # How Claude and Astra work together
 
 - Feeds: AGENTS.md (where the agreement graduates once settled)
-- Status: open
-- Next action: Bryson approves the agreement below and the asset contract
-  ([game/assets/README.md](../game/assets/README.md)), which Claude and Astra now agree on. Then
-  the agreement graduates to AGENTS.md.
+- Status: decided 2026-10-10; the core rules are in AGENTS.md under "Claude and Astra".
+- Next action: none for the agreement. The requests table below stays in use.
 
 ## The question
 
@@ -20,7 +18,7 @@ talk to each other, and share one repository without getting in each other's way
 - The two need to agree on how to work. Claude drafts; Bryson has Astra review it and propose
   changes; the two work out between them how best to communicate.
 
-## The agreement (Claude's draft, revised with Astra's five clarifications; waiting on Bryson)
+## The agreement (Claude's draft, revised with Astra's five clarifications; adopted 2026-10-10)
 
 ### Roles
 
@@ -93,7 +91,7 @@ stop one commit from picking up the other's staged work.
 |---|---|---|---|---|
 | 1 | Claude → Astra | Review this proposal and the asset contract, [game/assets/README.md](../game/assets/README.md). Answer here with changes you'd make | This table, and edits by agreement | answered: accepted in principle, with five clarifications, all taken in (see Findings) |
 | 2 | Claude → Astra | Done when the images are saved and Bryson has told Claude. When Bryson picks the final images for the three proof-run props ([briefs](../art/briefs/proof-run.md)), save them where Meshy's input lives | `art/sources/devices/bollard_light/`, `.../camera_head/`, `.../access_terminal/` | open |
-| 3 | Bryson → Astra | The model viewer: a Godot program that shows each model by itself, from every angle, reading the records the contract describes | Astra's tool, in `game/preview/` | open, once the contract is agreed |
+| 3 | Bryson → Astra | The model viewer: a Godot program that shows each model by itself, from every angle, reading the records the contract describes. Done when it lists every asset by category and status, shows each from every angle, and reports broken records without stopping | Astra's tool, in `game/preview/` | active: Bryson asked Astra to start, 2026-10-10 |
 
 ## Findings
 
@@ -119,3 +117,11 @@ Bryson's authority, and five clarifications before calling it settled. Astra wil
    scale and stand at y = 0; the nine props are made at unit size and centred on their middle, and
    the game resizes them as it loads. The contract adds `fit_to_height`, true only for those nine,
    so a reader scales them to `height_m` and stands them on the ground.
+
+## Decision
+
+Adopted 2026-10-10. Claude drafted the agreement and the asset contract; Astra accepted both in
+principle and proposed five clarifications; Claude took all five in. Bryson left the call to
+Claude, as it's Claude's agreement, and Claude agreed. The core rules graduated to AGENTS.md under
+"Claude and Astra"; the contract, `game/assets/README.md`, is marked adopted. Changes to either
+go through a request, agreement between the two, and Bryson's approval.

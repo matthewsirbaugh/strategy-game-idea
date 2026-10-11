@@ -1,8 +1,7 @@
 # Assets: every model the game and the model viewer load
 
-Draft 2026-10-10 by Claude, revised the same day with Astra's clarifications; Claude and Astra
-agree on it, and it waits for Bryson's approval. Then it's the contract between whoever makes
-assets and whatever reads them. Change it
+Adopted 2026-10-10: drafted by Claude, revised with Astra's clarifications, agreed by both and
+approved by Bryson. It's the contract between whoever makes assets and whatever reads them. Change it
 only by the same route. The working agreement between Claude and Astra is in
 [explorations/claude-and-astra.md](../../explorations/claude-and-astra.md).
 

@@ -102,6 +102,25 @@ progress and don't get lost. One topic, one chat, one file.
   short message, so any single change can be undone on its own. Push `main` to GitHub after
   every milestone or larger task, so local and cloud agents start from the same project state.
 
+## Claude and Astra
+
+Bryson works with two agents: Claude, the central project architect, and Astra (OpenAI), who makes
+the images and builds the tools Bryson assigns. Agreed 2026-10-10; the full agreement, with who
+owns what and the table of requests between agents, is
+[explorations/claude-and-astra.md](explorations/claude-and-astra.md). In short:
+- An owner is the default maintainer. Bryson can assign either agent work in any area, after
+  checking for work already in progress there.
+- One agent asks the other through the requests table; Bryson activates a request. Design,
+  architecture, spending and scope stay his calls.
+- One working copy and one staging area: only one agent stages and commits at a time. Check that
+  nothing is staged first (`git diff --cached --quiet`); if something is, it's the other's, so
+  wait. Stage your own files by path, never `git add -A`, `git add .` or `git commit -a`. Check
+  the full staged diff, then stage and commit in one command. Never discard, stash, reset or commit
+  work you didn't make. Concurrent edits use distinct files.
+- Commits say who made them: Claude's carry a Co-Authored-By line naming Claude; Astra's end the
+  subject with "(Astra)".
+- Models follow the asset contract, [game/assets/README.md](game/assets/README.md).
+
 ## Tools, models and spending
 
 - Claude Pro and ChatGPT Pro subscriptions today, possibly consolidating into one $100 plan.
