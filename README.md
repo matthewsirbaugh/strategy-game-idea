@@ -71,7 +71,7 @@ the task. Historical findings, concept art and binary assets need not be loaded 
 | Actions, menus, picking, previews, event playback | [battle.gd](game/battle/battle.gd) | [battle_menus.gd](game/battle/battle_menus.gd), [battle_log.gd](game/battle/battle_log.gd), [hover_info.gd](game/battle/hover_info.gd), [hud.gd](game/battle/hud.gd), [network_view.gd](game/battle/network_view.gd) |
 | Camera and mouse gestures | [camera_rig.gd](game/battle/camera_rig.gd) | `battle.gd` input and picking functions, `project.godot` input actions |
 | Fog, overlays and wall visibility | [grid_view.gd](game/battle/grid_view.gd), [level_view.gd](game/battle/level_view.gd) | `art/shaders/fog.gdshaderinc`, `ghost.gdshaderinc` |
-| Fitted scenery fog boxes and startup measurements | [scenery_fog.gd](game/battle/scenery_fog.gd), [startup_timing.gd](game/battle/startup_timing.gd) | `tools/fog_prototype.gd`, `tools/verify_fog.gd`, `tools/profile_startup.py`; [findings](explorations/startup-and-fog.md) |
+| Shader scenery silhouettes, vision ticks and startup measurements | [scenery_fog.gd](game/battle/scenery_fog.gd), [vision_tick.gd](game/rules/vision_tick.gd), [startup_timing.gd](game/battle/startup_timing.gd) | `tools/review_fog_look.gd`, `tools/verify_vision_ticks.gd`, `tools/verify_fog.gd`, `tools/profile_startup.py`; [fog repair](explorations/fog-vision-ticks-fix.md) |
 | Character rendering and animation | [unit_view.gd](game/battle/unit_view.gd), [toon_model.gd](game/art/toon_model.gd) | [character_rig.gd](game/art/character_rig.gd), `preview/` |
 | Environment and device props | [level_view.gd](game/battle/level_view.gd) | `city_backdrop.gd`, `signs.gd`, `rain.gd`, `art/surfaces.gd`, `art/shaders/` |
 | Menus and saved settings | `ui/`, `autoload/` | The matching `.tscn` and `.gd` pair |
@@ -95,10 +95,12 @@ the task. Historical findings, concept art and binary assets need not be loaded 
   Restarting rebuilds the phase from it. It lives on the scene router; there are no other globals.
 - The battle controller caches choices only while picking and clears them on state transitions;
   execution still validates through `BattleState`. Fog processes changing cells until they settle.
-- GridView's binary visibility mask follows the rules' visible cells immediately, independently
-  of lighting. LevelView registers logical scenery once; SceneryFog fits/culls its gray box and
-  detail passes. Partial scenery clips by world position, including outlines, effects and shadows.
-  Characters opt out and retain Locate/last-seen behavior. Outside decoration and rain are unchanged.
+- Movement and vehicle events carry detached VisionTicks for each walked square. The controller
+  applies them on arrival, with a final state refresh after playback; previews remain isolated.
+- GridView's binary mask includes visible cells and adjacent walls/border cells, independently
+  of animated brightness. SceneryFog opts level meshes into shared shaders once at build: hidden
+  fragments show the model's own dark silhouette; screens, glow and lettering hide. Ground retains
+  its textured fog-darkened look. Characters opt out and retain Locate/last-seen behavior.
 - Character retargeting resolves animation tracks once per clip, then samples the same poses.
   Shared model materials and animation libraries remain in `ToonModel`; surface appearance
   stays in `Surfaces` and the shaders. No rendering settings are chosen by the test runner.

@@ -3,6 +3,7 @@ extends SceneTree
 var battle: Node3D
 var output := ""
 var failures := 0
+var partial_only := false
 
 
 func _initialize() -> void:
@@ -13,6 +14,10 @@ func _run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--capture="):
 			output = arg.trim_prefix("--capture=")
+		elif arg == "--partial-only":
+			partial_only = true
+	if not output.is_empty():
+		DirAccess.make_dir_recursive_absolute(output)
 	root.size = Vector2i(1280, 800)
 	battle = load("res://battle/battle.tscn").instantiate()
 	root.add_child(battle)
@@ -22,6 +27,8 @@ func _run() -> void:
 	var grid: GridView = battle._grid
 	for view: UnitView in battle._views.values():
 		_check(view.find_children("FogBox", "MeshInstance3D", true, false).is_empty(), "characters have no scenery proxies")
+		for mesh: MeshInstance3D in view.find_children("*", "MeshInstance3D", true, false):
+			_check(mesh.get_instance_shader_parameter("scenery") != true, "characters opt out of scenery silhouettes")
 	var car: Dictionary = level._devices["r"]
 	var car_cell := Vector2i(13, 13)
 	state.devices["r"].cell = car_cell
@@ -34,8 +41,12 @@ func _run() -> void:
 	await _capture("level-car-partial")
 	car.root.rotation.y = PI / 4
 	await _capture("level-car-rotated")
-	_pose_camera(target, -55, 13)
+	_pose_camera(target, 125, 13)
 	await _capture("level-car-reverse")
+	if partial_only:
+		print("Native partial scenery: captured two unobstructed angles")
+		quit()
+		return
 	await level.drive("r", [car_cell + Vector2i(0, -1), car_cell + Vector2i(0, 1)])
 	_check(car.root.position == grid.cell_to_world(car_cell + Vector2i(0, 1)), "driving ends at the final pose")
 	state.visible_cells.clear()

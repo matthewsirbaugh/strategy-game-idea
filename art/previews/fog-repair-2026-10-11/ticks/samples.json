@@ -1,0 +1,354 @@
+[
+	{
+		"action": "operator",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(1, 1)",
+				"display_us": 110,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(2, 1)",
+				"display_us": 111,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(3, 1)",
+				"display_us": 110,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(4, 1)",
+				"display_us": 111,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(5, 1)",
+				"display_us": 104,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(6, 1)",
+				"display_us": 104,
+				"mask_seen": false,
+				"target_seen": false
+			}
+		]
+	},
+	{
+		"action": "drone",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(1, 1)",
+				"display_us": 189,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(2, 1)",
+				"display_us": 191,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(3, 1)",
+				"display_us": 171,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(4, 1)",
+				"display_us": 166,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(5, 1)",
+				"display_us": 134,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(6, 1)",
+				"display_us": 108,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(6, 2)",
+				"display_us": 120,
+				"mask_seen": false,
+				"target_seen": false
+			}
+		]
+	},
+	{
+		"action": "enemy",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(2, 0)",
+				"display_us": 111,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(3, 0)",
+				"display_us": 98,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(4, 0)",
+				"display_us": 97,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": true,
+				"busy": true,
+				"cell": "(5, 0)",
+				"display_us": 121,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": true,
+				"busy": true,
+				"cell": "(6, 0)",
+				"display_us": 115,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": true,
+				"busy": true,
+				"cell": "(7, 0)",
+				"display_us": 116,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(8, 0)",
+				"display_us": 138,
+				"mask_seen": false,
+				"target_seen": false
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(9, 0)",
+				"display_us": 105,
+				"mask_seen": false,
+				"target_seen": false
+			}
+		]
+	},
+	{
+		"action": "vehicle-power",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(0, 1)",
+				"display_us": 286,
+				"mask_seen": false,
+				"target_seen": false
+			}
+		]
+	},
+	{
+		"action": "vehicle",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(3, 2)",
+				"display_us": 291,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(3, 3)",
+				"display_us": 334,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(3, 4)",
+				"display_us": 348,
+				"mask_seen": true,
+				"target_seen": true
+			},
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(3, 5)",
+				"display_us": 334,
+				"mask_seen": true,
+				"target_seen": true
+			}
+		]
+	},
+	{
+		"action": "camera-chip",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(0, 1)",
+				"display_us": 335,
+				"mask_seen": true,
+				"target_seen": true
+			}
+		]
+	},
+	{
+		"action": "camera",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(0, 1)",
+				"display_us": 643,
+				"mask_seen": true,
+				"target_seen": true
+			}
+		]
+	},
+	{
+		"action": "camera-off",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(0, 1)",
+				"display_us": 390,
+				"mask_seen": false,
+				"target_seen": false
+			}
+		]
+	},
+	{
+		"action": "locate",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(0, 1)",
+				"display_us": 345,
+				"mask_seen": false,
+				"target_seen": false
+			}
+		]
+	},
+	{
+		"action": "door-approach",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(2, 1)",
+				"display_us": 89,
+				"mask_seen": false,
+				"target_seen": false
+			}
+		]
+	},
+	{
+		"action": "door-open",
+		"frames": [
+			{
+				"actor_shown": false,
+				"busy": true,
+				"cell": "(2, 1)",
+				"display_us": 144,
+				"mask_seen": true,
+				"target_seen": true
+			}
+		]
+	},
+	{
+		"action": "yard-fixture",
+		"map_size": "(34, 22)",
+		"operators": 3,
+		"units": 11,
+		"viewport": "(1280, 800)"
+	},
+	{
+		"action": "yard-timing",
+		"capture_and_display_worst_us": 434,
+		"display_worst_us": 353,
+		"run": 1
+	},
+	{
+		"action": "yard-timing",
+		"capture_and_display_worst_us": 350,
+		"display_worst_us": 310,
+		"run": 2
+	},
+	{
+		"action": "yard-timing",
+		"capture_and_display_worst_us": 353,
+		"display_worst_us": 312,
+		"run": 3
+	},
+	{
+		"action": "yard-timing",
+		"capture_and_display_worst_us": 352,
+		"display_worst_us": 310,
+		"run": 4
+	},
+	{
+		"action": "yard-timing",
+		"capture_and_display_worst_us": 370,
+		"display_worst_us": 334,
+		"run": 5
+	},
+	{
+		"action": "yard-settled",
+		"draw_calls": 1141.0
+	}
+]

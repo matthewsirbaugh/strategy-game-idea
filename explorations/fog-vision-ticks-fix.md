@@ -6,8 +6,9 @@ can see. It is not a rendered frame or a battle-wide clock.
 Vision snapshot: a detached record of what the rules let the player see at one tick, saved so
 the graphics can show that moment even after the rules have finished the action.
 
-- Status: approved by Bryson 2026-10-11 with Claude/Opus's amendments; Astra builds it under
-  Request 17, following [the build guide](#approved-plan-and-astras-build-guide).
+- Status: Request 17 implemented and verified by Astra, 2026-10-11, following the approved
+  Claude/Opus amendments. Bryson selected tone B from captures; his mission playtest remains open.
+  [Implementation findings](#request-17-implementation-findings).
 - Author: Astra. Review handoff: [Request 16](claude-and-astra.md#requests).
 - Source reviewed: `7a72375e1cfddded8faba9da084bf0128397e0f2` on `main`.
 - Follows [startup-and-fog.md](startup-and-fog.md). That delivery's static checks did not
@@ -388,3 +389,43 @@ passed actual intermediate reveals/losses, a stationary Operator with a moving d
 crossing sight, vehicle sight opening on the first square, camera breach/power loss, Locate
 without surrounding sight, door opening and Network return. Step 3 will record captures and
 the full-yard timing conditions. B remains the selected tone. No mission playthrough claimed.
+
+
+### Step 3: verification and handoff
+
+The three milestones are the look (`eead702`), vision playback (`9c07e3d`) and this verification
+handoff commit. Bryson selected B: faint top/side charcoal shading with dark ink edges.
+All six final `bash tools/check.sh` checks passed, including the focused transient-vision,
+early-stop and snapshot-isolation regression. Native Metal tick/full-level checks passed,
+including characters opting out of scenery masking, partial car/sign fragments, glow/lettering,
+power, wall ghosting and both Network transitions. The retained flat-outline probe had zero
+hidden ink pixels. See [the capture index and raw data](../art/previews/fog-repair-2026-10-11/README.md).
+
+Native action fixtures show the intermediate cell appearing at the first three squares and
+returning to silhouette at square four while playback is busy; a drone contributes vision
+without its Operator moving; an enemy enters/exits sight; a car opens the sight line on its
+first square; camera breach vision appears before the hack pause; powering it off removes
+vision; Locate displays the enemy without revealing scenery; opening a door reveals its far
+side. The probes used temporary maps/copied stats and real rule actions/playback, not a full
+mission playthrough or human mouse/keyboard playtest. The Model Library's separate project
+and shaders were unchanged; its interface was not run here.
+
+Timing on the full 34 × 22 facility yard, three Operators/eleven units, Apple M1 Pro, Godot 4.7.2,
+native Metal Forward+ at 1280 × 800: 60 warm-up frames, five runs of 120 capture/display calls
+across legal movement destinations. 0.353 ms median of run maxima; 0.350–0.434 ms range; 0.434 ms worst observed.
+This times saving/displaying the tick, including texture-update submission; it excludes rules'
+sight/light recomputation, graphics processor execution and whole-frame time. Settled draw
+calls are 1,141 in the initial framing, matching the measured pre-box count; no frame-rate
+improvement is claimed. Raw five-run data and the final full-yard frame are in the capture index.
+
+The original visual-reference frame comes from an earlier map; the look review states that
+limitation. Current initial framing was compared with Request 14's actual frame and with the
+pre-fog treatment reproduced on current content. An obstructed reverse car view was retaken
+from yaw 125 degrees so both partial-car angles show the asset. Native captures were visually
+inspected. Screens/lettering stop at the mask; real-model silhouettes remain dark near lights.
+
+Implementation claims are released after this handoff commit. The remaining gameplay/design
+items are Bryson's mission playtest and the already-open live-hidden-scenery question (moving
+shapes, doors and light spill). Cones/aim lines continue to reconcile at action completion and
+remembered scenery remains out of scope, as approved. The game is restarted after the commit
+so Bryson can play the delivered build.
