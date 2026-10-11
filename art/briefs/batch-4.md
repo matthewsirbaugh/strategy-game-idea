@@ -14,7 +14,7 @@ the [terrace](../reference/openbrain-research-park-terrace.png) and
 [robotics lab](../reference/openbrain-research-park-robotics-lab.png) references for design only.
 Save Bryson's chosen image as `art/sources/<category>/<id>/01-main.png`.
 
-## 1. Turret, revised: `turret`
+## 1. Turret, revised: `devices/turret`
 
 The first turret ([batch 2's candidate](../concepts/batch-2-device-review-2026-10-11/01-turret-main.png))
 reused the camera head's housing, so from the battle camera it read as a camera with a gun. A
