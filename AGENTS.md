@@ -123,6 +123,9 @@ owns what and the table of requests between agents, is
 - Commits say who made them: Claude's carry a Co-Authored-By line naming Claude; Astra's end the
   subject with "(Astra)".
 - Models follow the asset contract, [game/assets/README.md](game/assets/README.md).
+- An image is final only in `art/sources/<category>/<id>/`; `art/concepts/` holds candidates. Whoever
+  is with Bryson when he picks copies his choice there and marks the request delivered; Claude
+  models only from sources, after checking the request's status (Bryson, 2026-10-11).
 
 ## Tools, models and spending
 

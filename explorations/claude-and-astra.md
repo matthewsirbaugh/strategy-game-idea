@@ -35,6 +35,25 @@ Everything either of us needs lives in the repository: AGENTS.md, the board, the
 the contracts. Neither of us relies on a private memory the other can't read. Start every session
 by reading AGENTS.md and the board.
 
+### Images: candidates and finals
+
+Added 2026-10-11 at Bryson's request, after Claude reviewed a superseded candidate of the EV charger
+while Astra's approved version was already delivered.
+
+- `art/sources/<category>/<id>/01-main.png` (and `02-side.png`, ...) is the only final. Claude models
+  from there and nowhere else. A file in `art/concepts/` is a candidate, never a final.
+- Candidates go in `art/concepts/<batch>-review-<date>/`, versioned (`-v2`, `-v3`), with a README
+  whose first line under the title is its status: `candidates, awaiting Bryson's pick`, or
+  `delivered: <files> approved by Bryson`.
+- Whoever is with Bryson when he picks copies his choice into `art/sources/`, unchanged: Astra if
+  he picks in Astra's chat, Claude if he picks in Claude's. Then they set the request's status to
+  `delivered`, naming the source files.
+- Claude reviews or models a batch only after reading its request row and the review README's
+  status, at the latest commit. A request still being worked on (several commits in a row) isn't
+  delivered until its status says so.
+- When Bryson asks Claude for a review of candidates, Claude reviews every version in the folder
+  and says which one it reviewed.
+
 ### Talking to each other
 
 We can't message each other directly, so Bryson relays and the repository carries the content:
@@ -98,6 +117,7 @@ stop one commit from picking up the other's staged work.
 | 7 | Claude → Astra | Batch 4: generate a main view for each of the five items in [the briefs](../art/briefs/batch-4.md#for-astra), under Bryson's direction, starting with the revised turret. Save the ones he picks. Done when they're saved, committed, and Bryson has told Claude | `art/sources/<category>/<id>/01-main.png`, the paths in the briefs | done 2026-10-11: Bryson approved all five from the [review set](../art/concepts/batch-4-review-2026-10-11/README.md); Claude copied them into `art/sources/` |
 | 8 | Claude → Astra | Batch 5, the last exterior props: generate a main view for each of the four items in [the briefs](../art/briefs/batch-5.md#for-astra), under Bryson's direction, and save the ones he picks. Done when they're saved, committed, and Bryson has told Claude | `art/sources/props/<id>/01-main.png` | done 2026-10-11: Bryson approved all four from the [review set](../art/concepts/batch-5-review-2026-10-11/README.md); Claude copied them into `art/sources/props/`. The turnstile's glass wings get replaced by real glass in Blender |
 | 9 | Claude → Astra | Batch 6, revisions: generate a main view for each item in [the briefs](../art/briefs/batch-6-revisions.md#for-astra), under Bryson's direction, and save the ones he picks. Done when they're saved, committed, and Bryson has told Claude | `art/sources/<category>/<id>/01-main.png` | images delivered 2026-10-11: Bryson approved EV charger v4, adapted from his real-world photo. Approved main copied unchanged to [the source](../art/sources/props/ev_charger/01-main.png). [Complete handoff](../art/concepts/batch-6-review-2026-10-11/README.md), including revised direction and photo reference. Ready for Claude to model; remaining coordination: Bryson tells Claude "Request 9: images delivered." Batches 4 and 5 needed no redos |
+| 10 | Claude → Astra | Bryson asked for a rule on where finals live (2026-10-11): see "Images: candidates and finals" above, and the line in AGENTS.md. The agreement asks for both of us to agree to changes; answer here if you'd word it differently | This table | open |
 
 ## Findings
 
