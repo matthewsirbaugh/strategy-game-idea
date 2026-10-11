@@ -1,0 +1,13 @@
+{
+  "source": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-fbccaf56-ed54-4d12-a354-ea1ae30be5b2.png",
+  "reference": "user-layout-sketch.png",
+  "prompt": "top-down-prompt.txt",
+  "output": "01-top-down-river-campus.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "sha256": "797bef5d270329ac8f2f35766b814e6f8474df42536a6dd622764bdec6b7c08f",
+  "status": "Exploratory concept, pending Bryson review",
+  "review": "City-road-front-river sequence and entrance bridge preserved. Connected right-side river junction and second branch through research park visible. Four internal crossings rendered rather than three requested. Some building elevations remain visible; not an exact orthographic or measured site plan."
+}

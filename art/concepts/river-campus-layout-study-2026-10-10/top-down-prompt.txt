@@ -1,0 +1,28 @@
+Use case: sketch-to-render.
+Create ONE realistic, detailed architectural ROOF PLAN / TRUE TOP-DOWN SITE VIEW of a near-future California technology campus at NIGHT, using the attached sketch as the spatial authority.
+
+CAMERA IS EXACTLY VERTICAL: flat orthographic plan projection, camera looking straight DOWN, no tilt, no horizon or sky, no frontal building elevations, no perspective vanishing point. Show roof footprints, tree crowns, ground paving, river surfaces and bridge decks directly from above. This is a detailed textured site plan, not an oblique drone photo. Start from the diagram's plan geometry.
+
+READ THE SKETCH AS SEMANTIC ZONES, NOT LITERAL PAINT COLORS:
+The RED band at the TOP is the beginning of the surrounding modern California CITY: render a narrow strip of ordinary aging low-rise buildings and modest back lots, mostly dark.
+The BLACK/YELLOW band directly BELOW the city is a curving public ROAD, running left to right and bending down toward the right.
+The upper BLUE band directly BELOW that road is the FRONT RIVER BRANCH, following the road with rocky vegetated banks. A SINGLE entrance bridge near the LEFT THIRD of the frame runs perpendicular from the public road over this water to the campus entrance forecourt.
+The GRAY rectangle in the lower-left part of the sketch is the ENTIRE PRIVATE CAMPUS PROPERTY, NOT one building. Populate it with the main headquarters at its FRONT/TOP edge and a large research park BEHIND it, toward the BOTTOM of the frame. Fit the whole property boundary in view by extending slightly beyond the sketch's cropped lower/left edges, while retaining all the major relative positions.
+The main building's entrance faces the top/front river and its road bridge. The entrance forecourt, access gate and main building line up with that bridge. Behind the headquarters, toward the bottom, are many interconnected laboratories, research courtyards and rooftop routes.
+
+CRITICAL RIVER TOPOLOGY:
+There is ONE continuous natural water system with a clearly visible Y-shaped junction to the RIGHT of the campus. A common river trunk extends to the RIGHT edge. At that right-hand junction it forks into TWO substantial visible channels:
+Branch A curves LEFT along the FRONT of the campus, between the public road and main-building entrance.
+Branch B sweeps diagonally DOWN-LEFT from the SAME right-hand junction, enters the EAST/RIGHT side of the property, and continues across the BACK RESEARCH PARK to the LEFT edge, just as the lower blue stroke crosses the gray area in the sketch.
+Both branches must be visibly CONNECTED at the right-hand fork. This second branch is a real flowing river THROUGH the grounds, not a detached pool, ornamental reflecting basin, dead-end canal or planted strip. Clear dark blue flowing water, irregular banks, small rocks, soft ripples and occasional restrained reflected lamps make its continuity obvious. Riverbeds follow believable falling terrain without dams or uphill water.
+Place THREE short, nearly level metal-GRATING foot/service bridges with shallow approach ramps over Branch B at useful campus path crossings. Their open grated decks visibly reveal flowing blue water beneath. These are low crossings close over the stream, not huge arched bridges, enclosed glass bridges or opaque plazas covering the water. Research buildings sit on either side and the stream remains exposed between crossings. The campus perimeter accommodates both river openings.
+
+CAMPUS ARCHITECTURE AND PURPOSE:
+Pristine modern white rectilinear buildings, black roof hardware/window trim, tiny sparse red access indicators, varied building sizes, stepped terraces climbing into California rock toward the rear/bottom. Roof access, realistic stairs, connected paths, grass on some roofs and attractive maintained trees/planting integrated with the river. The campus is an exclusive sleek technological paradise harmonizing visibly with its local landscape.
+Research emphasis is DATA SCIENCE, ROBOTICS, AUTONOMOUS SYSTEMS and COMPUTING: several distinct laboratory blocks, compact technical rooftop equipment, service access, small robot-testing courtyards with physical testing fixtures, charging docks, parked white autonomous vans and compact mechanical quadruped robots. No humanoid robots. Cameras and access readers at sensible thresholds, tiny at this scale. Gardens and healthy green roofs support the architecture, without dominating its purpose. NO greenhouse, agricultural complex, crop plots, botany research beds or central ornamental pool. Enclose the campus with a tasteful white/black privacy wall, retaining the front entrance bridge and the two river passages.
+
+LIGHTING:
+Clearly NIGHT, with dark cool unlit rock, roof surfaces, city and planted areas. Keep useful detail in shadows for a game reference. Sparse warm local lighting at entrances, paths and bridge landings, tiny red status lights; most rooms and decorative fixtures are off. No daylight, dusk glow, uniformly bright landscaping or glowing blue water. The city is dimmer and less maintained than the campus.
+
+OUTPUT:
+One full-bleed wide landscape top-down site image, preferably 3:2 or 16:9, with the city-road-front-river sequence at the TOP, the private campus BELOW, its rear research park toward the BOTTOM, and the Y river junction on the RIGHT. Preserve this orientation; do not mirror it. Show the complete campus and the entire junction. No text, labels, compass rose, annotations, colored diagram outlines, UI, watermark, border or added panels. No logo invented on roof surfaces. The top-down projection and correct flowing split-river layout take precedence over cinematic perspective.

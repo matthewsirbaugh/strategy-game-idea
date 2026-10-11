@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "source": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-7675df85-abbe-450c-b2e0-e2e26994a2bc.png",
+      "name": "00-overhead-with-skybridges.png"
+    },
+    {
+      "source": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-bccdb6c0-ebf0-4ba0-9510-92f51cc94792.png",
+      "name": "01-headquarters-rear-terrace.png"
+    },
+    {
+      "source": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-2531381c-372e-48af-9dd1-209b855ab823.png",
+      "name": "02-central-river-crossing.png"
+    },
+    {
+      "source": "/Users/sirbryson/.codex/generated_images/01a11e5c-04da-7bd0-b134-20f324895d58/exec-97ce39dd-ede3-469e-beb9-51b32009d67e.png",
+      "name": "03-robotics-lab-looking-north.png"
+    }
+  ],
+  "tool": "built-in image_gen",
+  "correctionPrompt": "Precise spatial correction of image 1. Keep the camera, river, grated foreground bridge, night materials and guard. This camera looks SOUTH, so EAST is on the LEFT. The central lab ahead must connect via its elevated glazed corridor to the green-roof lab on the LEFT side of the image, not the right. Move that prominent right-hand glazed skybridge and its attached raised lab to the LEFT of the central lab. On the right show the separate lower rectangular lab with NO connecting corridor to central lab. Remove the large distant logo building on the left; headquarters is behind the camera. Image 2 is the authoritative plan: camera at x40%,y60% looking down toward x39%,y76%; corridor from x39%,y76% to x51%,y76% is therefore on camera LEFT. Images 3 and 4 set architecture only. Keep realistic late night and water flowing under grating. No text.",
+  "review": "Shared plan and architectural references. River crossing image corrected for east-left direction. Conceptual consistency only: proportions, spacing, elevations and corridor counts vary; overhead is layout authority."
+}
