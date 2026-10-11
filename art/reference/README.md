@@ -1,7 +1,7 @@
 # References
 
 Reference images Bryson chose; new art adheres to them. Adopted 2026-10-10 for the realistic
-direction (DESIGN.md): the images he liked most from GPT-6 Sol's concept studies. Each is a copy;
+direction (DESIGN.md): the images he liked most from Astra's concept studies. Each is a copy;
 the source study keeps its prompts and generation records.
 
 | File | What it shows | Source |

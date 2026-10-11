@@ -3,7 +3,7 @@
 - Feeds: DESIGN.md's look and world decisions, [art-direction.md](art-direction.md),
   [art-pipeline.md](art-pipeline.md) (tool facts)
 - Status: open
-- Next action: Bryson and Sol design the three proof-run props from
+- Next action: Bryson and Astra design the three proof-run props from
   [the briefs](../art/briefs/proof-run.md), and Bryson hands Claude the images. The tools are
   ready.
 
@@ -59,7 +59,7 @@ Each kind of asset gets the method that suits it:
 | Assets | How | Who |
 |---|---|---|
 | Architecture, paving, crossings | Simple pieces built in Blender by script, sized exactly to the 1.5 m grid, with CC0 photoscanned materials (ambientCG, Poly Haven), a shared trim sheet and decals. AI generators can't make pieces that tile | Claude |
-| Props and devices | A concept sheet per prop, then Meshy image to 3D, then cleanup in Blender: scale, origin at the base, polygon budget, material check | Sheets: Bryson in GPT-6 Sol, or Claude through Meshy's image tool. The rest: Claude |
+| Props and devices | A concept sheet per prop, then Meshy image to 3D, then cleanup in Blender: scale, origin at the base, polygon budget, material check | Sheets: Bryson in Astra, or Claude through Meshy's image tool. The rest: Claude |
 | Boulders, rocks, plants | CC0 scanned assets from Poly Haven first; Meshy where none fits | Claude |
 | Water | A water shader in Godot | Claude |
 | Light and atmosphere | Real light fixtures, warm uplighting on campus, wet ground | Claude |
@@ -106,7 +106,7 @@ None yet.
 
 ### 2026-10-10 — How the work runs, and the proof run's tools (Bryson; Claude built the tools)
 
-- Bryson: Sol makes all the reference images. Claude says what's being made; Bryson works with Sol
+- Bryson: Astra makes all the reference images. Claude says what's being made; Bryson works with Astra
   to the right design and hands Claude the images; Claude takes them to Meshy. Meshy's image tool
   isn't used, to save its credits for models. Recorded in AGENTS.md.
 - Bryson approved the proof run, to judge how close Meshy can get us. He might also try Unreal to
@@ -118,12 +118,12 @@ None yet.
 
 ### 2026-10-10 — Folders for assets, and a contract for the model viewer (Bryson approved; Claude built)
 
-Bryson plans for Sol to build a Godot model viewer, and approved restructuring the folders for it.
+Bryson plans for Astra to build a Godot model viewer, and approved restructuring the folders for it.
 Every model now lives in `game/assets/`, one folder per asset with a record of what it is and how
 it was made; the retired models moved to `game/assets/legacy/`, still loaded as placeholders, and
 the game looks the same. Sources for Meshy go to `art/sources/`. The record format is a draft
-contract, [game/assets/README.md](../game/assets/README.md), for Sol to review, alongside
-[how Claude and Sol work together](claude-and-sol.md).
+contract, [game/assets/README.md](../game/assets/README.md), for Astra to review, alongside
+[how Claude and Astra work together](claude-and-astra.md).
 
 ## Open questions
 

@@ -5,7 +5,7 @@ matching its place in `game/assets/`:
 
 ```
 art/sources/<category>/<id>/
-├─ the images Sol made for it, which went to Meshy
+├─ the images Astra made for it, which went to Meshy
 └─ Meshy's download, before cleanup
 ```
 

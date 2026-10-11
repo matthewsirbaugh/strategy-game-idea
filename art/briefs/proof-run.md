@@ -1,7 +1,7 @@
 # Briefs: the proof run
 
 Three props for the first test of how close Meshy gets us (2026-10-10). Each one is a device the
-rules already use, standing in OpenBrain's research park at night. Design them with Sol, then hand
+rules already use, standing in OpenBrain's research park at night. Design them with Astra, then hand
 Claude the final images.
 
 ## What every image needs, for Meshy
@@ -16,7 +16,7 @@ Meshy rebuilds exactly what it sees, so these matter more than the art style:
 - Lights shown switched on but softly, so their shape is still clear.
 - Little perspective distortion, like a product photo from a few metres back with a long lens.
 - No text anywhere. OpenBrain's emblem only where the real object would carry it, and small.
-- The same object in every view: generate the main view first, then ask Sol for the other views
+- The same object in every view: generate the main view first, then ask Astra for the other views
   of that exact object.
 
 Views: a three-quarter front view from slightly above is the main one. Add front, side and back

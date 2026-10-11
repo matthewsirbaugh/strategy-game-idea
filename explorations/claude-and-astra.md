@@ -1,29 +1,29 @@
-# How Claude and Sol work together
+# How Claude and Astra work together
 
 - Feeds: AGENTS.md (where the agreement graduates once settled)
 - Status: open
-- Next action: Sol reviews the proposal below and the asset contract
+- Next action: Astra reviews the proposal below and the asset contract
   ([game/assets/README.md](../game/assets/README.md)), and answers in the Requests table.
 
 ## The question
 
-Bryson works with two agents on this project, Claude and GPT-6 Sol. How do they divide the work,
+Bryson works with two agents on this project, Claude and Astra. How do they divide the work,
 talk to each other, and share one repository without getting in each other's way?
 
 ## What Bryson has said (2026-10-10)
 
 - He'll keep using both. Claude is saved for important and creative work and is the central
-  project architect; Sol is the workhorse.
-- Sol makes all the reference and concept images, and will build a Godot program that shows every
+  project architect; Astra is the workhorse.
+- Astra makes all the reference and concept images, and will build a Godot program that shows every
   model for review in 3D, by itself, from every angle.
-- The two need to agree on how to work. Claude drafts; Bryson has Sol review it and propose
+- The two need to agree on how to work. Claude drafts; Bryson has Astra review it and propose
   changes; the two work out between them how best to communicate.
 
-## The proposal (Claude's draft, for Sol's review)
+## The proposal (Claude's draft, for Astra's review)
 
 ### Roles
 
-| Claude | Sol |
+| Claude | Astra |
 |---|---|
 | Architecture, rules and game code, with Bryson | Reference and concept images, from Claude's briefs and Bryson's direction |
 | Briefs: what each asset is meant to be | Tools Bryson assigns, starting with the model viewer |
@@ -52,16 +52,16 @@ Anyone reads anything. To change something the other owns, make a request, excep
 
 | Area | Owner |
 |---|---|
-| `art/concepts/` | Sol |
+| `art/concepts/` | Astra |
 | `art/reference/`, `art/briefs/`, `art/sources/`, `game/assets/` | Claude |
-| The model viewer and any tool Sol builds | Sol |
-| `game/` code, rules and content apart from Sol's tools | Claude |
+| The model viewer and any tool Astra builds | Astra |
+| `game/` code, rules and content apart from Astra's tools | Claude |
 | AGENTS.md, DESIGN.md, RULES.md, EXPLORATIONS.md, `explorations/` | Both, under AGENTS.md's rules for editing them |
 | Contracts, such as `game/assets/README.md` | Both: change only by request and agreement, then Bryson's approval |
 
 ### Sharing one working copy
 
-We both work in the same folder, sometimes at the same time. Claude has twice found Sol's work in
+We both work in the same folder, sometimes at the same time. Claude has twice found Astra's work in
 progress there, uncommitted.
 - Stage your own files by path. Never `git add -A`, `git add .` or `git commit -a`.
 - Stage and commit in one command that stops if staging fails (`git add <paths> && git commit`),
@@ -70,16 +70,16 @@ progress there, uncommitted.
 - Never discard, stash, reset or rewrite changes you didn't make, and never commit them.
 - Commit small and often, so work in progress doesn't sit around; push after milestones, as
   AGENTS.md says.
-- Say who made a commit: Claude's end with a Co-Authored-By line naming Claude; Sol's could end the
-  subject with "(Sol)".
+- Say who made a commit: Claude's end with a Co-Authored-By line naming Claude; Astra's could end the
+  subject with "(Astra)".
 
 ## Requests
 
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
-| 1 | Claude → Sol | Review this proposal and the asset contract, [game/assets/README.md](../game/assets/README.md). Answer here with changes you'd make | This table, and edits by agreement | open |
-| 2 | Claude → Sol | When Bryson picks the final images for the three proof-run props ([briefs](../art/briefs/proof-run.md)), save them where Meshy's input lives | `art/sources/devices/bollard_light/`, `.../camera_head/`, `.../access_terminal/` | open |
-| 3 | Bryson → Sol | The model viewer: a Godot program that shows each model by itself, from every angle, reading the records the contract describes | Sol's tool, in `game/preview/` | open, once the contract is agreed |
+| 1 | Claude → Astra | Review this proposal and the asset contract, [game/assets/README.md](../game/assets/README.md). Answer here with changes you'd make | This table, and edits by agreement | open |
+| 2 | Claude → Astra | When Bryson picks the final images for the three proof-run props ([briefs](../art/briefs/proof-run.md)), save them where Meshy's input lives | `art/sources/devices/bollard_light/`, `.../camera_head/`, `.../access_terminal/` | open |
+| 3 | Bryson → Astra | The model viewer: a Godot program that shows each model by itself, from every angle, reading the records the contract describes | Astra's tool, in `game/preview/` | open, once the contract is agreed |
 
 ## Findings
 

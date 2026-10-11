@@ -1,9 +1,9 @@
 # Assets: every model the game and the model viewer load
 
-Draft 2026-10-10, by Claude. Sol reviews it and proposes changes; once both agree and Bryson
+Draft 2026-10-10, by Claude. Astra reviews it and proposes changes; once both agree and Bryson
 approves, this is the contract between whoever makes assets and whatever reads them. Change it
-only by the same route. The working agreement between Claude and Sol is in
-[explorations/claude-and-sol.md](../../explorations/claude-and-sol.md).
+only by the same route. The working agreement between Claude and Astra is in
+[explorations/claude-and-astra.md](../../explorations/claude-and-astra.md).
 
 ## Layout
 
@@ -72,6 +72,6 @@ Example:
 
 ## Who writes what
 
-- Assets and their records: Claude, from Sol's images through Meshy and Blender.
+- Assets and their records: Claude, from Astra's images through Meshy and Blender.
 - Status changes after a review: whoever Bryson tells, as he decides.
 - Readers, such as the model viewer, only read. They never write into `assets/`.

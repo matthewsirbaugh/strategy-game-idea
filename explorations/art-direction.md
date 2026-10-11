@@ -76,7 +76,7 @@ These are concepts for Bryson's review; the final direction remains open.
   would look like in 10 to 15 years.
 - A stark contrast between a city that's very familiar but obviously poorer, and pristine white
   buildings with black and red accents.
-- Bryson is generating images with GPT-Sol to show what he's going for.
+- Bryson is generating images with Astra to show what he's going for.
 
 ### 2026-10-08 — No humanoid robots; the AI is text and voice only (Bryson)
 
@@ -141,7 +141,7 @@ assets or a gameplay visibility test. Bryson's first-city lighting selection is 
 
 ### 2026-10-10 — How the art work runs; the game and interface while it does (Bryson)
 
-- Bryson works on the art with GPT-6 Sol and posts the images he likes most, with any
+- Bryson works on the art with Astra and posts the images he likes most, with any
   documentation that goes with them. Claude takes them in as the central project architect:
   documents them, adopts what Bryson picks into `art/reference/`, and keeps the threads current.
 - The game stays as it is while new art is made: the current models remain as placeholders.
@@ -153,7 +153,7 @@ assets or a gameplay visibility test. Bryson's first-city lighting selection is 
 
 ### 2026-10-10 — The first references adopted (Bryson)
 
-Bryson posted the GPT-6 Sol images he likes most, in two sets: establishing shots of the city and
+Bryson posted the Astra images he likes most, in two sets: establishing shots of the city and
 of OpenBrain's front, then an aerial view of the campus and the back of it, which acts as a
 research park. All eight are adopted in [art/reference/](../art/reference/README.md); his lore
 notes on the first set are in [core-idea-and-story.md](core-idea-and-story.md#data-economy).
