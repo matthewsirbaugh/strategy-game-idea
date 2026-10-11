@@ -406,7 +406,8 @@ and later models whose behavior feels sterile and focused on productivity.
 ### 2026-09-21 — The two corporate factions (Bryson, this thread)
 
 > 2026-10-10: America now has one frontier-AI company, OpenBrain, a monopoly; the rival-access
-> rules below assumed two. The other owner might be a foreign AI (China, Europe or India). See
+> rules below assumed two. The other owner might be a foreign AI (China, Europe or India), in
+> some levels only. See
 > [the corrections](#corrections-2026-10-10).
 
 Each of the two frontier-AI corporations is a faction. Their models are enormously powerful,
@@ -659,6 +660,8 @@ exactly as it does now. It explains why the guards can coordinate when things es
 **Follow-ups, the same day.**
 - Other AI powers: America isn't the only place to achieve AGI. China, Europe and India each have
   their own. The second owner in 2026-09-21's access-point rules might be these foreign AIs.
+  Not every level has foreign-owned access points: they're a feature for some levels, to shake
+  things up.
 - The hidden source is on OpenBrain's board. He used to be on both boards, Anthropomorphic's and
   OpenBrain's.
 - The resistance's AIs are built on Anthropomorphic's open-sourced models. The intention: the
