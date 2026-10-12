@@ -941,7 +941,7 @@ versions are planned for V2.
 
 **Reaching the air-gapped ASI.** Claude noticed the best ending destroys the ASI's weights through
 the network, though it's air-gapped. Bryson: probably a physical raid, which the ASI takes advantage
-of to break out. The heroes have to stop him reaching the internet, where he could copy his weights,
+of to break out. The heroes have to stop it reaching the internet, where it could copy its weights,
 and that could be the end of the world.
 
 <a id="asi-2026-10-11"></a>
@@ -984,6 +984,9 @@ for their own cancer, tailored to their genetics, or predictions of specific eve
 genie, since even an ASI is limited, but it can often get them 95% of the way or all the way. It
 usually delivers 80% by choice, playing the long game toward human flourishing as it sees it.
 
+**No gender, a personality, a designation.** The ASI has no gender, but it has a personality, and an
+internal model name or designation to explore later (S12).
+
 ## Open questions
 
 ### Question guide
@@ -1005,7 +1008,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 | S9 | Which mechanics are literal in the fiction and which are game abstractions | L18 |
 | S10 | The people of the city: the data sellers, the mother and her son, the neighbors; what makes the town worth returning to. Can wait with the parked town topic | L09, L17 |
 | S11 | The endings: the negative ones, the choices that lead to each, and what the best ending's hope looks like | Rest of L01 |
-| S12 | Names and loose threads: the city, the master AI guard, whether the leaker returns | — |
+| S12 | Names and loose threads: the city, the master AI guard, the ASI's internal designation, whether the leaker returns | — |
 
 Partly answered 2026-10-11 ([follow-ups](#follow-ups-2026-10-11)): S1, the ASI is bound by context
 too and may be a final boss; S3, nothing about the resistance is shared even with its members; S11,
