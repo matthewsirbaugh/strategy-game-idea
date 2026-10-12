@@ -1022,6 +1022,24 @@ pieces, slowly assembles the other reading. It's the "a piece of lore that expan
 payoff from the Breath of the Wild touchstone, applied to the villain. Saved as an idea, not a
 decision.
 
+<a id="s2-2026-10-12"></a>
+
+### 2026-10-12 — S2, what a mission changes: getting seen under a panopticon (Bryson)
+
+Bryson changed the picture of "the news is scrubbed, so exposure does nothing."
+
+- Part of the job for resistance members who aren't in the field is finding ways to keep their
+  videos on social media from being picked up by AI security.
+- AI is still expensive to run, especially to analyze every piece of media uploaded to every
+  platform every day. So it's used like the famous perfect prison: cells in a circle facing a
+  guard tower the inmates can't see into. The guard watches one part at a time, but nobody knows
+  when, so everyone behaves as if they're always watched, even if it's only 20% of the time.
+  (Claude: Bentham's panopticon.)
+- People have seen the media taken over, the economy collapse, people scrubbed from social media
+  for "extremist views," and repeat offenders even put in prison. It has a chilling effect: when
+  people see something like the resistance's videos, they don't like or interact with them, for
+  fear of retribution. But they still see them, and think what they will.
+
 ## Open questions
 
 ### Question guide
@@ -1033,7 +1051,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 | ID | Question | Absorbs |
 |---|---|---|
 | S1 | The ASI: answered for now ([S1](#asi-2026-10-11)); what's left is in [story V2](#story-v2) | Stakes and warning-shot entries |
-| S2 | What a mission changes. Copied data stays with its owner: how does each kind of raid visibly set back the robots, what happens to the take, and how does the campaign grow from raids to a contingent large enough for the best ending? | L02, 9, 12, part of L03 |
+| S2 | What a mission changes. Copied data stays with its owner: how does each kind of raid visibly set back the robots, what happens to the take, and how does the campaign grow from raids to a contingent large enough for the best ending? | L02, 9, 12, part of L03. In progress: [2026-10-12](#s2-2026-10-12) |
 | S3 | The resistance as an organization: size, leadership, how anonymous cells are formed and reshuffled, where the team sits. Partly answered: one squad of many, grouped and regrouped like *The Handmaid's Tale* | New |
 | S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
 | S5 | Politics and enforcement: what Tiel's government does day to day, who enforces the open-model ban, the foreign AIs' role and why their access points appear in an American city | L06, lore side of 27 |
