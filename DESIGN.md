@@ -70,6 +70,12 @@ incredible, and it didn't go far enough in making the player and enemies feel ge
 powerful, with many strategic options and specializations. I also stop liking these games when
 the roster gets so big that I have to use characters I don't like to stay competitive.
 
+### How power works on people
+
+*Andor*, one of my biggest inspirations since the switch to realism: how authoritarian governments
+work and how they affect the people outside and inside them; cells, secrecy, and crackdowns that
+grow the rebellion. (2026-10-12)
+
 ### Not unpacked yet
 
 Adventure, building up a team over time, and strategy games in general. Pokémon Emerald, Fire

@@ -1067,6 +1067,13 @@ Bryson's answers to Claude's S2 questions, the same day:
   *Andor* is one of Bryson's biggest inspirations since the switch to realism: how authoritarian
   governments work, and how they affect the people outside and inside them.
 - **Endings come from choices**, for now, not from what the player gathers.
+- **A spotted poisoning is rolled back.** Claude suggested poisoning only works if nobody notices:
+  if security spots the intrusion, OpenBrain rolls the data back. Bryson agreed: getting caught is
+  failing the mission.
+- **Where the take goes** (data, money, hardware, an oracle's answer): held for V2, when how the
+  endings are reached gets decided mechanically. Claude's suggestion, saved with it: by default it
+  goes up the chain, and keeping or returning something without permission becomes a story choice.
+- **Andor** joins DESIGN.md's touchstones (2026-10-12).
 
 ## Open questions
 
@@ -1079,7 +1086,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 | ID | Question | Absorbs |
 |---|---|---|
 | S1 | The ASI: answered for now ([S1](#asi-2026-10-11)); what's left is in [story V2](#story-v2) | Stakes and warning-shot entries |
-| S2 | What a mission changes: largely answered ([2026-10-12](#s2-2026-10-12)). Left: where the take goes by default; the revelation of futility is in [story V2](#story-v2) | L02, 9, 12, part of L03 |
+| S2 | What a mission changes: answered ([2026-10-12](#s2-2026-10-12)); the revelation of futility and where the take goes are in [story V2](#story-v2) | L02, 9, 12, part of L03 |
 | S3 | The resistance as an organization: size, leadership, how anonymous cells are formed and reshuffled, where the team sits. Partly answered: one squad of many, grouped and regrouped like *The Handmaid's Tale* | New |
 | S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
 | S5 | Politics and enforcement: what Tiel's government does day to day, who enforces the open-model ban, the foreign AIs' role and why their access points appear in an American city | L06, lore side of 27 |
@@ -1129,6 +1136,7 @@ R5. Astra's L10, L11 and L12 follow from these: personal stakes, trust conflicts
 | Unmasked versions of the Operators' models | [Follow-ups](#follow-ups-2026-10-11) |
 | The leaker, if he comes back | [2026-10-11](#world-2026-10-11) |
 | The event or revelation that shows the team their raids are futile, and sends them after OpenBrain itself | [S2](#s2-2026-10-12) |
+| Where the take goes, decided with how the endings are reached mechanically: by default up the chain, with keeping or returning something as a story choice (Claude's suggestion) | [S2](#s2-2026-10-12) |
 | The ASI and the final mission: did it arrange the raid (not at all, nudged the conditions, or wrote it, with the insider unknowingly passing along its intel)? Does it speak to the team in the final fight? Is the context limit how they beat it? Does it use the master AI guard? | [S1](#asi-2026-10-11) |
 
 Older question A predates the September 21 network-map proposal. The September 22 clarification
