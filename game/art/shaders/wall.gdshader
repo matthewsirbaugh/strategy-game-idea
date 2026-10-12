@@ -49,7 +49,8 @@ void fragment() {
 	if (ghosted(FRAGCOORD.xy, max(ghost, near))) {
 		discard;
 	}
-	if (scenery && !fog_visible(world_position)) {
+	float visibility = scenery ? fog_visibility(world_position) : 1.0;
+	if (visibility <= 0.0) {
 		ALBEDO = vec3(0.0);
 		EMISSION = fog_silhouette(world_normal);
 		SPECULAR = 0.0;
@@ -108,8 +109,9 @@ void fragment() {
 		}
 
 		float seen = fog_light(world_position);
-		ALBEDO = color * seen;
-		ROUGHNESS = roughness;
-		EMISSION = glow * mix(0.5, 1.0, seen) + vision_glow(color, world_position);
+		ALBEDO = color * seen * visibility;
+		ROUGHNESS = mix(1.0, roughness, visibility);
+		SPECULAR = 0.5 * visibility;
+		EMISSION = mix(fog_silhouette(world_normal), glow * mix(0.5, 1.0, seen) + vision_glow(color, world_position), visibility);
 	}
 }

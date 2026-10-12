@@ -26,13 +26,13 @@ void vertex() {
 
 void fragment() {
 	// Screen-space expansion can cross a cell even when the mesh bounds do not.
-	bool hidden = scenery && !fog_visible(world_position);
-	if (hidden && (detail_only || !SILHOUETTE_INK)) {
+	float visibility = scenery ? fog_visibility(world_position) : 1.0;
+	if ((detail_only && visibility <= 0.5) || (!SILHOUETTE_INK && visibility <= 0.0)) {
 		discard;
 	}
 	if (ghosted(FRAGCOORD.xy, ghost)) {
 		discard;
 	}
-	ALBEDO = hidden ? SILHOUETTE_TONE * 0.55 : ink;
-	ALPHA = 1.0;
+	ALBEDO = mix(SILHOUETTE_TONE * 0.55, ink, detail_only ? 1.0 : visibility);
+	ALPHA = SILHOUETTE_INK || detail_only ? 1.0 : visibility;
 }

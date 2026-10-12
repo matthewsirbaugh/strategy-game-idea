@@ -23,18 +23,16 @@ void fragment() {
 	if (ghosted(FRAGCOORD.xy, ghost)) {
 		discard;
 	}
-	if (scenery && !fog_visible(world_position)) {
-		if (detail_only) {
+	float visibility = scenery ? fog_visibility(world_position) : 1.0;
+	if (detail_only) {
+		if (visibility <= 0.5) {
 			discard;
 		}
-		ALBEDO = vec3(0.0);
-		EMISSION = fog_silhouette(world_normal);
-		SPECULAR = 0.0;
-		ROUGHNESS = 1.0;
-	} else {
-		vec3 base = texture(albedo_texture, UV).rgb * color.rgb;
-		ALBEDO = unshaded ? vec3(0.0) : base;
-		EMISSION = unshaded ? base : glow_color * glow_energy;
-		ROUGHNESS = roughness;
+		visibility = 1.0;
 	}
+	vec3 base = texture(albedo_texture, UV).rgb * color.rgb;
+	ALBEDO = unshaded ? vec3(0.0) : base * visibility;
+	EMISSION = mix(fog_silhouette(world_normal), unshaded ? base : glow_color * glow_energy, visibility);
+	SPECULAR = 0.5 * visibility;
+	ROUGHNESS = mix(1.0, roughness, visibility);
 }

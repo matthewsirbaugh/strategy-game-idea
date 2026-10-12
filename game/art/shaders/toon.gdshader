@@ -46,25 +46,25 @@ void fragment() {
 	}
 	ROUGHNESS = 1.0;
 	SPECULAR = 0.0;
-	if (scenery && !fog_visible(world_position)) {
-		if (detail_only) {
+	float visibility = scenery ? fog_visibility(world_position) : 1.0;
+	if (detail_only) {
+		if (visibility <= 0.5) {
 			discard;
 		}
-		ALBEDO = vec3(0.0);
-		EMISSION = fog_silhouette(world_normal);
-	} else {
-		float seen = fog_light(world_position);
-		ALBEDO = mix(texture(albedo_texture, UV).rgb * tint * seen, vec3(1.0), flash);
-		EMISSION = EDGE_GLOW * rim(NORMAL, VIEW) * seen + vec3(flash) * 2.0 + vision_glow(texture(albedo_texture, UV).rgb * tint, world_position);
+		visibility = 1.0;
 	}
+	float seen = fog_light(world_position);
+	vec3 base = texture(albedo_texture, UV).rgb * tint;
+	ALBEDO = mix(base * seen, vec3(1.0), flash) * visibility;
+	vec3 glow = EDGE_GLOW * rim(NORMAL, VIEW) * seen + vec3(flash) * 2.0 + vision_glow(base, world_position);
+	EMISSION = mix(fog_silhouette(world_normal), glow, visibility);
 }
 
 void light() {
-	if (!scenery || fog_visible(world_position)) {
-		float facing = dot(NORMAL, LIGHT);
-		float band = smoothstep(TERMINATOR - toon_softness, TERMINATOR + toon_softness, facing);
-		DIFFUSE_LIGHT += LIGHT_COLOR * ATTENUATION * band / PI;
-		float grazing = smoothstep(-0.1, 0.3, facing);
-		SPECULAR_LIGHT += LIGHT_COLOR * ATTENUATION * rim(NORMAL, VIEW) * grazing * RIM_STRENGTH / PI;
-	}
+	float visibility = scenery && !detail_only ? fog_visibility(world_position) : 1.0;
+	float facing = dot(NORMAL, LIGHT);
+	float band = smoothstep(TERMINATOR - toon_softness, TERMINATOR + toon_softness, facing);
+	DIFFUSE_LIGHT += LIGHT_COLOR * ATTENUATION * band * visibility / PI;
+	float grazing = smoothstep(-0.1, 0.3, facing);
+	SPECULAR_LIGHT += LIGHT_COLOR * ATTENUATION * rim(NORMAL, VIEW) * grazing * RIM_STRENGTH * visibility / PI;
 }

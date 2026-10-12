@@ -20,7 +20,22 @@ func _run() -> void:
 	grid.build(state)
 	grid.set_visibility(state.visible_cells, state.lit)
 	_check(grid.cell_visible(Vector2i(1, 1)), "visible darkness is visible before lighting animates")
-	_check(grid._visibility_image.get_pixel(2, 2).r == 1.0 and grid._light_image.get_pixel(2, 2).r == 0.0, "visibility is independent of brightness")
+	_check(grid._visibility_image.get_pixel(2, 2).r == 0.0 and grid._light_image.get_pixel(2, 2).r == 0.0, "binary vision updates before either visual fade")
+	grid._process(0.1)
+	var revealing := grid._visibility_image.get_pixel(2, 2).r
+	_check(revealing > 0.0 and revealing < 1.0, "new vision fades in instead of switching")
+	grid.set_visibility({}, {})
+	_check(not grid.cell_visible(Vector2i(1, 1)), "losing sight remains immediate in the binary query")
+	grid._process(0.12)
+	var hiding := grid._visibility_image.get_pixel(2, 2).r
+	_check(hiding > 0.0 and hiding < revealing, "one hidden step leaves a gradual fade in progress")
+	grid.set_visibility(state.visible_cells, state.lit)
+	_check(grid._visibility_image.get_pixel(2, 2).r == hiding, "returning vision retargets the current fade without a snap")
+	grid._process(0.05)
+	grid.set_visibility(state.visible_cells, state.lit)
+	_check(grid._visibility_image.get_pixel(2, 2).r > hiding and grid._visibility_image.get_pixel(2, 2).r < 1.0, "final refresh preserves the fade instead of restarting or completing it")
+	grid._process(0.4)
+	_check(grid._visibility_image.get_pixel(2, 2).r == 1.0 and not grid.is_processing(), "settled fog stops processing")
 	state.lit[Vector2i(2, 1)] = true
 	grid.set_visibility(state.visible_cells, state.lit)
 	_check(not grid.cell_visible(Vector2i(2, 1)), "light cannot reveal a hidden tile")

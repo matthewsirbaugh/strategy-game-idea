@@ -1,7 +1,7 @@
 class_name GridView
 extends Node3D
 ## The grid as the player reads it: where tiles are in the world, the colored overlays that show
-## choices, cones and previews, binary visibility and its independently animated lighting.
+## choices, cones and previews, binary vision and its fading visibility and lighting.
 
 # One tile is this many metres across, so people and props sit at real scale.
 const CELL := 1.5
@@ -10,9 +10,9 @@ const EXTRACTION_Y := 0.005
 const ACCESS_Y := 0.007
 const OVERLAY_Y := 0.012
 const LIGHT_OFF_SECONDS := 0.35
+const FOG_IN_SECONDS := 0.2
+const FOG_OUT_SECONDS := 0.4
 const DARK_BRIGHTNESS := 0.5
-# A tile comes on like a fluorescent tube: how lit it is (0 to 1) over its first moments in view.
-const FLICKER := [[0.06, 0.9], [0.11, 0.0], [0.17, 0.75], [0.22, 0.0], [0.3, 1.0]]
 
 const OVERLAY := preload("res://art/shaders/overlay.gdshader")
 const EXTRACTION_COLOR := Color(0.3, 1.0, 0.5, 0.3)
@@ -34,9 +34,9 @@ var _light_texture: ImageTexture
 var _visibility_image: Image
 var _visibility_texture: ImageTexture
 var _visible_cells := {}
+var _visibility := {}
 var _targets := {}
 var _brightness := {}
-var _lit_since := {}
 var _changing := {}
 
 
@@ -74,19 +74,12 @@ func set_visibility(cells: Dictionary, lit: Dictionary) -> void:
 	var seen := {}
 	for cell in targets:
 		seen[cell] = true
-	if _visible_cells != seen:
-		_visible_cells = seen.duplicate()
-		_visibility_image.fill(Color.BLACK)
-		for cell: Vector2i in _visible_cells:
-			_visibility_image.set_pixel(cell.x + 1, cell.y + 1, Color.WHITE)
-		_visibility_texture.update(_visibility_image)
+	_visible_cells = seen
 	for cell in targets:
-		if not _targets.has(cell):
-			_lit_since[cell] = 0.0
-		_changing[cell] = true
+		if not is_equal_approx(_brightness.get(cell, 0.0), targets[cell]) or not is_equal_approx(_visibility.get(cell, 0.0), 1.0):
+			_changing[cell] = true
 	for cell in _targets:
 		if not targets.has(cell):
-			_lit_since.erase(cell)
 			_changing[cell] = true
 	_targets = targets
 	set_process(not _changing.is_empty())
@@ -99,34 +92,29 @@ func cell_visible(cell: Vector2i) -> bool:
 func _process(delta: float) -> void:
 	if not _light_image:
 		return
-	var changed := false
+	var light_changed := false
+	var visibility_changed := false
 	for cell: Vector2i in _changing.keys():
-		var current: float = _brightness.get(cell, 0.0)
-		var target := _target_brightness(cell, delta)
-		if not is_equal_approx(current, target):
-			_brightness[cell] = target
-			_light_image.set_pixel(cell.x + 1, cell.y + 1, Color(target, target, target))
-			changed = true
-		if not _lit_since.has(cell) and is_equal_approx(target, _targets.get(cell, 0.0)):
+		var light_target: float = _targets.get(cell, 0.0)
+		var light := move_toward(_brightness.get(cell, 0.0), light_target, delta / LIGHT_OFF_SECONDS)
+		var visibility_target := 1.0 if _visible_cells.has(cell) else 0.0
+		var seconds := FOG_IN_SECONDS if visibility_target > 0.0 else FOG_OUT_SECONDS
+		var visibility := move_toward(_visibility.get(cell, 0.0), visibility_target, delta / seconds)
+		if not is_equal_approx(light, _brightness.get(cell, 0.0)):
+			_brightness[cell] = light
+			_light_image.set_pixel(cell.x + 1, cell.y + 1, Color(light, light, light))
+			light_changed = true
+		if not is_equal_approx(visibility, _visibility.get(cell, 0.0)):
+			_visibility[cell] = visibility
+			_visibility_image.set_pixel(cell.x + 1, cell.y + 1, Color(visibility, visibility, visibility))
+			visibility_changed = true
+		if is_equal_approx(light, light_target) and is_equal_approx(visibility, visibility_target):
 			_changing.erase(cell)
-	if changed:
+	if light_changed:
 		_light_texture.update(_light_image)
+	if visibility_changed:
+		_visibility_texture.update(_visibility_image)
 	set_process(not _changing.is_empty())
-
-
-func _target_brightness(cell: Vector2i, delta: float) -> float:
-	var full: float = _targets.get(cell, 0.0)
-	if full == 0.0:
-		_lit_since.erase(cell)
-		return move_toward(_brightness.get(cell, 0.0), 0.0, delta / LIGHT_OFF_SECONDS)
-	if not _lit_since.has(cell):
-		return move_toward(_brightness.get(cell, 0.0), full, delta / LIGHT_OFF_SECONDS)
-	_lit_since[cell] += delta
-	for step in FLICKER:
-		if _lit_since[cell] < step[0]:
-			return step[1] * full
-	_lit_since.erase(cell)
-	return full
 
 
 # Where an Operator with this tether range can stand to plug its AI in.

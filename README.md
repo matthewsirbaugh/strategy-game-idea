@@ -97,8 +97,9 @@ the task. Historical findings, concept art and binary assets need not be loaded 
   execution still validates through `BattleState`. Fog processes changing cells until they settle.
 - Movement and vehicle events carry detached VisionTicks for each walked square. The controller
   applies them on arrival, with a final state refresh after playback; previews remain isolated.
-- GridView's binary mask includes visible cells and adjacent walls/border cells, independently
-  of animated brightness. SceneryFog opts level meshes into shared shaders once at build: hidden
+- GridView keeps visible cells and adjacent walls/border cells binary for queries, while their
+  visibility and brightness textures fade. The shader edge softens inside brighter cells so hidden
+  neighbours gain no detail. SceneryFog opts level meshes into shared shaders once at build: hidden
   fragments show the model's own dark silhouette; screens, glow and lettering hide. Ground retains
   its textured fog-darkened look. Characters opt out and retain Locate/last-seen behavior.
 - Character retargeting resolves animation tracks once per clip, then samples the same poses.

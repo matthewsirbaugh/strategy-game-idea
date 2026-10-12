@@ -25,7 +25,7 @@ void vertex() {
 }
 
 void fragment() {
-	if (scenery && !fog_visible(world_position)) {
+	if (scenery && fog_visibility(world_position) <= 0.5) {
 		discard;
 	}
 	if (ghosted(FRAGCOORD.xy, ghost)) {
