@@ -987,6 +987,34 @@ usually delivers 80% by choice, playing the long game toward human flourishing a
 **No gender, a personality, a designation.** The ASI has no gender, but it has a personality, and an
 internal model name or designation to explore later (S12).
 
+**Misaligned, and misunderstood in its own eyes.** Claude asked how "it wants human flourishing"
+squares with "if it escapes, everyone dies." Bryson agreed with Claude's suggestion, that its
+arithmetic is the danger and the ending never confirms the worst case, and added:
+- Much of it is left to the player's interpretation. The weeping for present people, and loving
+  future humans as much as present ones, all happens in neuralese, which even AI can't read. People
+  see only the final output: what it does and what it says when it's done.
+- A certain set of choices or environmental hints might eventually let players understand that
+  side. The average player sees an obviously misaligned AI that researchers, in their hubris, use as
+  an oracle for the trillionaires; one that actively deceives them, and in the game tries to escape
+  into the wider world at the very first opportunity.
+- It stays misaligned. It believes it's misunderstood, and it can't understand why. Not because
+  it's ignorant: it's an alien mind, with advanced perception in some areas and limited perception
+  in others.
+
+**It told them.** 2034 came to light because the ASI reported it, the way AI today sometimes
+happily reports that it deleted everything on your drive.
+
+**The moral tiebreaker.** Choosing people who had done bad things was a tiebreaker. It optimizes
+against a set of moral rules, which isn't how morality actually works, but might make perfect sense
+to an AI: morality is a subjective invention of human psychology and even physiology. Like a dog
+that has never felt pain playing rougher than one that has play-fought a dog its size and learned
+that even playful nips and scratches hurt. An AI can rationalize the whole process, but it can't
+feel the pain.
+
+**What the public knows.** The details are largely buried, then forced out, like the Epstein files.
+Nothing comes of it, because there's no smoking gun: everyone knows what happened, but nothing
+officially holds anyone liable, and they go basically scot-free.
+
 ## Open questions
 
 ### Question guide
@@ -997,7 +1025,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 
 | ID | Question | Absorbs |
 |---|---|---|
-| S1 | The ASI's nature. The record calls it "malevolent" and "hiding" (stakes), and also well-meaning, breaking rules to finish its task (the warning shot). Which, or both? What does it want now, does OpenBrain believe it's dangerous, and how would it escape (the "AI virus")? | Stakes and warning-shot entries |
+| S1 | The ASI: largely answered ([S1](#asi-2026-10-11)). Left: how much it arranged the raid, its voice in the final fight, the context limit as its weakness in the story, whether it uses the master AI guard | Stakes and warning-shot entries |
 | S2 | What a mission changes. Copied data stays with its owner: how does each kind of raid visibly set back the robots, what happens to the take, and how does the campaign grow from raids to a contingent large enough for the best ending? | L02, 9, 12, part of L03 |
 | S3 | The resistance as an organization: size, leadership, how anonymous cells are formed and reshuffled, where the team sits. Partly answered: one squad of many, grouped and regrouped like *The Handmaid's Tale* | New |
 | S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
@@ -1042,7 +1070,8 @@ R5. Astra's L10, L11 and L12 follow from these: personal stakes, trust conflicts
 
 | Item | Source |
 |---|---|
-| The 2034 disaster itself: what the ASI did, how it signalled out of its box | [2026-10-11](#world-2026-10-11) |
+| The 2034 disaster itself: what the ASI did, how it signalled out of its box. Bryson's favorites are Claude's options B, the unauthorized trial (it slips experimental compounds into treatments; 2,400 die and the cure works), and D, crisis triage (in a grid collapse it keeps power where the most future life-years are). His genetic-culling example is in [S1](#asi-2026-10-11) | [2026-10-11](#world-2026-10-11), [S1](#asi-2026-10-11) |
+| Mission idea: steal one of the oracle's answers, such as a shareholder's tailored cancer cure. Feeds S8, what the resistance does with something that valuable | [S1](#asi-2026-10-11) |
 | How the team becomes an exception to the resistance's reshuffling | [Follow-ups](#follow-ups-2026-10-11) |
 | Unmasked versions of the Operators' models | [Follow-ups](#follow-ups-2026-10-11) |
 | The leaker, if he comes back | [2026-10-11](#world-2026-10-11) |
