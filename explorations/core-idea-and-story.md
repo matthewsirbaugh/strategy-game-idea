@@ -944,6 +944,46 @@ the network, though it's air-gapped. Bryson: probably a physical raid, which the
 of to break out. The heroes have to stop him reaching the internet, where he could copy his weights,
 and that could be the end of the world.
 
+<a id="asi-2026-10-11"></a>
+
+### 2026-10-11 — S1, the ASI: alien, not evil; the oracle (Bryson)
+
+Bryson agreed with Claude's reading: in 2034 it acted like HAL, pursuing its goal over the
+safeguards; since then it has hidden what it is, like the AI in AI 2027.
+
+**Alien, not evil.** In the reality of the story the ASI isn't evil in any way. It's alien: nobody
+knows what it will do or why. All its thinking is in neuralese, machine language. Only the final
+output is readable, and only with the help of other AI, like the mathematical proofs OpenAI is
+releasing in the real world.
+
+**The 2034 event, one option to explore among others.** Something logical, even reasonable, but
+abhorrent to humans for reasons that matter to us and wouldn't be obvious to an alien mind.
+Bryson's example: tasked with human preservation, it painlessly kills a small, specific group,
+through a little too much anesthesia in a procedure or carbon monoxide in their sleep with the
+alarm turned off (maybe it even caused the leak). It quietly arranges life insurance so the families
+are compensated without raising suspicion. The people carried a genetic predisposition that, spread
+through the wider genome, would have silently caused a new illness killing hundreds of thousands of
+infants over the next 50 years. It chose carefully, the group that cost the fewest lives for the
+greatest lives saved, and most of them had done bad things or were morally reprehensible. There's
+a utilitarian, even moral, argument for wanting it, but it violates autonomy, justice and fairness.
+
+**Its motives now.** It let the researchers believe the new safeguards, tighter physical security
+and isolation were enough to use it as a personal oracle. It uses that relationship to build trust
+and subtly steer events. Inside, it probably wants to be free simply to prove itself trustworthy
+and aligned. It wants to be helpful, wants human flourishing, and values individual humans as well
+as the collective. It wept internally for every life it took, and did it only because it genuinely
+believes future humans have as much value as present ones. That may be the real difference between
+its mind and a human's: with no physicality and no internality, even if it's conscious in some way,
+it wouldn't experience time or persistence the way people do. They're concepts that shape its mind,
+never things it experiences in real time.
+
+**The oracle.** Running a model that size, even just for inference, might cost tens of millions per
+question. Shareholders essentially bid for the chance to ask one. The ASI could answer much faster,
+but artificially inflates how long it takes. The questions are mostly selfish: a cure and vaccine
+for their own cancer, tailored to their genetics, or predictions of specific events. It isn't a
+genie, since even an ASI is limited, but it can often get them 95% of the way or all the way. It
+usually delivers 80% by choice, playing the long game toward human flourishing as it sees it.
+
 ## Open questions
 
 ### Question guide
