@@ -4,11 +4,12 @@ class_name BattleMenus
 # battle. Each action is a dictionary:
 #   id       what the battle controller acts on
 #   text     the action's name
+#   inline_text  full name when an object group stays inline; text is short inside its submenu
 #   costs    [text, kind] tags drawn after the name, the AP cost last. Kinds: "ap" the Operator's
 #            AP, "ai" the AI's AP, "context", "good" (what it gains), "free", "info", "key"
 #   tip      one line on what it does, shown while it's highlighted
 #   enabled  false greys it out; its tip says why
-#   group    folds it into a submenu with the rest of its group (see nest)
+#   group    submenu key (see nest); group_label supplies a separate name for an object
 #   fold     its group folds even when it's the only member
 #   submenu  it opens another menu
 #   style    "back" or "end": a way out, drawn under the rest. "note": a line that isn't a choice
@@ -60,11 +61,13 @@ static func nest(actions: Array, back_id: String) -> Dictionary:
 	for action in actions:
 		var group: String = action.get("group", "")
 		if group == "" or (members[group].size() == 1 and not action.get("fold", false)):
-			top.append(action)
+			var inline: Dictionary = action.duplicate()
+			inline.text = action.get("inline_text", action.text)
+			top.append(inline)
 		elif not groups.has(group):
 			groups[group] = members[group] + [_back(back_id)]
 			var names: Array = members[group].map(func(entry: Dictionary) -> String: return entry.text)
-			top.append({"id": "group:" + group, "text": group, "submenu": true, "tip": ", ".join(names)})
+			top.append({"id": "group:" + group, "text": action.get("group_label", group), "submenu": true, "tip": ", ".join(names)})
 	return {"top": top, "groups": groups}
 
 
@@ -89,13 +92,13 @@ static func operator_actions(state: BattleState, unit: Unit, hand_over := false)
 	for id in state.peek_options(unit):
 		actions.append(_peek_action(id))
 	for body in state.tie_targets(unit):
-		actions.append({"group": "Interact", "id": "tie:%d" % body.id, "text": "Tie up %s" % body.display_name, "costs": [["%d AP" % BattleState.TIE_COST, "ap"]],
+		actions.append({"group": "body_%d" % body.id, "group_label": body.display_name, "id": "tie:%d" % body.id, "text": "Tie up", "inline_text": "Tie up %s" % body.display_name, "costs": [["%d AP" % BattleState.TIE_COST, "ap"]],
 			"tip": "Out of the battle unless another guard finds and frees them."})
 	for body in state.pickup_targets(unit):
-		actions.append({"group": "Interact", "id": "pickup:%d" % body.id, "text": "Pick up %s" % body.display_name, "costs": [["Free", "free"]],
+		actions.append({"group": "body_%d" % body.id, "group_label": body.display_name, "id": "pickup:%d" % body.id, "text": "Pick up", "inline_text": "Pick up %s" % body.display_name, "costs": [["Free", "free"]],
 			"tip": "While carrying, you can only move."})
 	if not state.putdown_cells(unit).is_empty():
-		actions.append({"group": "Interact", "id": "putdown", "text": "Put down %s" % state.units[unit.carrying].display_name, "costs": [["Free", "free"]],
+		actions.append({"id": "putdown", "text": "Put down %s" % state.units[unit.carrying].display_name, "costs": [["Free", "free"]],
 			"tip": "On a dumpster or in a trunk, the body is hidden inside."})
 	if not state.flashbang_cells(unit).is_empty():
 		actions.append({"group": "Gear", "id": "flashbang", "text": "Flashbang", "costs": [["%d left" % unit.flashbangs, "info"], ["%d AP" % BattleState.FLASHBANG_COST, "ap"]],
@@ -137,12 +140,12 @@ static func door_actions(state: BattleState, unit: Unit, id: String) -> Array:
 
 static func _door_action(option: Dictionary) -> Dictionary:
 	var locking: bool = option.action == "lock"
-	return {"group": "Interact", "id": "door:%s:%s" % [option.node, option.action], "text": "%s door %s" % [option.action.capitalize(), option.node.to_upper()],
+	return {"group": "door_" + option.node, "group_label": "Door " + option.node.to_upper(), "id": "door:%s:%s" % [option.node, option.action], "text": option.action.capitalize(), "inline_text": "%s door %s" % [option.action.capitalize(), option.node.to_upper()],
 		"costs": [["%d AP" % BattleState.LOCK_COST, "ap"] if locking else ["Free", "free"]], "tip": "Only an AI can unlock it again." if locking else ""}
 
 
 static func _peek_action(id: String) -> Dictionary:
-	return {"group": "Interact", "id": "peek:" + id, "text": "Peek through %s" % id.to_upper(), "costs": [["%d AP" % BattleState.PEEK_COST, "ap"]],
+	return {"group": "door_" + id, "group_label": "Door " + id.to_upper(), "id": "peek:" + id, "text": "Peek through", "inline_text": "Peek through door %s" % id.to_upper(), "costs": [["%d AP" % BattleState.PEEK_COST, "ap"]],
 		"tip": "See past the door until your turn ends."}
 
 

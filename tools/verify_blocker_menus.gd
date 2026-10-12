@@ -54,7 +54,7 @@ func _run() -> void:
 	state.refresh()
 	battle._refresh()
 	battle._open_menu(BattleMenus.door_actions(state, actor, "o"), "DOOR O")
-	await _refusal("Open door O", "locked", "door")
+	await _refusal("Open", "locked", "door")
 	await _capture("door-locked")
 	print("Native blocker menus: ", "passed" if failures == 0 else "FAILED")
 	battle.queue_free()

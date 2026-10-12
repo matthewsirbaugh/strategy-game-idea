@@ -1,6 +1,7 @@
 # Playtest fixes: fog that fades, menus named after objects
 
-- Status: approved by Bryson 2026-10-11, handed to Astra as [Request 18](claude-and-astra.md#requests).
+- Status: implemented and verified 2026-10-11 as [Request 18](claude-and-astra.md#requests).
+  Bryson's playtest of the combined build remains open.
 - Author: Claude. Follows Bryson's playtest of [Request 17](fog-vision-ticks-fix.md#request-17-implementation-findings).
 
 ## What Bryson asked for
@@ -103,3 +104,26 @@ clean rendering logs, including partial cars/signs, power state, character opt-o
 and both Network transitions. The restricted import's editor-settings write failed; the full
 check succeeded with the required filesystem access. Menu implementation follows in the second
 milestone.
+
+### 2026-10-11 — Astra: object menus and final handoff
+
+Interactions group by door id or body id, with `group_label` carrying the object's name.
+`text` is short inside a submenu; `inline_text` names the object when one action stays inline.
+The controller reads the label for the group's header. Direct door menus use short labels too.
+Put down has no group. Shoot, Gear and AI groups retain their existing names and behavior.
+Action ids (`door:…`, `peek:…`, `tie:…`, `pickup:…`, `putdown`) and all rule costs remain intact.
+The guide's illustrative "Lock (2 AP)" differs from [RULES.md rule 6](../RULES.md#turns)
+and `BattleState.LOCK_COST`, which specify 1 AP; the implementation retains the agreed 1 AP.
+
+All six final `bash tools/check.sh` checks passed. Existing battle-flow checks were updated only
+where the direct door menu's agreed label changed. The native object probe passed with zero
+failures: separate adjacent doors, short submenu/header names, Peek affecting only its door,
+tying/carrying/putting down a guard, a single remaining action inline, direct door menus,
+right-click, Escape and physical/Network round trips. It dispatches mouse presses/releases and
+keys through [Godot's viewport input pipeline](https://docs.godotengine.org/en/stable/classes/class_viewport.html#class-viewport-method-push-input),
+using local coordinates for the scaled native window. The temporary guard starts stunned,
+which the rules define as a body; no shipped content changes. Native captures were inspected.
+
+Two separate milestones: fog `11fe7c0`, then this object-menu/handoff commit. The combined build
+is ready for Bryson's playtest after its required restart. File claims are released with this
+commit. The live-hidden-scenery question and Request 15's loading pilot remain separate.

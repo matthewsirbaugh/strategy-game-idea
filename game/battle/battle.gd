@@ -367,7 +367,9 @@ func _on_action(id: String) -> void:
 				_busy = false
 			_open_menu()
 		"group":
-			_open_menu(_menu_groups[parts[1]], "%s  ·  %s" % [_who(unit), parts[1].to_upper()])
+			var actions: Array = _menu_groups[parts[1]]
+			var label: String = actions[0].get("group_label", parts[1])
+			_open_menu(actions, "%s  ·  %s" % [_who(unit), label.to_upper()])
 		"end":
 			_act(state.end_turn(unit))
 		"end_half":
