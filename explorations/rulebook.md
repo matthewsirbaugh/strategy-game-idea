@@ -712,6 +712,8 @@ pipeline; V1 is finished after that. Bring these to the same session, raised on 
 - Zones where every enemy investigates a camera report, such as deep inside an enemy
   headquarters (RULES.md rule 21).
 
+- The drone flies over walls, not only low obstacles (Bryson, 2026-10-11). V1's drone row in
+  RULES.md keeps it out of them.
 - Repeated lures: a guard lured to the same spot twice grows suspicious.
 - How downed Operators left behind escape.
 - Electric fences: as written a fence is a wall, so nothing can move into it to be stunned.
