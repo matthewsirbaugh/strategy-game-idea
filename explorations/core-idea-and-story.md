@@ -900,6 +900,45 @@ their way up until they were trusted with big missions. This is the first time t
 they know about one another is that they're after the same thing: taking down the machines and
 their masters. Why each joined, and how, is their own.
 
+<a id="follow-ups-2026-10-11"></a>
+
+### 2026-10-11 — Degrees of alignment, the ASI as a boss, the best ending, masks (Bryson)
+
+**Not all AI is created equal.** Some AGIs are more aligned than others. Some are purposely
+misaligned in controlled ways, the way heretic models are made today. That's where the
+[four relationships](#relationships) come from: the player's partners are generally aligned, while
+some enemy and even allied AIs are misaligned in various ways and to various degrees. Some of
+those are harmless to society but harmful to their own human, through toxic or codependent
+relationships.
+
+**The ASI has the context limit too.** One of the final boss fights may be the team against the
+ASI.
+
+**The best ending, in full.** Left to interpretation.
+- The resistance was larger than anyone could have guessed. Nothing about it is shared, even with
+  its own members, in case they or their AI are caught or compromised. Its activity is scrubbed
+  from the news, which is owned by trillionaires who are in turn controlled by the AI companies.
+- The heroes destroy virtually every OpenBrain data center connected to its networks, 70% of the
+  data centers in the US at the time. That shuts down its AI services and destroys most of its
+  data and the backups it would use to train the robots, along with the only copies of the ASI's
+  weights and most of the data used to train it.
+- Other countries still have their own AGI, and possibly an ASI of their own under wraps.
+  Destroying OpenBrain doesn't fix democracy, and the resistance, suddenly vast and in the open,
+  still has to coordinate.
+- As the credits roll, it's left to the player whether they reformed some version of America and
+  democracy, or the oligarchs crushed the resistance and rebuilt the data centers, and the heroes
+  bought only a decade or so of setback.
+- The point: if you don't act now, in the real world, it might be beyond recovery even if
+  everything goes your way after the fact.
+
+**The team becomes an exception.** Groups reshuffle, and this one isn't meant to be different, but
+it becomes an exception over the course of the story. That's for [story V2](#story-v2).
+
+**Faces are covered.** Almost certainly a requirement in a world where one photo can measure your
+interpupillary distance and narrow you to a list of suspects in a second. How each Operator covers
+their face is up to them. V1's 3D models are masked only (mask, helmet or visor); unmasked
+versions are planned for V2.
+
 ## Open questions
 
 ### Question guide
@@ -923,6 +962,10 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 | S11 | The endings: the negative ones, the choices that lead to each, and what the best ending's hope looks like | Rest of L01 |
 | S12 | Names and loose threads: the city, the master AI guard, whether the leaker returns | — |
 
+Partly answered 2026-10-11 ([follow-ups](#follow-ups-2026-10-11)): S1, the ASI is bound by context
+too and may be a final boss; S3, nothing about the resistance is shared even with its members; S11,
+the best ending is written.
+
 Held for the characters round: [Round 2](#round-2) (R1–R5), L10, L11, L12, and questions 15, 17,
 19, 20, 21 and 29.
 
@@ -944,6 +987,17 @@ R4. What do they disagree about? The best ending destroys the AI data centers; t
     AGI of the same kind the world fears.
 R5. Astra's L10, L11 and L12 follow from these: personal stakes, trust conflicts from intimate
     knowledge, and what persists when an AI is rebuilt.
+
+<a id="story-v2"></a>
+
+**Story V2: held for later.** Lore and story items deliberately set after V1.
+
+| Item | Source |
+|---|---|
+| The 2034 disaster itself: what the ASI did, how it signalled out of its box | [2026-10-11](#world-2026-10-11) |
+| How the team becomes an exception to the resistance's reshuffling | [Follow-ups](#follow-ups-2026-10-11) |
+| Unmasked versions of the Operators' models | [Follow-ups](#follow-ups-2026-10-11) |
+| The leaker, if he comes back | [2026-10-11](#world-2026-10-11) |
 
 Older question A predates the September 21 network-map proposal. The September 22 clarification
 leaves the digital activity and map structure open; see the hacking exploration for later work.

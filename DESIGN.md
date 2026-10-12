@@ -121,6 +121,13 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
 - The enemy is like OpenAI: black and white, very modern, mostly white, with red accents in very
   few places, after Nothing's design philosophy. It leans into the tech oligarchy and stands out
   against dim backgrounds. (2026-10-08)
+- Neither AI company is a hero. Both raced ahead knowing the risk, and the game's world is their
+  result. The game is a cautionary tale for players in 2026–27: act now, because afterward even
+  the best outcome only stops the bleeding. (2026-10-11,
+  [lore](explorations/core-idea-and-story.md#cleanup-2026-10-11))
+- The resistance is anonymous and shuffled, like *The Handmaid's Tale*: code names, covered faces,
+  groups that change often. The team is one squad of many, three strangers meeting for the first
+  time. (2026-10-11, [lore](explorations/core-idea-and-story.md#cleanup-2026-10-11))
 - No humanoid robots exist in the game. Robotics lags behind language models because it lacks
   real-world data; OpenBrain is racing to gather that data and build general humanoids, and
   stopping it is the story. The robots that exist are AI-controlled drones and robot dogs.

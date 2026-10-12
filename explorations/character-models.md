@@ -20,6 +20,9 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
 - 2026-10-11: two big things are left, the character models and the architecture. Each gets an
   exploration before we commit, so he understands the options and we put our best foot forward. Not
   yet: first every current prop gets its image and its model.
+- 2026-10-11: Operators cover their faces, each in their own way. V1's models are masked only (mask,
+  helmet or visor); unmasked versions are planned for V2
+  ([lore](core-idea-and-story.md#follow-ups-2026-10-11)).
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.
