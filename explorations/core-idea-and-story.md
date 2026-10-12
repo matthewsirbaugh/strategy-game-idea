@@ -1015,6 +1015,13 @@ feel the pain.
 Nothing comes of it, because there's no smoking gun: everyone knows what happened, but nothing
 officially holds anyone liable, and they go basically scot-free.
 
+**The collectibles could reveal the other reading.** Claude's idea, which Bryson liked and asked to
+save: the neuralese layer could be what the collectibles are for. Most players see a deceiving
+machine. A player who finds the hidden fragments, like Korok seeds or Breath of the Wild's lore
+pieces, slowly assembles the other reading. It's the "a piece of lore that expands the world"
+payoff from the Breath of the Wild touchstone, applied to the villain. Saved as an idea, not a
+decision.
+
 ## Open questions
 
 ### Question guide
@@ -1025,7 +1032,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 
 | ID | Question | Absorbs |
 |---|---|---|
-| S1 | The ASI: largely answered ([S1](#asi-2026-10-11)). Left: how much it arranged the raid, its voice in the final fight, the context limit as its weakness in the story, whether it uses the master AI guard | Stakes and warning-shot entries |
+| S1 | The ASI: answered for now ([S1](#asi-2026-10-11)); what's left is in [story V2](#story-v2) | Stakes and warning-shot entries |
 | S2 | What a mission changes. Copied data stays with its owner: how does each kind of raid visibly set back the robots, what happens to the take, and how does the campaign grow from raids to a contingent large enough for the best ending? | L02, 9, 12, part of L03 |
 | S3 | The resistance as an organization: size, leadership, how anonymous cells are formed and reshuffled, where the team sits. Partly answered: one squad of many, grouped and regrouped like *The Handmaid's Tale* | New |
 | S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
@@ -1075,6 +1082,7 @@ R5. Astra's L10, L11 and L12 follow from these: personal stakes, trust conflicts
 | How the team becomes an exception to the resistance's reshuffling | [Follow-ups](#follow-ups-2026-10-11) |
 | Unmasked versions of the Operators' models | [Follow-ups](#follow-ups-2026-10-11) |
 | The leaker, if he comes back | [2026-10-11](#world-2026-10-11) |
+| The ASI and the final mission: did it arrange the raid (not at all, nudged the conditions, or wrote it, with the insider unknowingly passing along its intel)? Does it speak to the team in the final fight? Is the context limit how they beat it? Does it use the master AI guard? | [S1](#asi-2026-10-11) |
 
 Older question A predates the September 21 network-map proposal. The September 22 clarification
 leaves the digital activity and map structure open; see the hacking exploration for later work.
