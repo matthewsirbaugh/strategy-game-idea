@@ -1040,6 +1040,34 @@ Bryson changed the picture of "the news is scrubbed, so exposure does nothing."
   people see something like the resistance's videos, they don't like or interact with them, for
   fear of retribution. But they still see them, and think what they will.
 
+Bryson's answers to Claude's S2 questions, the same day:
+
+- **Exposure is a real mission kind.** A resistance wants to be known. With the internet, they make
+  huge real-world spectacles. Illegal newspapers exist too, a retreat to the written word when the
+  digital one becomes unsafe. So there is some record, just not on an internet where the whole
+  world sees it at once. Their videos usually get taken down quickly, but they risk being traced
+  and caught through the 300 or 400 people who saw the full short before it came down.
+- **The silent audience revealed** (Claude's suggestion: the panopticon hides the resistance's
+  support from everyone, so the best ending shows it was "larger than anyone could have guessed").
+  Bryson loves it, but it has to be earned, it comes only with the good ending, and it can't
+  override the ambiguity. It might fall away to preserve that; to be seen.
+- **Fire with fire.** Hiding messages inside ordinary media, speaking in codewords and exploiting
+  the 20% are all tools they use to spread the word and to encourage recruits to look for them.
+  The resistance's mission is to find recruits before the enemy does.
+- **Where it's shown.** This support work appears in the outside-of-battle mode, not yet made,
+  something like Persona 4 Golden: the story takes place there, and the action in the battle format
+  already built.
+- **Mission kinds: all of them.** Destroy, steal to train, steal to sell, expose, poison, recover
+  hardware, intelligence.
+- **Poisoning, yes.** It also gives them a reason to be sneaky instead of loud.
+- **Futility comes slowly.** They feel they're making progress, then slowly realize it's futile,
+  through some event or revelation decided later. That's what leads them to go after OpenBrain
+  themselves.
+- **The Andor dynamic, yes**: success brings a crackdown, and the crackdown grows the resistance.
+  *Andor* is one of Bryson's biggest inspirations since the switch to realism: how authoritarian
+  governments work, and how they affect the people outside and inside them.
+- **Endings come from choices**, for now, not from what the player gathers.
+
 ## Open questions
 
 ### Question guide
@@ -1051,7 +1079,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 | ID | Question | Absorbs |
 |---|---|---|
 | S1 | The ASI: answered for now ([S1](#asi-2026-10-11)); what's left is in [story V2](#story-v2) | Stakes and warning-shot entries |
-| S2 | What a mission changes. Copied data stays with its owner: how does each kind of raid visibly set back the robots, what happens to the take, and how does the campaign grow from raids to a contingent large enough for the best ending? | L02, 9, 12, part of L03. In progress: [2026-10-12](#s2-2026-10-12) |
+| S2 | What a mission changes: largely answered ([2026-10-12](#s2-2026-10-12)). Left: where the take goes by default; the revelation of futility is in [story V2](#story-v2) | L02, 9, 12, part of L03 |
 | S3 | The resistance as an organization: size, leadership, how anonymous cells are formed and reshuffled, where the team sits. Partly answered: one squad of many, grouped and regrouped like *The Handmaid's Tale* | New |
 | S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
 | S5 | Politics and enforcement: what Tiel's government does day to day, who enforces the open-model ban, the foreign AIs' role and why their access points appear in an American city | L06, lore side of 27 |
@@ -1100,6 +1128,7 @@ R5. Astra's L10, L11 and L12 follow from these: personal stakes, trust conflicts
 | How the team becomes an exception to the resistance's reshuffling | [Follow-ups](#follow-ups-2026-10-11) |
 | Unmasked versions of the Operators' models | [Follow-ups](#follow-ups-2026-10-11) |
 | The leaker, if he comes back | [2026-10-11](#world-2026-10-11) |
+| The event or revelation that shows the team their raids are futile, and sends them after OpenBrain itself | [S2](#s2-2026-10-12) |
 | The ASI and the final mission: did it arrange the raid (not at all, nudged the conditions, or wrote it, with the insider unknowingly passing along its intel)? Does it speak to the team in the final fight? Is the context limit how they beat it? Does it use the master AI guard? | [S1](#asi-2026-10-11) |
 
 Older question A predates the September 21 network-map proposal. The September 22 clarification
