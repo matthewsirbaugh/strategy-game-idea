@@ -939,6 +939,11 @@ interpupillary distance and narrow you to a list of suspects in a second. How ea
 their face is up to them. V1's 3D models are masked only (mask, helmet or visor); unmasked
 versions are planned for V2.
 
+**Reaching the air-gapped ASI.** Claude noticed the best ending destroys the ASI's weights through
+the network, though it's air-gapped. Bryson: probably a physical raid, which the ASI takes advantage
+of to break out. The heroes have to stop him reaching the internet, where he could copy his weights,
+and that could be the end of the world.
+
 ## Open questions
 
 ### Question guide
