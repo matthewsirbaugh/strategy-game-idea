@@ -9,10 +9,10 @@
 > history.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
   [exploration](battle-core.md).
-- Next action: Round 2, the team: the [open questions](#round-2) on who the three Operators are.
-  Round 1, the foundations, is answered (2026-10-11).
-- Astra's 18 lore questions (2026-10-11) are filed in the question guide below. They are open
-  questions, not lore decisions.
+- Next action: Bryson picks from the condensed [open lore list](#question-guide), S1–S12. The
+  Operators (Round 2) come last. Round 1 and the quick questions are answered (2026-10-11).
+- Astra's 18 lore questions (2026-10-11) are merged into the question guide below; L01, L03, L04
+  and L16 are closed.
 
 ## The question
 
@@ -49,6 +49,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | AGI versus ASI; air-gap side channels | [2026-10-11](#agi-asi-2026-10-11) |
 | The warning shot, one ASI, the neutral best ending, banned open models, data center raids | [2026-10-11](#world-2026-10-11) |
 | The protagonist is defined; the AI is the custom half | [2026-10-11](#team-2026-10-11) |
+| AGI's limits, no heroic company, the warning shot's meaning, one squad of many | [2026-10-11](#cleanup-2026-10-11) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
@@ -677,6 +678,8 @@ exactly as it does now. It explains why the guards can coordinate when things es
   OpenBrain's.
 - The resistance's AIs are built on Anthropomorphic's open-sourced models. The intention: the
   heroes' partners descend from the company that gave its models away rather than sell out.
+  (Superseded 2026-10-11: the models were leaked, and neither company is a hero. See
+  [the cleanup](#cleanup-2026-10-11).)
 
 <a id="stakes-2026-10-11"></a>
 
@@ -850,63 +853,97 @@ and partly because custom chat options are far easier to build than a full chara
 
 The rest of Round 2 waits for the next session; its questions are in the question guide.
 
+<a id="cleanup-2026-10-11"></a>
+
+### 2026-10-11 — Closing the quick questions: AGI's limits, no heroes, the warning shot, one squad of many (Bryson)
+
+Bryson's answers to Claude's condensed lore list. L01, L03, L04 and L16 close; so do questions 3, 5,
+11, 13 and 14. Questions 22–24 and 27 move to the [battle core](battle-core.md#open-questions).
+
+**L01.** The team doesn't fix society; the best ending buys time.
+
+**L03.** Robots are the line because physical work is the last thing humans hold, nobody can
+guarantee control of an embodied AI, and the ASI could take the robot army.
+
+**L04, and what AGI can't do.** Open models fail because they're banned, the hardware is locked up,
+the leaker's sentence scared people off and the free subscription is easier. Bryson adds:
+- Nearly everyone who goes into AI research is headhunted by an AI company.
+- Research is largely directed by AGI, but LLM AGI isn't human intelligence in every respect. Taste,
+  intuition and judgement mostly stay with people. In research AI is a force multiplier, not a
+  replacement, which is why AGI hasn't cracked alignment.
+- Misalignment gets worse the larger the models get. The low-tier AGI they have, roughly a GPT-9,
+  is the best that can be achieved, yet it's as far beyond today's frontier (Astra, Mythos) as those
+  are beyond 4o.
+- Superhuman coders and information processors, but not always best at seeing the full picture,
+  because of context windows. Even massively larger windows have to take in far more information
+  at all times to do the science-fiction-level hacking, so managing context stays a problem.
+
+**L16: no heroes.** Neither AI company is a hero. Both raced ahead knowing the risk, and the world
+of the game is a direct result of what they did. The game is a cautionary tale for people in 2026
+and 2027, on the brink of it becoming reality. This supersedes 2026-10-10's intention that the
+partners descend from the company that gave its models away rather than sell out: Anthropomorphic
+went under and its models were leaked (2026-10-11).
+
+**The warning shot.** About 2,400 dead stays a working number. The point is a 9/11-level disaster:
+it shakes the country, but instead of uniting and shutting the labs down, America lets corporate
+interests keep running its democracy, the way it did when it got Trump. The game's setting is the
+result. The player should walk away understanding that now is the time to avoid it: afterward,
+what was lost never comes back. All anyone can do is stop the bleeding and try to build something
+new, a more resilient democracy built on the lessons learned, if they're lucky. Even in the good
+ending, whether they succeed is left for the player to decide.
+
+**One squad of many.** Bryson corrected "one squad against one monopoly": the team is one of many.
+Like *The Handmaid's Tale*: nobody uses their real name, some keep their faces covered when they
+can, and they're grouped seemingly at random and change groups often. The three were ordinary
+people, maybe skilled at something, who made contact with the resistance at some point and worked
+their way up until they were trusted with big missions. This is the first time they've met. All
+they know about one another is that they're after the same thing: taking down the machines and
+their masters. Why each joined, and how, is their own.
+
 ## Open questions
 
 ### Question guide
 
-The numbered record below includes answered, deferred and rejected questions as well as open
-ones. Original numbers are retained for references. This guide groups the unresolved subjects
-without making the whole historical list a work queue.
+Condensed 2026-10-11 ([the cleanup](#cleanup-2026-10-11)). This is the current open lore list; the
+numbered record further down keeps every original question, with closed ones marked. Astra's full
+wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-questions).
 
-| Subject | Questions in the record |
-|---|---|
-| Player relationship, trust and change | 17, 19, 20, 21 |
-| Agent control, connection and hacking process | 22, 23, 24 |
-| Hacking resolution, battle structure and the shelved minigame | [Battle core](battle-core.md); this now holds the developing answer to question 24 |
-| Specialization and corporate restrictions | 25, 26 |
-| Rival access and corporate model structure | 27, 28 |
-| How partners learn their human's identity | 29 |
-| Insider's concrete culpability | 30; expressly deferred by Bryson |
-| Scope, exploration, loss and permadeath | DESIGN.md questions 1–3 and the parked board topics |
+| ID | Question | Absorbs |
+|---|---|---|
+| S1 | The ASI's nature. The record calls it "malevolent" and "hiding" (stakes), and also well-meaning, breaking rules to finish its task (the warning shot). Which, or both? What does it want now, does OpenBrain believe it's dangerous, and how would it escape (the "AI virus")? | Stakes and warning-shot entries |
+| S2 | What a mission changes. Copied data stays with its owner: how does each kind of raid visibly set back the robots, what happens to the take, and how does the campaign grow from raids to a contingent large enough for the best ending? | L02, 9, 12, part of L03 |
+| S3 | The resistance as an organization: size, leadership, how anonymous cells are formed and reshuffled, where the team sits. Partly answered: one squad of many, grouped and regrouped like *The Handmaid's Tale* | New |
+| S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
+| S5 | Politics and enforcement: what Tiel's government does day to day, who enforces the open-model ban, the foreign AIs' role and why their access points appear in an American city | L06, lore side of 27 |
+| S6 | The data economy in one person's month: basic income, ownership payment, the subscription's token bonus, the camera bonus; and what each kind of recording gives the robots | L07, L08 |
+| S7 | The insider's concrete act, who suffered, what he won't admit. Deliberately deferred by Bryson | 30, L13 |
+| S8 | Moral reality: stunning, scaring and abandoning guards and teammates; the resistance's own rules on other people's data, including data sold under pressure | L14, L15, G22, 11 |
+| S9 | Which mechanics are literal in the fiction and which are game abstractions | L18 |
+| S10 | The people of the city: the data sellers, the mother and her son, the neighbors; what makes the town worth returning to. Can wait with the parked town topic | L09, L17 |
+| S11 | The endings: the negative ones, the choices that lead to each, and what the best ending's hope looks like | Rest of L01 |
+| S12 | Names and loose threads: the city, the master AI guard, whether the leaker returns | — |
+
+Held for the characters round: [Round 2](#round-2) (R1–R5), L10, L11, L12, and questions 15, 17,
+19, 20, 21 and 29.
 
 <a id="round-2"></a>
 
-**Round 2, the team: open questions for the next session (2026-10-11).** What the character models
-are waiting on.
+**Round 2, the team: open questions for the characters round (2026-10-11).** What the character
+models are waiting on. Partly answered by [one squad of many](#cleanup-2026-10-11): the three meet
+for the first time on joining, and each has their own reason and route into the resistance.
 
 R1. Where was each Operator when the world changed in 2034, at about 20? Claude's options to react
     to: a displaced knowledge worker; a tradesperson who kept work and knows how a data center's
     cooling works; a data seller who wore the camera and carries the stigma (L09); a former OpenBrain
     guard (L14).
-R2. What binds the three: childhood friends who got their first AIs together, strangers the
-    resistance assigned to each other, family, or something else?
+R2. What binds the three. Answered in part: strangers grouped by the resistance. What keeps them
+    together once grouped is open.
 R3. Where does each pair sit among the four relationships, or are all three partnerships, with the
     darker relationships in other characters? An option, not a synthesis.
 R4. What do they disagree about? The best ending destroys the AI data centers; their partners are
     AGI of the same kind the world fears.
 R5. Astra's L10, L11 and L12 follow from these: personal stakes, trust conflicts from intimate
     knowledge, and what persists when an AI is rebuilt.
-
-<a id="astras-review-2026-10-11"></a>
-
-**From Astra's review, 2026-10-11.** The full text of each lives in
-[the review](astra-review-2026-10-11.md#lore-questions), with its labels: *development* (an
-unresolved story question) or *recommendation to punch up*. Where one extends a question in the
-record below, that number is its other home.
-
-| Subject | Astra's questions | Overlaps |
-|---|---|---|
-| What the resistance can change: victory, what a raid accomplishes, why the robots are the threshold | L01, L02, L03 | 9, 12 |
-| Why OpenBrain dominates: the open models' failure, its political machinery, the economic collapse, the recordings' value | L04, L06, L07, L08 | — |
-| The resistance's advantage over OpenBrain | L05 | 25, 26 |
-| The team: personal stakes, bonds and disagreements | L10 | — |
-| Partner knowledge, trust, and what changes when an AI is rebuilt | L11, L12 | 17, 19–21, 29 |
-| The insider's concrete act | L13 | 30 |
-| Moral reality: guards and non-lethal force; the resistance's own use of data | L14, L15 | Astra's game question G22, held |
-| The data sellers, the mother and her son, as people | L09 | — |
-| The town as relationships and discovery | L17 | Parked board topic |
-| How close OpenBrain and Anthropomorphic sit to real companies | L16 | — |
-| Fiction versus game abstraction | L18 | 22–24, [battle core](battle-core.md) |
 
 Older question A predates the September 21 network-map proposal. The September 22 clarification
 leaves the digital activity and map structure open; see the hacking exploration for later work.
@@ -923,9 +960,11 @@ not establish that the current physical/network battle happens wholly in virtual
 3. What is the seed — a world, a character, a feeling, or a mechanic? As of 2026-09-17,
    space keeps coming up, but Bryson hasn't called it a seed. On 2026-09-19 he answered the
    Star Trek and Star Wars question with a theme; whether that theme is the seed is open.
+   Closed 2026-10-11: the seed is concentrated versus distributed power.
 4. Star Trek and Star Wars: the setting or the shape? Answered 2026-09-19, see Findings.
 5. What scale does the theme play out at: civilizations, factions, or one person? The shape
    named on 2026-09-19 is a small squad, which narrows the camera but doesn't settle this.
+   Closed 2026-10-11: one squad of many, against one monopoly.
 6. Which sci-fi: Star Trek's post-scarcity optimism, cyberpunk's owned infrastructure, or a
    collision of the two? Answered 2026-09-19: both at once, see the setting sketch.
 7. What does "makes the player feel considered" mean? Answered 2026-09-19, see Findings.
@@ -961,6 +1000,8 @@ D. When a human dies, what happens to what they carried? Bryson: premature and m
 
 ### Live, from 2026-09-21
 
+Questions 22–24 and 27 moved to the [battle core](battle-core.md#open-questions) on 2026-10-11.
+
 22. Does the player directly command an agent on the network map, or give it an objective that
     it interprets?
 23. Must an Operator remain near an access point while a hack runs, or does reaching the point
@@ -995,6 +1036,8 @@ D. When a human dies, what happens to what they carried? Bryson: premature and m
     authentic? Left alone this is a hole; decided on purpose it may be the story's engine.
 14. Scope watch, for later: this world implies both a real world and a digital one. How much
     of each actually gets simulated is a scope decision, deferred per DESIGN.md.
+
+Closed 2026-10-11: 13 and 14 belong to the retired virtual world. 11's remainder is in S8, 12's in S2.
 
 ## Decision
 

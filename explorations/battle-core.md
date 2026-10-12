@@ -171,6 +171,19 @@ Questions 1–4 from the first list were answered above. Question 5 (does contex
 battles) is answered by CTX-01, and question 6 (does node difficulty cut the yield) by HACK-01,
 both on 2026-09-29.
 
+Moved from the [story exploration](core-idea-and-story.md#live-from-2026-09-21) on 2026-10-11,
+with their original numbers:
+
+- 22. Does the player directly command an agent on the network map, or give it an objective that
+  it interprets?
+- 23. Must an Operator stay near an access point while a hack runs? Answered 2026-09-23: yes, the
+  tether (above).
+- 24. What is the hacking process, and how do physical and digital actions interrupt or support
+  one another? The attempt/reset/carryover rules are in [Bryson's working rules](#brysons-working-rules);
+  the activity and integration remain open.
+- 27. When an owner hacks another owner's access point, what can it do there if the point never
+  joins its native network? Since 2026-10-10 the second owner is a foreign AI, in some levels only.
+
 <a id="shelved-the-hacking-minigame"></a>
 
 ## Shelved: the hacking minigame
