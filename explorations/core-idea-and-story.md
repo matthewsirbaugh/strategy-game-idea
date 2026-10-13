@@ -1126,6 +1126,12 @@ Follow-ups, the same day:
 - **Pushed for later:** the first hints about the writer and the developer, the reasons for joining,
   and the partners. Bryson moved to the characters' appearance (2026-10-12).
 
+**Appearance, one character at a time (2026-10-12).** Bryson picks aesthetics from Claude's list
+for each Operator; Claude then writes one prompt for Astra covering every pick.
+- The tradesman: generate heritage workwear (canvas chore coat, duck pants, leather work boots),
+  hi-vis utility (safety orange or lime, reflective strips, hard hat on the pack) and quiet money,
+  faded (good basics, well cut, a little worn).
+
 ## Open questions
 
 ### Question guide
