@@ -1076,6 +1076,31 @@ Bryson's answers to Claude's S2 questions, the same day:
   goes up the chain, and keeping or returning something without permission becomes a story choice.
 - **Andor** joins DESIGN.md's touchstones (2026-10-12).
 
+<a id="team-2026-10-12"></a>
+
+### 2026-10-12 — Round 2, the team: who the three were (Bryson)
+
+**The protagonist has a great part.** Bryson wants to see a story, so every character gets a great
+part, especially the protagonist, who is defined. The protagonist is a he.
+
+**Their reasons for joining.** Claude offered three reasons of different kinds, like the Aldhani
+crew in *Andor*: belief, loss and need. Bryson wants to loop back and explore specific options.
+
+**Where they came from (R1).**
+- **The tradesman.** He works at a data center. His father owns a small electrical subcontractor.
+  In this future that makes him arguably the group's most privileged member in material wealth: he
+  has never needed to sell his data to the AI for money, and neither did his parents.
+- **The writer.** A student whose degree became useless the moment they finished. Literacy in the
+  US had already fallen further because of AI; then the newspaper moguls put AI in charge of the
+  writing and reporting. What was once thought a human domain, rightly dethroned or not, got eaten
+  by the machine nearly all at once. Once one big company did it, every other player fell in line:
+  an almost overnight takeover of the news that lasted two weeks in the news cycle. Maybe they even
+  had an internship, to show how close, talented and deserving they were.
+- **The software developer.** They hung on until the very end. When the AGI models were released to
+  enterprise, the workflows had already been automated, so the last senior developers at the
+  largest companies were let go: everyone not working on theoretical or applied AI. The products
+  people use were relegated to good enough.
+
 ## Open questions
 
 ### Question guide
