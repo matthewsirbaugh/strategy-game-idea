@@ -702,6 +702,8 @@ also: fully embodied AI that nobody can guarantee they control could lead to hav
 
 **The timeline.**
 - The game starts around 2046.
+- (Moved 2026-10-12: the disaster now comes after the news takeover, about 2036; see
+  [the team](#team-2026-10-12).)
 - The AI disaster and the UBI bill both happen in 2034, the disaster shortly after the UBI bill
   passes Congress, under President TJ Tiel in his second term: a right-wing Christian
   nationalist, America First, a parody and stand-in for JD Vance.
@@ -1101,6 +1103,21 @@ crew in *Andor*: belief, loss and need. Bryson wants to loop back and explore sp
   largest companies were let go: everyone not working on theoretical or applied AI. The products
   people use were relegated to good enough.
 
+Follow-ups, the same day:
+- **The tradesman is the protagonist** ("Yes, I think so").
+- **The developer is older**, mid-40s, a man: the exception to "early 30s."
+- **The writer is a woman.** She writes for the illegal newspapers from S2: her degree is useless,
+  but the written word is where the resistance retreats to (Claude's connection; what Bryson was
+  going for).
+- **The warning shot moves after the news takeover.** If the writer finishes school at about 22,
+  the takeover is around 2036. The disaster follows it, which lets the AI-run news astroturf the
+  event as much as possible.
+- **Why the most privileged one risks it all** is the best question about the tradesman, pushed
+  for now since it doesn't change his design.
+- **The cooling is the first hint about him.** He knows the data center's cooling system. It's the
+  team's first mission together, so they know nothing about each other, and the player learns
+  about them as they learn about one another's skills and knowledge over that first mission.
+
 ## Open questions
 
 ### Question guide
@@ -1137,7 +1154,7 @@ Held for the characters round: [Round 2](#round-2) (R1–R5), L10, L11, L12, and
 models are waiting on. Partly answered by [one squad of many](#cleanup-2026-10-11): the three meet
 for the first time on joining, and each has their own reason and route into the resistance.
 
-R1. Where was each Operator when the world changed in 2034, at about 20? Claude's options to react
+R1. Answered 2026-10-12: [the tradesman, the writer and the developer](#team-2026-10-12). Where was each Operator when the world changed in 2034, at about 20? Claude's options to react
     to: a displaced knowledge worker; a tradesperson who kept work and knows how a data center's
     cooling works; a data seller who wore the camera and carries the stigma (L09); a former OpenBrain
     guard (L14).
