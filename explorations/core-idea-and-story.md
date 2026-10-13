@@ -1137,6 +1137,9 @@ for each Operator; Claude then writes one prompt for Astra covering every pick.
     flip-up IR lenses, and she has a bandana she pulls over her face when she needs to.
   - Field reporter (many-pocketed vest, notebook and pencil, practical boots) mixed with thrifted
     and layered (mismatched secondhand layers, a long coat, scarves).
+- The developer: the dad mixed with the old-school hacker, imagined like Gabe Newell with a short
+  beard (the brief describes the type, not the person).
+- Brief and prompt: [operator-looks.md](../art/briefs/operator-looks.md), Request 19.
 
 ## Open questions
 
