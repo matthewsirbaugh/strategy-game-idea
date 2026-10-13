@@ -26,6 +26,11 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
 - 2026-10-13, on the first concept sheets ([Request 19](../art/concepts/operator-looks-2026-10-12/README.md)):
   he doesn't like the outfits, they're bad, and he'd rather the Operators just look cool. Maybe the
   humans aren't anime characters, but they aren't realistic either: he's not a fan. Not decided yet.
+- 2026-10-13, decided: the characters are stylized, the world stays realistic: "we'll miss the
+  target, but we'll get close enough to be visually impressive." The styles to test are painterly
+  (Dishonored, Deathloop) and clean hero (Overwatch, Valorant), in
+  [the style test](../art/briefs/operator-style-test.md), Request 20. DESIGN.md's "characters
+  included" wording changes once Bryson approves it.
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.
