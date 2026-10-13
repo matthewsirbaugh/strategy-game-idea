@@ -23,6 +23,9 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
 - 2026-10-11: Operators cover their faces, each in their own way. V1's models are masked only (mask,
   helmet or visor); unmasked versions are planned for V2
   ([lore](core-idea-and-story.md#follow-ups-2026-10-11)).
+- 2026-10-13, on the first concept sheets ([Request 19](../art/concepts/operator-looks-2026-10-12/README.md)):
+  he doesn't like the outfits, they're bad, and he'd rather the Operators just look cool. Maybe the
+  humans aren't anime characters, but they aren't realistic either: he's not a fan. Not decided yet.
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.
