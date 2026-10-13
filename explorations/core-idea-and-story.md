@@ -1131,6 +1131,12 @@ for each Operator; Claude then writes one prompt for Astra covering every pick.
 - The tradesman: generate heritage workwear (canvas chore coat, duck pants, leather work boots),
   hi-vis utility (safety orange or lime, reflective strips, hard hat on the pack) and quiet money,
   faded (good basics, well cut, a little worn).
+- The writer, two looks to generate:
+  - Anti-surveillance mixed with the ink-stained printer (work apron or shop coat, rolled sleeves,
+    ink on her hands and cuffs, a deep hood). No face paint. Her glasses are large and round, with
+    flip-up IR lenses, and she has a bandana she pulls over her face when she needs to.
+  - Field reporter (many-pocketed vest, notebook and pencil, practical boots) mixed with thrifted
+    and layered (mismatched secondhand layers, a long coat, scarves).
 
 ## Open questions
 
