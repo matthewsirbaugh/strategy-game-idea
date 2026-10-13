@@ -702,8 +702,8 @@ also: fully embodied AI that nobody can guarantee they control could lead to hav
 
 **The timeline.**
 - The game starts around 2046.
-- (Moved 2026-10-12: the disaster now comes after the news takeover, about 2036; see
-  [the team](#team-2026-10-12).)
+- (Moved 2026-10-12: the news takeover around 2036, then the disaster, then the UBI bill in
+  response; see [the team](#team-2026-10-12).)
 - The AI disaster and the UBI bill both happen in 2034, the disaster shortly after the UBI bill
   passes Congress, under President TJ Tiel in his second term: a right-wing Christian
   nationalist, America First, a parody and stand-in for JD Vance.
@@ -1117,6 +1117,14 @@ Follow-ups, the same day:
 - **The cooling is the first hint about him.** He knows the data center's cooling system. It's the
   team's first mission together, so they know nothing about each other, and the player learns
   about them as they learn about one another's skills and knowledge over that first mission.
+- **The order of events, corrected again.** The UBI bill comes in response to the warning shot,
+  which happens after the AI media takeover. (Claude's reading of "the warning shot needs to be in
+  response to the warning shot"; the first "warning shot" read as the UBI bill. To confirm.) So:
+  the news takeover around 2036, then the warning shot, then the UBI bill.
+- **The game opens at a medium-sized data center**, not at OpenBrain. The OpenBrain research park
+  comes later.
+- **Pushed for later:** the first hints about the writer and the developer, the reasons for joining,
+  and the partners. Bryson moved to the characters' appearance (2026-10-12).
 
 ## Open questions
 
