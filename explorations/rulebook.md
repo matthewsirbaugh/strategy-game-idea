@@ -738,6 +738,13 @@ pipeline; V1 is finished after that. Bring these to the same session, raised on 
   there's a real intruder, and puts the area on high alert. Bryson finds this the most
   intriguing option, but V1 stays simple.
 
+- Win and lose conditions per level (Bryson, 2026-10-12). Different levels have different ones:
+  getting caught is a lose condition on a poisoning mission, for example. A level can have more
+  than one win condition: either one passes it, and any lose condition fails it. This might be how
+  the endings are gauged, either by counting value (one win condition of two earns half the value
+  toward the good ending) or by leaning the ending according to which goals the player
+  prioritizes. [Lore](core-idea-and-story.md#s2-2026-10-12).
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or

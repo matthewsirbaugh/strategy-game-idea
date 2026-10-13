@@ -1069,7 +1069,8 @@ Bryson's answers to Claude's S2 questions, the same day:
 - **Endings come from choices**, for now, not from what the player gathers.
 - **A spotted poisoning is rolled back.** Claude suggested poisoning only works if nobody notices:
   if security spots the intrusion, OpenBrain rolls the data back. Bryson agreed: getting caught is
-  failing the mission.
+  failing the mission. That's a lose condition: levels have their own win and lose conditions, which
+  might be how the endings are gauged. Filed in the [rulebook's V2 list](rulebook.md#v2-after-implementation-and-playtesting).
 - **Where the take goes** (data, money, hardware, an oracle's answer): held for V2, when how the
   endings are reached gets decided mechanically. Claude's suggestion, saved with it: by default it
   goes up the chain, and keeping or returning something without permission becomes a story choice.
