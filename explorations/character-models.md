@@ -39,6 +39,9 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
   attaches. The packs are computers worn on the back, made to look like a cool backpack, with a
   360° camera on a stalk for the AI's vision, and each reflects its owner's backstory: DIY, cheap
   and old, newer and sleeker. Briefed as [Request 22](../art/briefs/operator-revision.md).
+- 2026-10-13, on the Meshy plan: the protagonist is the pilot, from high-resolution inputs
+  ([Request 25](../art/briefs/operator-meshy-inputs.md)), with 4K textures. The writer keeps her
+  knee-length coat; we see what the rig does with it.
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.
