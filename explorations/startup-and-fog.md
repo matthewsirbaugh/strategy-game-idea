@@ -328,3 +328,18 @@ in that same settled framing. These are one-frame resource/count observations, n
 or GPU-duration measurement. The full six project checks passed; matching
 [shared-mesh captures](../art/previews/request-26-2026-10-13/shared/) preserve the scenery, materials,
 fog and ghosted walls. No additional visual change was observed beyond the approved SMAA.
+
+#### 4. Eased zoom
+
+Wheel and pinch input update a clamped `_zoom_target`; processing eases distance with
+`1 - exp(-zoom_rate * delta)`, default rate 10. The immediate `_set_distance` synchronizes the
+target, preserving tool framing and overhead tween behavior.
+
+The full six project checks passed. A native 1280×800 battle probe sent actual wheel press/release,
+magnify and N-key events through `Viewport.push_input`. It verified easing between the old/target
+distances, accumulation, settling, minimum/maximum clamps, immediate setter synchronization,
+intermediate overhead pitch, complete Network transition and restored position/distance/pitch/yaw.
+No failures: [input measurements](../art/previews/request-26-2026-10-13/camera/input-check.json),
+[overhead capture](../art/previews/request-26-2026-10-13/camera/network.png),
+[restored physical capture](../art/previews/request-26-2026-10-13/camera/restored.png).
+These are automated native interaction checks, separate from Bryson's own play reports.

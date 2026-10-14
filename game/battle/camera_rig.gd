@@ -13,6 +13,7 @@ extends Node3D
 @export var min_distance := 3.0
 @export var max_distance := 45.0
 @export var zoom_factor := 1.15
+@export var zoom_rate := 10.0
 @export var turn_degrees_per_second := 90.0
 @export var overhead_distance := 44.0
 @export var overhead_seconds := 0.5
@@ -32,6 +33,7 @@ extends Node3D
 var _bounds_min := Vector3.ZERO
 var _bounds_max := Vector3.ZERO
 var _distance := 32.0
+var _zoom_target := 32.0
 var _pitch := 50.0
 var _yaw := 0.0
 var _focus_tween: Tween
@@ -135,6 +137,9 @@ func _glide(to_position: Vector3, to_distance: float, to_pitch: float, to_yaw: f
 
 
 func _process(delta: float) -> void:
+	if not is_equal_approx(_distance, _zoom_target):
+		_distance = lerpf(_distance, _zoom_target, 1.0 - exp(-zoom_rate * delta))
+		_update_camera()
 	if _follow:
 		_follow_step(delta)
 	var turn := Input.get_axis("camera_rotate_left", "camera_rotate_right")
@@ -149,11 +154,11 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("camera_zoom_in"):
-		_set_distance(_distance / zoom_factor)
+		_set_zoom_target(_zoom_target / zoom_factor)
 	elif event.is_action_pressed("camera_zoom_out"):
-		_set_distance(_distance * zoom_factor)
+		_set_zoom_target(_zoom_target * zoom_factor)
 	elif event is InputEventMagnifyGesture:
-		_set_distance(_distance / event.factor)
+		_set_zoom_target(_zoom_target / event.factor)
 
 
 func _input(event: InputEvent) -> void:
@@ -207,8 +212,13 @@ func _pan_by(pixels: Vector2) -> void:
 	position = (position + move.rotated(Vector3.UP, rotation.y)).clamp(_bounds_min, _bounds_max)
 
 
+func _set_zoom_target(distance: float) -> void:
+	_zoom_target = clampf(distance, min_distance, maxf(max_distance, _overview_distance))
+
+
 func _set_distance(distance: float) -> void:
 	_distance = clampf(distance, min_distance, maxf(max_distance, _overview_distance))
+	_zoom_target = _distance
 	_update_camera()
 
 
