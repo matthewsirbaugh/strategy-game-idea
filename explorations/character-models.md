@@ -107,6 +107,15 @@ Sources: [Meshy multi-image API](https://docs.meshy.ai/en/api/multi-image-to-3d)
 [Meshy image to 3D help](https://intercom.help/meshy/en/articles/9996860-how-to-use-meshy-image-to-3d),
 [Meshy 7.1 notes (third party)](https://blog.neural4d.com/comparisons/meshy-7-release-date-and-alternative/).
 
+### 2026-10-13 — The pilot's body (Claude; step A of the plan, Bryson reviewing before rigging)
+
+Meshy multi-image from `body-front.png` and `body-back.png`, model "latest", T-pose, textured at
+4K, 30 credits, task `01a13856-bb22-7179-9ebb-7fda1f0ed31c`. Raw download:
+`art/sources/units/operator_protagonist/meshy-body.glb`; captures in
+[art/previews/operator-protagonist-meshy-body-2026-10-13/](../art/previews/operator-protagonist-meshy-body-2026-10-13/).
+One mesh, 899,544 faces, 1.90 m tall as delivered, one 4096² base-colour texture. Not yet
+remeshed, scaled, rigged or placed in the game.
+
 ## Open questions
 
 None yet.
