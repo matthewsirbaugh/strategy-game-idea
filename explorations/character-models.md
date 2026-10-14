@@ -4,7 +4,7 @@
   Meshy characters from the retired look: generated, rigged and animated), the story in
   [core-idea-and-story.md](core-idea-and-story.md)
 - Status: open for the look (2026-10-13); the modeling comparison is still parked.
-- Next action: Request 21, the writer's and the developer's sheets. The comparison of how to
+- Next action: Request 22, the revised sheets and packs. The comparison of how to
   model and animate them (the options below) still waits on Bryson.
 
 ## The question
@@ -33,6 +33,11 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
 - 2026-10-13: Astra's protagonist sheet is "essentially perfect"; it's adopted as
   [the style reference](../art/reference/operator-protagonist-style.png). The writer and the
   developer follow it, one sheet each ([Request 21](../art/briefs/operator-sheets.md)).
+- 2026-10-13, on Request 21's sheets: all three wear basically the same outfit; each needs more
+  personality. The writer should be more feminine, with longer hair and a face like a reference he
+  attaches. The packs are computers worn on the back, made to look like a cool backpack, with a
+  360° camera on a stalk for the AI's vision, and each reflects its owner's backstory: DIY, cheap
+  and old, newer and sleeker. Briefed as [Request 22](../art/briefs/operator-revision.md).
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.
