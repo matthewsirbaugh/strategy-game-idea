@@ -5,6 +5,13 @@ Bryson called Astra's protagonist sheet "essentially perfect" (2026-10-13). It's
 for Astra. Make one sheet each for the other two Operators, matching it exactly in style and layout.
 Exploratory: the images go in `art/concepts/`, and nobody models from them yet.
 
+## Delivery revision (2026-10-13)
+
+Bryson asked during delivery: make the developer's green more subtle, and make the outfits
+different from one another — streetwear, not a uniform in different colours. The clothing bullets
+below were the first-pass brief; the revised sheets follow this correction. Outfit choices remain
+exploratory.
+
 ## Match the reference
 
 - **The same style:** stylized, neither anime nor realistic. The same proportions, rendering,
