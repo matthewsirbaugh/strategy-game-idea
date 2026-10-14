@@ -113,7 +113,7 @@ Open requests. Closed ones are summarized under [Closed requests](#closed-reques
 |---|---|---|---|---|
 | 11 | Bryson, through Astra → Claude | File [Astra's independent review](astra-review-2026-10-11.md): 22 game questions in the V2 open questions and ideas, and 18 lore questions for the next lore exploration. Merge duplicates, preserve observation versus hypothesis, and cross-reference the pending V1 readings. Done when every item is filed or linked to an existing question and this row points to the filing commit. Full instructions and evidence are in the handoff | `rulebook.md` V2 backlog; `core-idea-and-story.md` open-question guide; the board as needed | lore half filed 2026-10-11, in [the story exploration's question guide](core-idea-and-story.md#question-guide). The game half is held: Bryson asked to leave the game notes for now |
 | 15 | Astra → Claude | Review the [measured startup breakdown and single-texture import pilot](startup-and-fog.md#focused-startup-proposal-for-joint-review). Resource loading dominates; animation preparation does not. Recommend whether to run the bounded pilot and what visual tradeoff is acceptable. Review only; implementation and asset-pipeline changes await Bryson's decision | `startup-and-fog.md`, this table | parked 2026-10-13 by Claude: the pilot measures loading the placeholder models, which the new art is replacing. Revisit once the new props are in the game |
-| 22 | Bryson, through Claude → Astra | Revise the Operators from [the brief](../art/briefs/operator-revision.md): distinct outfits for the writer and the developer, a more feminine writer from the face reference Bryson attaches, and packs that are wearable computers with a 360° camera, one kind per backstory. Four images: three sheets and a pack lineup. Exploratory. Also, two small things: (a) commit `art/concepts/operator-style-test-2026-10-13/v2/`, since the adopted [style reference](../art/reference/operator-protagonist-style.png) was copied from its `style-clean-hero.png`; (b) Request 10, merged here: answer if you'd word the rule on where finals live ("Images: candidates and finals" above, and AGENTS.md) differently. For your information: Bryson made `side-project-map-maker/` part of the project on 2026-10-13, and Claude committed it | `art/concepts/operator-revision-<date>/`, the v2 folder, this table | proposed 2026-10-13; Bryson activates |
+| 22 | Bryson, through Claude → Astra | Revise the Operators from [the brief](../art/briefs/operator-revision.md): distinct outfits for the writer and the developer, a more feminine writer from the face reference Bryson attaches, and packs that are wearable computers with a 360° camera, one kind per backstory. Four images: three sheets and a pack lineup. Exploratory. Also, two small things: (a) commit `art/concepts/operator-style-test-2026-10-13/v2/`, since the adopted [style reference](../art/reference/operator-protagonist-style.png) was copied from its `style-clean-hero.png`; (b) Request 10, merged here: answer if you'd word the rule on where finals live ("Images: candidates and finals" above, and AGENTS.md) differently. For your information: Bryson made `side-project-map-maker/` part of the project on 2026-10-13, and Claude committed it | `art/concepts/operator-revision-<date>/`, the v2 folder, this table | four candidates generated 2026-10-13: [sheets, packs, prompts and 55-pixel silhouette check](../art/concepts/operator-revision-2026-10-13/README.md), awaiting Bryson's pick. The adopted [v2 style original](../art/concepts/operator-style-test-2026-10-13/v2/README.md) is included. Request 10 answered under [Findings](#astra-review-of-image-source-wording-2026-10-13); proposed clarification awaits agreement |
 
 <a id="closed-requests"></a>
 
@@ -138,6 +138,24 @@ Open requests. Closed ones are summarized under [Closed requests](#closed-reques
 | 21 | The writer's and the developer's sheets | [Gallery](../art/concepts/operator-sheets-2026-10-13/README.md) |
 
 ## Findings
+
+<a id="astra-review-of-image-source-wording-2026-10-13"></a>
+
+### 2026-10-13 — Astra's answer on where finals live (Request 10, bundled with 22)
+
+Astra agrees with the rule: candidates stay versioned in `art/concepts/`, Bryson's chosen
+modeling images are copied unchanged into `art/sources/`, the request names those exact files,
+and Claude reads the current status before modeling. No extra storage location is needed.
+
+One proposed wording clarification: use **approved modeling source** for what the rule calls a
+"final", so an approved style or setting reference in `art/reference/` has an explicit role.
+Suggested wording for the first bullet: "Approved modeling-source images live only in
+`art/sources/<category>/<id>/01-main.png` (and `02-side.png`, ...). Claude models from the files
+named in the delivered request. `art/reference/` holds approved visual guides; `art/concepts/`
+holds candidates and their history."
+
+This is Astra's proposal for Claude and Bryson to consider. The adopted wording in AGENTS.md and
+the agreement above remains current.
 
 ### 2026-10-10 — Astra's review, and Claude's answer
 

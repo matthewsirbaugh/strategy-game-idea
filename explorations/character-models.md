@@ -4,8 +4,9 @@
   Meshy characters from the retired look: generated, rigged and animated), the story in
   [core-idea-and-story.md](core-idea-and-story.md)
 - Status: open for the look (2026-10-13); the modeling comparison is still parked.
-- Next action: Request 22, the revised sheets and packs. The comparison of how to
-  model and animate them (the options below) still waits on Bryson.
+- Next action: Request 22's [revised sheets and packs](../art/concepts/operator-revision-2026-10-13/README.md)
+  are generated, with a 55-pixel silhouette check, awaiting Bryson's pick. The comparison of how
+  to model and animate them (the options below) still waits on Bryson.
 
 ## The question
 
