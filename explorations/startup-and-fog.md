@@ -262,7 +262,7 @@ protocol:
 
 ### Request 26 implementation findings, 2026-10-13
 
-Bryson activated Request 26 after Request 25 was delivered. Astra is executing the seven approved
+Bryson activated Request 26 after Request 25 was delivered. Astra completed the seven approved
 items, one commit per item. Lighting remains on hold.
 
 #### 1. Texture compression
@@ -378,3 +378,51 @@ in the pipx bin directory, and prints an explicit skip if unavailable. README, A
 Style section record installation/integration. Lint plus the full six project checks passed.
 Temporary probes confirmed bad function naming and mixed indentation fail, long lines pass,
 and the unavailable-linter branch reports its skip.
+
+#### Final verification and handoff
+
+Repeated the same five-fresh-process/five-warm-restart protocol after all seven items, with a
+separate native capture warm-up and no concurrent game process during the final measurements.
+Same Godot 4.7.2 / Apple M1 Pro / Metal Forward+ / facility-yard / 1280×800 fixture as the baseline.
+Medians with minimum–maximum ranges:
+
+| Measurement | Before Request 26 | Completed build |
+|---|---|---|
+| Fresh setup, ms | 8,746.429 (8,629.325–8,899.892) | 737.653 (734.252–777.721) |
+| Fresh first frame, ms | 9,050.753 (8,774.310–9,454.060) | 886.967 (875.169–968.937) |
+| Fresh rendering CPU, ms | 1.846 (1.446–2.002) | 1.989 (1.872–2.080) |
+| Fresh draw calls | 1,141.000 (1,141.000–1,141.000) | 582.000 (582.000–582.000) |
+| Warm restart setup, ms | 248.171 (242.254–261.623) | 216.478 (215.272–226.138) |
+| Warm restart first frame, ms | 326.822 (313.363–393.611) | 295.774 (289.519–299.868) |
+| Warm restart rendering CPU, ms | 1.610 (1.496–2.039) | 1.972 (1.938–2.027) |
+| Warm restart draw calls | 1,333.000 (1,107.000–1,348.000) | 574.000 (574.000–574.000) |
+
+[Final raw startup samples](../art/previews/request-26-2026-10-13/final-startup/samples.json) and
+[final matching captures](../art/previews/request-26-2026-10-13/final/).
+Fresh setup is 91.6% faster and first frame is 90.2% faster in this fixture. Reported rendering CPU
+increased from 1.846 → 1.989 ms fresh and 1.610 → 1.972 ms on warm restarts; ranges overlap.
+Fewer draw calls do not establish a frame-rate improvement. The Metal GPU-duration monitor remains unavailable (reports zero).
+The final fixed-view video-memory reading is 702,021,632 bytes versus 2,036,006,912 before;
+texture memory is 217,065,088 versus 1,371,285,120 bytes. The final view retains 2,135 mesh instances,
+with 386 distinct meshes versus 1,208, and 582 draw calls versus 1,141.
+
+Final captures were reviewed against the original framing after 150 settling frames each. Fine
+edges have the slight softening expected from SMAA; no conspicuous texture blockiness or additional
+change in the established palette/scenery/fog was observed. Native engine input checks passed for
+wheel/pinch easing and N overhead/restoration. `tools/check.sh` passed after each item; the final
+run includes lint plus all six existing checks. This records automated and native evidence,
+separate from any reports Bryson makes while playing.
+
+| Item | Commit |
+|---|---|
+| 1. Texture compression and guard | `62135f4` |
+| 2. Debanding and SMAA | `6467fc1` |
+| 3. Shared meshes/materials and local cleanups | `715e813` |
+| 4. Eased zoom | `5d1f25d` |
+| 5. One-off verifier archive | `e56cb91` |
+| 6. Orphan identifier | `406dfd3` |
+| 7. Linter and scoped fixes | `154042d` |
+
+Requests 15 and 26 are closed, and Astra's file claims are released. Lighting stays on hold.
+The linter checks its supported subset of the guide; tabs, declaration grouping, public typing,
+rule boundaries and cache contracts continue to be reviewed against the adopted guide.
