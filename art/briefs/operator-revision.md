@@ -69,7 +69,7 @@ took over the news. Broke. Now she writes and prints the resistance's illegal ne
   feminine build and stance, not the men's.
 - **Keep:** the round glasses with flip-up IR lenses, the magenta bandana pulled over her face,
   ink on her fingers.
-- **Outfit, Claude's suggestion:** a long secondhand coat, knee-length or longer, layered over
+- **Outfit (Claude's suggestion, approved by Bryson 2026-10-13):** a long secondhand coat, knee-length or longer, layered over
   thrifted pieces, with a scarf, slim trousers and boots. From above, a long coat gives her a
   silhouette nobody else has. Bryson picked "thrifted and layered" for her on 2026-10-12.
 - **Colour:** magenta, on the bandana and a few accents.
@@ -81,7 +81,7 @@ the last of them; the only one who remembers working before AI. Warm, unflashy, 
 group, and an old-school hacker.
 
 - **Keep:** his face, glasses and the green neck gaiter.
-- **Outfit, Claude's suggestion:** a padded vest over a long-sleeved shirt or flannel, worn work
+- **Outfit (Claude's suggestion, approved by Bryson 2026-10-13):** a padded vest over a long-sleeved shirt or flannel, worn work
   pants, trail shoes. A vest over sleeves gives a broad, layered silhouette unlike the others; it's
   the tech-dad uniform gone shabby. One nod to the past: an old faded conference lanyard, or a
   cable coiled on a pack strap.
@@ -94,7 +94,7 @@ camera on a short stalk rising above the shoulder, so the AI sees around the Ope
 strapped like a backpack, hard shelled, not fabric. No screen, no face, no glow: a small status
 LED at most.
 
-Which kind goes with whom is **Claude's suggestion; Bryson to confirm**:
+Which kind goes with whom (Claude's suggestion, approved by Bryson 2026-10-13):
 
 | Operator | Kind | Why | What it looks like |
 |---|---|---|---|
