@@ -191,3 +191,71 @@ resource loading, with essentially unchanged first-frame time within the observe
 The final environment stage adds about 13 ms fresh and 11 ms on restart over the baseline.
 GPU duration and worst-case mission/camera cost remain unmeasured. Request 15 is still the
 focused proposal for reducing the loading delay.
+
+### Request 26 handoff: performance and polish pass, 2026-10-13
+
+Claude reviewed the game for speed, smoothness and token cost. Bryson approved the items below and
+assigned them to Astra (2026-10-13). This also decides Request 15: Bryson accepts a slight loss of
+texture quality in exchange for the startup time. Lighting items (AreaLight3D for shopfronts and
+screens, a reflection probe for the wet ground) are **on hold**; don't build them.
+
+**Evidence.** Claude ran these on an M1 Pro at 1600×900, in the physical view. These are single runs, not the five-run
+protocol:
+- Fresh setup is 10.5 s, and resource loading is 9.8 s of that. Each of 14 legacy models takes about 0.4–0.8 s to load.
+- All 137 texture imports under `game/assets/` are `compress/mode=0` (Lossless). The 14 textures the
+  battle loads are 4096². Video memory in use is 2.0 GB.
+- Pilot: the security door's texture was switched to `compress/mode=2` and reimported. `security_door.glb`
+  then loaded in 4 ms, down from 405 ms. The pilot was reverted afterwards.
+- The frame rate holds the 59–60 fps refresh cap, and rendering CPU is 1.7 ms.
+- The physical view uses 1,153 draw calls: 2,135 MeshInstance3Ds but 1,208 distinct meshes, because `_add_box`
+  makes a new `BoxMesh` per call. This count isn't comparable with the table above, which was
+  taken at 1280×800 in the starting view.
+- Characters are about 100k triangles each.
+
+**Work.** One commit per item, so each can be undone on its own. Claim the files in the requests table first.
+
+1. **Textures:**
+   - Set every texture `.import` under `game/assets/` to `compress/mode=2`, with resolution unchanged, and reimport. Note how long the
+     reimport takes, since every machine pays it once.
+   - Use Godot's default S3TC; use `high_quality=true` (BC7) only if captures show blocky artifacts.
+   - Add `[importer_defaults]` `texture={"compress/mode": 2}` to `project.godot`, so new Meshy downloads import compressed.
+   - Add a one-line guard to `tools/check.sh` that fails on any `compress/mode=0` texture under `game/assets/`.
+   - Add one line about it to the asset contract, `game/assets/README.md`.
+2. **Debanding and SMAA:** in `project.godot`, set `anti_aliasing/quality/use_debanding=true`, and set
+   `anti_aliasing/quality/screen_space_aa` to SMAA (check the enum value). MSAA 2× stays.
+3. **Shared meshes:**
+   - Add a static `LevelView.box(size)` cache, used by `_add_box` and `_toon_body` in `level_view.gd`, and by
+     `_add_box` and `_add_glow` in `city_backdrop.gd`.
+   - Cache `CityBackdrop._glow_material` by color, as `ToonModel.flat` does.
+   - Small cleanups in the same commit: compute `_filled_cells()` once in `build()` and pass it to
+     `_build_ground`; have `_glow_quad` create its instance under `root` directly.
+   - If draw calls don't drop, say so; the change still removes about 1,000 duplicate mesh resources.
+4. **Eased zoom:**
+   - In `camera_rig.gd`, the wheel and pinch set a `_zoom_target`, and `_process` eases `_distance` toward it with
+     the same `1 - exp(-rate * delta)` form as `_follow_step`, through an exported `zoom_rate`.
+   - `_set_distance` stays immediate and syncs the target, so `_glide`, overhead mode and the tools are unchanged.
+5. **Archive the one-off tools:**
+   - Move these to `~/Desktop/Archive/strategy-game-idea/2026-10-13-one-off-verifiers/`, with any `.uid` files:
+     `tools/verify_blocker_menus.gd`, `verify_fog.gd`, `verify_fog_fade.gd`, `verify_fog_outline.gd`, `verify_object_menus.gd`,
+     `verify_vision_ticks.gd`, `review_fog_look.gd` and `fog_prototype.gd`.
+   - Keep the profilers, `prep_prop.py`, `build_fixtures.py` and `check.sh`.
+   - Record the batch in the archive's README and `INDEX.md`, and in `ARCHIVE.md`, noting that older explorations still link these paths.
+   - Update the two rows in `README.md` that name them.
+6. **Orphan:** delete `game/art/shaders/fog_box.gdshader.uid`, whose shader is gone.
+7. **Linter:**
+   - Install `gdtoolkit` 4.x with pipx.
+   - Add a `.gdlintrc` that encodes the [shared coding guide](shared-coding-guide.md), and turn off rules the guide doesn't state,
+     such as line length.
+   - Fix real violations. Where gdlint's defaults differ from something the guide doesn't set, change the config, not the code.
+   - `check.sh` runs gdlint when it's installed, and otherwise prints that it skipped it.
+   - Add the install line to `README.md`, one line to the guide's Style section, and "and the linter" to the `tools/` row in
+     AGENTS.md.
+
+**Verify and record:**
+- `tools/check.sh` passes after each item.
+- Measure startup before and after with `tools/profile_startup.py`, using the five-run protocol.
+- Take before and after captures in a fixed physical-view framing, each in its own process after
+  ghosting settles. Flag any change to the look: blockiness, SMAA softening, banding.
+- Run the build to check that zoom eases and that overhead mode (N) still glides and restores.
+- Record the results here as a dated finding, close Requests 15 and 26, and update the board row.
+- Push, then restart the game.
