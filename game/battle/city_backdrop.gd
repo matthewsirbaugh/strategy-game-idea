@@ -22,6 +22,9 @@ const SHOP_WORDS := ["24H", "RAMEN", "PAWN", "CLINIC", "NOODLES", "REPAIR", "KAR
 const SEED := 1207
 const EDGES := {"north": Vector3.FORWARD, "south": Vector3.BACK, "west": Vector3.LEFT, "east": Vector3.RIGHT}
 
+# Immutable materials keyed by color, shared for the process lifetime; energy is fixed below.
+static var _glow_materials: Dictionary[Color, StandardMaterial3D] = {}
+
 var _rng := RandomNumberGenerator.new()
 var _signs: Signs
 # Ground no building may stand on: the road and its pavements.
@@ -178,20 +181,20 @@ func _build_skyline(center: Vector3) -> void:
 			_add_glow(Vector3(0.6, 0.6, 0.6), Color(1.0, 0.15, 0.1), foot + Vector3(0.0, size.y + 0.3, 0.0), 0.0)
 
 
-func _glow_material(color: Color) -> StandardMaterial3D:
-	var material := StandardMaterial3D.new()
-	material.albedo_color = color * 0.3
-	material.emission_enabled = true
-	material.emission = color
-	material.emission_energy_multiplier = 1.1
-	return material
+static func _glow_material(color: Color) -> StandardMaterial3D:
+	if not _glow_materials.has(color):
+		var material := StandardMaterial3D.new()
+		material.albedo_color = color * 0.3
+		material.emission_enabled = true
+		material.emission = color
+		material.emission_energy_multiplier = 1.1
+		_glow_materials[color] = material
+	return _glow_materials[color]
 
 
 func _add_glow(size: Vector3, color: Color, at: Vector3, yaw: float) -> void:
-	var box := BoxMesh.new()
-	box.size = size
 	var glow := MeshInstance3D.new()
-	glow.mesh = box
+	glow.mesh = LevelView.box(size)
 	glow.material_override = _glow_material(color)
 	glow.position = at
 	glow.rotation.y = yaw
@@ -199,10 +202,8 @@ func _add_glow(size: Vector3, color: Color, at: Vector3, yaw: float) -> void:
 
 
 func _add_box(size: Vector3, surface: String, at: Vector3) -> MeshInstance3D:
-	var box := BoxMesh.new()
-	box.size = size
 	var instance := MeshInstance3D.new()
-	instance.mesh = box
+	instance.mesh = LevelView.box(size)
 	instance.material_override = Surfaces.named(surface)
 	instance.position = at
 	add_child(instance)

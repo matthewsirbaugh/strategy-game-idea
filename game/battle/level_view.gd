@@ -65,6 +65,9 @@ const AD_WORDS := ["OBEY", "BUY", "SERVE", "SMILE"]
 const SOFT_SHADING := 0.12
 const HARD_SHADING := 0.015
 
+# Immutable geometry keyed by size, shared for the process lifetime; a new size gets a new mesh.
+static var _boxes: Dictionary[Vector3, BoxMesh] = {}
+
 var map: MapData
 # The units whose view the walls get out of.
 var watched: Array[Node3D] = []
@@ -88,6 +91,14 @@ var _neon_material: StandardMaterial3D
 var _devices := {}
 
 
+static func box(size: Vector3) -> BoxMesh:
+	if not _boxes.has(size):
+		var mesh := BoxMesh.new()
+		mesh.size = size
+		_boxes[size] = mesh
+	return _boxes[size]
+
+
 func build(state: BattleState, grid: GridView) -> void:
 	map = state.map
 	_grid = grid
@@ -95,8 +106,8 @@ func build(state: BattleState, grid: GridView) -> void:
 	# Every battle starts soft, whatever the last one was switched to.
 	RenderingServer.global_shader_parameter_set("toon_softness", SOFT_SHADING)
 	_neon_material = _glow(NEON, 2.5)
-	_build_ground()
 	var filled := _filled_cells()
+	_build_ground(filled)
 	for id in map.node_ids():
 		_build_device(id, filled)
 	_build_receptacles()
@@ -228,12 +239,11 @@ func _mark_between(from: Vector3, to: Vector3, marks: Dictionary) -> void:
 
 
 # Tiles meet edge to edge as one surface; the paving's joints are the grid.
-func _build_ground() -> void:
+func _build_ground(filled: Dictionary) -> void:
 	var tile := BoxMesh.new()
 	tile.size = Vector3(GridView.CELL, TILE_HEIGHT, GridView.CELL)
 	var floor_surface := Surfaces.named("corporate" if map.indoors else "paving")
 	var street_surface := Surfaces.named("asphalt")
-	var filled := _filled_cells()
 	for y in map.size.y:
 		for x in map.size.x:
 			var cell := Vector2i(x, y)
@@ -354,13 +364,11 @@ func _place_root(at: Vector3, facing: Vector2i) -> Node3D:
 # Boxes as [size, offset, color], drawn with the same toon look as the models.
 func _toon_body(root: Node3D, boxes: Array) -> ToonModel:
 	var body := Node3D.new()
-	for box: Array in boxes:
-		var mesh := BoxMesh.new()
-		mesh.size = box[0]
+	for shape: Array in boxes:
 		var part := MeshInstance3D.new()
-		part.mesh = mesh
-		part.set_surface_override_material(0, ToonModel.flat(box[2]))
-		part.position = box[1]
+		part.mesh = box(shape[0])
+		part.set_surface_override_material(0, ToonModel.flat(shape[2]))
+		part.position = shape[1]
 		body.add_child(part)
 	var model := ToonModel.new()
 	root.add_child(model)
@@ -371,10 +379,11 @@ func _toon_body(root: Node3D, boxes: Array) -> ToonModel:
 func _glow_quad(root: Node3D, size: Vector2, at: Vector3, color: Color, energy: float) -> MeshInstance3D:
 	var quad := QuadMesh.new()
 	quad.size = size
-	var glow := _add_mesh(quad, _glow(color, energy), Vector3.ZERO)
-	remove_child(glow)
-	root.add_child(glow)
+	var glow := MeshInstance3D.new()
+	glow.mesh = quad
+	glow.material_override = _glow(color, energy)
 	glow.position = at
+	root.add_child(glow)
 	return glow
 
 
@@ -632,9 +641,7 @@ func _yaw_toward(direction: Vector3) -> float:
 
 
 func _add_box(size: Vector3, material: Material, at: Vector3) -> MeshInstance3D:
-	var box := BoxMesh.new()
-	box.size = size
-	return _add_mesh(box, material, at)
+	return _add_mesh(box(size), material, at)
 
 
 func _add_mesh(mesh: Mesh, material: Material, at: Vector3) -> MeshInstance3D:

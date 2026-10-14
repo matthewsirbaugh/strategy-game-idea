@@ -313,3 +313,18 @@ The handoff called the retained multisample setting 2×. The existing project va
 `msaa_3d=2`, which the installed engine maps to 4× (`VIEWPORT_MSAA_2X=1`, `VIEWPORT_MSAA_4X=2`).
 The existing value stays unchanged. At the same framing, SMAA's additional targets increase total
 video-memory use from 686,718,976 to 702,808,064 bytes; draw calls remain 1,141.
+
+#### 3. Shared box meshes and glow materials
+
+`LevelView.box(size)` owns immutable box meshes keyed by exact `Vector3` dimensions;
+`CityBackdrop` owns immutable glow materials keyed by `Color`, with fixed energy. Both caches
+last for the process and never mutate cached resources; different geometry/color gets a new key.
+Level boxes, primitive device bodies and city boxes/glows use these caches. Ground/device setup
+shares one `_filled_cells()` result, and glow quads attach directly to their final parent.
+
+The fixed initial view keeps 2,135 mesh instances, but distinct meshes fall 1,208 → 386;
+distinct box meshes fall 1,029 → 207, removing 822 duplicates. Draw calls fall 1,141 → 582
+in that same settled framing. These are one-frame resource/count observations, not a frame-rate
+or GPU-duration measurement. The full six project checks passed; matching
+[shared-mesh captures](../art/previews/request-26-2026-10-13/shared/) preserve the scenery, materials,
+fog and ghosted walls. No additional visual change was observed beyond the approved SMAA.
