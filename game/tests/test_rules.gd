@@ -6,14 +6,14 @@ extends SceneTree
 # Run: godot --headless --path game -s tests/test_rules.gd
 
 # A guard (1) at the end of a corridor, facing west down it, already in sight.
-const CORRIDOR := ". . . . . . . . . X
+const CORRIDOR := """. . . . . . . . . X
 . . P . . . . 1 . z
-. . . . . . . . . ."
+. . . . . . . . . ."""
 
 # The guard (1) hides behind the wall at x=4 until someone walks to x=3 on the bottom row.
-const CORNER := ". . . . # . . X
+const CORNER := """. . . . # . . X
 . . . . # . 1 z
-. . P . . . . ."
+. . P . . . . ."""
 
 var _failures := 0
 

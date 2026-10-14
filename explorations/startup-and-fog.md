@@ -358,3 +358,23 @@ explorations intentionally retain their historical paths. The full six project c
 Removed `game/art/shaders/fog_box.gdshader.uid`; its shader was already absent and its identifier
 had no references in game scripts, scenes, content resources or project settings. The full six
 project checks passed.
+
+#### 7. Linter
+
+Installed gdtoolkit 4.5.0 through pipx (`gdtoolkit>=4,<5`, Python 3.14.6). `.gdlintrc` checks the
+shared guide's naming and indentation consistency; no line/file/function size, argument-count,
+return-count or blanket `elif`/`else` limits were added. Intentional icon aliases may preload the
+same resource, and preloaded script class aliases retain PascalCase. gdtoolkit cannot require
+tabs or assign equal ranks to the guide's combined declaration groups, so those remain review
+checks rather than imposing a different ordering. Type contracts also remain compiler/review work.
+
+Removed two unused `unit` arguments from private menu helpers and their callers. For gdtoolkit's
+older parser, three multiline map literals now use triple quotes (values verified identical) and
+four negated execution comparisons have explicit parentheses; assertions and fixture contents are
+unchanged. Other game, rules and Model Library code was left untouched by the lint cleanup.
+
+`tools/check.sh` runs the linter for `game/` and retained GDScript tools, resolving it on `PATH` or
+in the pipx bin directory, and prints an explicit skip if unavailable. README, AGENTS and the
+Style section record installation/integration. Lint plus the full six project checks passed.
+Temporary probes confirmed bad function naming and mixed indentation fail, long lines pass,
+and the unavailable-linter branch reports its skip.

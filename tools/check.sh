@@ -7,6 +7,20 @@ trap 'rm -rf "$check_dir"' EXIT
 
 if grep -rq --include='*.import' '^compress/mode=0$' "$project_root/game/assets"; then printf '%s\n' 'FAIL: asset textures must use video-memory compression (compress/mode=2)' >&2; exit 1; fi
 
+linter_path="$(command -v gdlint || true)"
+if [[ -z "$linter_path" && -x "${PIPX_BIN_DIR:-$HOME/.local/bin}/gdlint" ]]; then
+    linter_path="${PIPX_BIN_DIR:-$HOME/.local/bin}/gdlint"
+fi
+if [[ -n "$linter_path" ]]; then
+    if ! (cd "$project_root" && "$linter_path" game tools) >"$check_dir/lint.log" 2>&1; then
+        cat "$check_dir/lint.log" >&2
+        exit 1
+    fi
+    printf '%s\n' 'GDScript lint: passed'
+else
+    printf '%s\n' 'GDScript lint: skipped (install gdtoolkit 4.x with pipx)'
+fi
+
 run_check() {
     local label="$1"
     shift

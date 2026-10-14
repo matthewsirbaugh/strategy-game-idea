@@ -5,8 +5,8 @@ extends SceneTree
 # Run: godot --headless --path game -s tests/test_hacking.gd
 
 # A line of nodes: access point a, then lights b to f, each a hop further.
-const LINE := "P a b c d e f X
-. . . . . . . z"
+const LINE := """P a b c d e f X
+. . . . . . . z"""
 
 var _failures := 0
 

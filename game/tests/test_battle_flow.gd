@@ -220,7 +220,7 @@ func _device_menu_rules() -> void:
 	for option in state.verb_options(bravo):
 		var preview := state.clone()
 		var result := preview.use_verb(preview.active, option.node, option.verb, option.direction)
-		_check((option.blocker == "") == not result.is_empty() and option.enabled == (option.blocker == ""), "device availability agrees with execution for %s:%s" % [option.node, option.verb])
+		_check((option.blocker == "") == (not result.is_empty()) and option.enabled == (option.blocker == ""), "device availability agrees with execution for %s:%s" % [option.node, option.verb])
 
 	_door_chip_deploy_rules(state, bravo)
 
@@ -239,7 +239,7 @@ func _door_chip_deploy_rules(state: BattleState, unit: Unit) -> void:
 					copy.devices[id].open = condition == "open"
 					copy.devices[id].locked = condition == "locked"
 					var code := copy.door_blocker(actor, id, action)
-					_check((code == "") == not copy.use_door(actor, id, action).is_empty(), "door blocker agrees with execution: %s %s %s %d AP" % [id, action, condition, ap])
+					_check((code == "") == (not copy.use_door(actor, id, action).is_empty()), "door blocker agrees with execution: %s %s %s %d AP" % [id, action, condition, ap])
 	for chip in state.content.chips:
 		if chip.type != ChipDef.Type.ACTIVE:
 			continue
@@ -258,7 +258,7 @@ func _door_chip_deploy_rules(state: BattleState, unit: Unit) -> void:
 				var code := copy.chip_blocker(actor, chip.id)
 				if waiting and ap == 0 and chip.id not in [BattleState.LOCATE, BattleState.PREDICT]:
 					_check(code == "waiting", "waiting takes priority over spent AI AP")
-				_check((code == "") == not copy.use_chip(actor, chip.id, targets).is_empty(), "chip blocker agrees with valid-target execution: " + chip.id)
+				_check((code == "") == (not copy.use_chip(actor, chip.id, targets).is_empty()), "chip blocker agrees with valid-target execution: " + chip.id)
 	for condition in ["connected", "no_ap", "rebooting", "carrying", "near", "far"]:
 		var copy := state.clone()
 		var actor := copy.units[unit.id]
@@ -272,7 +272,7 @@ func _door_chip_deploy_rules(state: BattleState, unit: Unit) -> void:
 		_check(code == expected, "deploy refusal identifies the first failed check: " + condition)
 		var choices := copy.deploy_options(actor)
 		var option: Dictionary = choices[0] if not choices.is_empty() else {"access": "b", "relay": -1}
-		_check((code == "") == not copy.deploy_ai(actor, option.access, option.relay).is_empty(), "deploy blocker agrees with execution: " + condition)
+		_check((code == "") == (not copy.deploy_ai(actor, option.access, option.relay).is_empty()), "deploy blocker agrees with execution: " + condition)
 	_check(state.chip_blocker(unit, BattleState.MOVEMENT) == "invalid_chip" and not state.chip_ready(unit, BattleState.MOVEMENT), "passive chips remain unusable as active chips")
 	_check(Devices.blocker(state, unit, "o", "invalid") == "invalid_action" and not Devices.can_use(state, unit, "o", "invalid"), "unsupported verbs remain rejected")
 

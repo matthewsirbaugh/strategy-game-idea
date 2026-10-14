@@ -14,6 +14,7 @@ those first.
 ### Style
 - Tabs; `snake_case` files, functions and variables; `PascalCase` classes; `UPPER_SNAKE_CASE`
   constants and enum members; `_` prefix for private members.
+- Naming and indentation consistency are checked by gdtoolkit 4.x with [.gdlintrc](../.gdlintrc); installation is in [README.md](../README.md). Tabs and declaration grouping remain review checks.
 - Names carry game meaning and use RULES.md's terms: `door_options`, `use_door`, `chip_ready`.
 - Type public parameters, returns and mutable state. Use `:=` where the type is obvious, explicit
   types for values read from dictionaries, typed arrays for homogeneous values. `Variant` only at

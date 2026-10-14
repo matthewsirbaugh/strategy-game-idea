@@ -203,7 +203,7 @@ static func ai_actions(state: BattleState, unit: Unit, hand_over := false) -> Ar
 	var options := state.verb_options(unit)
 	var turrets := state.turret_controls(unit)
 	for id in _controlled_devices(options, turrets):
-		var controls := _device_actions(state, unit, id, options, turrets, "ai")
+		var controls := _device_actions(state, id, options, turrets, "ai")
 		controls.pop_back()
 		var orders := ", ".join(controls.map(func(action: Dictionary) -> String: return action.text.to_lower()))
 		actions.append({"group": "Devices", "fold": true, "id": "device:" + id, "text": "%s %s" % [state.node_def(id).display_name, id.to_upper()], "submenu": true,
@@ -241,14 +241,14 @@ static func _controlled_devices(options: Array[Dictionary], turrets: Array[Strin
 
 # One device's orders. The header names the device, so each row is just the order.
 static func device_actions(state: BattleState, unit: Unit, id: String, back := "ai") -> Array:
-	return _device_actions(state, unit, id, state.verb_options(unit), state.turret_controls(unit), back)
+	return _device_actions(state, id, state.verb_options(unit), state.turret_controls(unit), back)
 
 
-static func _device_actions(state: BattleState, unit: Unit, id: String, options: Array[Dictionary], turrets: Array[String], back: String) -> Array:
+static func _device_actions(state: BattleState, id: String, options: Array[Dictionary], turrets: Array[String], back: String) -> Array:
 	var actions := []
 	for option in options:
 		if option.node == id:
-			actions.append(_verb_action(state, unit, option))
+			actions.append(_verb_action(state, option))
 	if turrets.has(id):
 		var mode := "hold" if state.devices[id].mode == "target" else "target"
 		actions.append({"id": "turret:%s:%s" % [id, mode], "text": "Hold fire" if mode == "hold" else "Target enemies", "costs": [["Free", "free"]],
@@ -332,7 +332,7 @@ static func _verb_id(option: Dictionary) -> String:
 	return "verb:%s:%s:%d" % [option.node, option.verb, option.direction]
 
 
-static func _verb_action(state: BattleState, unit: Unit, option: Dictionary) -> Dictionary:
+static func _verb_action(state: BattleState, option: Dictionary) -> Dictionary:
 	var id: String = option.node
 	var device: Dictionary = state.devices[id]
 	var what := ""
