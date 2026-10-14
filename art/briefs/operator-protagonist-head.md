@@ -28,8 +28,10 @@ first model got wrong is in
 | `pack-side.png` | Pack alone, true profile of the side the pole is on | 1024 × 1024 |
 
 Head images:
-- Head and neck, down to the top of the jacket collar and the tee's neckline, so the cut line
-  shows. Nothing above the head cropped; the head fills most of the frame.
+- Head and bare neck only, ending at a clean graft cut where the head will join the body.
+  No jacket, collar, tee, shoulders or torso: clothing must not interfere with the separate
+  head generation (Bryson's correction, 2026-10-13). The glasses, respirator and straps stay on.
+  Nothing above the head cropped; the head fills most of the frame.
 - Every view the same head size, camera height and lighting: plain mid-grey background, even
   soft light, no cast shadows. Same style and rendering as the body images.
 - The curls are dark hair all the way through, with no skin showing between them except where the
