@@ -3,10 +3,9 @@
 - Feeds: DESIGN.md's look, [art-pipeline.md](art-pipeline.md) (tool research, and the 2026-09-27
   Meshy characters from the retired look: generated, rigged and animated), the story in
   [core-idea-and-story.md](core-idea-and-story.md)
-- Status: parked
-- Next action: parked until every current prop has its image and its model (Bryson,
-  2026-10-11). Then research the options below, with examples, and bring Bryson a comparison.
-  Start it with `/exploration character-models` in a fresh chat.
+- Status: open for the look (2026-10-13); the modeling comparison is still parked.
+- Next action: Request 21, the writer's and the developer's sheets. The comparison of how to
+  model and animate them (the options below) still waits on Bryson.
 
 ## The question
 

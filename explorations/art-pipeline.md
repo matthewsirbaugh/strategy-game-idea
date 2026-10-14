@@ -2,8 +2,8 @@
 
 - Feeds: DESIGN.md open question 2
 - Status: open
-- Next action: redesign the characters for the realistic look (Bryson, 2026-10-09), and settle
-  how Meshy, Blender and AI image tools work together.
+- Next action: none here for now. Props are settled in [environment-assets.md](environment-assets.md);
+  characters in [character-models.md](character-models.md). The tool facts below still hold.
 
 > 2026-10-09: the house style, the Edgerunners Operators and the chibi AIs below are retired.
 > The look is now realistic and the facility is OpenBrain's ([DESIGN.md](../DESIGN.md), [art-direction.md](art-direction.md)). The AIs have no appearance at all. What still holds: the tool facts (what Meshy does

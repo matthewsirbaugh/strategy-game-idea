@@ -57,7 +57,7 @@ expects that plan to change as ideas surface while playing.
 | explorations/*.md | One file per research or design thread |
 | README.md | How to set up, run and test the game |
 | game/ | The Godot project; README.md explains its folders |
-| tools/ | `check.sh`: imports and every test suite in one command. `prep_prop.py`: readies a Meshy model in Blender |
+| tools/ | `check.sh`: imports and every test suite in one command. `prep_prop.py`: readies a Meshy model in Blender. `build_fixtures.py`: builds the pole fixtures and barrier gate in Blender. `profile_startup.py`: times the battle's startup |
 | art/reference/ | Reference images Bryson chose; new art adheres to them |
 | art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
 | art/briefs/ | What each asset is meant to be, written by Claude for Bryson and Astra |

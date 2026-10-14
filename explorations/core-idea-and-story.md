@@ -9,8 +9,8 @@
 > history.
 - Resume through: [EXPLORATIONS.md](../EXPLORATIONS.md). Battle mechanics, including hacking, now have their own
   [exploration](battle-core.md).
-- Next action: Bryson picks from the condensed [open lore list](#question-guide), S1–S12. The
-  Operators (Round 2) come last. Round 1 and the quick questions are answered (2026-10-11).
+- Next action: the rest of the [open lore list](#question-guide), S3–S12, and Round 2's R2–R5.
+  Answered: Round 1 and the quick questions (2026-10-11), S1, S2 and R1 (2026-10-12).
 - Astra's 18 lore questions (2026-10-11) are merged into the question guide below; L01, L03, L04
   and L16 are closed.
 
@@ -29,7 +29,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 
 | Topic | Source entries |
 |---|---|
-| Latest corrections and scope | [September 22 clarifications](#september-22-clarifications) |
+| Corrections and scope, as of September 22 (superseded where later entries differ) | [September 22 clarifications](#september-22-clarifications) |
 | Battle structure, fog, hack resolution; shelved minigame research | [Battle core exploration](battle-core.md) |
 | Creative intent and touchstones | [DESIGN.md](../DESIGN.md); [early findings](#findings) |
 | Concentrated and distributed power | [Theme](#power-theme) |
@@ -50,6 +50,10 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | The warning shot, one ASI, the neutral best ending, banned open models, data center raids | [2026-10-11](#world-2026-10-11) |
 | The protagonist is defined; the AI is the custom half | [2026-10-11](#team-2026-10-11) |
 | AGI's limits, no heroic company, the warning shot's meaning, one squad of many | [2026-10-11](#cleanup-2026-10-11) |
+| Degrees of alignment, the ASI as a boss, the best ending, masks | [Follow-ups, 2026-10-11](#follow-ups-2026-10-11) |
+| S1, the ASI: alien, not evil; the oracle | [2026-10-11](#asi-2026-10-11) |
+| S2, what a mission changes: getting seen under a panopticon | [2026-10-12](#s2-2026-10-12) |
+| Round 2, the team: the tradesman, the writer and the developer | [2026-10-12](#team-2026-10-12) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
