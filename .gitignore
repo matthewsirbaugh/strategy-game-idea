@@ -3,3 +3,5 @@ game/.godot/
 game/export/
 *.blend1
 __pycache__/
+# Raw Meshy downloads can pass GitHub's 100 MB limit; the task IDs in the exploration files re-download them
+art/sources/**/meshy-*.glb
