@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://jn0kuc1l6dpf"
-path="res://.godot/imported/pole_light_head_Image_2.jpg-031121884aaacf8cb1eb0c013cfb4b88.ctex"
+path.s3tc="res://.godot/imported/pole_light_head_Image_2.jpg-031121884aaacf8cb1eb0c013cfb4b88.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "4261eda6c3bbf858ee60edac162c66dd"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/pole_light_head/pole_light_head_Image_2.jpg"
-dest_files=["res://.godot/imported/pole_light_head_Image_2.jpg-031121884aaacf8cb1eb0c013cfb4b88.ctex"]
+dest_files=["res://.godot/imported/pole_light_head_Image_2.jpg-031121884aaacf8cb1eb0c013cfb4b88.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

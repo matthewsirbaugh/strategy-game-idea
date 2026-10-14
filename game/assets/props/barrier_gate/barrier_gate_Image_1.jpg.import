@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://wkhv87bv3msl"
-path="res://.godot/imported/barrier_gate_Image_1.jpg-8e480079243f26ea0944568f4d06e672.ctex"
+path.s3tc="res://.godot/imported/barrier_gate_Image_1.jpg-8e480079243f26ea0944568f4d06e672.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "03313d9a1c205b6d23d3df318341423d"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/barrier_gate/barrier_gate_Image_1.jpg"
-dest_files=["res://.godot/imported/barrier_gate_Image_1.jpg-8e480079243f26ea0944568f4d06e672.ctex"]
+dest_files=["res://.godot/imported/barrier_gate_Image_1.jpg-8e480079243f26ea0944568f4d06e672.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

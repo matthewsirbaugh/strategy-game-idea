@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1my7vludprer"
-path="res://.godot/imported/camera_head_texture_0.png-4b06f215f5d16515dc060f95e19f94ca.ctex"
+path.s3tc="res://.godot/imported/camera_head_texture_0.png-4b06f215f5d16515dc060f95e19f94ca.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "8c2a7a73ed9fba05d0a8b004f321ba2f"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/camera_head/camera_head_texture_0.png"
-dest_files=["res://.godot/imported/camera_head_texture_0.png-4b06f215f5d16515dc060f95e19f94ca.ctex"]
+dest_files=["res://.godot/imported/camera_head_texture_0.png-4b06f215f5d16515dc060f95e19f94ca.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

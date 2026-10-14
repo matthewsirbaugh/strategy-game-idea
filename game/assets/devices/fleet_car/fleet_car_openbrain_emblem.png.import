@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://28tm13t887yw"
-path="res://.godot/imported/fleet_car_openbrain_emblem.png-eb31f32c33150bba173b375729ecf4cd.ctex"
+path.s3tc="res://.godot/imported/fleet_car_openbrain_emblem.png-eb31f32c33150bba173b375729ecf4cd.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "f7696d3040fbb0ed6c7e412909c36c15"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/fleet_car/fleet_car_openbrain_emblem.png"
-dest_files=["res://.godot/imported/fleet_car_openbrain_emblem.png-eb31f32c33150bba173b375729ecf4cd.ctex"]
+dest_files=["res://.godot/imported/fleet_car_openbrain_emblem.png-eb31f32c33150bba173b375729ecf4cd.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

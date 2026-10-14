@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://mr2yh1tcl0vj"
-path="res://.godot/imported/ad_screen_Material_0_glow.png-ca100c6169518b134dcdcab545f81169.ctex"
+path.s3tc="res://.godot/imported/ad_screen_Material_0_glow.png-ca100c6169518b134dcdcab545f81169.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "274eaae1a0f9dc987e78172ea43d0ab1"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/ad_screen/ad_screen_Material_0_glow.png"
-dest_files=["res://.godot/imported/ad_screen_Material_0_glow.png-ca100c6169518b134dcdcab545f81169.ctex"]
+dest_files=["res://.godot/imported/ad_screen_Material_0_glow.png-ca100c6169518b134dcdcab545f81169.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

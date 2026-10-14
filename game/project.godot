@@ -25,6 +25,12 @@ window/stretch/aspect="expand"
 
 theme/custom="res://ui/theme.tres"
 
+[importer_defaults]
+
+texture={
+"compress/mode": 2
+}
+
 [input]
 
 pause={

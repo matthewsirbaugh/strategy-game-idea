@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxpfvs4fx72jh"
-path="res://.godot/imported/uplight_Image_2.jpg-b441995351371054c21a3e81467d2f89.ctex"
+path.s3tc="res://.godot/imported/uplight_Image_2.jpg-b441995351371054c21a3e81467d2f89.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "3e894310cb57c0c6db909564c79b02e6"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/uplight/uplight_Image_2.jpg"
-dest_files=["res://.godot/imported/uplight_Image_2.jpg-b441995351371054c21a3e81467d2f89.ctex"]
+dest_files=["res://.godot/imported/uplight_Image_2.jpg-b441995351371054c21a3e81467d2f89.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

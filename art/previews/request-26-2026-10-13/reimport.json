@@ -1,0 +1,9 @@
+{
+  "seconds": 2.604,
+  "texture_imports": 137,
+  "invalidated_import_stamps": 17,
+  "exit_code": 0,
+  "engine_errors": [],
+  "initial_conversion_seconds": 6.052,
+  "initial_conversion_note": "All 137 textures converted; sandbox blocked system certificate access and saving editor preferences afterwards. Clean reimport and the full project checks subsequently passed outside the sandbox."
+}

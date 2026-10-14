@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://jf4jxq3h0vp2"
-path="res://.godot/imported/terrace_table_Image_0.jpg-ad8455b8c8c20f775b2772abcb95ea64.ctex"
+path.s3tc="res://.godot/imported/terrace_table_Image_0.jpg-ad8455b8c8c20f775b2772abcb95ea64.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "2519d5a97ee4c8e4dc237e72ee69994f"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/terrace_table/terrace_table_Image_0.jpg"
-dest_files=["res://.godot/imported/terrace_table_Image_0.jpg-ad8455b8c8c20f775b2772abcb95ea64.ctex"]
+dest_files=["res://.godot/imported/terrace_table_Image_0.jpg-ad8455b8c8c20f775b2772abcb95ea64.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

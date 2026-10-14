@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://sklyjfkoyup0"
-path="res://.godot/imported/rooftop_unit_Image_0.jpg-372335df8614a41c23c7f81ddf4df96e.ctex"
+path.s3tc="res://.godot/imported/rooftop_unit_Image_0.jpg-372335df8614a41c23c7f81ddf4df96e.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "a26afc81c4d182f4b7b0b99de4f08d19"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/rooftop_unit/rooftop_unit_Image_0.jpg"
-dest_files=["res://.godot/imported/rooftop_unit_Image_0.jpg-372335df8614a41c23c7f81ddf4df96e.ctex"]
+dest_files=["res://.godot/imported/rooftop_unit_Image_0.jpg-372335df8614a41c23c7f81ddf4df96e.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

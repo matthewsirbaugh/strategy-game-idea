@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7rubqiglm8"
-path="res://.godot/imported/robot_dock_Image_0.jpg-ca07270ff6523682f448c35e8e86fe50.ctex"
+path.s3tc="res://.godot/imported/robot_dock_Image_0.jpg-ca07270ff6523682f448c35e8e86fe50.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "f5ee96ccf9370593e1cafd52701d5a58"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/robot_dock/robot_dock_Image_0.jpg"
-dest_files=["res://.godot/imported/robot_dock_Image_0.jpg-ca07270ff6523682f448c35e8e86fe50.ctex"]
+dest_files=["res://.godot/imported/robot_dock_Image_0.jpg-ca07270ff6523682f448c35e8e86fe50.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

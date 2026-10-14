@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bup7gnb8ogd7u"
-path="res://.godot/imported/guard_booth_0.jpg-ad1d3ecf2a7774d342dad9810386153d.ctex"
+path.s3tc="res://.godot/imported/guard_booth_0.jpg-ad1d3ecf2a7774d342dad9810386153d.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "57d1452e997812e020226c68c9590ed5"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/legacy/props/guard_booth/guard_booth_0.jpg"
-dest_files=["res://.godot/imported/guard_booth_0.jpg-ad1d3ecf2a7774d342dad9810386153d.ctex"]
+dest_files=["res://.godot/imported/guard_booth_0.jpg-ad1d3ecf2a7774d342dad9810386153d.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

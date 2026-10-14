@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dx7wnil3pkm01"
-path="res://.godot/imported/bench_Image_1.jpg-16d5342065b70ef8d2c4ee527a7232b8.ctex"
+path.s3tc="res://.godot/imported/bench_Image_1.jpg-16d5342065b70ef8d2c4ee527a7232b8.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "a42c0fcaf72e58d838e033f1a1b133fd"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/bench/bench_Image_1.jpg"
-dest_files=["res://.godot/imported/bench_Image_1.jpg-16d5342065b70ef8d2c4ee527a7232b8.ctex"]
+dest_files=["res://.godot/imported/bench_Image_1.jpg-16d5342065b70ef8d2c4ee527a7232b8.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

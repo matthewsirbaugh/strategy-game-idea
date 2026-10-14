@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dubyef72rbkyy"
-path="res://.godot/imported/operator_sage_texture_0.png-9ae5421f6a4379342e10a0391dc49a26.ctex"
+path.s3tc="res://.godot/imported/operator_sage_texture_0.png-9ae5421f6a4379342e10a0391dc49a26.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "eac27ab7bb4a28e1e2f2eced5a9fa02e"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/legacy/characters/operator_sage/operator_sage_texture_0.png"
-dest_files=["res://.godot/imported/operator_sage_texture_0.png-9ae5421f6a4379342e10a0391dc49a26.ctex"]
+dest_files=["res://.godot/imported/operator_sage_texture_0.png-9ae5421f6a4379342e10a0391dc49a26.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

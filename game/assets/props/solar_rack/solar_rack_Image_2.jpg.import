@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2yrhtrnxpipp"
-path="res://.godot/imported/solar_rack_Image_2.jpg-a1a643215ad14394fa7f95ae67cbf44e.ctex"
+path.s3tc="res://.godot/imported/solar_rack_Image_2.jpg-a1a643215ad14394fa7f95ae67cbf44e.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "eb2f84fd1be12599b8ea54eaeba7d776"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/solar_rack/solar_rack_Image_2.jpg"
-dest_files=["res://.godot/imported/solar_rack_Image_2.jpg-a1a643215ad14394fa7f95ae67cbf44e.ctex"]
+dest_files=["res://.godot/imported/solar_rack_Image_2.jpg-a1a643215ad14394fa7f95ae67cbf44e.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

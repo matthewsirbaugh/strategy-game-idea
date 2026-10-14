@@ -259,3 +259,45 @@ protocol:
 - Run the build to check that zoom eases and that overhead mode (N) still glides and restores.
 - Record the results here as a dated finding, close Requests 15 and 26, and update the board row.
 - Push, then restart the game.
+
+### Request 26 implementation findings, 2026-10-13
+
+Bryson activated Request 26 after Request 25 was delivered. Astra is executing the seven approved
+items, one commit per item. Lighting remains on hold.
+
+#### 1. Texture compression
+
+All 137 existing asset texture imports now use `compress/mode=2`, default S3TC, unchanged source
+resolution and unchanged quality/mipmap options. New imports inherit the setting. The asset
+contract records it, and `tools/check.sh` rejects lossless imports before launching Godot; a
+throwaway bad import confirmed that refusal. The full six project checks passed.
+
+The first conversion took 6.05 s. The sandbox blocked system certificate access and saving Godot's
+editor preferences afterwards; a clean import and all project checks passed outside the sandbox.
+This is the one-time import cost on this machine, separate from game startup.
+
+The existing profiler ran five fresh processes, then one warm-up and five warm restarts on Godot
+4.7.2, Metal Forward+, Apple M1 Pro, facility yard at 1280×800. The native capture probe warmed the
+fixture first. Fresh means a new game process with imported assets and a warm filesystem cache.
+Values below are medians with minimum–maximum ranges; both sets use the same profiler and fixture.
+
+| Measurement | Before compression | After compression |
+|---|---|---|
+| Fresh setup, ms | 8,746.4 (8,629.3–8,899.9) | 753.5 (729.9–985.6) |
+| Fresh first frame, ms | 9,050.8 (8,774.3–9,454.1) | 902.0 (889.7–1,149.0) |
+| Warm restart setup, ms | 248.2 (242.3–261.6) | 240.3 (236.1–245.7) |
+| Warm restart first frame, ms | 326.8 (313.4–393.6) | 324.8 (324.3–334.6) |
+
+[Raw baseline samples](../art/previews/request-26-2026-10-13/baseline/samples.json) and
+[compressed samples](../art/previews/request-26-2026-10-13/compressed-startup/samples.json).
+The fixed initial physical view uses 1,371,285,120 → 196,814,464 texture bytes and
+2,036,006,912 → 686,718,976 total video-memory bytes. Draw calls remain 1,141 at this stage.
+GPU timing reports zero on this Metal backend, so no GPU-duration claim is made.
+
+[Before captures](../art/previews/request-26-2026-10-13/before/) and
+[compressed captures](../art/previews/request-26-2026-10-13/compressed/) use the same three camera
+framings, separate processes and 150 settling frames per view. Initial view plus close view:
+pitch 50°, yaw 45°, distance 20, position at the active unit plus (2.5, 0, −2.5); partial car view:
+pitch 45°, yaw 30°, distance 13. Rain, idle animation and cursor hover vary between captures.
+Reviewed close characters and the partially visible car/nearby prop: no conspicuous block artifacts
+or unrequested change in the established look, so BC7 was not needed.

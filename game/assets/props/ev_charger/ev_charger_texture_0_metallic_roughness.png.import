@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://df7gywj3exhjb"
-path="res://.godot/imported/ev_charger_texture_0_metallic_roughness.png-b7bc4e327abcdedf59763060e80373e7.ctex"
+path.s3tc="res://.godot/imported/ev_charger_texture_0_metallic_roughness.png-b7bc4e327abcdedf59763060e80373e7.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "ff03b5331d4d0b58351f7e4e478c9c2c"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/ev_charger/ev_charger_texture_0_metallic_roughness.png"
-dest_files=["res://.godot/imported/ev_charger_texture_0_metallic_roughness.png-b7bc4e327abcdedf59763060e80373e7.ctex"]
+dest_files=["res://.godot/imported/ev_charger_texture_0_metallic_roughness.png-b7bc4e327abcdedf59763060e80373e7.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

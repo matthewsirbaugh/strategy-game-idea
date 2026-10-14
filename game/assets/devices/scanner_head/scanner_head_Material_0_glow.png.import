@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vd6q7cwqmmmd"
-path="res://.godot/imported/scanner_head_Material_0_glow.png-4dd31a94db7cd101d81f0e68b014ad0a.ctex"
+path.s3tc="res://.godot/imported/scanner_head_Material_0_glow.png-4dd31a94db7cd101d81f0e68b014ad0a.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "095e31aa3c9d240d559407d9d8facfaf"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/scanner_head/scanner_head_Material_0_glow.png"
-dest_files=["res://.godot/imported/scanner_head_Material_0_glow.png-4dd31a94db7cd101d81f0e68b014ad0a.ctex"]
+dest_files=["res://.godot/imported/scanner_head_Material_0_glow.png-4dd31a94db7cd101d81f0e68b014ad0a.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

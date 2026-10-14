@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://8boyy82kokso"
-path="res://.godot/imported/equipment_cases_Image_2.jpg-27963451d7b0da2d0b915797d92001da.ctex"
+path.s3tc="res://.godot/imported/equipment_cases_Image_2.jpg-27963451d7b0da2d0b915797d92001da.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "5d2abf9820ce8ab9ddc3ce5ac9caa9ac"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/equipment_cases/equipment_cases_Image_2.jpg"
-dest_files=["res://.godot/imported/equipment_cases_Image_2.jpg-27963451d7b0da2d0b915797d92001da.ctex"]
+dest_files=["res://.godot/imported/equipment_cases_Image_2.jpg-27963451d7b0da2d0b915797d92001da.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

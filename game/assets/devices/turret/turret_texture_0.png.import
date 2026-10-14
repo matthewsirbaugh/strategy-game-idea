@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bg04yr1b6s78p"
-path="res://.godot/imported/turret_texture_0.png-fe326cd4accf0577439b84fc8a5bb20d.ctex"
+path.s3tc="res://.godot/imported/turret_texture_0.png-fe326cd4accf0577439b84fc8a5bb20d.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "74f74ca0811ec4ead36d355969a40787"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/turret/turret_texture_0.png"
-dest_files=["res://.godot/imported/turret_texture_0.png-fe326cd4accf0577439b84fc8a5bb20d.ctex"]
+dest_files=["res://.godot/imported/turret_texture_0.png-fe326cd4accf0577439b84fc8a5bb20d.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

@@ -22,6 +22,8 @@ assets/
 An asset is a folder holding a record named `<id>.json`. A folder without one isn't an asset: the
 legacy `packs/` and `clip_source/` folders are parts of the old characters, not models to review.
 
+Asset textures use video-memory compression (`compress/mode=2`), default S3TC at their source resolution; `tools/check.sh` rejects lossless imports (Bryson, Request 26, 2026-10-13).
+
 ## The record, `<id>.json`
 
 Every field is required. An empty value is `null`, `[]` or `""`, as the type allows. An `id` is

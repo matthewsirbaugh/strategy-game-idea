@@ -5,6 +5,8 @@ project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 check_dir="$(mktemp -d "${TMPDIR:-/tmp}/strategy-game-check.XXXXXX")"
 trap 'rm -rf "$check_dir"' EXIT
 
+if grep -rq --include='*.import' '^compress/mode=0$' "$project_root/game/assets"; then printf '%s\n' 'FAIL: asset textures must use video-memory compression (compress/mode=2)' >&2; exit 1; fi
+
 run_check() {
     local label="$1"
     shift

@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://x714dqhc5ues"
-path="res://.godot/imported/night_vision_camera_pole_BakedMaterial_glow.png-2ec3b6beea6399b4bc0c967bf515a186.ctex"
+path.s3tc="res://.godot/imported/night_vision_camera_pole_BakedMaterial_glow.png-2ec3b6beea6399b4bc0c967bf515a186.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "3da2aa61441c776790eb9775c4dae93a"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/night_vision_camera_pole/night_vision_camera_pole_BakedMaterial_glow.png"
-dest_files=["res://.godot/imported/night_vision_camera_pole_BakedMaterial_glow.png-2ec3b6beea6399b4bc0c967bf515a186.ctex"]
+dest_files=["res://.godot/imported/night_vision_camera_pole_BakedMaterial_glow.png-2ec3b6beea6399b4bc0c967bf515a186.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dgm5dvod25u1v"
-path="res://.godot/imported/floodlight_pole_0.jpg-bb54e4d07a8db829974e9646ea96ac8a.ctex"
+path.s3tc="res://.godot/imported/floodlight_pole_0.jpg-bb54e4d07a8db829974e9646ea96ac8a.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "4b97df72e36545fc3c83eca5936299e2"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/legacy/props/floodlight_pole/floodlight_pole_0.jpg"
-dest_files=["res://.godot/imported/floodlight_pole_0.jpg-bb54e4d07a8db829974e9646ea96ac8a.ctex"]
+dest_files=["res://.godot/imported/floodlight_pole_0.jpg-bb54e4d07a8db829974e9646ea96ac8a.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bjup3w52y8kdx"
-path="res://.godot/imported/planter_Image_1.jpg-a284c6f1b53dc4660cd8fff3b9d5fe5d.ctex"
+path.s3tc="res://.godot/imported/planter_Image_1.jpg-a284c6f1b53dc4660cd8fff3b9d5fe5d.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "ab48f5c169fe407819367d1c95d44ecd"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/props/planter/planter_Image_1.jpg"
-dest_files=["res://.godot/imported/planter_Image_1.jpg-a284c6f1b53dc4660cd8fff3b9d5fe5d.ctex"]
+dest_files=["res://.godot/imported/planter_Image_1.jpg-a284c6f1b53dc4660cd8fff3b9d5fe5d.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

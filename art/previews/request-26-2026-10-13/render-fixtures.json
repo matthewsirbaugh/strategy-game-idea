@@ -1,0 +1,22 @@
+{
+  "before": {
+    "box_meshes": 1029,
+    "draw_calls": 1141.0,
+    "instances": 2135,
+    "meshes": 1208,
+    "screen_space_aa": 0,
+    "smaa_enum": 2,
+    "texture_bytes": 1371285120.0,
+    "vram_bytes": 2036006912.0
+  },
+  "compressed": {
+    "box_meshes": 1029,
+    "draw_calls": 1141.0,
+    "instances": 2135,
+    "meshes": 1208,
+    "screen_space_aa": 0,
+    "smaa_enum": 2,
+    "texture_bytes": 196814464.0,
+    "vram_bytes": 686718976.0
+  }
+}

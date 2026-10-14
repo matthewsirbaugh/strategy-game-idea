@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://drjw4qy6fy78x"
-path="res://.godot/imported/camera_pole_texture_0_metallic_roughness.png-b82d1f263c05aaddd0bf7d39d3a06a72.ctex"
+path.s3tc="res://.godot/imported/camera_pole_texture_0_metallic_roughness.png-b82d1f263c05aaddd0bf7d39d3a06a72.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "4a8d0049a883c08899b3670c35501ec5"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/camera_pole/camera_pole_texture_0_metallic_roughness.png"
-dest_files=["res://.godot/imported/camera_pole_texture_0_metallic_roughness.png-b82d1f263c05aaddd0bf7d39d3a06a72.ctex"]
+dest_files=["res://.godot/imported/camera_pole_texture_0_metallic_roughness.png-b82d1f263c05aaddd0bf7d39d3a06a72.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

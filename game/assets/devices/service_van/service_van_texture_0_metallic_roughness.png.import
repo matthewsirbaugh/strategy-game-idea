@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://rw0i3evhciic"
-path="res://.godot/imported/service_van_texture_0_metallic_roughness.png-13fa6f53a9e1040f2b9eb36547ce9786.ctex"
+path.s3tc="res://.godot/imported/service_van_texture_0_metallic_roughness.png-13fa6f53a9e1040f2b9eb36547ce9786.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "2ee4b776e8c1d7807d37545888428f6a"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/service_van/service_van_texture_0_metallic_roughness.png"
-dest_files=["res://.godot/imported/service_van_texture_0_metallic_roughness.png-13fa6f53a9e1040f2b9eb36547ce9786.ctex"]
+dest_files=["res://.godot/imported/service_van_texture_0_metallic_roughness.png-13fa6f53a9e1040f2b9eb36547ce9786.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

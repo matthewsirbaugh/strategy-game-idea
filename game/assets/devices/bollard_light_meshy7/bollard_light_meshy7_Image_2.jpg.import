@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dl27yxg4h6ivm"
-path="res://.godot/imported/bollard_light_meshy7_Image_2.jpg-3f342153c48fecb483ef1b525e55595c.ctex"
+path.s3tc="res://.godot/imported/bollard_light_meshy7_Image_2.jpg-3f342153c48fecb483ef1b525e55595c.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "43c2129c5172910ba3819ededb7ebae6"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/bollard_light_meshy7/bollard_light_meshy7_Image_2.jpg"
-dest_files=["res://.godot/imported/bollard_light_meshy7_Image_2.jpg-3f342153c48fecb483ef1b525e55595c.ctex"]
+dest_files=["res://.godot/imported/bollard_light_meshy7_Image_2.jpg-3f342153c48fecb483ef1b525e55595c.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

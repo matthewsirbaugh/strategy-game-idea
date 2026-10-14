@@ -3,9 +3,10 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dydhxw1g7tcka"
-path="res://.godot/imported/scanner_pole_Image_2.jpg-cc956bf46a39adcf4c0aa447c4a11ba3.ctex"
+path.s3tc="res://.godot/imported/scanner_pole_Image_2.jpg-cc956bf46a39adcf4c0aa447c4a11ba3.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "f1dd611ff7a6906f41b433c06130ba56"
@@ -14,11 +15,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/devices/scanner_pole/scanner_pole_Image_2.jpg"
-dest_files=["res://.godot/imported/scanner_pole_Image_2.jpg-cc956bf46a39adcf4c0aa447c4a11ba3.ctex"]
+dest_files=["res://.godot/imported/scanner_pole_Image_2.jpg-cc956bf46a39adcf4c0aa447c4a11ba3.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
