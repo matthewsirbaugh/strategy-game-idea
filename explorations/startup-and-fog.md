@@ -343,3 +343,12 @@ No failures: [input measurements](../art/previews/request-26-2026-10-13/camera/i
 [overhead capture](../art/previews/request-26-2026-10-13/camera/network.png),
 [restored physical capture](../art/previews/request-26-2026-10-13/camera/restored.png).
 These are automated native interaction checks, separate from Bryson's own play reports.
+
+#### 5. Archive the one-off tools
+
+The eight named scripts were copied to
+`~/Desktop/Archive/strategy-game-idea/2026-10-13-one-off-verifiers/files/tools/`, with SHA-256 and
+byte-count verification before removal. No adjacent `.uid` files existed. The batch README and
+manifest, project archive README, archive index and `ARCHIVE.md` record the two-sided handoff;
+README's two reading routes now point to findings/permanent tests and the archive. Older dated
+explorations intentionally retain their historical paths. The full six project checks passed.
