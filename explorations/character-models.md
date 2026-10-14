@@ -132,6 +132,25 @@ Captures: [art/previews/operator-protagonist-meshy-head-pack-2026-10-14/](../art
 Lesson for the writer and the developer: give Meshy a side view of everything, and a head of its
 own. The raw models are over GitHub's 100 MB limit and are not in git.
 
+### 2026-10-14 — Graft and remesh (Claude; in Blender, no credits)
+
+The head was scaled to the body by the respirator's filter width (0.196) and set at the old
+mask's height. The body's old head was cut away above the collar, and the old mask's leftovers
+were removed by colour and position, keeping only the jacket. Meshy's remesh needs a public URL,
+so the remesh was done in Blender: each part rebuilt lighter, given a fresh texture layout, and
+its colour baked from the detailed original. Shrinking Meshy's own texture layout breaks it into
+speckles, so the bake is the step that matters.
+
+| Model | File | Faces | Texture |
+|---|---|---|---|
+| Body and head, one mesh, 1.75 m, feet at the origin | `art/sources/units/operator_protagonist/prepared.glb` | 56,344 | 4096² |
+| Pack, seated on his back as the sheet shows | `art/sources/units/operator_protagonist/prepared-pack.glb` | 12,140 | 2048² |
+
+Captures: [art/previews/operator-protagonist-graft-2026-10-14/](../art/previews/operator-protagonist-graft-2026-10-14/).
+Known: the lower respirator strap dips into the collar on his right side; the filter grilles
+softened; the pack's waist strap floats beside his jacket until it is fitted after rigging.
+Not yet rigged, and not in the game.
+
 ## Open questions
 
 None yet.
