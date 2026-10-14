@@ -116,6 +116,22 @@ Meshy multi-image from `body-front.png` and `body-back.png`, model "latest", T-p
 One mesh, 899,544 faces, 1.90 m tall as delivered, one 4096² base-colour texture. Not yet
 remeshed, scaled, rigged or placed in the game.
 
+### 2026-10-14 — The pilot's head and pack (Claude; Bryson reviewing before the graft)
+
+The body's hair and strap edges came out skin-coloured: Meshy saw only a front and a back, and
+guessed skin for everything facing sideways. So the head was modeled on its own from four views
+and the pack got a side view ([Request 27](../art/briefs/operator-protagonist-head.md)). Both
+Meshy multi-image, model "latest", textured at 4K, 30 credits each.
+
+| Part | Task | Faces | Result |
+|---|---|---|---|
+| Head, from front, three-quarter, side and back | `01a1388d-29e9-763c-9f25-71f2aa3bc0bd` | 4.0 million | Dark hair through every curl, dark straps on every edge, real glasses |
+| Pack, from back, three-quarter and side | `01a1388d-3b7c-727f-b242-0e5d0052f68f` | 3.1 million | Solid case, pole and cables in the round; the body-side padding is Meshy's invention |
+
+Captures: [art/previews/operator-protagonist-meshy-head-pack-2026-10-14/](../art/previews/operator-protagonist-meshy-head-pack-2026-10-14/).
+Lesson for the writer and the developer: give Meshy a side view of everything, and a head of its
+own. The raw models are over GitHub's 100 MB limit and are not in git.
+
 ## Open questions
 
 None yet.
