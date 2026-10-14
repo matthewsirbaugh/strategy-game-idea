@@ -31,6 +31,9 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
   (Dishonored, Deathloop) and clean hero (Overwatch, Valorant), in
   [the style test](../art/briefs/operator-style-test.md), Request 20. DESIGN.md's "characters
   included" wording changes once Bryson approves it.
+- 2026-10-13: Astra's protagonist sheet is "essentially perfect"; it's adopted as
+  [the style reference](../art/reference/operator-protagonist-style.png). The writer and the
+  developer follow it, one sheet each ([Request 21](../art/briefs/operator-sheets.md)).
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.

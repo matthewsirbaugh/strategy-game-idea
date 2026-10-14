@@ -15,6 +15,7 @@ the source study keeps its prompts and generation records.
 | `openbrain-research-park-river-crossing.png` | A grated bridge over the river into the research park, a guard and a robot dog on patrol | `.../river-campus-views-2026-10-10/02-central-river-crossing.png` |
 | `openbrain-research-park-robotics-lab.png` | Inside a research park lab, a robot arm at a bench, the headquarters beyond the river | `.../river-campus-views-2026-10-10/03-robotics-lab-looking-north.png` |
 | `openbrain-logo-white.png` | OpenBrain's emblem: five interlaced rounded loops around an open center, black on white. Use this file itself wherever the emblem appears; don't regenerate it | Astra, chosen by Bryson 2026-10-11 |
+| `operator-protagonist-style.png` | The protagonist, and the style for every person in the game: stylized, neither anime nor realistic. Front, back, an unmasked portrait and the battle-camera view. Bryson: "essentially perfect" (2026-10-13) | Astra, `art/concepts/operator-style-test-2026-10-13/v2/style-clean-hero.png` |
 
 The references for the retired Edgerunners look were archived outside the project on 2026-10-10;
 see [ARCHIVE.md](../../ARCHIVE.md).
