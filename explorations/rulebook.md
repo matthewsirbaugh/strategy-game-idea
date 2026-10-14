@@ -708,6 +708,12 @@ pipeline; V1 is finished after that. Bring these to the same session, raised on 
 
 ## V2: after implementation and playtesting
 
+- The genre basics the game is missing (Bryson, 2026-10-13): pressure and escalation, readable
+  guard intent, undo and saving, the unwritten geometry, noise and enemy-decision rules, downed
+  Operators, network opposition, the interface floor and campaign basics. Compared against the code
+  in [genre-basics.md](genre-basics.md), from the research report
+  [Stealth tactics basics gap analysis](../reports/Stealth%20tactics%20basics%20gap%20analysis.md).
+  Its decisions 46–52 come first.
 - Rework the speed system for the turn order queue (Bryson, 2026-10-04).
 - Zones where every enemy investigates a camera report, such as deep inside an enemy
   headquarters (RULES.md rule 21).
