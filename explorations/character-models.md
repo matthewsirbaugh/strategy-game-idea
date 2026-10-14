@@ -4,8 +4,8 @@
   Meshy characters from the retired look: generated, rigged and animated), the story in
   [core-idea-and-story.md](core-idea-and-story.md)
 - Status: open for the look (2026-10-13); the modeling comparison is still parked.
-- Next action: Request 22's [revised sheets and packs](../art/concepts/operator-revision-2026-10-13/README.md)
-  are generated, with a 55-pixel silhouette check, awaiting Bryson's pick. The comparison of how
+- Next action: the sheets are final (Requests 22 and 23). Bryson agrees the Meshy plan in
+  [Findings](#findings), then Claude models the three. The comparison of how
   to model and animate them (the options below) still waits on Bryson.
 
 ## The question
@@ -73,7 +73,36 @@ quality and how clips get shared, cost, and what Astra could contribute.
 
 ## Findings
 
-None yet.
+### 2026-10-13 — Meshy best practices for the Operators (Claude; research, nothing generated)
+
+What Meshy's own docs say (verified), and what it means for our three sheets:
+
+| Practice | Source | Our sheets |
+|---|---|---|
+| One view per image, 1–4 images, the front first; the rest in any order | API docs | Each sheet holds four views in one image, so the front and back get cropped apart |
+| Same character size, camera height and lighting in every view; a true side or back, not a near-duplicate | Multi-view tutorial | Front and back match. The elevated rear view has a different camera height, and the portrait is unmasked: both stay out |
+| Plain background, even light, the subject filling the frame | Multi-view tutorial | Plain blue-grey, even light: fine. Crop tight |
+| At least about 1040 px; low resolution smooths detail | Multi-view tutorial | Each figure crop is about 450 × 1000; packs are 512 × 512. Below the guide |
+| A or T-pose in the input gives the best proportions; `pose_mode` sets the output pose, and rigging needs a model close to one | Tutorial, rigging docs | Arms hang relaxed; ask for `t-pose` or `a-pose` in the output |
+| Rigging: humanoid, textured, 300k faces or fewer, standard proportions; remesh first | Rigging docs | Fine, after a remesh |
+| Accessories hidden in every view float or detach; show each part clearly once | Multi-view tutorial | The camera pole shows in front and back |
+
+- Models: the API now lists `meshy-7.1` (the default "latest") and calls `meshy-7` deprecated.
+  Our MCP server (v0.5.x) only offers `meshy-7` and "latest", and its notes still say "latest"
+  plus `remove_lighting` stays on Meshy 6. The two disagree; the first task's record will show
+  which model ran.
+- Not in any Meshy doc, but general rigging experience: long coats and skirts stretch and tear
+  between the legs under auto-rig weights. The writer's coat reaches her knees, which breaks the
+  old "nothing below mid-thigh" sheet rule. Her coat is the riskiest piece of the three.
+- Our own lesson from September still applies: Meshy flattened every backpack modeled on a body,
+  and the packs came out right as separate objects on the `Spine` bone.
+
+Sources: [Meshy multi-image API](https://docs.meshy.ai/en/api/multi-image-to-3d),
+[Meshy rigging API](https://docs.meshy.ai/en/api/rigging),
+[Meshy rigging guide](https://docs.meshy.ai/en/webapp/guides/3d-model/rigging),
+[Meshy multi-view tutorial](https://www.meshy.ai/tutorials/multi-view-image-to-3d),
+[Meshy image to 3D help](https://intercom.help/meshy/en/articles/9996860-how-to-use-meshy-image-to-3d),
+[Meshy 7.1 notes (third party)](https://blog.neural4d.com/comparisons/meshy-7-release-date-and-alternative/).
 
 ## Open questions
 

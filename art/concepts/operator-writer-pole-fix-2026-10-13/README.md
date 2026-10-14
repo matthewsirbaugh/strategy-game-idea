@@ -1,6 +1,6 @@
 # Writer camera pole correction — Request 23
 
-candidates, awaiting Bryson's pick
+Bryson's pick, 2026-10-13: now the approved source
 
 One precise edit of the approved first-pass writer sheet for
 [Request 23](../../../explorations/claude-and-astra.md#requests), generated with the built-in
