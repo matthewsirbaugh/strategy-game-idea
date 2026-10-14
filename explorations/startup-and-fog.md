@@ -301,3 +301,15 @@ pitch 50°, yaw 45°, distance 20, position at the active unit plus (2.5, 0, −
 pitch 45°, yaw 30°, distance 13. Rain, idle animation and cursor hover vary between captures.
 Reviewed close characters and the partially visible car/nearby prop: no conspicuous block artifacts
 or unrequested change in the established look, so BC7 was not needed.
+
+#### 2. Debanding and SMAA
+
+Enabled debanding and `screen_space_aa=2`. The native engine constant confirms
+`VIEWPORT_SCREEN_SPACE_AA_SMAA=2`; matching [captures](../art/previews/request-26-2026-10-13/smaa/)
+show slightly softer fine edges without a change in palette, framing or fog. No new obvious banding
+or block artifacts appeared. The full six project checks passed.
+
+The handoff called the retained multisample setting 2×. The existing project value is
+`msaa_3d=2`, which the installed engine maps to 4× (`VIEWPORT_MSAA_2X=1`, `VIEWPORT_MSAA_4X=2`).
+The existing value stays unchanged. At the same framing, SMAA's additional targets increase total
+video-memory use from 686,718,976 to 702,808,064 bytes; draw calls remain 1,141.

@@ -18,5 +18,18 @@
     "smaa_enum": 2,
     "texture_bytes": 196814464.0,
     "vram_bytes": 686718976.0
+  },
+  "smaa": {
+    "box_meshes": 1029,
+    "draw_calls": 1141.0,
+    "instances": 2135,
+    "meshes": 1208,
+    "msaa_2x_enum": 1,
+    "msaa_3d": 2,
+    "msaa_4x_enum": 2,
+    "screen_space_aa": 2,
+    "smaa_enum": 2,
+    "texture_bytes": 217065088.0,
+    "vram_bytes": 702808064.0
   }
 }
