@@ -352,3 +352,9 @@ byte-count verification before removal. No adjacent `.uid` files existed. The ba
 manifest, project archive README, archive index and `ARCHIVE.md` record the two-sided handoff;
 README's two reading routes now point to findings/permanent tests and the archive. Older dated
 explorations intentionally retain their historical paths. The full six project checks passed.
+
+#### 6. Orphan shader identifier
+
+Removed `game/art/shaders/fog_box.gdshader.uid`; its shader was already absent and its identifier
+had no references in game scripts, scenes, content resources or project settings. The full six
+project checks passed.
