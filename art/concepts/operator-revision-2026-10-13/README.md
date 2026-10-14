@@ -1,6 +1,9 @@
 # Operators revised: personality and wearable computers
 
-candidates, awaiting Bryson's pick
+picked 2026-10-13: Bryson adopted all four as the definitive Operators. For the writer he chose
+the first pass (`exec-3f22535c…` in the generation record), not the complexion-corrected
+`writer.png` here. The finals are in `art/sources/units/operator_protagonist/`, `operator_writer/`
+and `operator_developer/`, each with its pack cropped from `packs.png`.
 
 Four exploratory images for [Request 22](../../../explorations/claude-and-astra.md#requests),
 following [operator-revision.md](../../briefs/operator-revision.md), generated with the built-in
