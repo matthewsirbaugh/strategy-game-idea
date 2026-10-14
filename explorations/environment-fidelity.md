@@ -1,7 +1,7 @@
 # Environment fidelity: real walls, real ground
 
-- Feeds: [environment-art.md](environment-art.md), [wall-occlusion.md](wall-occlusion.md)
-- Style: [environment-style-study.md](environment-style-study.md) (2026-09-29) says what the
+- Feeds: environment-art.md (archived), [wall-occlusion.md](wall-occlusion.md)
+- Style: environment-style-study.md (archived) (2026-09-29) says what the
   surfaces should look like; where the two disagree, it is newer.
 - Status: parked; the art-direction reset comes first.
 - Next action: resumes once [art-direction.md](art-direction.md) settles the look.
@@ -175,7 +175,7 @@ And to test it small first, per AGENTS.md: do all four on one **test patch**, th
    painted anime style unless graded hard. The other way is painted textures, ours from Astra,
    with depth maps generated from them. Or a mix: photo ground, painted signage.
    **Answered 2026-09-29 (Bryson): stylized, not photographic.** See
-   [environment-style-study.md](environment-style-study.md).
+   environment-style-study.md (archived).
 2. **Night and wet, like 0A?** It's the biggest lighting win and matches the reference. It also
    decides a lot of the texture work.
 3. **Test patch first**, the street entrance, before the whole map?
@@ -245,7 +245,7 @@ can give.
 
 ### 2026-09-30 — First environment pass on the exterior map (Claude; rendered, not played)
 
-Built to [the style study](environment-style-study.md), across the whole exterior map. The
+Built to the style study (archived), across the whole exterior map. The
 changes are in `game/art/shaders/world.gdshader`, `game/battle/level_view.gd` and
 `game/battle/battle.tscn`.
 

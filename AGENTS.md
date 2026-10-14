@@ -51,12 +51,14 @@ expects that plan to change as ideas surface while playing.
 |---|---|
 | DESIGN.md | The game: intent, touchstones, constraints, decisions, open questions |
 | RULES.md | The rulebook: agreed rules only, V1 in progress |
+| STORY.md | The story: agreed world, history and characters only |
 | AGENTS.md | This file: how we work |
 | CLAUDE.md | One line pointing Claude Code at this file |
 | EXPLORATIONS.md | The board: every open topic, its status and its next action |
 | explorations/*.md | One file per research or design thread |
 | README.md | How to set up, run and test the game |
 | game/ | The Godot project; README.md explains its folders |
+| side-project-map-maker/ | Astra's map maker, a separate Godot project; the start of how Bryson will lay out levels |
 | tools/ | `check.sh`: imports and every test suite in one command. `prep_prop.py`: readies a Meshy model in Blender. `build_fixtures.py`: builds the pole fixtures and barrier gate in Blender. `profile_startup.py`: times the battle's startup |
 | art/reference/ | Reference images Bryson chose; new art adheres to them |
 | art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
@@ -82,12 +84,12 @@ progress and don't get lost. One topic, one chat, one file.
   only place that says what is current.
 - `explorations/<topic>.md` is the thread itself: the question, inherited constraints,
   candidates, dated findings, open questions, and the decision once it lands.
-- Only conclusions graduate. A decision moves into DESIGN.md, RULES.md if it is a game rule, or
+- Only conclusions graduate. A decision moves into DESIGN.md, RULES.md if it is a game rule, STORY.md if it is story, or
   AGENTS.md if it is a working rule, as a line or two with a link back. The reasoning stays in the exploration file, so the
   design docs never become a research dump.
 - A new tangent gets a row on the board, not a detour in the current chat.
 - Starting cold in any tool: read AGENTS.md, EXPLORATIONS.md and the one exploration file, plus
-  RULES.md for rules work. Nothing else should be needed. In Claude Code, `/exploration` does this.
+  RULES.md for rules work and STORY.md for story work. Nothing else should be needed. In Claude Code, `/exploration` does this.
 - Bryson makes the call at the end of an exploration. Agents gather, compare and recommend.
 
 ## Editing these files, and git
@@ -138,7 +140,7 @@ owns what and the table of requests between agents, is
   run on Sonnet instead of Opus.
 - Astra is better at 3D and is used for art prototypes: more than a placeholder, less than a
   final asset. It burns through usage quickly, so use it deliberately.
-- Fable- and Astra-level spending is reserved for when it is genuinely needed, or for polish.
+- Spending on the most expensive models is reserved for when it is genuinely needed, or for polish.
 - Final art is deliberately deferred toward the end of the project, on the expectation that 3D
   tooling keeps improving.
 - Services like Meshy are options for generating 3D assets.
@@ -158,6 +160,8 @@ reads it later.
 - Write a test only when it earns its keep: rules math that's easy to get subtly wrong, or a bug
   that has already come back once. Never for coverage, and never "just because".
 - Verify by running and playing the build. Report which of the two actually happened.
+- Bryson plays every build as he goes, and doesn't always say so. Never list "Bryson plays it" as
+  a next action or an open item; record what he reports when he reports it (Bryson, 2026-10-13).
 - The established look is part of every deliverable. Compare a visual change against the
   previous build in the same camera framing, and flag anything that changes the look without
   being asked for before delivering it (Bryson, 2026-10-11).

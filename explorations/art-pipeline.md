@@ -388,7 +388,7 @@ own tool definitions (v0.5.2); nothing generated yet. Balance on 2026-09-27: 3,1
 - "Let's leave the bot sheets alone for now." The L-shaped mount prompt stays above for when they
   resume.
 - After seeing everything in the battle: the set lacks cohesion and the models don't look good.
-  The aesthetics pass is tracked in [environment-art.md](environment-art.md).
+  The aesthetics pass is tracked in environment-art.md (archived).
 
 ## Questions to answer
 

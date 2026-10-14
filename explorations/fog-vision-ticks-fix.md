@@ -7,7 +7,7 @@ Vision snapshot: a detached record of what the rules let the player see at one t
 the graphics can show that moment even after the rules have finished the action.
 
 - Status: Request 17 implemented and verified by Astra, 2026-10-11, following the approved
-  Claude/Opus amendments. Bryson selected tone B from captures; his mission playtest remains open.
+  Claude/Opus amendments. Bryson selected tone B from captures.
   [Implementation findings](#request-17-implementation-findings).
 - Author: Astra. Review handoff: [Request 16](claude-and-astra.md#requests).
 - Source reviewed: `7a72375e1cfddded8faba9da084bf0128397e0f2` on `main`.

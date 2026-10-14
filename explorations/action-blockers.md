@@ -1,8 +1,8 @@
 # Action blockers: the rules say why an action is unavailable
 
 - Status: implemented and verified by Astra, 2026-10-11, through
-  [Request 13](claude-and-astra.md#requests). Bryson approved Claude's proposal; his playtest
-  and the information-leak decision remain open.
+  [Request 13](claude-and-astra.md#requests). Bryson approved Claude's proposal; the
+  information-leak decision remains open.
 - Origin: the first refactor that the [shared coding guide](shared-coding-guide.md) review
   recommended.
 

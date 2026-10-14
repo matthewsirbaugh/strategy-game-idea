@@ -19,7 +19,7 @@ the split human/AI turn, the node network, fog of war and how hacks resolve.
 
 For a cold start, read AGENTS.md, EXPLORATIONS.md, the DESIGN.md decisions, and this file down
 to [Open questions](#open-questions). Everything after that is the shelved 2026-09-22 record.
-The playable MVP is tracked in [battle-mvp.md](battle-mvp.md).
+The playable MVP is tracked in battle-mvp.md (archived).
 
 ## 2026-09-23 — Stepping back (Bryson, Claude Code chat)
 
@@ -133,7 +133,7 @@ without locking it in.
    pressure. After the first boss, most enemies have an AI. The training wheels come off and
    the design can get more creative, because the player has a frame of reference.
 
-The MVP itself is specified in [battle-mvp.md](battle-mvp.md).
+The MVP itself is specified in battle-mvp.md (archived).
 
 ## 2026-09-29 — Context as a battle-long resource, and interim turn rules (Bryson)
 

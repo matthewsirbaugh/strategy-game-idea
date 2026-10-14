@@ -122,8 +122,11 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
   things, as the rules are. OpenBrain, the OpenAI clone, is the main villain, and a monopoly in
   America. It replaces the gritty technofeudal future. (2026-10-08; the city and the monopoly
   2026-10-10, [lore](explorations/core-idea-and-story.md#corrections-2026-10-10))
-- The look is realistic, characters included. The Edgerunners direction is retired. Details are
-  worked out in [the art-direction exploration](explorations/art-direction.md). (2026-10-08)
+- The world is realistic; the characters are stylized, neither anime nor realistic, after the
+  adopted [protagonist sheet](art/reference/operator-protagonist-style.png) (2026-10-13). The
+  Edgerunners direction is retired. Details are worked out in
+  [the art-direction exploration](explorations/art-direction.md) and
+  [character-models.md](explorations/character-models.md). (2026-10-08)
 - The enemy is like OpenAI: black and white, very modern, mostly white, with red accents in very
   few places, after Nothing's design philosophy. It leans into the tech oligarchy and stands out
   against dim backgrounds. (2026-10-08)
@@ -160,7 +163,7 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
    creative ways.
 4. Whether the touchstones above are ingredients the brainstorm has to use, or inspiration it
    is free to leave behind.
-5. The core idea and story. In progress in
+5. The core idea and story. What's agreed is in [STORY.md](STORY.md); the work continues in
    [the exploration](explorations/core-idea-and-story.md#topic-index). The setting, the villain
    and how the AI is presented have graduated (Decisions, 2026-10-08); the plot and characters
    haven't. See [the board](EXPLORATIONS.md) for the next action.

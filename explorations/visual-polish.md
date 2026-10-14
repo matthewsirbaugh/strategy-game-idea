@@ -1,10 +1,10 @@
 # Visual polish: interface and Network mode
 
-- Status: open; implemented for Bryson's review.
-- Next action: play the 2026-10-05 passes: hover card, unit panel, scan badges, network markers,
-  the menus' overhaul, the two halves of a turn, AI pins and the network's label layout.
+- Status: built 2026-10-05: hover card, unit panel, scan badges, network markers, the menus'
+  overhaul, the two halves of a turn, AI pins and the network's label layout. Changes come from
+  Bryson's play.
 - Inherited the [house style](art-pipeline.md#house-style) and the facility's clay-orange and
-  cream direction in [environment-art.md](environment-art.md); both were retired on 2026-10-08.
+  cream direction in environment-art.md (archived); both were retired on 2026-10-08.
   The interface's colors stay until the art direction reaches them.
 
 ## Request — 2026-09-30

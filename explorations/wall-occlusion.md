@@ -1,8 +1,7 @@
 # Wall occlusion: seeing past walls
 
-- Feeds: [environment-art.md](environment-art.md), [battle-mvp.md](battle-mvp.md)
+- Feeds: environment-art.md (archived), battle-mvp.md (archived)
 - Status: decided 2026-09-28 (Decision, at the bottom). Built the same day.
-- Next action: Bryson plays with it and says whether the ghosting reads well.
 
 ## The question
 

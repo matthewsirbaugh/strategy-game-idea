@@ -1,6 +1,6 @@
 # Startup performance and clearer fog of war
 
-- Status: implemented and verified by Astra, 2026-10-11; Bryson's playtest remains open.
+- Status: implemented and verified by Astra, 2026-10-11.
   Approved by Bryson, 2026-10-11. Claude did not review; Bryson's
   approval replaces the proposed pre-construction review. Loading/animation architecture changes
   still follow evidence and joint review. Follow-up 2026-10-11: Bryson reports that the delivered

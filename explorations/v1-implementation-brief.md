@@ -17,7 +17,7 @@
    decided by an agent alone, so the plan proposes and Bryson decides.
 2. [RULES.md](../RULES.md), all of it. The full definitions at the end carry the edge cases.
 3. This brief.
-4. [battle-mvp.md](battle-mvp.md), "Architecture (agreed 2026-09-23)": the existing structure
+4. battle-mvp.md (archived), "Architecture (agreed 2026-09-23)": the existing structure
    (rules as plain data and functions with no scene nodes, content as `.tres` resources, a 3D
    view that reads the rules state).
 
@@ -201,7 +201,7 @@ an aesthetic overhaul (see [visual-polish.md](visual-polish.md)).
 
 ## How Bryson will judge it
 
-The playtest questions from [battle-mvp.md](battle-mvp.md) still apply, plus:
+The playtest questions from battle-mvp.md (archived) still apply, plus:
 
 1. Does the Operator's AP economy give creative turns without feeling fiddly?
 2. Do the AI's refunds and chips produce chains that feel clever?

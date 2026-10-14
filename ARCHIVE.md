@@ -8,6 +8,7 @@ Old ideas and assets that still have value but aren't part of this project live 
 |---|---|---|
 | 2026-10-10 | `2026-10-10-edgerunners-era-art` | 107 files from the retired Edgerunners and Anthropomorphic-facility look: the old references, the Operator, AI partner and compute-pack concepts, and the images sent to Meshy. Bryson abandoned the previous art when the look turned realistic. Last in the project at commit `df98077` |
 | 2026-10-11 | AI Strategy Game Model Archive | 35 Meshy downloads (525 MB), every `art/sources/**/meshy-*.glb`, moved out so the repository stops growing by tens of MB per model; Bryson chose this over Git LFS. 29 were committed and remain in git history up to commit `81b161e`; 6 remesh downloads never were |
+| 2026-10-13 | `2026-10-13-retired-docs` | Dead docs, at Bryson's request: `explorations/environment-art.md`, `environment-style-study.md` and `battle-mvp.md`, and `claude-and-astra.md` with every closed request in full. Last in the project at commit `0539bde` |
 
 Older docs still name these files by their project paths: anything under
 `art/reference/retired/`, `art/concepts/companions/`, `art/concepts/operator-turnarounds/`,

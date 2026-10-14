@@ -23,7 +23,7 @@ DESIGN.md's decisions on the look are what is under review here: gritty cyberpun
 Cyberpunk: Edgerunners, the technofeudal world full of ads, 3D models with 2D portraits, the
 camera far back. Final art is deferred toward the end (AGENTS.md); this thread sets the direction
 the placeholder art follows. The corps are OpenBrain and Anthropomorphic, and the facility is
-Anthropomorphic's, in clay and cream ([environment-art.md](environment-art.md)).
+Anthropomorphic's, in clay and cream (environment-art.md (archived)).
 
 ## Method (Claude's recommendation, not yet agreed)
 

@@ -1,7 +1,6 @@
 # Playtest fixes: fog that fades, menus named after objects
 
 - Status: implemented and verified 2026-10-11 as [Request 18](claude-and-astra.md#requests).
-  Bryson's playtest of the combined build remains open.
 - Author: Claude. Follows Bryson's playtest of [Request 17](fog-vision-ticks-fix.md#request-17-implementation-findings).
 
 ## What Bryson asked for

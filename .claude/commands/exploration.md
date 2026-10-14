@@ -20,7 +20,7 @@ Request: $ARGUMENTS
    is settled, what is still open, the next action. Then get to work. Don't re-derive what the
    file already says.
 5. `close <topic>`: write Bryson's decision and its reasoning into the exploration file, move
-   the conclusion itself into DESIGN.md (RULES.md if it is a game rule, AGENTS.md if it is a
+   the conclusion itself into DESIGN.md (RULES.md if it is a game rule, STORY.md if it is story, AGENTS.md if it is a
    working rule) as a line or two
    with a link back, set the board row to decided, and commit.
 6. If a session-title tool is available, set the chat title to the exploration's name.

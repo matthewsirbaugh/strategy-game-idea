@@ -1,6 +1,6 @@
 # Rules
 
-V1, implemented 2026-10-04 and not yet played. Only agreed rules go here. The reasoning, and anything still being worked out,
+V1, implemented 2026-10-04. Only agreed rules go here. The reasoning, and anything still being worked out,
 is in [the rulebook exploration](explorations/rulebook.md). Once V1 is done, this file is
 published to Google Drive for sharing and comments.
 

@@ -1,12 +1,12 @@
 # Rulebook V1
 
-- Status: V1 implemented (2026-10-04), not yet played. V2 items below.
+- Status: V1 implemented (2026-10-04). V2 items below.
 - Output: `RULES.md` at the root is the working copy. Once V1 is done, it's published to Google
   Drive as a document for sharing and comments (Bryson, 2026-10-02).
 - Scope: the whole game, not only battle: upgrades, enemies, abilities, the Operators' own
   upgrade path, and whatever outside battle feeds them (Bryson, 2026-10-02).
 - Method: one concept at a time, like any exploration. Tangents for research are welcome.
-- Inherits: the rules so far in [battle-core.md](battle-core.md) and [battle-mvp.md](battle-mvp.md).
+- Inherits: the rules so far in [battle-core.md](battle-core.md) and battle-mvp.md (archived).
 
 ## Order of work
 
