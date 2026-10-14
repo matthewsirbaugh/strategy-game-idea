@@ -168,3 +168,8 @@ Sources: [the team](explorations/core-idea-and-story.md#team-2026-10-12),
 The open lore list is the core exploration's [question guide](explorations/core-idea-and-story.md#question-guide):
 S3–S12, Round 2's R2–R5, and [story V2](explorations/core-idea-and-story.md#story-v2), which covers
 what the warning shot actually was.
+
+Conflicts noted for later (2026-10-13):
+- When the game is set: DESIGN.md says the late 2030s to early 2040s; the story has it starting
+  around 2046, with the news takeover around 2036.
+- The order news takeover → warning shot → UBI bill, marked *to confirm* under History.
