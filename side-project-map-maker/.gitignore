@@ -1,0 +1,6 @@
+.godot/
+verification/*.log
+assets/*
+!assets/SOURCES.md
+recovery.json
+workshop-settings.json
