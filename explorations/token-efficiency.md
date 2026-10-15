@@ -3,6 +3,7 @@
 - Request: Bryson, 2026-10-14: make the project maximally token efficient.
 - Scope: shared instructions, document navigation, searches and verification output.
 - Coordination: [Request 28](claude-and-astra.md#requests).
+- Delivered: `77c26f3` (2026-10-14); all file claims released after the implementation commit.
 
 ## Findings
 
