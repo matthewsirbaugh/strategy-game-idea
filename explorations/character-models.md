@@ -151,6 +151,17 @@ Known: the lower respirator strap dips into the collar on his right side; the fi
 softened; the pack's waist strap floats beside his jacket until it is fitted after rigging.
 Not yet rigged, and not in the game.
 
+### 2026-10-14 — Rigged (Claude; Meshy auto-rig, 5 credits)
+
+Sent to Meshy's rigging API directly with the model inline, since the MCP tool only takes a URL
+(Bryson approved reading the key from the Keychain). Task `01a13d40-ea1c-778e-b14f-51718895ccfe`;
+its downloads expire about three days after the run. Standard Meshy skeleton, walk and run included.
+In `game/assets/units/operator_protagonist/` as a proof. The pack is skinned to `Spine` inside the
+same mesh: parented to the bone, Blender's exporter put it 4.8 m off, because Meshy's armature is
+stored at 0.01 scale. Checked: two walk frames rendered in Blender, pack following.
+
+Next, Bryson (2026-10-14): try Meshy text-to-animation on him.
+
 ## Open questions
 
 None yet.
