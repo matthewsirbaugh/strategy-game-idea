@@ -4,9 +4,9 @@
   Meshy characters from the retired look: generated, rigged and animated), the story in
   [core-idea-and-story.md](core-idea-and-story.md)
 - Status: open for the look (2026-10-13); the modeling comparison is still parked.
-- Next action: the sheets are final (Requests 22 and 23). Bryson agrees the Meshy plan in
-  [Findings](#findings), then Claude models the three. The comparison of how
-  to model and animate them (the options below) still waits on Bryson.
+- Next action: finger bones for the protagonist, planned in
+  [operator-finger-rig.md](operator-finger-rig.md); then Meshy text-to-animation (Bryson,
+  2026-10-14). The comparison of how to model and animate them (the options below) still waits on Bryson.
 
 ## The question
 
@@ -173,6 +173,14 @@ orange specks as jacket (piping, which borders the lining, stays) and small skin
 the hairline as hair. The head is rebuilt at 1.5 mm voxels: at 3 mm the glasses survived only by
 luck. `--rig` copies the existing Meshy rig's weights onto the re-baked mesh, so no re-rig.
 [Captures](../art/previews/operator-protagonist-cleanup-2026-10-14/).
+
+### 2026-10-14 — Hands (Bryson's call: finger bones)
+
+Running, his fingers stay splayed: Meshy's rig gives each hand one bone and no finger bones, and
+its API has no option for more. Bryson chose to add finger bones in Blender with a relaxed curl as
+the rest pose, over new Meshy hands (still rigid, and the join would sit on bare forearm skin) or a
+different rigger. The plan, with guidance for whoever builds it:
+[operator-finger-rig.md](operator-finger-rig.md).
 
 ## Open questions
 
