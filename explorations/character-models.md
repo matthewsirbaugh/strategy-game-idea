@@ -4,9 +4,9 @@
   Meshy characters from the retired look: generated, rigged and animated), the story in
   [core-idea-and-story.md](core-idea-and-story.md)
 - Status: open for the look (2026-10-13); the modeling comparison is still parked.
-- Next action: finger bones for the protagonist, planned in
-  [operator-finger-rig.md](operator-finger-rig.md); then Meshy text-to-animation (Bryson,
-  2026-10-14). The comparison of how to model and animate them (the options below) still waits on Bryson.
+- Next action: Meshy text-to-animation (Bryson, 2026-10-14); his Meshy rig task expires about
+  2026-10-17 21:50 EDT. Finger bones are built ([operator-finger-rig.md](operator-finger-rig.md)).
+  The comparison of how to model and animate them (the options below) still waits on Bryson.
 
 ## The question
 
@@ -181,6 +181,13 @@ its API has no option for more. Bryson chose to add finger bones in Blender with
 the rest pose, over new Meshy hands (still rigid, and the join would sit on bare forearm skin) or a
 different rigger. The plan, with guidance for whoever builds it:
 [operator-finger-rig.md](operator-finger-rig.md).
+
+### 2026-10-15 — Fingers built (Claude; Blender, no credits)
+
+Each hand now has five digits on Mixamo-named bones, with a relaxed curl as the rest pose. Walking,
+running and standing, his hands hang relaxed; nothing else about him changed. `tools/add_fingers.py`
+made them and is ready for the writer and the developer. Measurements and limits:
+[operator-finger-rig.md](operator-finger-rig.md#findings).
 
 ## Open questions
 

@@ -1,10 +1,10 @@
 # Operator finger rig: relaxed, poseable hands
 
 - Feeds: [character-models.md](character-models.md) (the Meshy pilot, all 2026-10-13/14 findings)
-- Status: planned, 2026-10-14. Bryson chose option B, finger bones added in Blender; this plan was
-  written by Claude and approved by Bryson for a later session.
-- Next action: confirm the two questions under "Confirm with Bryson first", then build it. Meshy
-  text-to-animation follows.
+- Status: built, 2026-10-15 ([Findings](#findings)). Bryson chose option B, finger bones added in
+  Blender; this plan was written by Claude and approved by Bryson.
+- Next action: Meshy text-to-animation (below). Its rig task expires about 2026-10-17 21:50 EDT.
+  The writer and the developer get fingers from the same tool.
 
 ## Terms
 
@@ -129,6 +129,54 @@ the viewer.
 - **Fingers too fused to separate:** curl the hand as one group (all four fingers on shared bones), or have Astra draw relaxed hands and model them in Meshy, attached at the wrist. That needs a brief, a request and about 30 credits.
 - **Knuckles crease badly:** add a helper bone or adjust the weight falloff before reaching for a new mesh.
 - **A proper finger rig everywhere:** re-rig with Mixamo (free; Bryson uploads) or Reallusion AccuRIG (free desktop app). That changes the pipeline, so it's an architecture decision with Bryson.
+
+## Findings
+
+### 2026-10-15 — Built (Claude; Blender and Godot, no credits)
+
+Bryson's answers (2026-10-15): the relaxed half-curl of the reference's front view; a tool, so the
+writer and the developer get fingers the same way; knuckle loops; delete the two stale textures.
+
+- `tools/add_fingers.py` sweeps each hand from the fingertips toward the wrist and takes each digit
+  where it meets the rest. It adds four Mixamo-named bones per digit and three rings at each middle
+  and end joint. Finger weights come out of the old Hand weight only. The curl is applied, then made
+  the rest pose. It refuses a rig that already has fingers, and rebuilds the asset byte for byte.
+- `tools/render_review.py` renders the recipe below at fixed framings: posed from a clip, or framed
+  on a bone. Full-body shots are framed by height and hips, so a change at the hands doesn't
+  reframe the whole picture.
+- `CharacterRig.retarget` gives bones the source rig lacks their rest pose. Measured on his clip
+  library in Godot: the old code put finger keys in the five bought clips up to 180° off rest; now
+  they are within 0.4°, which is float noise.
+
+| Check | Result |
+|---|---|
+| Digits found | 5 per hand |
+| Vertices without finger weights | moved at most 0.0008 mm |
+| The 24 existing joints | rest and inverse binds unchanged (float noise, under 0.01 mm) |
+| Weight sums | 1, within 1e-7 |
+| Finger skin weighted to another digit | none; only the thumb–index web follows both |
+| Faces | 58,186 → 59,602 |
+| Full-body renders, 7 framings | changed pixels only at the two hands |
+| Godot | import and `tools/check.sh` pass. Through `ToonModel`, Neutral stands with relaxed hands. The Model Library's runtime loader sees the curl as rest; Run has no finger tracks; Still returns to the curl |
+
+Changes from the starting points above:
+- His T-pose fingers fan wide from the middle finger: index 20–26°, ring 26–29°, pinky 50–57°,
+  thumb 42–49°. Closing 60% of that folded the palm's big triangles, so 60% of the spread stays
+  and the thumb turns in 12°, not 20°.
+- Palm weights are smoothed three times across palm skin only. Long palm triangles reach far up
+  the fingers; smoothing that drew on finger skin gave palm vertices fingertip weights.
+- The curl angles stay as planned; they match `01-main.png`'s front view.
+
+Limits:
+- A tight fist (each joint 40° past rest) creases into sharp facets at the knuckles: the Meshy hand
+  is low-poly. Relaxed and flat poses are clean. This matters once grip or fist gestures exist; the
+  fallbacks below apply then.
+- The pinky curls most (97° in all) and tucks under the palm from some angles.
+- His GLB has no AnimationPlayer, so the battle's `ToonModel` can't take him as he is; the check
+  added one. Wiring him into the battle remains Bryson's call.
+
+Captures, before and after in the same framings, from Blender and in Godot:
+[operator-finger-rig-2026-10-15](../art/previews/operator-finger-rig-2026-10-15/).
 
 ## After the hands: Meshy text-to-motion (Bryson's next item)
 
