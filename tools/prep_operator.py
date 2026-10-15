@@ -3,7 +3,8 @@
 # Run: blender -b --python tools/prep_operator.py -- <body.glb> <head.glb> <pack.glb> <out_dir>
 #      [--options below]
 # Writes <out_dir>/prepared.glb (body and head, one mesh) and <out_dir>/prepared-pack.glb, seated
-# on his back in the same frame. Defaults are the protagonist's (2026-10-14). Lengths before
+# on his back in the same frame. With --rig, also <out_dir>/rigged.glb: that rig's weights copied
+# onto this mesh, the pack skinned to Spine, ready for game/assets/units/. Defaults are the protagonist's (2026-10-14). Lengths before
 # --height are in the Meshy body's own units (it arrives about 1.9 tall, centred on the origin);
 # measure a new character's head and collar heights first.
 import argparse
@@ -14,7 +15,7 @@ import sys
 import bmesh
 import bpy
 import numpy as np
-from mathutils import Matrix
+from mathutils import Matrix, Vector
 from mathutils.bvhtree import BVHTree
 
 args = argparse.ArgumentParser()
@@ -32,11 +33,16 @@ args.add_argument("--head-anchor", type=float, nargs=3, default=(-0.028, 0.0, -0
 args.add_argument("--body-anchor", type=float, nargs=3, default=(0.0, 0.0075, 0.69),
                   help="where that point goes on the body")
 args.add_argument("--height", type=float, default=1.75)
+args.add_argument("--collar-z", type=float, default=1.40, help="metres: the collar's cut edge is above this")
+args.add_argument("--hairline-z", type=float, default=1.63, help="metres: scalp above this is painted hair")
+args.add_argument("--rig", help="Meshy's rigged GLB of an earlier run: moves its rig onto this run's mesh")
 args.add_argument("--pack-height", type=float, default=0.63, help="camera top to case bottom")
 args.add_argument("--pack-bottom", type=float, default=1.0, help="metres above the ground")
 args.add_argument("--body-faces", type=int, default=25000)
 args.add_argument("--head-faces", type=int, default=20000)
 args.add_argument("--pack-faces", type=int, default=12000)
+args.add_argument("--head-voxel", type=float, default=0.0015,
+                  help="metres; at 3 mm the glasses frames survive only by luck")
 args.add_argument("--texture", type=int, default=4096)
 args.add_argument("--pack-texture", type=int, default=2048)
 opts = args.parse_args(sys.argv[sys.argv.index("--") + 1:])
@@ -151,6 +157,194 @@ to_world = Matrix.Scale(opts.height / (high[2] - low[2]), 4) @ Matrix.Translatio
 for o in (body, head):
     o.data.transform(to_world)
 
+
+# The tidy-up, in metres from here on. Every step was needed on the protagonist (2026-10-14).
+def pixels_of(obj):
+    image = [n.image for n in obj.active_material.node_tree.nodes if n.type == "TEX_IMAGE"][0]
+    flat = np.empty(image.size[0] * image.size[1] * 4, dtype=np.float32)
+    image.pixels.foreach_get(flat)
+    return image, flat.reshape(image.size[1], image.size[0], 4)
+
+
+def skinlike(rgb):
+    """Skin, and the orange Meshy smears where it guessed: warm and saturated."""
+    hi, lo = rgb.max(-1), rgb.min(-1)
+    return ((rgb[..., 0] > rgb[..., 1]) & ((hi - lo) / np.maximum(hi, 1e-6) > 0.35) & (hi > 0.25)
+            & (rgb[..., 0] - rgb[..., 2] > 0.12))
+
+
+def centre_colour(face, uv, px):
+    h, w = px.shape[:2]
+    u = sum(l[uv].uv.x for l in face.loops) / len(face.loops)
+    v = sum(l[uv].uv.y for l in face.loops) / len(face.loops)
+    return px[int(v * h) % h, int(u * w) % w, :3]
+
+
+def patches(bm, flagged):
+    seen, found = set(), []
+    for start in bm.faces:
+        if start.index in seen or not flagged(start):
+            continue
+        stack, piece = [start], []
+        seen.add(start.index)
+        while stack:
+            f = stack.pop()
+            piece.append(f)
+            for e in f.edges:
+                for g in e.link_faces:
+                    if g.index not in seen and flagged(g):
+                        seen.add(g.index)
+                        stack.append(g)
+        found.append(piece)
+    return found
+
+
+def repaint(faces, uv, px, colour):
+    """Recolours the skin-like texels under the given faces."""
+    h, w = px.shape[:2]
+    cells = []
+    for f in faces:
+        loops = list(f.loops)
+        for i in range(1, len(loops) - 1):
+            p = np.array([(l[uv].uv.x * w, l[uv].uv.y * h) for l in (loops[0], loops[i], loops[i + 1])])
+            (x0, y0), (x1, y1) = np.floor(p.min(0)).astype(int), np.ceil(p.max(0)).astype(int)
+            xs, ys = np.meshgrid(np.arange(x0, x1 + 1), np.arange(y0, y1 + 1))
+            q = np.stack([xs.ravel() + 0.5, ys.ravel() + 0.5], 1) - p[0]
+            e1, e2 = p[1] - p[0], p[2] - p[0]
+            det = e1[0] * e2[1] - e1[1] * e2[0]
+            if abs(det) < 1e-9:
+                continue
+            a = (q[:, 0] * e2[1] - q[:, 1] * e2[0]) / det
+            b = (e1[0] * q[:, 1] - e1[1] * q[:, 0]) / det
+            inside = (a >= -0.05) & (b >= -0.05) & (a + b <= 1.05)
+            cells.append(np.stack([ys.ravel()[inside] % h, xs.ravel()[inside] % w], 1))
+    if cells:
+        cells = np.unique(np.concatenate(cells), axis=0)
+        hit = skinlike(px[cells[:, 0], cells[:, 1], :3])
+        px[cells[hit, 0], cells[hit, 1], :3] = colour
+
+
+def centre(piece):
+    return sum((f.calc_center_median() for f in piece), Vector()) / len(piece)
+
+
+# Head: scalp showing between the curls becomes hair. The face, ears and filter rims are large
+# patches; scalp shows in small ones above the hairline.
+image, px = pixels_of(head)
+bm = bmesh.new()
+bm.from_mesh(head.data)
+bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0003)
+uv = bm.loops.layers.uv.active
+skin = {f.index for f in bm.faces if skinlike(centre_colour(f, uv, px))}
+dark = np.array([centre_colour(f, uv, px) for f in bm.faces if f.calc_center_median().z > opts.hairline_z])
+hair = np.median(dark[dark.max(1) < 0.15], 0)
+repaint([f for piece in patches(bm, lambda f: f.index in skin)
+         if (len(piece) < 400 and centre(piece).z > opts.hairline_z)
+         or (len(piece) < 60 and centre(piece).y > 0.03 and centre(piece).z > opts.collar_z + 0.08)
+         for f in piece], uv, px, hair)
+image.pixels.foreach_set(px.ravel())
+image.pack()
+bm.free()  # texture only: the welded head would rebuild without its thin parts, the glasses
+
+image, px = pixels_of(body)
+bm = bmesh.new()
+bm.from_mesh(body.data)
+bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0003)
+uv = bm.loops.layers.uv.active
+
+# Small holes in the upper jacket get filled; the lapel edges at the front are open on purpose.
+# A filled face takes one point of its rim's texture: its corners' own UVs can span the sheet.
+rims, seen = [], set()
+for start in (e for e in bm.edges if e.is_boundary):
+    if start in seen:
+        continue
+    stack, rim = [start], []
+    seen.add(start)
+    while stack:
+        e = stack.pop()
+        rim.append(e)
+        for v in e.verts:
+            for nxt in v.link_edges:
+                if nxt.is_boundary and nxt not in seen:
+                    seen.add(nxt)
+                    stack.append(nxt)
+    rims.append(rim)
+filled = set()
+for rim in rims:
+    middle = sum((e.verts[0].co for e in rim), Vector()) / len(rim)
+    if sum(e.calc_length() for e in rim) < 0.25 and middle.z > opts.height * 0.69 and middle.y > -0.04:
+        new = bmesh.ops.holes_fill(bm, edges=rim, sides=0)["faces"]
+        for f in new:
+            outside = [x for l in f.loops for x in l.vert.link_loops if x.face not in new]
+            for l in f.loops:
+                if outside:
+                    l[uv].uv = outside[0][uv].uv.copy()
+            filled.add(f)
+
+# The collar's cut edge, straightened along itself so it reads as a hem, not a saw.
+hem = [v for v in bm.verts if v.is_boundary and v.co.z > opts.collar_z and abs(v.co.x) < 0.2]
+for _ in range(10):
+    moved = {}
+    for v in hem:
+        ends = [e.other_vert(v) for e in v.link_edges if e.is_boundary]
+        if len(ends) == 2:
+            moved[v] = v.co * 0.5 + (ends[0].co + ends[1].co) * 0.25
+    for v, co in moved.items():
+        v.co = co
+
+# Old collar inside or hugging the new neck shadows it in jagged shapes; so do loose scraps
+# of the old head left above the collar.
+head_bm.free()
+head_bm = bmesh.new()
+head_bm.from_mesh(head.data)
+tree = BVHTree.FromBMesh(head_bm)
+
+
+def against_neck(f):
+    c = f.calc_center_median()
+    if c.z < opts.collar_z + 0.04 or abs(c.x) > 0.17:
+        return False
+    loc, normal, _, dist = tree.find_nearest(c, 0.05)
+    return loc is not None and ((c - loc).dot(normal) < 0 or dist < 0.008)
+
+
+bmesh.ops.delete(bm, geom=[f for f in bm.faces if against_neck(f)], context="FACES")
+scraps = [piece for piece in patches(bm, lambda f: True)
+          if len(piece) < 3000 and min(f.calc_center_median().z for f in piece) > opts.collar_z + 0.04]
+bmesh.ops.delete(bm, geom=[f for piece in scraps for f in piece], context="FACES")
+
+# Orange specks on the shoulders and the old neck inside the collar become jacket. The piping
+# is orange too, but it runs along the pale lining; specks sit in the dark jacket.
+bm.faces.ensure_lookup_table()
+skin = {f.index for f in bm.faces if f not in filled and skinlike(centre_colour(f, uv, px))}
+cloth = np.array([centre_colour(f, uv, px) for f in bm.faces
+                  if opts.height * 0.63 < f.calc_center_median().z < opts.height * 0.77
+                  and f.calc_center_median().y > 0.05])
+fill = np.median(cloth[cloth[:, 2] > cloth[:, 0] * 1.1], 0)
+
+
+def on_lining(piece):
+    ids = {f.index for f in piece}
+    rim = [g for f in piece for e in f.edges for g in e.link_faces if g.index not in ids]
+    pale = 0
+    for g in rim:
+        rgb = centre_colour(g, uv, px)
+        pale += rgb.max() > 0.33 and (rgb.max() - rgb.min()) / max(rgb.max(), 1e-6) < 0.3
+    return pale > 0.1 * max(len(rim), 1)
+
+
+stray = []
+for piece in patches(bm, lambda f: f.index in skin):
+    c = centre(piece)
+    inside_collar = c.z > opts.collar_z and abs(c.x) < 0.2 and c.y > -0.02
+    speck = len(piece) < 150 and c.z > opts.height * 0.69 and abs(c.x) < 0.35 and not on_lining(piece)
+    if inside_collar or speck:
+        stray += piece
+repaint(stray, uv, px, fill)
+image.pixels.foreach_set(px.ravel())
+image.pack()
+bm.to_mesh(body.data)
+
 # Seat the pack: turned to face back, its padded panel against the jacket at shoulder-blade
 # height. The panel sits about 45% of the pack's depth in front of the case's back face.
 co = np.array([v.co[:] for v in body.data.vertices])
@@ -234,9 +428,49 @@ def bake(sources, name, size):
     return out
 
 
-figure = bake([(body, opts.body_faces, 0), (head, opts.head_faces, 0.003)], "operator", opts.texture)
+figure = bake([(body, opts.body_faces, 0), (head, opts.head_faces, opts.head_voxel)], "operator", opts.texture)
 pack_light = bake([(pack, opts.pack_faces, 0.002)], "operator_pack", opts.pack_texture)
 for obj, file in ((figure, "prepared.glb"), (pack_light, "prepared-pack.glb")):
     select([obj], obj)
     bpy.ops.export_scene.gltf(filepath=f"{opts.out_dir}/{file}", export_format="GLB",
                               use_selection=True)
+
+if opts.rig:
+    # Meshy's armature is stored at 0.01 scale, and Blender's exporter misplaces bone children of
+    # it, so the pack is skinned to Spine inside the same mesh instead.
+    bpy.ops.wm.read_factory_settings(use_empty=True)
+
+    def bring(path):
+        before = set(bpy.data.objects)
+        bpy.ops.import_scene.gltf(filepath=path)
+        return [o for o in bpy.data.objects if o not in before]
+
+    parts = bring(opts.rig)
+    armature = [o for o in parts if o.type == "ARMATURE"][0]
+    rigged = [o for o in parts if o.type == "MESH" and o.parent == armature][0]
+    figure = [o for o in bring(f"{opts.out_dir}/prepared.glb") if o.type == "MESH"][0]
+    bpy.context.view_layer.update()
+    figure.data.transform(rigged.matrix_world.inverted() @ figure.matrix_world)
+    figure.parent = armature
+    figure.matrix_parent_inverse = rigged.matrix_parent_inverse.copy()
+    figure.matrix_basis = rigged.matrix_basis.copy()
+    for group in rigged.vertex_groups:
+        figure.vertex_groups.new(name=group.name)
+    weights = figure.modifiers.new("weights", "DATA_TRANSFER")
+    weights.object = rigged
+    weights.use_vert_data = True
+    weights.data_types_verts = {"VGROUP_WEIGHTS"}
+    weights.vert_mapping = "POLYINTERP_NEAREST"
+    weights.layers_vgroup_select_src = "ALL"
+    weights.layers_vgroup_select_dst = "NAME"
+    apply(figure, weights)
+    figure.modifiers.new("Armature", "ARMATURE").object = armature
+    pack = [o for o in bring(f"{opts.out_dir}/prepared-pack.glb") if o.type == "MESH"][0]
+    pack.vertex_groups.new(name="Spine").add(range(len(pack.data.vertices)), 1.0, "REPLACE")
+    select([pack, figure], figure)
+    bpy.ops.object.join()
+    for o in [o for o in bpy.data.objects if o not in (armature, figure)]:
+        bpy.data.objects.remove(o)
+    select([armature, figure], figure)
+    bpy.ops.export_scene.gltf(filepath=f"{opts.out_dir}/rigged.glb", export_format="GLB",
+                              use_selection=True, export_animations=False)

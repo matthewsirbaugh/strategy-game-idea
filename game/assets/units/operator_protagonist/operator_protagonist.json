@@ -14,7 +14,7 @@
   "made_with": {
     "tool": "meshy",
     "model": "latest",
-    "settings": "multi-image, 4K texture; body, head and pack separately, then tools/prep_operator.py; Meshy auto-rig",
+    "settings": "multi-image, 4K texture; body, head and pack separately, then tools/prep_operator.py (graft, tidy, remesh, bake, --rig); Meshy auto-rig",
     "task": "body 01a13856-bb22-7179-9ebb-7fda1f0ed31c, head 01a1388d-29e9-763c-9f25-71f2aa3bc0bd, pack 01a1388d-3b7c-727f-b242-0e5d0052f68f, rig 01a13d40-ea1c-778e-b14f-51718895ccfe",
     "credits": 95,
     "date": "2026-10-14"
@@ -23,5 +23,5 @@
     "walk.glb",
     "run.glb"
   ],
-  "notes": "77,000 faces: 65,000 body and head, 12,000 pack, two textures. The pack is part of the skinned mesh, weighted fully to Spine (Blender misplaces bone children of Meshy's 0.01-scaled armature). Known: the lower respirator strap dips into the collar on his right; the filter grilles are soft; the pack's waist strap floats beside the jacket."
+  "notes": "58,000 faces: 46,000 body and head, 12,000 pack, two textures. The pack is part of the skinned mesh, weighted fully to Spine (Blender misplaces bone children of Meshy's 0.01-scaled armature). Cleaned 2026-10-14: collar hem, holes, orange specks, scalp in the hair. Known: the filter grilles are soft; the pack's waist strap floats beside the jacket."
 }

@@ -162,6 +162,18 @@ stored at 0.01 scale. Checked: two walk frames rendered in Blender, pack followi
 
 Next, Bryson (2026-10-14): try Meshy text-to-animation on him.
 
+### 2026-10-14 — Cleanup (Claude; Blender, no credits)
+
+Bryson saw a hole in the jacket back, scalp through the hair and scraps at the collar in the lit
+full-detail renders. Causes: the head cut left the collar saw-toothed; Meshy's front-and-back body
+had small holes and orange smears; Meshy's head had skin patches between curls. Each now a step
+in [tools/prep_operator.py](../tools/prep_operator.py): weld, fill small holes (not the lapel
+edges), straighten the collar hem, drop old collar hugging or loose by the neck, repaint small
+orange specks as jacket (piping, which borders the lining, stays) and small skin patches above
+the hairline as hair. The head is rebuilt at 1.5 mm voxels: at 3 mm the glasses survived only by
+luck. `--rig` copies the existing Meshy rig's weights onto the re-baked mesh, so no re-rig.
+[Captures](../art/previews/operator-protagonist-cleanup-2026-10-14/).
+
 ## Open questions
 
 None yet.
