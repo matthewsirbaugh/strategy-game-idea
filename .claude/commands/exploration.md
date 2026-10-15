@@ -16,9 +16,11 @@ Request: $ARGUMENTS
    say so and resume that thread instead of opening a second one. Otherwise create
    `explorations/<slug>.md` with the question, the constraints it inherits, and a next action,
    and add a row to the board.
-4. Resuming an existing thread: read its file and open with a short recap — the question, what
-   is settled, what is still open, the next action. Then get to work. Don't re-derive what the
-   file already says.
+4. Resuming: read the file's opening context and list headings with
+   `python3 tools/read_section.py <file.md>`, then add an exact heading in quotes to read the
+   relevant sections. Follow dependencies and later corrections; don't load unrelated history.
+   Open with a short recap: question, settled points, open choices, next action. Then work;
+   don't re-derive recorded conclusions. The board owns current status when an older intro lags.
 5. `close <topic>`: write Bryson's decision and its reasoning into the exploration file, move
    the conclusion itself into DESIGN.md (RULES.md if it is a game rule, STORY.md if it is story, AGENTS.md if it is a
    working rule) as a line or two

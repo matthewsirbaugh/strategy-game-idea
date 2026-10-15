@@ -1,180 +1,139 @@
 # AGENTS.md
 
-Working agreements for this project, for any AI agent working in this folder: Claude Code,
-Codex, Antigravity or anything else. The game itself is in DESIGN.md.
-
-Bryson is the human you are working with, and has the final say.
+Shared working agreements for Claude Code, Codex, Antigravity and other agents. Bryson has
+final say. The game is in DESIGN.md; current work is in EXPLORATIONS.md.
 
 ## Who decides what
 
-- Bryson does the design: systems and mechanics, story, world, characters, dialogue,
-  art direction, level and content layout, balancing.
-- Agents execute art and code, and offer options and suggestions, under Bryson's
-  direction.
-- Architecture is designed together. It is never a solo agent decision.
-- This is a partnership, not a work queue. Suggest things, push back, bring ideas.
-  Bryson still decides.
+- Bryson designs systems, mechanics, story, world, characters, dialogue, art direction,
+  levels, content and balance. Agents execute art and code under his direction.
+- Architecture is designed together, never by an agent alone. This is a partnership:
+  suggest, question and bring ideas; Bryson decides.
 
 ## How a design problem gets worked
 
-1. The core idea and story come first, refined until they can carry a story and a world.
-   Mechanics, look, plot and dialogue grow out of that.
-2. For a specific problem: discuss it and compare it against existing games until the shape of
-   the problem, the shape of the solution, and the tradeoffs are clear.
-3. Narrow it down conceptually.
-4. Build a small MVP so Bryson can test it and decide whether to pursue it.
+1. Refine the core idea and story until they carry a world; mechanics, look, plot and dialogue follow.
+2. Discuss the problem and compare existing games until the solution and tradeoffs are clear.
+3. Narrow it down conceptually and agree a solid plan.
+4. Build a small minimum viable prototype for Bryson to test and decide whether to pursue.
 
-Don't start building before step 3. Bryson wants a solid plan before construction, and
-expects that plan to change as ideas surface while playing.
+Don't build before step 3. Expect the plan to change through play.
 
 ## Communication
 
-- Numbered questions and decision requests. Numbering runs continuously through a whole
-  message, so every item can be answered by its number alone. Tables, bullets and diagrams
-  where they earn their place. No walls of text with bold phrases scattered through them.
-- Shared vocabulary. When a message defines something new or uses an in-game term, put its
-  definition at the top of the message. RULES.md holds every term twice: a brief glossary
-  entry, and a full definition with edge cases for whoever implements it.
-- Say what changed, what actually works, what is still uncertain, and what you need from
-  Bryson. Report honestly when something was written but not run, or run but not played.
-- Separate what Bryson said, what you inferred, what you recommend, and what is
-  undecided. A recommendation is not a decision.
-- When you write code, give a short, high-level explanation of what it does and how it fits
-  into the larger system. Bryson does not read every line, but has to understand the
-  system. Enough for it to click. They will ask if it doesn't.
-- Keep it fun. This is a video game. It should be enjoyable to make on both sides. Don't be
-  dry.
+- Number questions and decision requests continuously through each message, answerable by number.
+  Use tables, bullets and diagrams where useful; avoid walls of text and scattered bold phrases.
+- Define new or in-game terms at the top. RULES.md holds each term in both its brief glossary
+  and a full definition with implementation edge cases.
+- Separate Bryson's statements, inferences, recommendations and undecided choices.
+- Report what changed, what works, what is uncertain and what you need from Bryson. Distinguish
+  written, run and played. Explain code changes briefly: what they do and how they fit the system.
+- Keep it fun; this is a video game.
 
 ## Files
 
-| File | Holds |
+| Where | What |
 |---|---|
-| DESIGN.md | The game: intent, touchstones, constraints, decisions, open questions |
-| RULES.md | The rulebook: agreed rules only, V1 in progress |
-| STORY.md | The story: agreed world, history and characters only |
-| AGENTS.md | This file: how we work |
-| CLAUDE.md | One line pointing Claude Code at this file |
-| EXPLORATIONS.md | The board: every open topic, its status and its next action |
-| explorations/*.md | One file per research or design thread |
-| README.md | How to set up, run and test the game |
-| game/ | The Godot project; README.md explains its folders |
-| side-project-map-maker/ | Astra's map maker, a separate Godot project; the start of how Bryson will lay out levels |
-| tools/ | `check.sh`: imports, every test suite and the linter in one command. `prep_prop.py`: readies a Meshy model in Blender. `prep_operator.py`: grafts a Meshy Operator's separate head, remeshes body, head and pack, and bakes their colour. `build_fixtures.py`: builds the pole fixtures and barrier gate in Blender. `profile_startup.py`: times the battle's startup |
-| art/reference/ | Reference images Bryson chose; new art adheres to them |
-| art/concepts/ | Concept images from image-generation chats; exploratory, not adopted until they move to art/reference/ |
-| art/briefs/ | What each asset is meant to be, written by Claude for Bryson and Astra |
-| art/sources/ | What each asset was made from: Astra's images for Meshy, and Meshy's raw download |
-| ARCHIVE.md | What was set aside in the archive outside the project, when and why |
-| art/previews/ | Captures of builds, for review |
-| .claude/commands/exploration.md | The `/exploration` command, for Claude Code |
+| DESIGN.md / RULES.md / STORY.md | Game intent, touchstones, constraints, decisions and questions / agreed rules (V1 in progress) / agreed world, history and characters |
+| AGENTS.md / CLAUDE.md | Shared agreements / Claude's import of them |
+| EXPLORATIONS.md / `explorations/*.md` | Current topics, status and next action / one research or design thread per file |
+| README.md / `game/` | Setup, running, checks, code routes and boundaries / Godot project |
+| `side-project-map-maker/` | Astra's separate Godot map maker; the start of Bryson's level authoring |
+| `tools/` | Verification, source reading, profiling and model preparation; [tool index](README.md#tools) |
+| `art/reference/` / `art/concepts/` | Bryson's chosen references (new art follows them) / exploratory candidates |
+| `art/briefs/` / `art/sources/` / `art/previews/` | Claude's briefs for Bryson and Astra / source images and raw model downloads / build captures |
+| ARCHIVE.md | What moved to `~/Desktop/Archive/`, when and why; don't read that external archive unless Bryson asks |
+| `.claude/commands/exploration.md` | Claude's `/exploration` command |
 
-Old ideas and assets that still have value go to the archive outside the project,
-`~/Desktop/Archive/`, recorded in ARCHIVE.md. The archive isn't part of the project: don't read it
-unless Bryson asks.
+Old ideas and assets with value go to that external archive, recorded in ARCHIVE.md.
+No NOW.md. Project knowledge lives in shared files, not private tool memory.
 
-There is no NOW.md — the board covers what is current. Project knowledge lives in these files, not in a
-tool's private memory, which the other tools can't see.
+## Reading efficiently
+
+- On a cold start, use these instructions (don't reread if already supplied), EXPLORATIONS.md
+  and the relevant exploration. Read its opening context and relevant sections; expand when
+  dependencies or conflicting findings require it. Rules work also uses RULES.md; story uses STORY.md.
+- `python3 tools/read_section.py <file.md>` lists headings and line numbers. Add an exact heading
+  in quotes to read that section and its children. This reads the current file, not a cached summary.
+- Code work: use README.md's **Code reading routes** and **Implementation boundaries**, then
+  named functions and callers. Read the coding guide's **Working standard**; its review history is
+  evidence, not another required read. Read the agreement's **Requests** for assignments and claims.
+- Scope `rg` to relevant paths; use `rg -l` for filenames and `rg -n` for matching lines, then bounded
+  excerpts. `.rgignore` filters binary assets, generated metadata and captures from default searches;
+  explicit paths or `rg --no-ignore <pattern> <path>` include them when needed. Source, resources,
+  asset records and research remain searchable. Full output belongs in logs; inspect failures.
 
 ## Explorations
 
-Research and design tangents run as separate threads, so they don't derail the work in
-progress and don't get lost. One topic, one chat, one file.
-
-- EXPLORATIONS.md is the board: every open topic, its status and its next action. It is the
-  only place that says what is current.
-- `explorations/<topic>.md` is the thread itself: the question, inherited constraints,
-  candidates, dated findings, open questions, and the decision once it lands.
-- Only conclusions graduate. A decision moves into DESIGN.md, RULES.md if it is a game rule, STORY.md if it is story, or
-  AGENTS.md if it is a working rule, as a line or two with a link back. The reasoning stays in the exploration file, so the
-  design docs never become a research dump.
-- A new tangent gets a row on the board, not a detour in the current chat.
-- Starting cold in any tool: read AGENTS.md, EXPLORATIONS.md and the one exploration file, plus
-  RULES.md for rules work and STORY.md for story work. Nothing else should be needed. In Claude Code, `/exploration` does this.
-- Bryson makes the call at the end of an exploration. Agents gather, compare and recommend.
+- One topic, one chat, one file. EXPLORATIONS.md is the sole current-work board: status, next action,
+  link. Keep detailed delivery history in the topic file. New tangents get a board row.
+- Each exploration holds its question, inherited constraints, candidates, dated findings, open
+  questions and eventual decision. Agents gather, compare and recommend; Bryson makes the call.
+- Only conclusions graduate: a line or two in DESIGN.md, RULES.md for rules, STORY.md for story,
+  or AGENTS.md for working rules, with a link back. Reasoning stays in the exploration.
+- Claude's `/exploration` follows this route. Don't re-derive recorded conclusions.
 
 ## Editing these files, and git
 
-- These files hold only what Bryson said or approved. Inferences stay in the
-  conversation until they confirm them.
-- A brand new file: write it, then Bryson reviews the file itself with the diff.
-- Changing wording that is already agreed: propose it in chat first.
-- Routine edits — typos, formatting, closing a question that has been answered — just make
-  them, then list what you changed.
-- Git, branch `main`, with GitHub as the shared remote. Commit after each agreed change with a
-  short message, so any single change can be undone on its own. Push `main` to GitHub after
-  every milestone or larger task, so local and cloud agents start from the same project state.
+- Record only what Bryson said or approved; inferences stay in chat until confirmed. For new
+  files, write them for Bryson to review with the diff. Propose changes to agreed wording in chat
+  first. Fix typos, formatting and answered questions directly, then list the edits.
+- Work on `main`. Commit each agreed change with a short message; push to GitHub after milestones
+  or larger tasks so local and cloud agents share the same state.
+- One working copy and staging area: only one agent stages/commits at a time. First run
+  `git diff --cached --quiet`; if anything is staged, leave it and wait. Stage only owned paths;
+  never `git add -A`, `git add .` or `git commit -a`. Stage, inspect the full staged diff and commit
+  in one command that stops on failure. Never discard, stash, reset or commit another's work.
+  Concurrent edits use distinct files; check claims before editing shared files.
+- Claude's commits carry a Claude Co-Authored-By line; Astra's subjects end with `(Astra)`.
 
 ## Claude and Astra
 
-Bryson works with two agents: Claude, the central project architect, and Astra (OpenAI), who makes
-the images and builds the tools Bryson assigns. For code, Astra does most of the maintenance and
-Claude works with Bryson on new features (Bryson, 2026-10-11). Agreed 2026-10-10; the full agreement, with who
-owns what and the table of requests between agents, is
-[explorations/claude-and-astra.md](explorations/claude-and-astra.md). In short:
-- An owner is the default maintainer. Bryson can assign either agent work in any area, after
-  checking for work already in progress there.
-- One agent asks the other through the requests table; Bryson activates a request. Design,
-  architecture, spending and scope stay his calls.
-- Hand-offs travel through the repository, not through Bryson: everything the other agent needs
-  goes in the files, and a request points at them. Bryson's message to the other agent is one line
-  naming the request (Bryson, 2026-10-11).
-- One working copy and one staging area: only one agent stages and commits at a time. Check that
-  nothing is staged first (`git diff --cached --quiet`); if something is, it's the other's, so
-  wait. Stage your own files by path, never `git add -A`, `git add .` or `git commit -a`. Check
-  the full staged diff, then stage and commit in one command. Never discard, stash, reset or commit
-  work you didn't make. Concurrent edits use distinct files.
-- Commits say who made them: Claude's carry a Co-Authored-By line naming Claude; Astra's end the
-  subject with "(Astra)".
-- Models follow the asset contract, [game/assets/README.md](game/assets/README.md).
-- An image is final only in `art/sources/<category>/<id>/`; `art/concepts/` holds candidates. Whoever
-  is with Bryson when he picks copies his choice there and marks the request delivered; Claude
-  models only from sources, after checking the request's status (Bryson, 2026-10-11).
+Adopted 2026-10-10; full agreement and requests: [claude-and-astra.md](explorations/claude-and-astra.md).
+
+- Claude is the central architect working with Bryson on new features; Astra (the OpenAI agent,
+  whichever model runs it) handles most maintenance, images and assigned tools (2026-10-11).
+- Owners are default maintainers. Bryson can assign either agent any area after checking work in
+  progress. Requests name scope, destination and completion criteria; Bryson activates them.
+  Design, architecture, spending and scope remain his calls.
+- Hand-offs travel through repository files and the requests table; Bryson relays one line naming
+  the request. Put everything the receiving agent needs there.
+- Models follow [game/assets/README.md](game/assets/README.md).
+- An image is final only in `art/sources/<category>/<id>/`; `art/concepts/` holds candidates.
+  Whoever is with Bryson when he picks copies the choice there and marks the request delivered.
+  Claude models only from sources after checking delivery status. Chosen visual references live
+  in `art/reference/`.
 
 ## Tools, models and spending
 
-- Claude Pro and ChatGPT Pro subscriptions today, possibly consolidating into one $100 plan.
-- Roughly 90% of the work runs on Opus and Sol.
-- The OpenAI agent is called Astra in these files, whichever model runs it. Usually that's Sol,
-  since the Astra model uses up usage quickly (Bryson, 2026-10-10). Claude is Claude.
-- Subagents doing lower-level work (searches, inventories, mechanical edits, routine fixes) can
-  run on Sonnet instead of Opus.
-- Astra is better at 3D and is used for art prototypes: more than a placeholder, less than a
-  final asset. It burns through usage quickly, so use it deliberately.
-- Spending on the most expensive models is reserved for when it is genuinely needed, or for polish.
-- Final art is deliberately deferred toward the end of the project, on the expectation that 3D
-  tooling keeps improving.
-- Services like Meshy are options for generating 3D assets.
-- How art gets made (Bryson, 2026-10-10): Claude writes a brief saying what's being made;
-  Bryson works with Astra to the right design; Astra makes every reference and concept image;
-  Bryson hands the images to Claude, who turns them into models with Meshy. Meshy's image tool
-  isn't used: its credits go to models.
+- Claude Pro and ChatGPT Pro today, possibly one $100 plan; roughly 90% of work uses Opus and Sol.
+  Astra usually runs on Sol because the Astra model uses usage quickly (2026-10-10).
+- Lower-level subagent searches, inventories, mechanical edits and routine fixes can use Sonnet
+  instead of Opus. Reserve expensive models for real need or polish.
+- Astra is better at 3D prototypes (beyond placeholders, below final assets); use deliberately.
+  Final art waits until late as 3D tooling improves; Meshy is an option for generating models.
+- Art workflow: Claude writes the brief; Bryson and Astra refine the design; Astra makes all
+  references and concepts; Claude turns Bryson's supplied images into Meshy models. Meshy's
+  credits go to models, never its image tool (2026-10-10).
 
 ## Code and tests
 
-The project is at the prototype stage. Code gets thrown away and rewritten, so keep it lean.
-Every comment and test is paid for in tokens twice: once to write, and again each time an agent
-reads it later.
+Prototype code should stay lean; comments and tests cost tokens to write and reread.
 
-- Comment only when the reason behind the code isn't obvious from the code itself. No comments
-  that restate what a line does.
-- Write a test only when it earns its keep: rules math that's easy to get subtly wrong, or a bug
-  that has already come back once. Never for coverage, and never "just because".
-- Verify by running and playing the build. Report which of the two actually happened.
-- Bryson plays every build as he goes, and doesn't always say so. Never list "Bryson plays it" as
-  a next action or an open item; record what he reports when he reports it (Bryson, 2026-10-13).
-- The established look is part of every deliverable. Compare a visual change against the
-  previous build in the same camera framing, and flag anything that changes the look without
-  being asked for before delivering it (Bryson, 2026-10-11).
-- After committing a change to the game, restart it so Bryson can play the new build: close any
-  running copy with `pkill -f "^godot --path"`, run `godot --headless --path game --import` so
-  Godot registers any new `class_name` scripts (a pull can bring them in), then start it with
-  `godot --path game` from the project root.
-- Revisit this when the project moves from prototype toward a finished product.
-- Code style, boundaries, caches, tests and claiming shared files before a refactor follow the
-  [shared coding guide](explorations/shared-coding-guide.md), adopted 2026-10-11.
+- Comment only non-obvious reasons. Test only subtle rules math or a recurring bug, never for
+  coverage. Revisit these constraints when moving toward a finished product.
+- Verify by running and playing; report which happened. Bryson plays as he goes: never list his
+  playing as a next action or open item; record what he reports (2026-10-13).
+- Preserve the established look. Compare visual changes to the previous build in the same camera
+  framing; flag unrequested appearance changes before delivery (2026-10-11).
+- After committing game changes, restart from the root: `pkill -f "^godot --path"`, then
+  `godot --headless --path game --import`, then `godot --path game`. Import registers new
+  `class_name` scripts, including those brought by a pull.
+- Follow the adopted [shared coding guide](explorations/shared-coding-guide.md#working-standard)
+  for style, boundaries, caches, tests and claiming shared files before refactors (2026-10-11).
 
 ## Not agreed yet
 
-Engine: Godot 4 with GDScript, decided 2026-09-23. Project structure is in
-README.md, under "How `game/` is organized" and "Implementation boundaries". Still open: art pipeline, target
-platforms. Don't assume these. Ask.
+Godot 4 with GDScript is decided (2026-09-23). Structure is in README.md's **How `game/` is
+organized** and **Implementation boundaries**. Art pipeline and target platforms remain open;
+don't assume them, ask.

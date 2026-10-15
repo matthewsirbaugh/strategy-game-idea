@@ -55,11 +55,18 @@ Operator phase", "End AI phase"), and Space does what the end row says.
 
 ## Code reading routes
 
-Start with AGENTS.md and EXPLORATIONS.md, then the relevant exploration and the source below.
-Read the named functions first (`rg -n '^func |^static func ' <file>`); expand to their callers
-when needed. `rg --files game -g '*.gd' -g '*.tscn' -g '*.gdshader*' -g '!*.uid'` lists source
-without walking through model imports. Read content resources only for the values involved in
-the task. Historical findings, concept art and binary assets need not be loaded for code work.
+Use the already-loaded AGENTS.md, EXPLORATIONS.md and the relevant exploration's opening context
+and task-specific sections. `python3 tools/read_section.py <file.md>` lists headings; add an exact
+heading in quotes to read that section and its children. For code work, read this table,
+**Implementation boundaries**, and the coding guide's **Working standard**, not its review history.
+The agreement's **Requests** section holds assignments and file claims.
+
+Read named functions first (`rg -n '^func |^static func ' <file>`), then their callers as needed.
+`rg --files game -g '*.gd' -g '*.tscn' -g '*.gdshader*'` lists source; use `rg -l` to locate files
+before reading matches. `.rgignore` keeps binary assets, imports, UIDs and captures out of default
+searches, without changing Git or Godot. Pass an explicit file or use `--no-ignore` on a scoped
+directory for asset/import work: `rg --no-ignore -n '^compress/mode=' game/assets -g '*.import'`.
+Scenes, `.tres` content and JSON asset records remain searchable. Read only relevant resource values.
 
 | Task | Start here | Follow only as needed |
 |---|---|---|
@@ -111,3 +118,15 @@ the task. Historical findings, concept art and binary assets need not be loaded 
 Keep permanent tests to the subtle rules and regressions in `tests/`. For view/input changes,
 run the native battle, exercise the changed interaction, inspect the engine output, and report
 that separately from headless checks and from Bryson's playtest.
+
+## Tools
+
+| Tool | Purpose |
+|---|---|
+| `bash tools/check.sh` | Imports, every test suite and the optional linter; quiet success, full failure output |
+| `python3 tools/read_section.py <file.md> ["Exact heading"]` | Live Markdown outline, or one verbatim section including children; line ranges identify the source. Unknown/duplicate headings fail instead of guessing. Supports `#` headings outside fenced code |
+| `tools/profile_startup.py`, `profile_startup.gd` | Startup timing |
+| `tools/profile_battle.gd` | Battle-query timing |
+| `tools/prep_prop.py` | Prepare a Meshy prop in Blender: scale, origin, triangle budget |
+| `tools/prep_operator.py` | Graft the separate Meshy head, remesh body/head/pack, bake colour |
+| `tools/build_fixtures.py` | Build pole fixtures and the barrier gate in Blender |

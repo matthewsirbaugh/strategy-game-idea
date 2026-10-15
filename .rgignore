@@ -1,0 +1,25 @@
+# Search defaults only; Git tracking and Godot imports are unchanged.
+# Explicit file paths or --no-ignore on a scoped directory opt back in.
+.godot/
+*.uid
+*.import
+/art/previews/
+
+# Keep text sources, scenes, resources, SVGs and asset records discoverable.
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.glb
+*.blend
+*.fbx
+*.ttf
+*.otf
+*.woff
+*.woff2
+*.wav
+*.ogg
+*.mp3
+*.mp4
+*.zip
