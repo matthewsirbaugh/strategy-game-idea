@@ -18,7 +18,7 @@ static func retarget(clip: Animation, from: Skeleton3D, from_walk: Animation, to
 	for bone in to.get_bone_count():
 		var source := from.find_bone(to.get_bone_name(bone))
 		sources.append(source)
-		offsets.append(from_calibration.rotations[source].inverse() * to_calibration.rotations[bone])
+		offsets.append(from_calibration.rotations[source].inverse() * to_calibration.rotations[bone] if source >= 0 else Quaternion.IDENTITY)
 	var hips_scale: float = to_calibration.hips.y / from_calibration.hips.y
 
 	var out := Animation.new()
@@ -33,8 +33,13 @@ static func retarget(clip: Animation, from: Skeleton3D, from_walk: Animation, to
 		var pose := _world_pose(clip, from, time, tracks)
 		var world := []
 		for bone in to.get_bone_count():
-			world.append(pose.rotations[sources[bone]] * offsets[bone])
 			var parent := to.get_bone_parent(bone)
+			if sources[bone] >= 0:
+				world.append(pose.rotations[sources[bone]] * offsets[bone])
+			else:
+				# A bone the source rig lacks, such as a finger, holds its rest pose.
+				var above: Quaternion = world[parent] if parent >= 0 else Quaternion.IDENTITY
+				world.append(above * to.get_bone_rest(bone).basis.get_rotation_quaternion())
 			out.rotation_track_insert_key(bone, time, world[parent].inverse() * world[bone] if parent >= 0 else world[bone])
 		out.position_track_insert_key(hips_track, time, to_calibration.hips + (pose.hips - from_calibration.hips) * hips_scale)
 	return out
