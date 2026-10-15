@@ -129,4 +129,6 @@ that separately from headless checks and from Bryson's playtest.
 | `tools/profile_battle.gd` | Battle-query timing |
 | `tools/prep_prop.py` | Prepare a Meshy prop in Blender: scale, origin, triangle budget |
 | `tools/prep_operator.py` | Graft the separate Meshy head, remesh body/head/pack, bake colour |
+| `tools/add_fingers.py` | After `prep_operator.py --rig`: finger bones, knuckle loops and weights for a Meshy rig; a relaxed curl becomes the rest pose |
+| `tools/render_review.py` | Render a model at fixed framings in Blender, optionally posed from a clip or framed on a bone, for before-and-after comparisons |
 | `tools/build_fixtures.py` | Build pole fixtures and the barrier gate in Blender |
