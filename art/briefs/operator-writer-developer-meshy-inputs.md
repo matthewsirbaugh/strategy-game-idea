@@ -64,7 +64,7 @@ cropped.
 | Pack | Old scuffed olive consumer case with a vent, a cracked corner taped over, mismatched panel; folded papers under the strap on her left side; thin taped pole with the camera on her left shoulder | Open-frame rig of salvaged server parts: heat-sink fins, fan, hand-routed cables, latches, old stickers; camera on an articulated arm over his right shoulder; a cable coiled on his right strap |
 | Camera side, for `pack-side.png` | Her left | His right |
 
-## The writer's hair (Claude's recommendation; Bryson confirms when he activates this)
+## The writer's hair (Bryson approved, 2026-10-15: the highest-quality, most natural result)
 
 Her hair is long and falls over the coat's shoulders and back, which the protagonist's short hair
 never did. If the body views show it, Meshy fuses hair and coat into one surface that can't be

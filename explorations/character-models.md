@@ -6,7 +6,7 @@
 - Status: open for the look (2026-10-13); the modeling comparison is still parked.
 - Next action: the writer and the developer, modeled as the protagonist was (Bryson, 2026-10-15).
   Their Meshy inputs are Request 29 ([brief](../art/briefs/operator-writer-developer-meshy-inputs.md)),
-  waiting on Bryson to activate it. Finger bones are built
+  pushed for Bryson to relay. Finger bones are built
   ([operator-finger-rig.md](operator-finger-rig.md)).
   The comparison of how to model and animate them (the options below) still waits on Bryson.
 
@@ -49,6 +49,12 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
 - 2026-10-15: make the other models, looking as good as the protagonist, with the generic Meshy
   clips for walking, shooting and standing; standing may just lower the arms to the sides, which
   he prefers. Keep the remaining Meshy credits in reserve.
+- 2026-10-15, on Claude's plan: only the writer and the developer for now. Once all three Operators
+  are in the battle with their animations, replacing the old placeholder Operators, work moves on
+  to architecture. Walking and standing (Neutral); no shooting clip bought, but the battle's old
+  shooting clip stays, since retargeting it costs nothing. The writer's hair is pinned up in her
+  body views and full in her head views. Rigging may use the Keychain key for the two rig calls.
+  Any redo waits until he has reviewed the first generation.
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.

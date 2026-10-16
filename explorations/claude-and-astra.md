@@ -106,18 +106,13 @@ stop one commit from picking up the other's staged work.
 
 ## Requests
 
-Open requests. Closed ones are summarized under [Closed requests](#closed-requests); their full rows were archived on
-2026-10-13 (see [ARCHIVE.md](../ARCHIVE.md)).
+Open requests. Closed ones are summarized under [Closed requests](#closed-requests); full rows for 1–23 were archived on
+2026-10-13 (see [ARCHIVE.md](../ARCHIVE.md)), later ones are in git history.
 
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
-| 28 | Bryson → Astra | Make the project more token efficient: condense instructions and board without changing agreements, add exact-section reading and scoped search defaults, verify retained guidance and measure text reduction | [token-efficiency.md](token-efficiency.md); `AGENTS.md`, `CLAUDE.md`, `EXPLORATIONS.md`, `README.md`, `.claude/commands/exploration.md`, `.rgignore`, `tools/read_section.py` | done, 2026-10-14: implemented and verified in `77c26f3`; measurements in the findings; all Astra file claims released |
 | 11 | Bryson, through Astra → Claude | File [Astra's independent review](astra-review-2026-10-11.md): 22 game questions in the V2 open questions and ideas, and 18 lore questions for the next lore exploration. Merge duplicates, preserve observation versus hypothesis, and cross-reference the pending V1 readings. Done when every item is filed or linked to an existing question and this row points to the filing commit. Full instructions and evidence are in the handoff | `rulebook.md` V2 backlog; `core-idea-and-story.md` open-question guide; the board as needed | lore half filed 2026-10-11, in [the story exploration's question guide](core-idea-and-story.md#question-guide). The game half is held: Bryson asked to leave the game notes for now |
-| 15 | Astra → Claude | Review the [measured startup breakdown and single-texture import pilot](startup-and-fog.md#focused-startup-proposal-for-joint-review). Resource loading dominates; animation preparation does not. Recommend whether to run the bounded pilot and what visual tradeoff is acceptable. Review only; implementation and asset-pipeline changes await Bryson's decision | `startup-and-fog.md`, this table | done, 2026-10-13: Bryson approved the texture tradeoff in Request 26; all 137 existing textures are compressed in `62135f4`, new imports inherit compression, and the five-run result is recorded in [Request 26 findings](startup-and-fog.md#request-26-implementation-findings-2026-10-13) |
-| 25 | Bryson, through Claude → Astra | The protagonist's high-resolution Meshy inputs: body front and back in a T-pose without the pack, and his pack alone in back and three-quarter views. Same design, no changes. Also lists the faulty Request 22 pack crops. Brief: [operator-meshy-inputs.md](../art/briefs/operator-meshy-inputs.md) | Candidates in `art/concepts/operator-protagonist-meshy-inputs-<date>/`; Bryson's pick goes to `art/sources/units/operator_protagonist/` | delivered, 2026-10-13: Bryson picked all four candidates; copied unchanged to `art/sources/units/operator_protagonist/` as `body-front.png`, `body-back.png`, `pack-back.png`, `pack-three-quarter.png`, replacing the faulty `02` and `03` crops |
-| 26 | Claude → Astra | The performance and polish pass Bryson approved on 2026-10-13: VRAM-compressed textures (this decides Request 15), debanding and SMAA, shared box meshes, eased zoom, archiving the one-off tools, a linter. Lighting stays on hold. Evidence, steps and verification are in the [handoff](startup-and-fog.md#request-26-handoff-performance-and-polish-pass-2026-10-13) | the handoff's findings; Requests 15 and 26 closed; the board | done, 2026-10-13: all seven approved items implemented in separate commits, checked, measured and captured; [findings and commit list](startup-and-fog.md#request-26-implementation-findings-2026-10-13). Request 15 closed. All Astra file claims released; lighting stays on hold |
-| 27 | Bryson, through Claude → Astra | The protagonist's head alone in four views (front, left profile, back, left three-quarter) for a separate Meshy head grafted at the collar, and his pack's side view (the pole side). Same design, no changes. Fixes the skin-coloured hair and strap edges on the pilot body. Brief: [operator-protagonist-head.md](../art/briefs/operator-protagonist-head.md) | Candidates in `art/concepts/operator-protagonist-head-<date>/`; Bryson's pick goes to `art/sources/units/operator_protagonist/` | delivered, 2026-10-13: Bryson picked the five candidates (not the superseded collar draft); copied unchanged to `art/sources/units/operator_protagonist/` |
-| 29 | Bryson, through Claude → Astra | The writer's and the developer's high-resolution Meshy inputs, Requests 25 and 27 in one: body front, back and side in a T-pose without the pack; head alone in four views; pack alone in back, three-quarter and side views. Same designs, no changes. Brief: [operator-writer-developer-meshy-inputs.md](../art/briefs/operator-writer-developer-meshy-inputs.md) | Candidates in `art/concepts/operator-writer-developer-meshy-inputs-<date>/`; Bryson's picks go to `art/sources/units/operator_writer/` and `operator_developer/` | drafted by Claude, 2026-10-15; waits on Bryson to activate |
+| 29 | Bryson, through Claude → Astra | The writer's and the developer's high-resolution Meshy inputs, Requests 25 and 27 in one: body front, back and side in a T-pose without the pack; head alone in four views; pack alone in back, three-quarter and side views. Same designs, no changes. Brief: [operator-writer-developer-meshy-inputs.md](../art/briefs/operator-writer-developer-meshy-inputs.md) | Candidates in `art/concepts/operator-writer-developer-meshy-inputs-<date>/`; Bryson's picks go to `art/sources/units/operator_writer/` and `operator_developer/` | drafted by Claude and pushed, 2026-10-15; Bryson approved the writer's hair approach; Astra starts when Bryson relays it |
 
 <a id="closed-requests"></a>
 
@@ -134,6 +129,7 @@ Open requests. Closed ones are summarized under [Closed requests](#closed-reques
 | 12 | Review the shared coding guide | Adopted: [shared-coding-guide.md](shared-coding-guide.md) |
 | 13 | Action blockers | [action-blockers.md](action-blockers.md#findings) |
 | 14 | Startup measurements and clearer scenery fog | [startup-and-fog.md](startup-and-fog.md) |
+| 15 | Review the startup breakdown and texture pilot | Decided by Request 26: [startup-and-fog.md](startup-and-fog.md#request-26-implementation-findings-2026-10-13) |
 | 16 | Review the fog repair plan | [fog-vision-ticks-fix.md](fog-vision-ticks-fix.md) |
 | 17 | The fog repair | [fog-vision-ticks-fix.md](fog-vision-ticks-fix.md#request-17-implementation-findings) |
 | 18 | Fading fog and menus named after objects | [fog-fade-and-object-menus.md](fog-fade-and-object-menus.md#findings) |
@@ -142,6 +138,10 @@ Open requests. Closed ones are summarized under [Closed requests](#closed-reques
 | 21 | The writer's and the developer's sheets | [Gallery](../art/concepts/operator-sheets-2026-10-13/README.md) |
 | 22 | The Operators revised, with their wearable computers | Finals in `art/sources/units/operator_*/`; [gallery](../art/concepts/operator-revision-2026-10-13/README.md) |
 | 23 | The writer's camera pole, moved to her left shoulder | Bryson's pick, 2026-10-13: `art/sources/units/operator_writer/01-main.png`; [candidate](../art/concepts/operator-writer-pole-fix-2026-10-13/README.md) |
+| 25 | The protagonist's body and pack Meshy inputs | Bryson's picks, 2026-10-13: `art/sources/units/operator_protagonist/`; [candidates](../art/concepts/operator-protagonist-meshy-inputs-2026-10-13/README.md) |
+| 26 | The performance and polish pass | [startup-and-fog.md](startup-and-fog.md#request-26-implementation-findings-2026-10-13) |
+| 27 | The protagonist's head and pack side view | Bryson's picks, 2026-10-13: `art/sources/units/operator_protagonist/`; [candidates](../art/concepts/operator-protagonist-head-2026-10-13/README.md) |
+| 28 | Project token efficiency | [token-efficiency.md](token-efficiency.md), `77c26f3` |
 
 ## Findings
 
