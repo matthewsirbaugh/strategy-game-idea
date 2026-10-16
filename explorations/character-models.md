@@ -4,8 +4,8 @@
   Meshy characters from the retired look: generated, rigged and animated), the story in
   [core-idea-and-story.md](core-idea-and-story.md)
 - Status: open for the look (2026-10-13); the modeling comparison is still parked.
-- Next action: Meshy text-to-animation (Bryson, 2026-10-14); his Meshy rig task expires about
-  2026-10-17 21:50 EDT. Finger bones are built ([operator-finger-rig.md](operator-finger-rig.md)).
+- Next action: none on animation; Bryson stopped it on 2026-10-15 (below). Finger bones are built
+  ([operator-finger-rig.md](operator-finger-rig.md)).
   The comparison of how to model and animate them (the options below) still waits on Bryson.
 
 ## The question
@@ -42,6 +42,8 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
 - 2026-10-13, on the Meshy plan: the protagonist is the pilot, from high-resolution inputs
   ([Request 25](../art/briefs/operator-meshy-inputs.md)), with 4K textures. The writer keeps her
   knee-length coat; we see what the rig does with it.
+- 2026-10-15: no more work on animations for now. They move past V2; he'll return to them as a
+  finishing step.
 
 Claude's reading: this exploration covers *how* characters get made. *What* each one looks like
 still waits on the story.

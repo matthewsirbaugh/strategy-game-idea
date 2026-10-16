@@ -3,8 +3,8 @@
 - Feeds: [character-models.md](character-models.md) (the Meshy pilot, all 2026-10-13/14 findings)
 - Status: built, 2026-10-15 ([Findings](#findings)). Bryson chose option B, finger bones added in
   Blender; this plan was written by Claude and approved by Bryson.
-- Next action: Meshy text-to-animation (below). Its rig task expires about 2026-10-17 21:50 EDT.
-  The writer and the developer get fingers from the same tool.
+- Next action: none. Bryson stopped animation work on 2026-10-15 (below). The writer and the
+  developer get fingers from the same tool.
 
 ## Terms
 
@@ -178,7 +178,10 @@ Limits:
 Captures, before and after in the same framings, from Blender and in Godot:
 [operator-finger-rig-2026-10-15](../art/previews/operator-finger-rig-2026-10-15/).
 
-## After the hands: Meshy text-to-motion (Bryson's next item)
+## After the hands: Meshy text-to-motion (not continuing)
+
+Bryson, 2026-10-15: no more work on animations for now. They move past V2; he'll return to them as
+a finishing step.
 
 - `POST /openapi/v1/text-to-motion` takes a prompt (up to 400 characters) and a duration (2–10 s), in prime mode (10 credits, FBX) or swift (3 credits, BVH). Apply the result with `POST /openapi/v1/animations` using `rig_task_id` and `motion_task_id`; library clips cost 3 credits, and generated ones may too. Results expire after 3 days.
 - It needs a Meshy rig task within its retention. `01a13d40…` expires around 2026-10-17 21:50 EDT. After that, re-rig `prepared.glb` (5 credits) by posting it to `/openapi/v1/rigging` with the model embedded as base64. The MCP rig tool only takes URLs.
