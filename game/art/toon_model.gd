@@ -62,7 +62,12 @@ func adopt(body: Node3D, pack: PackedScene = null, path := "") -> void:
 		if pack:
 			CharacterRig.attach_pack(skeleton, skeleton.find_children("*", "MeshInstance3D", false, false)[0], pack.instantiate())
 		player = body.find_child("AnimationPlayer", true, false)
-		player.remove_animation_library("")
+		if player:
+			player.remove_animation_library("")
+		else:
+			# A rig exported without clips, such as a new Operator, keeps its clips in files beside it.
+			player = AnimationPlayer.new()
+			body.add_child(player)
 		player.add_animation_library("", _library(path, skeleton))
 		player.animation_finished.connect(_on_clip_finished)
 		play(idle)
