@@ -2,7 +2,8 @@
 
 [Request overview](../README.md) · [Approved sheet](../../../sources/units/operator_writer/01-main.png)
 
-Ten candidate views awaiting Bryson's choice. Built-in image_gen, 2026-10-15.
+Historical Request 29 views. Built-in image_gen, 2026-10-15.
+See the [current combined set](../../operator-writer-developer-meshy-fixes-2026-10-15/README.md) for accepted views and Request 30 replacements.
 
 ## Body — 1024 × 1536
 

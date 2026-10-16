@@ -4,6 +4,10 @@ Candidates generated with the built-in image_gen tool on 2026-10-15.
 Based on the [approved brief](../../briefs/operator-writer-developer-meshy-inputs.md).
 Bryson activated Request 29 in this chat. These are candidates for his selection.
 
+Bryson reviewed this set on 2026-10-15. Fourteen views were accepted; both body profiles and
+the developer's four heads are superseded by [Request 30's combined gallery](../operator-writer-developer-meshy-fixes-2026-10-15/README.md).
+Use that gallery for the current twenty-view set.
+
 - [Writer: ten views](operator_writer/README.md)
 - [Developer: ten views](operator_developer/README.md)
 - [Exact prompts and input references](prompts.json)
