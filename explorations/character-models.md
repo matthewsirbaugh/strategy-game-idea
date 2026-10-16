@@ -202,6 +202,19 @@ running and standing, his hands hang relaxed; nothing else about him changed. `t
 made them and is ready for the writer and the developer. Measurements and limits:
 [operator-finger-rig.md](operator-finger-rig.md#findings).
 
+### 2026-10-15 — The protagonist in the battle (Claude; Godot, no credits)
+
+He replaces the old placeholder as Alpha (`game/content/units/alpha.tres`), with no separate pack:
+his is part of the mesh. His file has no AnimationPlayer, so `ToonModel.adopt` now makes one for a
+rig without clips. Through `ToonModel` he gets every shared clip: Neutral (standing, arms at the
+sides), his own walk and run, and the five bought clips, shooting among them, retargeted at no
+cost. Measured: in Neutral his hands hang 0.39 m below the shoulders (the old Alpha: 0.36).
+Checked: `tools/check.sh` passes; captured in the battle at the game camera and close, before and
+after, standing, walking and shooting:
+[operator-protagonist-in-battle-2026-10-15](../art/previews/operator-protagonist-in-battle-2026-10-15/).
+The green on his trousers is Alpha's pack light through the toon shading, as on the other
+Operators. Bravo and Charlie stay placeholders until the writer and the developer are made.
+
 ## Open questions
 
 None yet.

@@ -23,5 +23,5 @@
     "walk.glb",
     "run.glb"
   ],
-  "notes": "59,600 faces: 47,600 body, head and hands, 12,000 pack, two textures. Mixamo-named finger bones (LeftHandIndex1-4 ...) added 2026-10-15, with knuckle loops and a relaxed curl as the rest pose; clips without finger tracks leave the fingers relaxed. The pack is part of the skinned mesh, weighted fully to Spine (Blender misplaces bone children of Meshy's 0.01-scaled armature). Cleaned 2026-10-14: collar hem, holes, orange specks, scalp in the hair. Known: the filter grilles are soft; the pack's waist strap floats beside the jacket."
+  "notes": "59,600 faces: 47,600 body, head and hands, 12,000 pack, two textures. Mixamo-named finger bones (LeftHandIndex1-4 ...) added 2026-10-15, with knuckle loops and a relaxed curl as the rest pose; clips without finger tracks leave the fingers relaxed. The pack is part of the skinned mesh, weighted fully to Spine (Blender misplaces bone children of Meshy's 0.01-scaled armature). Cleaned 2026-10-14: collar hem, holes, orange specks, scalp in the hair. Known: the filter grilles are soft; the pack's waist strap floats beside the jacket. In the battle as Alpha since 2026-10-15: no pack file, since the pack is in the mesh; ToonModel gives him an AnimationPlayer and the shared clips (Neutral, walk, run, and the retargeted bought clips)."
 }
