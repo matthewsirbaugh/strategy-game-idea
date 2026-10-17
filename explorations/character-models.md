@@ -244,6 +244,30 @@ matching the original head's eyes and glasses in front and side renders.
   shards and the face is lost. Next: rebuild the hair as a solid volume at 3–4 mm, keep the glasses
   apart at full detail, and let the bake bring back the curls.
 
+### 2026-10-17 — The writer and the developer in the battle (Claude; Meshy 10 credits, Blender, Godot)
+
+Bryson, 2026-10-17: the working heights stand, 1.68 m for the writer and 1.78 m for the developer.
+
+Both rigged by Meshy (5 credits each: developer `01a14b27-70ab-70cf-9e21-3bd310a9f4d3`, writer
+`01a14b79-cdc9-71f2-a519-73ed74446ea3`), sent inline with the texture shrunk to 1024², since only
+the rig's weights are kept. Then `prep_operator.py --rig`, `add_fingers.py`, and into the battle:
+the writer as Bravo, the developer as Charlie, replacing the old placeholders and their separate
+packs. `tools/check.sh` passes.
+
+- The writer's head: her curls are rebuilt at 4 mm voxels and 30,000 faces, so they hold together
+  as sculpted clumps and the bake brings back the strands. The wire glasses wouldn't survive that,
+  so a copy of them (`--glasses-box`, brass and near-black faces near the eyes) skips the rebuild.
+  Cutting them out instead left holes, and the voxels hollowed her face.
+- The writer's fingers came through as two strands each; `add_fingers.py` now merges candidates
+  whose tips sit within 1.2 cm across the hand.
+- Checked: both walk in Blender with the pack following; her coat swings with her legs without
+  tearing at that size; hands rest in the relaxed curl. In Godot at the game camera and close:
+  [operator-writer-developer-in-battle-2026-10-17](../art/previews/operator-writer-developer-in-battle-2026-10-17/).
+- Known: a few loose hair shards at the edge of her curls; her right-hand fingers measure shorter
+  than her left (5.4 against 6.8 cm for the middle finger).
+
+All three Operators are now in the battle with their animations.
+
 ## Open questions
 
 None yet.
