@@ -43,6 +43,11 @@ args.add_argument("--head-faces", type=int, default=20000)
 args.add_argument("--pack-faces", type=int, default=12000)
 args.add_argument("--head-voxel", type=float, default=0.0015,
                   help="metres; at 3 mm the glasses frames survive only by luck")
+args.add_argument("--neck-keep", choices=["jacket", "clothes"], default="jacket",
+                help="neck zone: keep only the blue-teal jacket, or everything but skin and --old-mask")
+args.add_argument("--old-mask", type=float, nargs=3, help="clothes mode: the body's old mask colour, dropped")
+args.add_argument("--no-scalp", action="store_true", help="leave the head's skin alone: scalp meant to show")
+args.add_argument("--no-specks", action="store_true", help="skip repainting orange specks as jacket")
 args.add_argument("--texture", type=int, default=4096)
 args.add_argument("--pack-texture", type=int, default=2048)
 opts = args.parse_args(sys.argv[sys.argv.index("--") + 1:])
@@ -106,11 +111,23 @@ def in_zone(face):
 
 
 def jacket(rgb):
+    if opts.neck_keep == "clothes":
+        mask = opts.old_mask is not None and np.abs(rgb - opts.old_mask).max() < 0.08
+        return not skinlike(rgb[None])[0] and not mask
     return rgb[2] > rgb[0] * 1.15
+
+
+def skinlike(rgb):
+    """Skin, and the orange Meshy smears where it guessed: warm and saturated."""
+    hi, lo = rgb.max(-1), rgb.min(-1)
+    return ((rgb[..., 0] > rgb[..., 1]) & ((hi - lo) / np.maximum(hi, 1e-6) > 0.35) & (hi > 0.25)
+            & (rgb[..., 0] - rgb[..., 2] > 0.12))
 
 
 def keep(face):
     rgb = colour(face)
+    if opts.neck_keep == "clothes":
+        return jacket(rgb)
     grey = max(rgb) - min(rgb) < 0.05 and colorsys.rgb_to_hsv(*rgb)[2] < 0.38
     return jacket(rgb) or (face.calc_center_median().y < opts.lapel_y and not grey)
 
@@ -164,13 +181,6 @@ def pixels_of(obj):
     flat = np.empty(image.size[0] * image.size[1] * 4, dtype=np.float32)
     image.pixels.foreach_get(flat)
     return image, flat.reshape(image.size[1], image.size[0], 4)
-
-
-def skinlike(rgb):
-    """Skin, and the orange Meshy smears where it guessed: warm and saturated."""
-    hi, lo = rgb.max(-1), rgb.min(-1)
-    return ((rgb[..., 0] > rgb[..., 1]) & ((hi - lo) / np.maximum(hi, 1e-6) > 0.35) & (hi > 0.25)
-            & (rgb[..., 0] - rgb[..., 2] > 0.12))
 
 
 def centre_colour(face, uv, px):
@@ -230,21 +240,22 @@ def centre(piece):
 
 # Head: scalp showing between the curls becomes hair. The face, ears and filter rims are large
 # patches; scalp shows in small ones above the hairline.
-image, px = pixels_of(head)
-bm = bmesh.new()
-bm.from_mesh(head.data)
-bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0003)
-uv = bm.loops.layers.uv.active
-skin = {f.index for f in bm.faces if skinlike(centre_colour(f, uv, px))}
-dark = np.array([centre_colour(f, uv, px) for f in bm.faces if f.calc_center_median().z > opts.hairline_z])
-hair = np.median(dark[dark.max(1) < 0.15], 0)
-repaint([f for piece in patches(bm, lambda f: f.index in skin)
-         if (len(piece) < 400 and centre(piece).z > opts.hairline_z)
-         or (len(piece) < 60 and centre(piece).y > 0.03 and centre(piece).z > opts.collar_z + 0.08)
-         for f in piece], uv, px, hair)
-image.pixels.foreach_set(px.ravel())
-image.pack()
-bm.free()  # texture only: the welded head would rebuild without its thin parts, the glasses
+if not opts.no_scalp:
+    image, px = pixels_of(head)
+    bm = bmesh.new()
+    bm.from_mesh(head.data)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0003)
+    uv = bm.loops.layers.uv.active
+    skin = {f.index for f in bm.faces if skinlike(centre_colour(f, uv, px))}
+    dark = np.array([centre_colour(f, uv, px) for f in bm.faces if f.calc_center_median().z > opts.hairline_z])
+    hair = np.median(dark[dark.max(1) < 0.15], 0)
+    repaint([f for piece in patches(bm, lambda f: f.index in skin)
+             if (len(piece) < 400 and centre(piece).z > opts.hairline_z)
+             or (len(piece) < 60 and centre(piece).y > 0.03 and centre(piece).z > opts.collar_z + 0.08)
+             for f in piece], uv, px, hair)
+    image.pixels.foreach_set(px.ravel())
+    image.pack()
+    bm.free()  # texture only: the welded head would rebuild without its thin parts, the glasses
 
 image, px = pixels_of(body)
 bm = bmesh.new()
@@ -320,7 +331,7 @@ skin = {f.index for f in bm.faces if f not in filled and skinlike(centre_colour(
 cloth = np.array([centre_colour(f, uv, px) for f in bm.faces
                   if opts.height * 0.63 < f.calc_center_median().z < opts.height * 0.77
                   and f.calc_center_median().y > 0.05])
-fill = np.median(cloth[cloth[:, 2] > cloth[:, 0] * 1.1], 0)
+fill = None if opts.no_specks else np.median(cloth[cloth[:, 2] > cloth[:, 0] * 1.1], 0)
 
 
 def on_lining(piece):
@@ -334,7 +345,7 @@ def on_lining(piece):
 
 
 stray = []
-for piece in patches(bm, lambda f: f.index in skin):
+for piece in [] if opts.no_specks else patches(bm, lambda f: f.index in skin):
     c = centre(piece)
     inside_collar = c.z > opts.collar_z and abs(c.x) < 0.2 and c.y > -0.02
     speck = len(piece) < 150 and c.z > opts.height * 0.69 and abs(c.x) < 0.35 and not on_lining(piece)

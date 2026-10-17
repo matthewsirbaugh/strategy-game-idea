@@ -215,6 +215,35 @@ after, standing, walking and shooting:
 The green on his trousers is Alpha's pack light through the toon shading, as on the other
 Operators. Bravo and Charlie stay placeholders until the writer and the developer are made.
 
+### 2026-10-16 — The writer and the developer, generated (Claude; Meshy 180 credits, Blender)
+
+Bryson approved 190 credits (2026-10-15). Six Meshy multi-image tasks from the
+[Request 29–30 sources](../art/sources/units/), model "latest", 4K textures, bodies in T-pose.
+Raw captures: [operator-writer-developer-meshy-raw-2026-10-15](../art/previews/operator-writer-developer-meshy-raw-2026-10-15/).
+
+| Part | Writer | Developer |
+|---|---|---|
+| Body (front, side, back) | `01a142ba-d7fd-76cc-ab77-29acdb815c80` | `01a142ba-e525-768a-a228-686abc7869c1` |
+| Head (front, three-quarter, side, back) | `01a142ba-f0df-72ab-a8ee-3ac0126d2a17` | `01a142bb-098b-707a-9fe7-d2ee87a72f34` |
+| Pack (back, three-quarter, side) | `01a142bb-1a6d-70cb-8bd7-198e738e2569` | `01a142bb-28d3-71f2-9b1b-7b2e2d9d22df` |
+
+All six came out clean: side views fixed what the protagonist's body lacked (no skin on hair or
+strap edges), the glasses are real objects, both packs are solid with their cameras.
+
+`tools/prep_operator.py` gained options for Operators unlike the protagonist: `--neck-keep clothes`
+with `--old-mask` (drop skin and the old mask's colour at the neck, keep any clothing),
+`--no-scalp` (the developer's bald crown is meant to show), `--no-specks`. Heads were placed by
+matching the original head's eyes and glasses in front and side renders.
+
+- Developer: prepared, 45,374 + 12,059 faces, 1.78 m (Claude's working height, not decided).
+  The neck zone runs down to the chest (`--neck-z 0.54`), or the old gaiter shows through the new
+  one as pale patches. [Captures](../art/previews/operator-developer-prepared-2026-10-16/).
+  Not rigged yet: the inline rig upload stalled twice while the computer slept; nothing was charged.
+- Writer: placement works (1.68 m, working height), but her head doesn't survive the rebuild.
+  Meshy gave 7.6 million faces of curls; at 1.5 mm voxels and about 70,000 faces the hair turns to
+  shards and the face is lost. Next: rebuild the hair as a solid volume at 3–4 mm, keep the glasses
+  apart at full detail, and let the bake bring back the curls.
+
 ## Open questions
 
 None yet.
