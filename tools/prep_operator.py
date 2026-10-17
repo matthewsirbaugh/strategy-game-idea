@@ -48,6 +48,9 @@ args.add_argument("--neck-keep", choices=["jacket", "clothes"], default="jacket"
 args.add_argument("--old-mask", type=float, nargs=3, help="clothes mode: the body's old mask colour, dropped")
 args.add_argument("--no-scalp", action="store_true", help="leave the head's skin alone: scalp meant to show")
 args.add_argument("--no-specks", action="store_true", help="skip repainting orange specks as jacket")
+args.add_argument("--glasses-box", type=float, nargs=6,
+                help="head model units, x0 x1 y0 y1 z0 z1: brass and black faces inside skip the voxel rebuild")
+args.add_argument("--glasses-faces", type=int, default=8000)
 args.add_argument("--texture", type=int, default=4096)
 args.add_argument("--pack-texture", type=int, default=2048)
 opts = args.parse_args(sys.argv[sys.argv.index("--") + 1:])
@@ -84,8 +87,47 @@ head = load(opts.head, "head")
 cut = head.modifiers.new("d", "DECIMATE")
 cut.ratio = min(1, 400000 / len(head.data.polygons))
 apply(head, cut)
-head.data.transform(Matrix.Translation(opts.body_anchor) @ Matrix.Scale(opts.head_scale, 4)
-                    @ Matrix.Translation([-c for c in opts.head_anchor]))
+glasses = None
+if opts.glasses_box:
+    # Long curls need coarse voxels to survive, which wire frames don't: a copy goes round the
+    # rebuild. Cutting them out instead would leave holes, and the voxels hollow an open head.
+    x0, x1, y0, y1, z0, z1 = opts.glasses_box
+    tex = [n.image for n in head.active_material.node_tree.nodes if n.type == "TEX_IMAGE"][0]
+    gw, gh = tex.size
+    gpx = np.empty(gw * gh * 4, dtype=np.float32)
+    tex.pixels.foreach_get(gpx)
+    gpx = gpx.reshape(gh, gw, 4)
+    me = head.data
+    n = len(me.polygons)
+    cen = np.empty(n * 3, dtype=np.float32)
+    me.polygons.foreach_get("center", cen)
+    cen = cen.reshape(n, 3)
+    uvs = np.empty(len(me.loops) * 2, dtype=np.float32)
+    me.uv_layers.active.data.foreach_get("uv", uvs)
+    starts = np.empty(n, dtype=np.int32)
+    me.polygons.foreach_get("loop_start", starts)
+    u = uvs.reshape(-1, 2)[starts]
+    rgb = gpx[(u[:, 1] * gh).astype(int) % gh, (u[:, 0] * gw).astype(int) % gw, :3]
+    r, g, b = rgb.T
+    hi = rgb.max(1)
+    brass = (r > g) & (g > b) & ((hi - rgb.min(1)) / np.maximum(hi, 1e-6) > 0.3) & (hi > 0.5) & (g > 0.7 * r)
+    inside = ((cen[:, 0] > x0) & (cen[:, 0] < x1) & (cen[:, 1] > y0) & (cen[:, 1] < y1)
+              & (cen[:, 2] > z0) & (cen[:, 2] < z1))
+    pick = inside & (brass | (hi < 0.08))
+    me.vertices.foreach_set("select", np.zeros(len(me.vertices), dtype=bool))
+    me.edges.foreach_set("select", np.zeros(len(me.edges), dtype=bool))
+    me.polygons.foreach_set("select", pick)
+    bpy.context.tool_settings.mesh_select_mode = (False, False, True)
+    select([head], head)
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.duplicate()
+    bpy.ops.mesh.separate(type="SELECTED")
+    bpy.ops.object.mode_set(mode="OBJECT")
+    glasses = [o for o in bpy.context.selected_objects if o != head][0]
+    print(f"prep_operator: glasses {len(glasses.data.polygons)} faces, head {len(head.data.polygons)}")
+for part in [head] + ([glasses] if glasses else []):
+    part.data.transform(Matrix.Translation(opts.body_anchor) @ Matrix.Scale(opts.head_scale, 4)
+                        @ Matrix.Translation([-c for c in opts.head_anchor]))
 
 # Remove the body's old head. Above the cut it all goes; in the neck zone only the jacket stays,
 # told apart by colour: the jacket is blue-teal, the old mask grey, the old skin orange.
@@ -171,7 +213,7 @@ co = np.concatenate([np.array([v.co[:] for v in o.data.vertices]) for o in (body
 low, high = co.min(0), co.max(0)
 to_world = Matrix.Scale(opts.height / (high[2] - low[2]), 4) @ Matrix.Translation(
     (-(low[0] + high[0]) / 2, -(low[1] + high[1]) / 2, -low[2]))
-for o in (body, head):
+for o in [body, head] + ([glasses] if glasses else []):
     o.data.transform(to_world)
 
 
@@ -439,7 +481,8 @@ def bake(sources, name, size):
     return out
 
 
-figure = bake([(body, opts.body_faces, 0), (head, opts.head_faces, opts.head_voxel)], "operator", opts.texture)
+figure = bake([(body, opts.body_faces, 0), (head, opts.head_faces, opts.head_voxel)]
+              + ([(glasses, opts.glasses_faces, 0)] if glasses else []), "operator", opts.texture)
 pack_light = bake([(pack, opts.pack_faces, 0.002)], "operator_pack", opts.pack_texture)
 for obj, file in ((figure, "prepared.glb"), (pack_light, "prepared-pack.glb")):
     select([obj], obj)

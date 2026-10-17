@@ -26,6 +26,7 @@ THUMB_BASE = 0.8  # the thumb's root, behind its web, as a fraction of the thumb
 THUMB_JOINT = 0.55  # the thumb's end joint, as a fraction of the way from its web to its tip
 BLEND = 0.15  # each joint's weights blend over this fraction of the shorter segment beside it
 WELD = 0.0003  # metres: Meshy exports split vertices along texture seams
+MERGE = 0.012  # metres across the hand: candidate digits whose tips are closer are one digit
 
 args = argparse.ArgumentParser()
 args.add_argument("rigged")
@@ -143,6 +144,19 @@ for side in ("Left", "Right"):
             links[node[b]].add(node[a])
     height = {n: (points[n] - wrist).dot(out) for n in links}
     found = find_digits(height, links, 0.08 * max(height.values()))
+    # The writer's fingers came through as two strands each, their tips in line along the finger;
+    # tips of separate fingers sit at least 2 cm apart across the hand.
+    merged = []
+    for nodes, level in found:
+        tip = max(nodes, key=lambda n: height[n])
+        side_of = points[tip] - out * points[tip].dot(out)
+        twin = next((m for m in merged if (m[2] - side_of).length < MERGE), None)
+        if twin:
+            twin[0] += nodes
+            twin[1] = min(twin[1], level)
+        else:
+            merged.append([list(nodes), level, side_of])
+    found = [(nodes, level) for nodes, level, _ in merged]
     if len(found) != 5:
         sys.exit(f"add_fingers: found {len(found)} digits on the {side.lower()} hand, not 5")
 
