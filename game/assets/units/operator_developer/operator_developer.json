@@ -1,0 +1,27 @@
+{
+  "spec": 1,
+  "id": "operator_developer",
+  "name": "Operator: the developer",
+  "category": "units",
+  "status": "proof",
+  "model": "operator_developer.glb",
+  "height_m": 1.78,
+  "fit_to_height": false,
+  "device": null,
+  "description": "The developer: body and a separately modeled head grafted at the collar, his pack skinned to the Spine bone.",
+  "brief": "art/briefs/operator-writer-developer-meshy-fixes.md",
+  "sources": "art/sources/units/operator_developer/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "latest",
+    "settings": "multi-image, 4K texture; body (front, side, back), head (four views) and pack (three views) separately, then tools/prep_operator.py (graft, neck cleanup in clothes mode, remesh, bake, --rig); Meshy auto-rig; tools/add_fingers.py",
+    "task": "body 01a142ba-e525-768a-a228-686abc7869c1, head 01a142bb-098b-707a-9fe7-d2ee87a72f34, pack 01a142bb-28d3-71f2-9b1b-7b2e2d9d22df, rig 01a14b27-70ab-70cf-9e21-3bd310a9f4d3",
+    "credits": 95,
+    "date": "2026-10-17"
+  },
+  "animations": [
+    "walk.glb",
+    "run.glb"
+  ],
+  "notes": "57,400 faces: 45,400 body, head and hands, 12,000 pack, two textures. Mixamo-named finger bones with a relaxed curl as the rest pose (tools/add_fingers.py). The pack is part of the skinned mesh, weighted fully to Spine. In the battle as Charlie since 2026-10-17."
+}

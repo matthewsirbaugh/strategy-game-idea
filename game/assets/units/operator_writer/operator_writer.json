@@ -1,0 +1,27 @@
+{
+  "spec": 1,
+  "id": "operator_writer",
+  "name": "Operator: the writer",
+  "category": "units",
+  "status": "proof",
+  "model": "operator_writer.glb",
+  "height_m": 1.68,
+  "fit_to_height": false,
+  "device": null,
+  "description": "The writer: body and a separately modeled head grafted at the collar, her pack skinned to the Spine bone.",
+  "brief": "art/briefs/operator-writer-developer-meshy-fixes.md",
+  "sources": "art/sources/units/operator_writer/",
+  "made_with": {
+    "tool": "meshy",
+    "model": "latest",
+    "settings": "multi-image, 4K texture; body (front, side, back; hair pinned up), head (four views, full curls) and pack (three views) separately, then tools/prep_operator.py (graft, neck cleanup in clothes mode, head at 4 mm voxels with the glasses kept apart, remesh, bake, --rig); Meshy auto-rig; tools/add_fingers.py",
+    "task": "body 01a142ba-d7fd-76cc-ab77-29acdb815c80, head 01a142ba-f0df-72ab-a8ee-3ac0126d2a17, pack 01a142bb-1a6d-70cb-8bd7-198e738e2569, rig 01a14b79-cdc9-71f2-a519-73ed74446ea3",
+    "credits": 95,
+    "date": "2026-10-17"
+  },
+  "animations": [
+    "walk.glb",
+    "run.glb"
+  ],
+  "notes": "70,000 faces before finger loops: body 25,000, head 30,000 (curls rebuilt at 4 mm voxels so they hold together), glasses 2,450 at full detail, pack 12,000; two textures. Mixamo-named finger bones with a relaxed curl as the rest pose. The pack is part of the skinned mesh, weighted fully to Spine. In the battle as Bravo since 2026-10-17."
+}

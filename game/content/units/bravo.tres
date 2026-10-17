@@ -10,5 +10,4 @@ ap = 8
 sight = 6
 shot_range = 5
 color = Color(0.1, 0.82, 1, 1)
-model = "res://assets/legacy/characters/operator_headband/operator_headband.glb"
-pack = "res://assets/legacy/characters/packs/pack_operator_headband.glb"
+model = "res://assets/units/operator_writer/operator_writer.glb"
