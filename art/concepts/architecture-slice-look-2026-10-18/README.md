@@ -2,7 +2,15 @@
 
 October 18, 2026. Three target-frame candidates (A, B and revised C), plus four element sheets and their preserved first passes. Generated with the built-in image generation tool from the references in [Claude's brief](../../briefs/architecture-slice-look.md).
 
-Status: candidates ready for Bryson's review. No visual selection or source promotion is recorded. These are look targets for Claude's Blender/Godot slice; they are not Meshy inputs or a tested game build.
+Status: lighting and planting revision C v3 ready for Bryson's review. No visual selection or source promotion is recorded. These are look targets for Claude's Blender/Godot slice; they are not Meshy inputs or a tested game build.
+
+## Bryson's lighting and planting correction
+
+Bryson's feedback, October 18: too many lights, everything too bright, and too much greenery. The earlier target frames below are preserved as history; their lighting and landscaping are superseded by this correction.
+
+C v3 removes the repeated garden/path lights, dims most lab bays, reduces the warm wall wash and wet reflections, and clears much of the planting. The building, camera composition, stair, bridge and three roof Operators are retained. The exact reduction used in the prompt is an implementation choice, not a new numeric game rule. The element sheets remain neutral-light material/shape references; final lighting and planting density should follow the revised target after selection.
+
+![Target frame C v3, fewer lights, darker night and less greenery](01-target-frame-c-v3.png)
 
 ## Suggested review set
 
@@ -10,7 +18,7 @@ This is Astra's recommendation, not Bryson's selection.
 
 | Deliverable | Suggested candidate | What to inspect |
 |---|---|---|
-| Target frame | [C, revised](01-target-frame-c-v2.png) | White/black campus materials, warm night light, complete stair and short bridge stub, three roof Operators and two rooftop units. |
+| Target frame | [C v3, lighting and planting revised](01-target-frame-c-v3.png) | Fewer lights, darker interiors and paving, much less greenery; complete stair and bridge stub, three roof Operators and two rooftop units. |
 | Wall bays | [B](02-wall-bays-b.png) | Solid, glass, door and outside corner; corrected three-row panel/glazing rhythm. |
 | Roof edge and terrace | [A](03-roof-edge-terrace-a.png) | Lower opaque edge and glass guard, closer to the current approved plan and target frame. B shows the brief's taller opaque-wall interpretation. |
 | Outside stair | [B](04-outside-stair-b.png) | Corrected ground connection, two flights, intermediate door landing and roof arrival. |
@@ -25,7 +33,7 @@ This is Astra's recommendation, not Bryson's selection.
 - The images show an illuminated lab behind glass. This does not change the exploration's plan to create apparent interior depth with a shader.
 - Visual inspection checked the requested components, people/equipment counts, stair continuity, framing and absence of obvious labels or logos. The wall subdivision, roof parapet and stair foot received targeted corrections. No Godot import, game integration or playtest was performed.
 
-## Target-frame candidates
+## Earlier target-frame candidates — lighting and planting superseded
 
 ### A — first camera/composition
 
@@ -39,7 +47,7 @@ Three roof people. This version adds a third rooftop unit and crops the bridge. 
 
 ![Target frame B](01-target-frame-b.png)
 
-### C — revised, suggested
+### C v2 — earlier framing revision
 
 Complete short bridge stub, two stair flights reaching the ground and roof, three visible Operators, and two rooftop units. See the dimensional and roof-edge qualifications above.
 
@@ -83,9 +91,10 @@ These document the targeted revisions; the floating stair foot in stair A is a k
 - [Initial prompts and ordered references](prompts.md)
 - [Targeted refinement prompts](refinement-prompts.md)
 - [Target C final correction prompt](target-frame-c-revision-prompt.md)
+- [Bryson's lighting and planting revision prompt](lighting-and-planting-revision-prompt.md)
 - [Generation record](generation-record.json): exact effective prompts, ordered references and hashes, generator output paths, workspace filenames, native dimensions, byte sizes and SHA-256 hashes.
 
-All eleven PNG outputs are copied byte for byte from the generator. None was resized, cropped, repainted or resampled after generation. The revised images are new image-tool outputs; the earlier outputs remain available for comparison.
+All twelve PNG outputs are copied byte for byte from the generator. None was resized, cropped, repainted or resampled after generation. The revised images are new image-tool outputs; the earlier outputs remain available for comparison.
 
 ## After Bryson picks
 
