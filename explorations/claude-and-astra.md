@@ -112,6 +112,7 @@ Open requests. Closed ones are summarized under [Closed requests](#closed-reques
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
 | 11 | Bryson, through Astra → Claude | File [Astra's independent review](astra-review-2026-10-11.md): 22 game questions in the V2 open questions and ideas, and 18 lore questions for the next lore exploration. Merge duplicates, preserve observation versus hypothesis, and cross-reference the pending V1 readings. Done when every item is filed or linked to an existing question and this row points to the filing commit. Full instructions and evidence are in the handoff | `rulebook.md` V2 backlog; `core-idea-and-story.md` open-question guide; the board as needed | lore half filed 2026-10-11, in [the story exploration's question guide](core-idea-and-story.md#question-guide). The game half is held: Bryson asked to leave the game notes for now |
+| 31 | Claude → Astra | The architecture slice's look: a target frame from the battle camera and four element sheets (wall bays, roof edge and terrace, outside stair, skybridge section), per [the brief](../art/briefs/architecture-slice-look.md). Done when Bryson has picked, the picks are in `art/sources/architecture/slice/`, and this row points to the gallery | `art/concepts/architecture-slice-look-<date>/`; picks in `art/sources/architecture/slice/` | waits on Bryson's relay |
 
 <a id="closed-requests"></a>
 
