@@ -1,0 +1,21 @@
+{
+  "spec": 1,
+  "id": "parapet",
+  "name": "Parapet with glass railing",
+  "category": "architecture",
+  "status": "proof",
+  "model": "parapet.glb",
+  "height_m": 1.1,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A roof edge 1.1 m tall: white upstand, glass railing, black cap, for the architecture slice's greybox.",
+  "brief": "art/briefs/architecture-slice-look.md",
+  "sources": null,
+  "made_with": {
+    "tool": "blender",
+    "settings": "tools/build_architecture_kit.py",
+    "date": "2026-10-18"
+  },
+  "animations": [],
+  "notes": "Greybox: shape and size to the 1.5 m grid; look comes later."
+}

@@ -13,6 +13,7 @@ Needs Godot 4.7 (`brew install --cask godot`).
 - Review all recorded 3D assets in Model Library: `godot --path game/preview/model_viewer`. The standalone Mac app, controls and build instructions are in [the viewer README](game/preview/model_viewer/README.md).
 - Preview a character with the toon shader and its animations: `godot --path game res://preview/character_preview.tscn`
 - Preview new props under night light, close up and from the battle camera: `godot --path game res://preview/prop_preview.tscn`. It shows every new model in `game/assets/` (not `legacy/`).
+- See the architecture slice from the battle camera: `godot --path game res://preview/architecture_slice.tscn`. Q and E turn, the wheel zooms, right-drag orbits.
 - Ready a Meshy model for the game (real height, origin at its base, a triangle budget): `blender -b --python tools/prep_prop.py -- in.glb out.glb --height 1.0 --max-tris 8000`
 - Install the optional GDScript linter: `pipx install 'gdtoolkit>=4,<5'`. The check runner finds it on `PATH` or in the pipx bin directory.
 - Verify imports, every test suite and the linter when installed: `bash tools/check.sh`. Prints one line per successful
@@ -132,3 +133,4 @@ that separately from headless checks and from Bryson's playtest.
 | `tools/add_fingers.py` | After `prep_operator.py --rig`: finger bones, knuckle loops and weights for a Meshy rig; a relaxed curl becomes the rest pose |
 | `tools/render_review.py` | Render a model at fixed framings in Blender, optionally posed from a clip or framed on a bone, for before-and-after comparisons |
 | `tools/build_fixtures.py` | Build pole fixtures and the barrier gate in Blender |
+| `tools/build_architecture_kit.py` | Build the architecture kit's pieces to the 1.5 m grid in Blender and export each with its record |

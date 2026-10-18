@@ -1,0 +1,21 @@
+{
+  "spec": 1,
+  "id": "corner_post",
+  "name": "Corner post",
+  "category": "architecture",
+  "status": "proof",
+  "model": "corner_post.glb",
+  "height_m": 4.5,
+  "fit_to_height": false,
+  "device": null,
+  "description": "Fills the corner where two wall bays meet, for the architecture slice's greybox.",
+  "brief": "art/briefs/architecture-slice-look.md",
+  "sources": null,
+  "made_with": {
+    "tool": "blender",
+    "settings": "tools/build_architecture_kit.py",
+    "date": "2026-10-18"
+  },
+  "animations": [],
+  "notes": "Greybox: shape and size to the 1.5 m grid; look comes later."
+}

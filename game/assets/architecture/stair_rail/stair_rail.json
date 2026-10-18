@@ -1,0 +1,21 @@
+{
+  "spec": 1,
+  "id": "stair_rail",
+  "name": "Stair rail",
+  "category": "architecture",
+  "status": "proof",
+  "model": "stair_rail.glb",
+  "height_m": 1.12,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A landing's 1.1 m guard rail along one edge, for the architecture slice's greybox.",
+  "brief": "art/briefs/architecture-slice-look.md",
+  "sources": null,
+  "made_with": {
+    "tool": "blender",
+    "settings": "tools/build_architecture_kit.py",
+    "date": "2026-10-18"
+  },
+  "animations": [],
+  "notes": "Greybox: shape and size to the 1.5 m grid; look comes later."
+}

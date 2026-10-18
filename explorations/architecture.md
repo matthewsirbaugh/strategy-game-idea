@@ -3,9 +3,9 @@
 - Feeds: DESIGN.md's look, [environment-assets.md](environment-assets.md) (the prop pipeline and
   the props already made), [environment-fidelity.md](environment-fidelity.md) (modular kit,
   materials and lighting techniques)
-- Status: open. Tier 2 verticality and free tools chosen (Bryson, 2026-10-18); the slice is planned
-- Next action: Bryson approves [the slice plan](#the-slice-plan-claudes-proposal-2026-10-18) and
-  relays Request 31 to Astra; Claude starts the greybox
+- Status: open. Tier 2 verticality and free tools chosen; the slice plan approved (Bryson, 2026-10-18)
+- Next action: Bryson reviews the [greybox](#2026-10-18--the-slice-greyboxed-claude-blender-and-godot-no-credits)'s
+  proportions; then step 2 follows Astra's chosen target frame (Request 31)
 
 ## The question
 
@@ -28,6 +28,8 @@ before we commit to building anything?
   - Yes to the one-bay prototype, and go all out on it: the small slice has to prove the aesthetic
     for the rest of the game.
   - Claude and Astra split the work so they run in parallel; Astra's images take a while.
+  - Approved the slice plan and its kit dimensions; Claude starts the greybox, and Bryson relays
+    Request 31 to Astra.
 
 ## Terms
 
@@ -89,9 +91,28 @@ What carries forward:
   one per height, which suits Tier 2 and could serve the map maker. Choosing it is part of the
   rules review's height work, not the slice.
 
-## The slice plan (Claude's proposal, 2026-10-18)
+### 2026-10-18 — The slice greyboxed (Claude; Blender and Godot, no credits)
 
-Not agreed yet. One corner of the research park, finished to final quality, shown in the battle
+Built and captured; not played. `tools/build_architecture_kit.py` scripts 13 pieces in Blender
+and exports each to `game/assets/architecture/<id>/` with a record (status `proof`): four wall bays
+(panel, glass, door, ribbon window), a header over openings, a corner post, a floor slab, the
+parapet, a stair flight, landing, rail and post, and a skybridge span. Every bay is its own piece,
+so it can ghost alone. `game/preview/architecture_slice.tscn` assembles the slice from them on the
+1.5 m grid, with the battle's environment, sun and camera (50 degrees down, turned 45, distance 32,
+field of view 30), the existing roof and ground props, and the three Operators on the roof.
+
+- Captures: [battle camera](../art/previews/architecture-slice-greybox-2026-10-18/battle-camera.png)
+  and [wider](../art/previews/architecture-slice-greybox-2026-10-18/wide.png), beside
+  [the 17 October battle](../art/previews/operator-writer-developer-in-battle-2026-10-17/game.png).
+- Reads from the battle camera: two storeys, the roof terrace and its parapet, the switchback stair,
+  the skybridge stub and the people's scale all read at the default zoom.
+- Still greybox: flat colours, no trim sheet or decals, plain glass, interiors only a lit floor and
+  three benches, the uplights barely wash the walls. That is step 2's work.
+- The project checks pass.
+
+## The slice plan (approved by Bryson, 2026-10-18)
+
+One corner of the research park, finished to final quality, shown in the battle
 camera beside [today's capture](../art/previews/operator-writer-developer-in-battle-2026-10-17/game.png).
 
 ### What's in it
@@ -106,7 +127,7 @@ camera beside [today's capture](../art/previews/operator-writer-developer-in-bat
 - Night lighting matched to the references: interiors glowing through glass, uplit white walls,
   wet reflections.
 
-### Kit dimensions (proposed)
+### Kit dimensions
 
 | Measure | Value | Why |
 |---|---|---|
@@ -141,5 +162,4 @@ works on the look, and his images steer step 2.
 
 ## Open questions
 
-1. Does Bryson approve the slice plan, including the kit dimensions?
-2. Height rules and traversal mechanics: for the rules review (Bryson, 2026-10-18).
+1. Height rules and traversal mechanics: for the rules review (Bryson, 2026-10-18).

@@ -1,0 +1,21 @@
+{
+  "spec": 1,
+  "id": "floor_slab",
+  "name": "Floor slab",
+  "category": "architecture",
+  "status": "proof",
+  "model": "floor_slab.glb",
+  "height_m": 0.3,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A 1.5 m square floor or roof slab, 0.3 m thick, for the architecture slice's greybox.",
+  "brief": "art/briefs/architecture-slice-look.md",
+  "sources": null,
+  "made_with": {
+    "tool": "blender",
+    "settings": "tools/build_architecture_kit.py",
+    "date": "2026-10-18"
+  },
+  "animations": [],
+  "notes": "Greybox: shape and size to the 1.5 m grid; look comes later."
+}
