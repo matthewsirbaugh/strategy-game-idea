@@ -4,8 +4,8 @@
   the props already made), [environment-fidelity.md](environment-fidelity.md) (modular kit,
   materials and lighting techniques)
 - Status: open. Tier 2 verticality and free tools chosen; the slice plan approved (Bryson, 2026-10-18)
-- Next action: Bryson reviews the [greybox](#2026-10-18--the-slice-greyboxed-claude-blender-and-godot-no-credits)'s
-  proportions; then step 2 follows Astra's chosen target frame (Request 31)
+- Next action: once Bryson picks Astra's target frame (Request 31), Claude starts the look pass,
+  step 2
 
 ## The question
 
@@ -30,6 +30,7 @@ before we commit to building anything?
   - Claude and Astra split the work so they run in parallel; Astra's images take a while.
   - Approved the slice plan and its kit dimensions; Claude starts the greybox, and Bryson relays
     Request 31 to Astra.
+  - Approved the greybox's proportions. The look pass starts once Astra's target frame is picked.
 
 ## Terms
 
