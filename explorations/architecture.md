@@ -111,6 +111,36 @@ field of view 30), the existing roof and ground props, and the three Operators o
   three benches, the uplights barely wash the walls. That is step 2's work.
 - The project checks pass.
 
+### 2026-10-18 — Groundwork for the look (Claude; Godot, no credits)
+
+Built and captured; not played. Bryson asked for the parts that don't depend on the target frame.
+
+- **Window interiors:** `art/shaders/window_interior.gdshader` traces the view into a room behind
+  each glass bay (interior mapping): a tiled floor under three ceiling light strips, two rows of
+  lab benches with shadows, a back wall. Rooms have no side walls, so neighbouring bays read as one
+  open lab, and their brightness drifts across the facade. Glass elsewhere (railings, skybridge)
+  uses `clear_glass.gdshader`.
+- **Fog and see-through:** `art/architecture_kit.gd` (`ArchitectureKit.dress`) turns the kit's
+  imported materials into `architecture.gdshader`, which keeps colour, metal and roughness and takes
+  the battle's fog and ghosting. The props' fog shader drops metal and transparency, so the kit
+  doesn't use it. In the slice, pieces between the camera and an Operator ghost, H ghosts all and
+  F shows a stand-in fog around the Operators; one Operator now stands on the ground behind the
+  building to show it.
+- **Paving:** the slice's ground is the battle's own `corporate` paving, wet: joints on the grid,
+  puddles and rain ripples.
+- Captures: [battle camera](../art/previews/architecture-slice-look-groundwork-2026-10-18/battle-camera.png),
+  [close](../art/previews/architecture-slice-look-groundwork-2026-10-18/close.png),
+  [fog](../art/previews/architecture-slice-look-groundwork-2026-10-18/fog.png),
+  [all ghosted](../art/previews/architecture-slice-look-groundwork-2026-10-18/ghost-all.png).
+- **Found for the rules review:** the fog is one value per tile, ignoring height, so an Operator on
+  the roof reveals the ground below and the roof shares its fog with the street. Ghosting already
+  takes the whole stack, roof slab included, when a unit stands behind a building.
+- **Found in passing:** the bench prop shows flat white wherever the props' fog shader dresses it,
+  because that shader replaces an emission texture with one flat glow colour. Any prop prepared
+  with `--glow` would do the same. The bench is out of the slice until that's fixed; it isn't in
+  the battle today.
+- The project checks pass.
+
 ## The slice plan (approved by Bryson, 2026-10-18)
 
 One corner of the research park, finished to final quality, shown in the battle

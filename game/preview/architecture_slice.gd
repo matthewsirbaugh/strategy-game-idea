@@ -2,8 +2,10 @@ extends Node3D
 ## The architecture slice: one corner of the research park built from the kit in
 ## assets/architecture/, under the battle's lighting and seen from the battle camera.
 ## Run with `godot --path game res://preview/architecture_slice.tscn`. Q and E turn, the wheel
-## zooms, right-drag orbits. `-- --capture <file.png>` saves one frame and quits;
-## `--distance <m>` sets the zoom first.
+## zooms, right-drag orbits, H ghosts every piece, F shows a fog of war around the Operators.
+## Pieces between the camera and an Operator ghost, as walls do in battle.
+## `-- --capture <file.png>` saves one frame and quits; `--distance <m>`, `--fog` and `--ghost-all`
+## set the view first.
 
 const CELL := 1.5
 const STOREY := 4.5
@@ -13,11 +15,21 @@ const DEEP := 6
 const KIT := "res://assets/architecture/%s/%s.glb"
 const PROP := "res://assets/props/%s/%s.glb"
 const OPERATORS := ["operator_protagonist", "operator_writer", "operator_developer"]
+# Two on the roof terrace, one on the ground behind the building, where the walls hide them.
+const OPERATOR_SPOTS := [Vector3(4.0, 2 * STOREY, 7.4), Vector3(5.2, 2 * STOREY, 7.9), Vector3(-1.2, 0, -1.8)]
+const SIGHT_TILES := 5
+const FOG_FROM := Vector2(-9.0, -9.0)
+const FOG_TILES := Vector2i(26, 22)
+const GHOST_RATE := 4.0
 
 var _yaw := 45.0
 var _pitch := 50.0
 var _distance := 32.0
 var _scenes := {}
+var _scenery: Array[Dictionary] = []  # each piece or prop: node, its meshes, bounds and ghost
+var _operators: Array[Node3D] = []
+var _ghost_all := false
+var _fog := false
 
 @onready var _rig: Node3D = $Rig
 @onready var _camera: Camera3D = $Rig/Camera3D
@@ -33,6 +45,8 @@ func _ready() -> void:
 	_place_operators()
 	_update_camera()
 	var args := OS.get_cmdline_user_args()
+	_ghost_all = args.has("--ghost-all")
+	_set_fog(args.has("--fog"))
 	var zoom := args.find("--distance")
 	if zoom >= 0 and zoom + 1 < args.size():
 		_distance = float(args[zoom + 1])
@@ -49,6 +63,16 @@ func _piece(id: String, at: Vector3, yaw := 0.0, folder := KIT) -> Node3D:
 	node.position = at
 	node.rotation_degrees.y = yaw
 	add_child(node)
+	if folder == KIT:
+		ArchitectureKit.dress(node, id)
+	else:
+		SceneryFog.apply(node)
+	var meshes := node.find_children("*", "MeshInstance3D", true, false)
+	var bounds := AABB()
+	for i in meshes.size():
+		var part: AABB = meshes[i].global_transform * meshes[i].get_aabb()
+		bounds = part if i == 0 else bounds.merge(part)
+	_scenery.append({"node": node, "meshes": meshes, "bounds": bounds, "ghost": 0.0})
 	return node
 
 
@@ -148,10 +172,9 @@ func _build_ground() -> void:
 	var plane := PlaneMesh.new()
 	plane.size = Vector2(60, 60)
 	ground.mesh = plane
-	var wet := StandardMaterial3D.new()
-	wet.albedo_color = Color(0.3, 0.3, 0.29)
-	wet.roughness = 0.18
-	ground.material_override = wet
+	var paving := Surfaces.named("corporate").duplicate() as ShaderMaterial
+	paving.set_shader_parameter("wet", 1.0)
+	ground.material_override = paving
 	ground.position = Vector3(WIDE * CELL / 2, 0, DEEP * CELL / 2)
 	add_child(ground)
 	for i in 4:
@@ -175,51 +198,18 @@ func _build_ground() -> void:
 	lamp.position = Vector3(-1.75, 5.0, DEEP * CELL + 4.0)
 	lamp.rotation_degrees.x = -90
 	add_child(lamp)
-	_piece("bench", Vector3(3.0, 0, DEEP * CELL + 3.0), 0, PROP)
 
 
-# Greybox interiors: a lit ceiling and a few lab benches seen through the glass.
+# The rooms themselves are drawn by the window glass; these lights only spill their warmth out
+# onto the paving and the stair.
 func _light_interiors() -> void:
-	var glow := StandardMaterial3D.new()
-	glow.albedo_color = Color(1.0, 0.86, 0.68)
-	glow.emission_enabled = true
-	glow.emission = Color(1.0, 0.82, 0.6)
-	glow.emission_energy_multiplier = 1.6
-	for storey in 2:
-		var ceiling := MeshInstance3D.new()
-		var panel := BoxMesh.new()
-		panel.size = Vector3(WIDE * CELL - 0.6, 0.04, DEEP * CELL - 0.6)
-		ceiling.mesh = panel
-		ceiling.material_override = glow
-		ceiling.position = Vector3(WIDE * CELL / 2, (storey + 1) * STOREY - 0.34, DEEP * CELL / 2)
-		add_child(ceiling)
-		for x in [0.3, 0.7]:
-			var fill := OmniLight3D.new()
-			fill.light_color = Color(1.0, 0.82, 0.62)
-			fill.light_energy = 5.0
-			fill.omni_range = 9.0
-			fill.position = Vector3(WIDE * CELL * x, storey * STOREY + 3.2, DEEP * CELL * 0.6)
-			add_child(fill)
-	var floor_mat := StandardMaterial3D.new()
-	floor_mat.albedo_color = Color(0.72, 0.72, 0.7)
-	floor_mat.roughness = 0.35
-	var lobby := MeshInstance3D.new()
-	var slab := BoxMesh.new()
-	slab.size = Vector3(WIDE * CELL - 0.3, 0.04, DEEP * CELL - 0.3)
-	lobby.mesh = slab
-	lobby.material_override = floor_mat
-	lobby.position = Vector3(WIDE * CELL / 2, 0.02, DEEP * CELL / 2)
-	add_child(lobby)
-	var bench_mat := StandardMaterial3D.new()
-	bench_mat.albedo_color = Color(0.75, 0.76, 0.77)
-	for x in [2.5, 6.0, 9.5]:
-		var bench := MeshInstance3D.new()
-		var top := BoxMesh.new()
-		top.size = Vector3(2.4, 0.9, 0.8)
-		bench.mesh = top
-		bench.material_override = bench_mat
-		bench.position = Vector3(x, 0.45, 6.5)
-		add_child(bench)
+	for x in [0.2, 0.5, 0.8]:
+		var spill := OmniLight3D.new()
+		spill.light_color = Color(1.0, 0.82, 0.62)
+		spill.light_energy = 2.5
+		spill.omni_range = 7.0
+		spill.position = Vector3(WIDE * CELL * x, 2.5, DEEP * CELL - 1.0)
+		add_child(spill)
 	var bridge_light := OmniLight3D.new()
 	bridge_light.light_color = Color(1.0, 0.82, 0.62)
 	bridge_light.light_energy = 2.0
@@ -229,7 +219,6 @@ func _light_interiors() -> void:
 
 
 func _place_operators() -> void:
-	var spots := [Vector3(4.0, 0, 7.4), Vector3(5.2, 0, 7.9), Vector3(9.0, 0, 7.2)]
 	for i in OPERATORS.size():
 		var id: String = OPERATORS[i]
 		var path := "res://assets/units/%s/%s.glb" % [id, id]
@@ -238,9 +227,50 @@ func _place_operators() -> void:
 		var unit := ToonModel.new()
 		add_child(unit)
 		unit.build(load(path))
-		unit.position = spots[i] + Vector3(0, 2 * STOREY, 0)
+		unit.position = OPERATOR_SPOTS[i]
 		unit.rotation_degrees.y = 30.0 + i * 50.0
 		unit.play("Neutral")
+		_operators.append(unit)
+
+
+# Any piece crossing the line from the camera to an Operator's chest ghosts, as walls do in battle.
+func _process(delta: float) -> void:
+	var eye := _camera.global_position
+	for piece in _scenery:
+		var target := 1.0 if _ghost_all else 0.0
+		if not _ghost_all:
+			for unit in _operators:
+				if piece.bounds.intersects_segment(eye, unit.global_position + Vector3(0, 1.0, 0)):
+					target = 1.0
+		var ghost := move_toward(piece.ghost, target, delta * GHOST_RATE)
+		if ghost != piece.ghost:
+			piece.ghost = ghost
+			for mesh: MeshInstance3D in piece.meshes:
+				mesh.set_instance_shader_parameter("ghost", ghost)
+
+
+# A stand-in for the battle's fog: tiles within sight of an Operator are seen, the rest hidden.
+func _set_fog(on: bool) -> void:
+	_fog = on
+	if not on:
+		RenderingServer.global_shader_parameter_set("fog_bounds", Vector4.ZERO)
+		return
+	var seen := Image.create(FOG_TILES.x, FOG_TILES.y, false, Image.FORMAT_R8)
+	for x in FOG_TILES.x:
+		for z in FOG_TILES.y:
+			var middle := FOG_FROM + (Vector2(x, z) + Vector2(0.5, 0.5)) * CELL
+			for unit in _operators:
+				if middle.distance_to(Vector2(unit.position.x, unit.position.z)) <= SIGHT_TILES * CELL:
+					seen.set_pixel(x, z, Color.WHITE)
+	var light := seen.duplicate() as Image
+	light.adjust_bcs(0.55, 1.0, 1.0)
+	RenderingServer.global_shader_parameter_set("fog_map", ImageTexture.create_from_image(light))
+	RenderingServer.global_shader_parameter_set("fog_visibility_map", ImageTexture.create_from_image(seen))
+	RenderingServer.global_shader_parameter_set("fog_bounds", Vector4(FOG_FROM.x, FOG_FROM.y, FOG_TILES.x * CELL, FOG_TILES.y * CELL))
+
+
+func _exit_tree() -> void:
+	RenderingServer.global_shader_parameter_set("fog_bounds", Vector4.ZERO)
 
 
 func _update_camera() -> void:
@@ -255,6 +285,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key and key.pressed and key.keycode in [KEY_Q, KEY_E]:
 		_yaw += -15.0 if key.keycode == KEY_Q else 15.0
+	if key and key.pressed and key.keycode == KEY_H:
+		_ghost_all = not _ghost_all
+	if key and key.pressed and key.keycode == KEY_F:
+		_set_fog(not _fog)
 	var button := event as InputEventMouseButton
 	if button and button.pressed and button.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
 		_distance = clampf(_distance * (0.9 if button.button_index == MOUSE_BUTTON_WHEEL_UP else 1.1), 6.0, 60.0)
@@ -266,7 +300,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _capture(path: String) -> void:
-	for i in 12:
+	for i in 40:
 		await get_tree().process_frame
 	get_viewport().get_texture().get_image().save_png(path)
 	get_tree().quit()
