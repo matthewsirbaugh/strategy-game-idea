@@ -169,9 +169,14 @@ Built and captured; not played. Matched to the Request 31 picks in `art/sources/
 - Captures: [before](../art/previews/architecture-slice-look-pass-2026-10-28/before.png),
   [after, battle camera](../art/previews/architecture-slice-look-pass-2026-10-28/battle-camera.png),
   [facade, closer and lower](../art/previews/architecture-slice-look-pass-2026-10-28/facade.png).
-- **Still short of the target:** the white walls read lavender because the battle's ambient light
-  is blue (0.5, 0.53, 0.72); the target's walls are neutral. Fixing it means changing the battle's
-  environment, which reaches every map, so it waits for Bryson. Not done yet: CC0 scanned
+- **Neutral light** (Bryson, 2026-10-28: "Yes, neutralize"): the battle's and the slice's ambient
+  light goes from blue (0.5, 0.53, 0.72) to a cool grey (0.56, 0.58, 0.64), and the moonlight from
+  (0.76, 0.79, 0.92) to (0.8, 0.82, 0.88). The sky, fog and haze stay blue. The slice's walls now
+  read white ([after](../art/previews/architecture-slice-look-pass-2026-10-28/battle-camera-neutral.png));
+  in the battle the change is slight ([before](../art/previews/architecture-slice-look-pass-2026-10-28/battle-before.png),
+  [after](../art/previews/architecture-slice-look-pass-2026-10-28/battle-neutral.png), same frame;
+  the tile card in the after is the cursor's hover).
+- **Still short of the target:** not done yet: CC0 scanned
   materials, the trim sheet, decals and the OpenBrain emblem; the wet paving's reflections of the
   lit windows are weak.
 - The project checks pass.
