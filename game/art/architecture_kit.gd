@@ -6,6 +6,8 @@ class_name ArchitectureKit
 const SOLID := preload("res://art/shaders/architecture.gdshader")
 const INTERIOR := preload("res://art/shaders/window_interior.gdshader")
 const CLEAR := preload("res://art/shaders/clear_glass.gdshader")
+const EMBLEM := preload("res://art/shaders/emblem.gdshader")
+const LOGO := preload("res://assets/architecture/emblem/openbrain_logo.png")
 # Pieces whose glass is a building's outer wall; any other glass is see-through.
 const ROOM_GLASS := ["wall_glass", "wall_door", "wall_ribbon"]
 
@@ -27,6 +29,9 @@ static func _material(source: Material, room_glass: bool) -> ShaderMaterial:
 	var base := source as BaseMaterial3D
 	if source.resource_name == "glass":
 		made.shader = INTERIOR if room_glass else CLEAR
+	elif source.resource_name == "emblem":
+		made.shader = EMBLEM
+		made.set_shader_parameter("mark", LOGO)
 	else:
 		made.shader = SOLID
 		made.set_shader_parameter("color", base.albedo_color)

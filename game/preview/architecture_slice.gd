@@ -106,6 +106,7 @@ func _build_building() -> void:
 			_wall("wall_panel", "west", i, storey)
 		for corner in [Vector2(0, 0), Vector2(WIDE, 0), Vector2(0, DEEP), Vector2(WIDE, DEEP)]:
 			_piece("corner_post", Vector3(corner.x * CELL, storey * STOREY, corner.y * CELL))
+	_wall("emblem", "east", 2, 1)
 	for i in WIDE:
 		for side in ["south", "north"]:
 			_wall("accent_band", side, i, 0)

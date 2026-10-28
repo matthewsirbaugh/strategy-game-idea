@@ -45,6 +45,7 @@ def make_materials():
     MAT["light"] = material("warm_light", (1.0, 0.85, 0.65), emission=(1.0, 0.8, 0.58))
     MAT["red"] = material("accent_red", (0.55, 0.03, 0.03), roughness=0.4)
     MAT["tread"] = material("tread", (0.36, 0.36, 0.35), metallic=0.5, roughness=0.6)
+    MAT["emblem"] = material("emblem", (0.03, 0.03, 0.03), roughness=0.35)
     MAT["beacon"] = material("beacon_red", (1.0, 0.1, 0.08), emission=(1.0, 0.06, 0.04))
 
 
@@ -150,6 +151,12 @@ def accent_band():
     box(-reach, reach, -T - 0.05, -T, STOREY - BAND - 0.1, STOREY - BAND - 0.02, "red", bevel=0)
 
 
+def emblem():
+    # OpenBrain's emblem, 1.8 m across, on a panel bay's upper half; Godot cuts the logo out of it.
+    bpy.ops.mesh.primitive_plane_add(size=1.8, location=(0, -T - 0.006, 2.9), rotation=(math.pi / 2, 0, 0))
+    bpy.context.object.data.materials.append(MAT["emblem"])
+
+
 def beacon():
     # An aviation light on the roof's corner, on top of the parapet's cap.
     box(-0.03, 0.03, -0.03, 0.03, 0, 0.18, "frame", bevel=0)
@@ -229,6 +236,7 @@ PIECES = {
     "wall_ribbon": (wall_ribbon, "Wall: ribbon window bay", "A white panel bay with a long horizontal window"),
     "wall_header": (wall_header, "Wall: header over an opening", "Only the floor-edge band, spanning an opening"),
     "accent_band": (accent_band, "Red accent band", "OpenBrain's red line under the first floor's band, one bay long"),
+    "emblem": (emblem, "OpenBrain emblem", "OpenBrain's emblem, 1.8 m across, for a white panel bay"),
     "beacon": (beacon, "Roof beacon", "A red aviation light on a short post, for the roof's corners"),
     "corner_post": (corner_post, "Corner post", "Fills the corner where two wall bays meet"),
     "floor_slab": (floor_slab, "Floor slab", "A 1.5 m square floor or roof slab, 0.3 m thick"),

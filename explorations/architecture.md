@@ -180,6 +180,11 @@ Built and captured; not played. Matched to the Request 31 picks in `art/sources/
   now): the battle's falling rain (`rain.gd`, in git history) and the puddles' raindrop ripples are
   gone. The ground stays wet, with still puddles
   ([battle](../art/previews/architecture-slice-look-pass-2026-10-28/battle-no-rain.png)).
+- **Emblem:** a kit piece, `emblem`, 1.8 m across, on the east wall's upper floor beside the
+  skybridge: the reference logo itself (`art/reference/openbrain-logo-white.png`, copied into
+  the piece's folder) cut out of a card by `emblem.gdshader`. A mesh, not a Decal node, so it takes
+  the fog and ghosts with its bay. 1.2 m read too small from the battle camera
+  ([capture](../art/previews/architecture-slice-look-pass-2026-10-28/emblem.png)).
 - **Still short of the target:** not done yet: CC0 scanned
   materials, the trim sheet, decals and the OpenBrain emblem; the wet paving's reflections of the
   lit windows are weak.
