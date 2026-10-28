@@ -1,7 +1,7 @@
 shader_type spatial;
 // Ground painted in flat tones: paving slabs lined up with the tiles so their joints are the grid,
-// or asphalt with worn patches, oil and cracks. Outdoors it is wet after rain: puddles turn to
-// mirror. Darkened where the fog says no one can see.
+// or asphalt with worn patches, oil and cracks. Slabs can carry a scanned concrete's speckle,
+// relief and roughness. Wet, puddles turn to mirror. Darkened where the fog says no one can see.
 #include "res://art/shaders/fog.gdshaderinc"
 #include "res://art/shaders/painted.gdshaderinc"
 
@@ -14,6 +14,10 @@ uniform float joint_lift = 0.5;
 uniform float grime : hint_range(0.0, 1.0) = 0.5;
 uniform float cracks : hint_range(0.0, 1.0) = 0.0;
 uniform float wet : hint_range(0.0, 1.0) = 0.0;
+uniform float scanned : hint_range(0.0, 1.0) = 0.0;
+uniform sampler2D paver_albedo : hint_default_white, filter_linear_mipmap;
+uniform sampler2D paver_normal : hint_normal, filter_linear_mipmap;
+uniform sampler2D paver_roughness : hint_default_white, filter_linear_mipmap;
 
 varying vec3 world_position;
 varying vec3 world_normal;
@@ -48,6 +52,17 @@ void fragment() {
 		float puddle = smoothstep(0.5, 0.56, fbm(p * 0.3 + 11.0));
 		color *= mix(1.0, 0.55, wet * (0.3 + 0.7 * puddle));
 		roughness = mix(0.9, mix(0.32, 0.04, puddle), wet);
+	}
+
+	if (scanned > 0.0 && slab > 0.0 && facing_up) {
+		vec2 uv = paver_uv(p, slab);
+		vec2 dx = dFdx(p / slab) * PAVER_WINDOW;
+		vec2 dy = dFdy(p / slab) * PAVER_WINDOW;
+		float speck = dot(textureGrad(paver_albedo, uv, dx, dy).rgb, vec3(1.0 / 3.0)) / 0.42;
+		color *= mix(1.0, speck, scanned);
+		roughness = mix(roughness, textureGrad(paver_roughness, uv, dx, dy).r, scanned);
+		vec3 n = mix(vec3(0.0, 1.0, 0.0), ground_normal(textureGrad(paver_normal, uv, dx, dy).rgb), scanned);
+		NORMAL = normalize((VIEW_MATRIX * vec4(n, 0.0)).xyz);
 	}
 
 	ALBEDO = color * fog_light(world_position);

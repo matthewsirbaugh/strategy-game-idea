@@ -55,3 +55,24 @@ float cell_border(vec2 p) {
 	}
 	return sqrt(second) - sqrt(nearest);
 }
+
+// A clean patch from inside one brick of the concrete_pavement scan, picked per paver, so the scan's
+// own running-bond joints never show and our grid's joints stay the only ones. p in metres, size
+// the paver's side. Each window is 0.145 of the texture across.
+const float PAVER_WINDOW = 0.145;
+
+vec2 paver_uv(vec2 p, float size) {
+	vec2 cell = floor(p / size);
+	float row = floor(hash(cell) * 6.0);
+	bool odd = mod(row, 2.0) > 0.5;
+	float pick = floor(hash(cell + 5.1) * (odd ? 3.0 : 2.0));
+	float x0 = (odd ? 0.02 : 0.185) + pick * 0.333;
+	return vec2(x0, row / 6.0 + 0.01) + fract(p / size) * PAVER_WINDOW;
+}
+
+// A tangent-space normal (OpenGL, green up) from a map laid flat on the ground, turned into world
+// space. Only red and green are read: Godot imports normal maps with two channels.
+vec3 ground_normal(vec3 sampled) {
+	vec2 n = sampled.rg * 2.0 - 1.0;
+	return normalize(vec3(n.x, sqrt(max(1.0 - dot(n, n), 0.0)), -n.y));
+}

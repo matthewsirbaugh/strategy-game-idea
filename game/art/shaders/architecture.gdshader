@@ -14,6 +14,11 @@ uniform float glow_energy = 0.0;
 uniform float variation = 0.06;
 // Paver joints laid out in world metres; 0 for none.
 uniform float paving = 0.0;
+// Scanned detail on upward faces: 1 the concrete inside each paver, 2 tread plate tiled per metre.
+uniform int detail = 0;
+uniform sampler2D detail_albedo : hint_default_white, filter_linear_mipmap;
+uniform sampler2D detail_normal : hint_normal, filter_linear_mipmap;
+uniform sampler2D detail_roughness : hint_default_white, filter_linear_mipmap;
 instance uniform float ghost : instance_index(2) = 0.0;
 instance uniform bool scenery : instance_index(5) = false;
 varying vec3 world_position;
@@ -36,9 +41,21 @@ void fragment() {
 		base *= 0.92 + 0.12 * hash(cell);  // each paver its own shade
 		base *= 1.0 - 0.45 * max(joint(world_position.x, paving, 0.006), joint(world_position.z, paving, 0.006));
 	}
+	float rough = roughness;
+	if (detail > 0 && world_normal.y > 0.5) {
+		vec2 uv = detail == 1 ? paver_uv(world_position.xz, paving) : world_position.xz;
+		vec2 scale = vec2(detail == 1 ? PAVER_WINDOW / paving : 1.0);
+		vec2 dx = dFdx(world_position.xz) * scale;
+		vec2 dy = dFdy(world_position.xz) * scale;
+		if (detail == 1) {
+			base *= dot(textureGrad(detail_albedo, uv, dx, dy).rgb, vec3(1.0 / 3.0)) / 0.42;
+		}
+		rough = textureGrad(detail_roughness, uv, dx, dy).r;
+		NORMAL = normalize((VIEW_MATRIX * vec4(ground_normal(textureGrad(detail_normal, uv, dx, dy).rgb), 0.0)).xyz);
+	}
 	ALBEDO = base * visibility;
 	METALLIC = metallic * visibility;
-	ROUGHNESS = mix(1.0, roughness, visibility);
+	ROUGHNESS = mix(1.0, rough, visibility);
 	SPECULAR = 0.5 * visibility;
 	EMISSION = mix(fog_silhouette(world_normal), glow_color * glow_energy, visibility);
 }

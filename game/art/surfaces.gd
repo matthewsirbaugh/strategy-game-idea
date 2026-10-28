@@ -6,6 +6,12 @@ class_name Surfaces
 const WALL := preload("res://art/shaders/wall.gdshader")
 const GROUND := preload("res://art/shaders/ground.gdshader")
 const HAZARD := Color(1.0, 0.42, 0.1)
+# The concrete_pavement scan (art/textures/SOURCES.md), for every surface with "scanned".
+const PAVER_MAPS := {
+	"paver_albedo": preload("res://art/textures/concrete_pavement_diff_1k.jpg"),
+	"paver_normal": preload("res://art/textures/concrete_pavement_nor_gl_1k.jpg"),
+	"paver_roughness": preload("res://art/textures/concrete_pavement_rough_1k.jpg"),
+}
 
 const KINDS := {
 	# Walls. Their tops are set per mesh, as the instance parameter "top".
@@ -21,10 +27,11 @@ const KINDS := {
 	"hazard": [WALL, {"base_color": Color(0.6, 0.58, 0.55), "panel": Vector2(1.5, 1.0), "grime": 0.55, "streaks": 0.0, "stripes": 1.0, "stripe_color": HAZARD}],
 	"metal": [WALL, {"base_color": Color(0.13, 0.13, 0.15), "panel": Vector2(1.5, 1.0), "grime": 0.3, "streaks": 0.0}],
 	# Ground. Paving slabs line up with the tiles, so their joints are the grid.
-	"paving": [GROUND, {"base_color": Color(0.36, 0.36, 0.37), "slab": 1.5, "grime": 0.5, "wet": 1.0}],
-	"asphalt": [GROUND, {"base_color": Color(0.19, 0.19, 0.21), "grime": 0.6, "cracks": 1.0, "wet": 1.0}],
-	"sidewalk": [GROUND, {"base_color": Color(0.3, 0.3, 0.31), "slab": 1.0, "joint_lift": 0.15, "grime": 0.5, "wet": 1.0}],
-	"corporate": [GROUND, {"base_color": Color(0.56, 0.55, 0.54), "slab": 1.5, "joint_lift": -0.3, "grime": 0.1}],
+	# Dry: Bryson wants to see the world without rain (2026-10-28); "wet": 1.0 brings puddles back.
+	"paving": [GROUND, {"base_color": Color(0.36, 0.36, 0.37), "slab": 1.5, "grime": 0.5, "scanned": 1.0}],
+	"asphalt": [GROUND, {"base_color": Color(0.19, 0.19, 0.21), "grime": 0.6, "cracks": 1.0}],
+	"sidewalk": [GROUND, {"base_color": Color(0.3, 0.3, 0.31), "slab": 1.0, "joint_lift": 0.15, "grime": 0.5, "scanned": 1.0}],
+	"corporate": [GROUND, {"base_color": Color(0.56, 0.55, 0.54), "slab": 1.5, "joint_lift": -0.3, "grime": 0.1, "scanned": 1.0}],
 }
 
 static var _made := {}
@@ -37,5 +44,8 @@ static func named(kind: String) -> ShaderMaterial:
 		var parameters: Dictionary = KINDS[kind][1]
 		for parameter in parameters:
 			material.set_shader_parameter(parameter, parameters[parameter])
+		if parameters.has("scanned"):
+			for map in PAVER_MAPS:
+				material.set_shader_parameter(map, PAVER_MAPS[map])
 		_made[kind] = material
 	return _made[kind]

@@ -1,6 +1,6 @@
 extends Node3D
 ## Look-dev stage for new props: each new model in assets/ (not legacy/) under night light like the references,
-## cool moonlight, a warm uplight and wet ground, beside a 1.8 m person for scale. Run with
+## cool moonlight, a warm uplight and dry ground, beside a 1.8 m person for scale. Run with
 ## `godot --path game res://preview/prop_preview.tscn`. Left and right change prop, V switches
 ## between the battle camera's view and a close one, Q and E turn the prop.
 
@@ -66,10 +66,10 @@ func _build_stage() -> void:
 	var plane := PlaneMesh.new()
 	plane.size = Vector2(30, 30)
 	ground.mesh = plane
-	var wet := StandardMaterial3D.new()
-	wet.albedo_color = Color(0.32, 0.31, 0.3)
-	wet.roughness = 0.22
-	ground.material_override = wet
+	var dry := StandardMaterial3D.new()
+	dry.albedo_color = Color(0.42, 0.41, 0.4)
+	dry.roughness = 0.85
+	ground.material_override = dry
 	add_child(ground)
 	var person := MeshInstance3D.new()
 	var capsule := CapsuleMesh.new()

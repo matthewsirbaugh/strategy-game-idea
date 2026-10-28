@@ -192,9 +192,7 @@ func _build_ground() -> void:
 	var plane := PlaneMesh.new()
 	plane.size = Vector2(60, 60)
 	ground.mesh = plane
-	var paving := Surfaces.named("corporate").duplicate() as ShaderMaterial
-	paving.set_shader_parameter("wet", 1.0)
-	ground.material_override = paving
+	ground.material_override = Surfaces.named("corporate")
 	ground.position = Vector3(WIDE * CELL / 2, 0, DEEP * CELL / 2)
 	add_child(ground)
 	# Two washes at the facade's ends, not a row of them: fewer lights (Bryson, 2026-10-18).

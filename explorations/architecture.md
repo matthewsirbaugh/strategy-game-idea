@@ -185,9 +185,22 @@ Built and captured; not played. Matched to the Request 31 picks in `art/sources/
   the piece's folder) cut out of a card by `emblem.gdshader`. A mesh, not a Decal node, so it takes
   the fog and ghosts with its bay. 1.2 m read too small from the battle camera
   ([capture](../art/previews/architecture-slice-look-pass-2026-10-28/emblem.png)).
-- **Still short of the target:** not done yet: CC0 scanned
-  materials, the trim sheet, decals and the OpenBrain emblem; the wet paving's reflections of the
-  lit windows are weak.
+- **Trim sheet and wear dropped** (Bryson, 2026-10-28, on Claude's recommendation): seams, frames
+  and rails are already geometry, so a trim sheet adds nothing at the battle camera; wear stays off
+  OpenBrain's buildings, which are pristine, and belongs to the city.
+- **Dry** (Bryson, 2026-10-28: "let's just see what the world looks like dry for once"): no wet
+  ground or puddles anywhere, in the battle, the slice, the road paint or the prop preview. The
+  shaders keep `wet`; `"wet": 1.0` in `surfaces.gd` brings puddles back.
+- **Scanned materials:** two CC0 Poly Haven sets at 1K, approved by Bryson
+  ([sources](../game/art/textures/SOURCES.md)). `concrete_pavement` gives every slab, on the
+  ground and the roof, its speckle, relief and roughness; each paver samples a clean patch from
+  inside one of the scan's bricks (`paver_uv`), so the scan's running-bond joints never show.
+  `metal_plate` gives the treads their diamond relief and roughness; its rusty colour isn't used.
+  Captures: [battle camera](../art/previews/architecture-slice-look-pass-2026-10-28/dry-battle-camera.png),
+  [close](../art/previews/architecture-slice-look-pass-2026-10-28/dry-close.png),
+  [the battle, dry](../art/previews/architecture-slice-look-pass-2026-10-28/battle-dry.png).
+- **Left for step 3:** dressing (the bench prop, once its glow is fixed; the target's robot arm in
+  the lab) and the final captures beside today's battle.
 - The project checks pass.
 
 ## The slice plan (approved by Bryson, 2026-10-18)

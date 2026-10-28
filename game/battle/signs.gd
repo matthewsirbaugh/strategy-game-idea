@@ -22,7 +22,7 @@ const STYLES := {
 	"stencil": {"font": BOLD, "color": Color(0.09, 0.09, 0.1), "wear": 0.45},
 	"graffiti": {"font": MARKER, "color": Color(0.88, 0.32, 0.2), "wear": 0.35, "tilt": -0.06},
 	"neon": {"font": SEMIBOLD, "color": NEON, "glow": 3.0, "light": 1.6},
-	"road": {"font": BOLD, "color": Color(0.82, 0.82, 0.78), "wear": 0.4, "wet": 1.0},
+	"road": {"font": BOLD, "color": Color(0.82, 0.82, 0.78), "wear": 0.4},
 }
 # By name, as map dressing places them: the art, its style, its size in metres, and on a wall, the
 # height of its middle. Emblem signs carry a caption under the mark.
