@@ -17,8 +17,13 @@ const SIGHT_STEP := 0.25
 const WALLS := {
 	"indoor": {"height": 2.8, "neon": true, "fence": false},
 	"perimeter": {"height": 3.0, "neon": false, "fence": true},
-	"building": {"height": 9.0, "neon": true, "fence": false},
+	"building": {"height": 10.1, "neon": false, "fence": false},
 }
+# Buildings come from the architecture kit: two 4.5 m storeys and a 1.1 m parapet.
+const KIT := "res://assets/architecture/%s/%s.glb"
+const STOREY := 4.5
+const PARAPET := 1.1
+const ROOF_PROPS := {"rooftop_unit": 6, "solar_rack": 9}  # one on every Nth roof tile, by hash
 # The kit around each wall block, heights above the floor: a plinth proud of the face, a cap that
 # overhangs it, a hazard band on walls without neon, and posts, wires and razor wire on a fence.
 const PLINTH_HEIGHT := 0.2
@@ -31,7 +36,6 @@ const WIRE_HEIGHTS := [0.35, 0.65]
 const RAZOR_RADIUS := 0.17
 const RAZOR_LOOPS := 9
 # Buildings carry a second neon line at storefront height, where it lights the street.
-const STOREFRONT_NEON_Y := 2.6
 const NEON := Color(1.0, 0.42, 0.22)
 const NEON_LIGHT_RANGE := 6.5
 const NEON_LIGHT_ENERGY := 1.5
@@ -87,6 +91,8 @@ var _soft_shading := true
 var _neon_material: StandardMaterial3D
 # Each device's parts, by node id: its model, and the lights and glowing parts that follow its power.
 var _devices := {}
+var _kit := {}
+var _emblems := {}  # building cell -> the side its emblem faces
 
 
 static func box(size: Vector3) -> BoxMesh:
@@ -105,6 +111,7 @@ func build(state: BattleState, grid: GridView) -> void:
 	RenderingServer.global_shader_parameter_set("toon_softness", SOFT_SHADING)
 	_neon_material = _glow(NEON, 2.5)
 	var filled := _filled_cells()
+	_place_emblems()
 	_build_ground(filled)
 	for id in map.node_ids():
 		_build_device(id, filled)
@@ -470,6 +477,9 @@ func _run_direction(yaw: float) -> Vector2i:
 # Neighbouring pieces overlap on the same planes; the world-space shaders draw them identically,
 # so no seam shows.
 func _add_wall(cell: Vector2i, style: String) -> void:
+	if style == "building":
+		_add_building(cell)
+		return
 	var look: Dictionary = WALLS[style]
 	var height: float = look.height
 	var bottom := -TILE_HEIGHT
@@ -486,15 +496,89 @@ func _add_wall(cell: Vector2i, style: String) -> void:
 	var band_width := GridView.CELL + 0.015
 	if look.neon:
 		_add_box(Vector3(band_width, 0.04, band_width), _neon_material, at + Vector3(0, top - 0.12, 0))
-		var light_y := top - 0.4
-		if style == "building":
-			_add_box(Vector3(band_width, 0.06, band_width), _neon_material, at + Vector3(0, STOREFRONT_NEON_Y, 0))
-			light_y = STOREFRONT_NEON_Y - 0.2
-		_add_neon_lights(cell, light_y)
+		_add_neon_lights(cell, top - 0.4)
 	else:
 		var band_height := HAZARD_TOP - PLINTH_HEIGHT
 		var band := _add_box(Vector3(band_width, band_height, band_width), Surfaces.named("hazard"), at + Vector3(0, PLINTH_HEIGHT + band_height / 2.0, 0))
 		_ghosting.append({"node": band, "cells": [cell], "ghost": 0.0})
+
+
+# A building tile from the architecture kit: glass below and a ribbon window above on every side
+# that faces open ground, plain panels where it meets another wall, the red band, the parapet, a
+# corner post where two outward sides meet, and floor and roof slabs. Every piece ghosts with its
+# tile, as a wall block does.
+func _add_building(cell: Vector2i) -> void:
+	var at := _grid.cell_to_world(cell)
+	var half := GridView.CELL / 2.0
+	_walls[cell] = {"top": WALLS.building.height, "ghost": 0.0, "fence": false}
+	_kit_piece("floor_slab", cell, at + Vector3(0, -0.3, 0), 0.0)
+	_kit_piece("floor_slab", cell, at + Vector3(0, 2 * STOREY - 0.3, 0), 0.0)
+	var outward: Array[Vector2i] = []
+	for side: Vector2i in Grid.DIRECTIONS:
+		if map.is_building(cell + side):
+			continue
+		outward.append(side)
+		var edge := at + Vector3(side.x, 0, side.y) * half
+		var yaw := atan2(side.x, side.y)  # a piece's outside faces +Z
+		var open := not (map.is_wall(cell + side) or map.in_wall(cell + side))
+		var upper := "wall_ribbon" if open else "wall_panel"
+		if _emblems.get(cell) == side:
+			upper = "wall_panel"
+			_kit_piece("emblem", cell, edge + Vector3(0, STOREY, 0), yaw)
+		_kit_piece("wall_glass" if open else "wall_panel", cell, edge, yaw)
+		_kit_piece(upper, cell, edge + Vector3(0, STOREY, 0), yaw)
+		_kit_piece("accent_band", cell, edge, yaw)
+		_kit_piece("parapet", cell, edge + Vector3(0, 2 * STOREY, 0), yaw)
+	for a in outward:
+		for b in outward:
+			if a.x != 0 and b.y != 0:
+				for storey in 2:
+					_kit_piece("corner_post", cell, at + Vector3(a.x, storey * STOREY, b.y) * Vector3(half, 1, half), 0.0)
+
+
+func _kit_piece(id: String, cell: Vector2i, at: Vector3, yaw: float) -> void:
+	if not _kit.has(id):
+		_kit[id] = load(KIT % [id, id])
+	var piece: Node3D = _kit[id].instantiate()
+	piece.position = at
+	piece.rotation.y = yaw
+	add_child(piece)
+	ArchitectureKit.dress(piece, id)
+	for mesh: MeshInstance3D in piece.find_children("*", "MeshInstance3D", true, false):
+		_ghosting.append({"node": mesh, "cells": [cell], "ghost": 0.0})
+
+
+# One emblem per building, on the middle tile of its longest side facing open ground.
+func _place_emblems() -> void:
+	var seen := {}
+	for y in map.size.y:
+		for x in map.size.x:
+			var start := Vector2i(x, y)
+			if seen.has(start) or not map.is_building(start):
+				continue
+			var building: Array[Vector2i] = [start]
+			seen[start] = true
+			var i := 0
+			while i < building.size():
+				for side: Vector2i in Grid.DIRECTIONS:
+					var next := building[i] + side
+					if map.is_building(next) and not seen.has(next):
+						seen[next] = true
+						building.append(next)
+				i += 1
+			var faces := {}
+			for cell in building:
+				for side: Vector2i in Grid.DIRECTIONS:
+					var next := cell + side
+					if map.in_bounds(next) and not (map.is_building(next) or map.is_wall(next) or map.in_wall(next)):
+						faces.get_or_add(side, []).append(cell)
+			var best := Vector2i.ZERO
+			for side: Vector2i in faces:
+				if best == Vector2i.ZERO or faces[side].size() > faces[best].size():
+					best = side
+			if best != Vector2i.ZERO:
+				var cells: Array = faces[best]
+				_emblems[cells[cells.size() / 2]] = best
 
 
 # A post on every fenced wall tile, and wire and razor wire to its fenced neighbours east and south.
@@ -518,18 +602,21 @@ func _build_fences() -> void:
 				span.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 
-# Air conditioners and vents on the building's roof, away from its edges, so it has a skyline of
-# its own from above. Each tile's hash decides, so the roof comes out the same every time.
+# Air handlers and solar racks on the building's roof, away from its edges, so it has a skyline
+# of its own from above. Each tile's hash decides, so the roof comes out the same every time.
 func _build_rooftops() -> void:
 	for cell: Vector2i in _walls:
 		if not map.is_building(cell) or Grid.DIRECTIONS.any(func(d: Vector2i) -> bool: return not map.is_building(cell + d)):
 			continue
 		var roll := hash(cell)
-		if roll % 5 != 0:
-			continue
-		var size := Vector3(0.7 + (roll >> 4) % 5 * 0.15, 0.5 + (roll >> 8) % 4 * 0.2, 0.7 + (roll >> 12) % 5 * 0.15)
-		var roof := _grid.cell_to_world(cell) + Vector3(0, _walls[cell].top + CAP_THICKNESS - 0.02, 0)
-		_add_box(size, Surfaces.named("metal"), roof + Vector3(0, size.y / 2.0, 0))
+		for prop: String in ROOF_PROPS:
+			if roll % ROOF_PROPS[prop] == 0:
+				var unit: Node3D = load("res://assets/props/%s/%s.glb" % [prop, prop]).instantiate()
+				unit.position = _grid.cell_to_world(cell) + Vector3(0, 2 * STOREY, 0)
+				add_child(unit)
+				for mesh: MeshInstance3D in unit.find_children("*", "MeshInstance3D", true, false):
+					_ghosting.append({"node": mesh, "cells": [cell], "ghost": 0.0})
+				break
 
 
 # Lines along +x for one tile: straight wires, and a coil of razor wire along the top.

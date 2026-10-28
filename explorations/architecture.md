@@ -199,6 +199,12 @@ Built and captured; not played. Matched to the Request 31 picks in `art/sources/
   Captures: [battle camera](../art/previews/architecture-slice-look-pass-2026-10-28/dry-battle-camera.png),
   [close](../art/previews/architecture-slice-look-pass-2026-10-28/dry-close.png),
   [the battle, dry](../art/previews/architecture-slice-look-pass-2026-10-28/battle-dry.png).
+- **In the battle** (Bryson, 2026-10-28: the look is approved; put it in the game and move on):
+  every building tile (`B`) is built from the kit by `level_view.gd`: glass below and a ribbon
+  window above on sides facing open ground, panels against other walls, the red band, the
+  parapet, corner posts, floor and roof slabs, roof units and solar racks, and one emblem per
+  building on its longest open side. The rules are unchanged: a building tile is still one wall
+  tile, now 10.1 m tall to the parapet's top for ghosting. The building's neon is gone.
 - **Left for step 3:** dressing (the bench prop, once its glow is fixed; the target's robot arm in
   the lab) and the final captures beside today's battle.
 - The project checks pass.
