@@ -3,7 +3,7 @@
 - Status: built 2026-10-05: hover card, unit panel, scan badges, network markers, the menus'
   overhaul, the two halves of a turn, AI pins and the network's label layout. Changes come from
   Bryson's play.
-- Inherited the [house style](art-pipeline.md#house-style) and the facility's clay-orange and
+- Inherited the house style (archived with art-pipeline.md's history, 2026-10-28) and the facility's clay-orange and
   cream direction in environment-art.md (archived); both were retired on 2026-10-08.
   The interface's colors stay until the art direction reaches them.
 

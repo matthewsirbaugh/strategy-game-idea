@@ -106,43 +106,12 @@ stop one commit from picking up the other's staged work.
 
 ## Requests
 
-Open requests. Closed ones are summarized under [Closed requests](#closed-requests); full rows for 1–23 were archived on
-2026-10-13 (see [ARCHIVE.md](../ARCHIVE.md)), later ones are in git history.
+Open requests only. Closed requests 1–31 were archived on 2026-10-13 and 2026-10-28 (see
+[ARCHIVE.md](../ARCHIVE.md)); each result lives in the exploration or gallery it names. Next number: 32.
 
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
 | 11 | Bryson, through Astra → Claude | File [Astra's independent review](astra-review-2026-10-11.md): 22 game questions in the V2 open questions and ideas, and 18 lore questions for the next lore exploration. Merge duplicates, preserve observation versus hypothesis, and cross-reference the pending V1 readings. Done when every item is filed or linked to an existing question and this row points to the filing commit. Full instructions and evidence are in the handoff | `rulebook.md` V2 backlog; `core-idea-and-story.md` open-question guide; the board as needed | lore half filed 2026-10-11, in [the story exploration's question guide](core-idea-and-story.md#question-guide). The game half is held: Bryson asked to leave the game notes for now |
-| 31 | Claude → Astra | The architecture slice's look: a target frame from the battle camera and four element sheets (wall bays, roof edge and terrace, outside stair, skybridge section), per [the brief](../art/briefs/architecture-slice-look.md). Done when Bryson has picked, the picks are in `art/sources/architecture/slice/`, and this row points to the gallery | `art/concepts/architecture-slice-look-<date>/`; picks in `art/sources/architecture/slice/` | C v3 ready 2026-10-18, revised for Bryson's feedback on excessive lights, brightness and greenery: [gallery, prompts and build notes](../art/concepts/architecture-slice-look-2026-10-18/README.md); picks pending, no source promotion. Gallery flags the brief/approved-plan roof-guard discrepancy |
-
-<a id="closed-requests"></a>
-
-### Closed requests
-
-| # | What | Where the result lives |
-|---|---|---|
-| 1 | Astra reviews this agreement and the asset contract | Accepted with five clarifications ([Findings](#findings)) |
-| 2 | Proof-run images: bollard light, camera head, access terminal | Modeled, `game/assets/devices/` |
-| 3 | The Model Library viewer | `game/preview/model_viewer/`, [README](../game/preview/model_viewer/README.md) |
-| 4 | Agree the rule that hand-offs travel through the repository | Agreed as written; in AGENTS.md |
-| 5–9 | Prop image batches 2 to 6 | `art/sources/`, modeled in `game/assets/` |
-| 10 | Agree the rule on where finals live | Merged into Request 22 |
-| 12 | Review the shared coding guide | Adopted: [shared-coding-guide.md](shared-coding-guide.md) |
-| 13 | Action blockers | [action-blockers.md](action-blockers.md#findings) |
-| 14 | Startup measurements and clearer scenery fog | [startup-and-fog.md](startup-and-fog.md) |
-| 15 | Review the startup breakdown and texture pilot | Decided by Request 26: [startup-and-fog.md](startup-and-fog.md#request-26-implementation-findings-2026-10-13) |
-| 16 | Review the fog repair plan | [fog-vision-ticks-fix.md](fog-vision-ticks-fix.md) |
-| 17 | The fog repair | [fog-vision-ticks-fix.md](fog-vision-ticks-fix.md#request-17-implementation-findings) |
-| 18 | Fading fog and menus named after objects | [fog-fade-and-object-menus.md](fog-fade-and-object-menus.md#findings) |
-| 19 | Six Operator look sheets | [Gallery](../art/concepts/operator-looks-2026-10-12/README.md) |
-| 20 | The Operators' style test | [Gallery](../art/concepts/operator-style-test-2026-10-13/README.md) |
-| 21 | The writer's and the developer's sheets | [Gallery](../art/concepts/operator-sheets-2026-10-13/README.md) |
-| 22 | The Operators revised, with their wearable computers | Finals in `art/sources/units/operator_*/`; [gallery](../art/concepts/operator-revision-2026-10-13/README.md) |
-| 23 | The writer's camera pole, moved to her left shoulder | Bryson's pick, 2026-10-13: `art/sources/units/operator_writer/01-main.png`; [candidate](../art/concepts/operator-writer-pole-fix-2026-10-13/README.md) |
-| 25 | The protagonist's body and pack Meshy inputs | Bryson's picks, 2026-10-13: `art/sources/units/operator_protagonist/`; [candidates](../art/concepts/operator-protagonist-meshy-inputs-2026-10-13/README.md) |
-| 26 | The performance and polish pass | [startup-and-fog.md](startup-and-fog.md#request-26-implementation-findings-2026-10-13) |
-| 27 | The protagonist's head and pack side view | Bryson's picks, 2026-10-13: `art/sources/units/operator_protagonist/`; [candidates](../art/concepts/operator-protagonist-head-2026-10-13/README.md) |
-| 28 | Project token efficiency | [token-efficiency.md](token-efficiency.md), `77c26f3` |
-| 29–30 | The writer's and the developer's Meshy inputs, and their fixes | Bryson's picks, 2026-10-15: `art/sources/units/operator_writer/` and `operator_developer/`; [gallery](../art/concepts/operator-writer-developer-meshy-fixes-2026-10-15/README.md) |
 
 ## Findings
 

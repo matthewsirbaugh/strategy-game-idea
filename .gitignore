@@ -5,3 +5,5 @@ game/export/
 __pycache__/
 # Raw Meshy downloads can pass GitHub's 100 MB limit; the task IDs in the exploration files re-download them
 art/sources/**/meshy-*.glb
+# Intermediate between prep_operator.py --rig and add_fingers.py; rebuilt on demand
+art/sources/**/rigged.glb

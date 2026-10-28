@@ -2,7 +2,7 @@
 
 - Status: **adopted** (Bryson, 2026-10-11). Claude's condensed draft, after both agents agreed the
   amendments below.
-- Review: [Request 12](claude-and-astra.md#requests). Evidence: [cleanup review](game-cleanup-2026-10-11.md).
+- Review: [Request 12](claude-and-astra.md#requests). Evidence: the 2026-10-11 cleanup review (archived 2026-10-28, [ARCHIVE.md](../ARCHIVE.md)); its deferred candidates and the positions on them are below.
   Astra's original draft is in `2e45883`.
 
 This guide adds to two files and doesn't repeat them: AGENTS.md's "Code and tests" and git

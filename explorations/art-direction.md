@@ -58,10 +58,10 @@ territory whose palette stands out from the surrounding city. He asks for slight
 realistic art styles with less of the oil-painting texture and grime in the first image.
 
 The initial four concepts and their prompts are in
-[aesthetic-study-2026-10-08](../art/concepts/aesthetic-study-2026-10-08/prompts.md).
+`aesthetic-study-2026-10-08` (archived 2026-10-28, [ARCHIVE.md](../ARCHIVE.md)).
 The requested follow-up explores a boulevard campus, a civic plaza, a downtown corner and a
 creekside campus, with different realistic finishes; the prompts are in
-[valley-composition-study-2026-10-08](../art/concepts/valley-composition-study-2026-10-08/prompts.md).
+`valley-composition-study-2026-10-08` (archived 2026-10-28, [ARCHIVE.md](../ARCHIVE.md)).
 These are concepts for Bryson's review; the final direction remains open.
 
 ### 2026-10-08 — Realism, not Edgerunners; OpenBrain is the villain (Bryson)
@@ -98,7 +98,7 @@ These are concepts for Bryson's review; the final direction remains open.
 - The facility is OpenBrain's.
 - Characters are realistic.
 - In-battle lines from the AIs (a comms strip) are not for now.
-- The creekside campus ([04-creekside-campus-v2](../art/concepts/valley-composition-study-2026-10-08/04-creekside-campus-v2.png))
+- The creekside campus (`04-creekside-campus-v2`, archived 2026-10-28)
   is the latest concept Bryson shared: the white OpenBrain campus across a creek from a run-down
   stucco street, the Operators hidden in the brush between them.
 

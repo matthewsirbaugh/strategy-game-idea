@@ -23,7 +23,7 @@ robot dogs and drones? Which one puts our best foot forward, before we commit to
 - 2026-10-11: Operators cover their faces, each in their own way. V1's models are masked only (mask,
   helmet or visor); unmasked versions are planned for V2
   ([lore](core-idea-and-story.md#follow-ups-2026-10-11)).
-- 2026-10-13, on the first concept sheets ([Request 19](../art/concepts/operator-looks-2026-10-12/README.md)):
+- 2026-10-13, on the first concept sheets (Request 19; gallery archived 2026-10-28):
   he doesn't like the outfits, they're bad, and he'd rather the Operators just look cool. Maybe the
   humans aren't anime characters, but they aren't realistic either: he's not a fan. Not decided yet.
 - 2026-10-13, decided: the characters are stylized, the world stays realistic: "we'll miss the
@@ -191,14 +191,14 @@ Running, his fingers stay splayed: Meshy's rig gives each hand one bone and no f
 its API has no option for more. Bryson chose to add finger bones in Blender with a relaxed curl as
 the rest pose, over new Meshy hands (still rigid, and the join would sit on bare forearm skin) or a
 different rigger. The plan, with guidance for whoever builds it:
-[operator-finger-rig.md](operator-finger-rig.md).
+the finger-rig plan (archived 2026-10-28).
 
 ### 2026-10-15 — Fingers built (Claude; Blender, no credits)
 
 Each hand now has five digits on Mixamo-named bones, with a relaxed curl as the rest pose. Walking,
 running and standing, his hands hang relaxed; nothing else about him changed. `tools/add_fingers.py`
 made them and is ready for the writer and the developer. Measurements and limits:
-[operator-finger-rig.md](operator-finger-rig.md#findings).
+the finger-rig plan (archived 2026-10-28).
 
 ### 2026-10-15 — The protagonist in the battle (Claude; Godot, no credits)
 

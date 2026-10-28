@@ -6,7 +6,7 @@
   still follow evidence and joint review. Follow-up 2026-10-11: Bryson reports that the delivered
   fog did not meet the required movement-tick refresh or dark hidden appearance. Request 17
   now implements and verifies the approved repair: model-shaped silhouettes, restored ground
-  and per-square vision. Bryson selected tone B; see [the repair findings](fog-vision-ticks-fix.md#request-17-implementation-findings).
+  and per-square vision. Bryson selected tone B; the repair findings are archived 2026-10-28, [ARCHIVE.md](../ARCHIVE.md).
   The original box goal, captures and measurements below are Request 14 history.
 - Priority: startup diagnosis, fog prototype, full-level integration and verification, then
   [Request 13](action-blockers.md).

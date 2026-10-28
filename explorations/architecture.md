@@ -1,11 +1,11 @@
 # Architecture: how the buildings, walls and bridges get made
 
 - Feeds: DESIGN.md's look, [environment-assets.md](environment-assets.md) (the prop pipeline and
-  the props already made), [environment-fidelity.md](environment-fidelity.md) (modular kit,
+  the props already made), environment-fidelity.md (archived 2026-10-28; its Godot notes kept under Constraints) (modular kit,
   materials and lighting techniques)
 - Status: open. Tier 2 verticality and free tools chosen; the slice plan approved (Bryson, 2026-10-18)
-- Next action: once Bryson picks Astra's target frame (Request 31), Claude starts the look pass,
-  step 2
+- Next action: Claude starts the look pass, step 2, against the picked target frame and element
+  sheets in `art/sources/architecture/slice/`
 
 ## The question
 
@@ -31,6 +31,11 @@ before we commit to building anything?
   - Approved the slice plan and its kit dimensions; Claude starts the greybox, and Bryson relays
     Request 31 to Astra.
   - Approved the greybox's proportions. The look pass starts once Astra's target frame is picked.
+- 2026-10-28: picked Request 31 on Claude's and Astra's recommendation: target frame C v3 (fewer
+  lights, darker night, less greenery), wall bays B, roof edge A (the approved 1.1 m combined guard,
+  not the brief's taller solid wall), outside stair B, skybridge A. Copied unchanged to
+  `art/sources/architecture/slice/`; the [gallery](../art/concepts/architecture-slice-look-2026-10-18/README.md)
+  keeps the rest.
 
 ## Terms
 
@@ -59,6 +64,10 @@ before we commit to building anything?
 - Godot 4.7, Forward+, an M1 Pro with 16 GB. Free tools and Meshy only; 1,610 credits on
   2026-10-18. Props already made that dress roofs and paving: `rooftop_unit`, `solar_rack`,
   `planter`, `uplight`, `bench`, `terrace_table`, `robot_dock`, `pole_light`.
+- Godot notes kept from the archived environment-fidelity research (2026-09-28): Decal nodes
+  can't run custom shaders, so fog darkening may not reach under a decal (untested); keep
+  screen-space reflections to floors, since they're expensive; GridMap with autotiling is
+  Godot's native grid-kit tool if level authoring needs one.
 
 ## Findings
 
