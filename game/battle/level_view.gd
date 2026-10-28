@@ -1,7 +1,7 @@
 class_name LevelView
 extends Node3D
 ## The level as a place: ground, walls and buildings, the props that stand for its devices and dress
-## it, its signs and lights, and outdoors the rain and the city around it. Devices follow the rules'
+## it, its signs and lights, and outdoors the city around it. Devices follow the rules'
 ## state: lights go out, doors open, vehicles drive. Walls and wall-standing
 ## props between the camera and the player's units ghost out, thinned to a dot pattern, the way
 ## Diablo and Baldur's Gate 3 keep the party in view; H ghosts every wall. L switches the models
@@ -39,8 +39,6 @@ const FLOODLIGHT := Color(1.0, 0.93, 0.82)
 const FLOODLIGHT_HEAD_Y := 5.7
 # The ground beyond the map, under the city around it.
 const GROUND_SIZE := 400.0
-# Rain falls on the map and this far around it; the haze hides the rest.
-const RAIN_MARGIN := 10.0
 const PROP_PATH := "res://assets/legacy/props/%s/%s.glb"
 # Heights in metres, a little bigger than life where a prop has to read from far off.
 const PROP_HEIGHTS := {"access_point": 1.2, "security_camera": 0.6, "server_rack": 2.2,
@@ -121,9 +119,6 @@ func build(state: BattleState, grid: GridView) -> void:
 		var city := CityBackdrop.new()
 		add_child(city)
 		city.build(map, grid, _signs)
-		var rain := Rain.new()
-		add_child(rain)
-		rain.setup(Vector3.ZERO, grid.extent(), RAIN_MARGIN)
 	update_nodes(state)
 
 

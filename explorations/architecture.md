@@ -176,6 +176,10 @@ Built and captured; not played. Matched to the Request 31 picks in `art/sources/
   in the battle the change is slight ([before](../art/previews/architecture-slice-look-pass-2026-10-28/battle-before.png),
   [after](../art/previews/architecture-slice-look-pass-2026-10-28/battle-neutral.png), same frame;
   the tile card in the after is the cursor's hover).
+- **No rain** (Bryson, 2026-10-28: it leans too cyberpunk and is too on the nose, so remove it for
+  now): the battle's falling rain (`rain.gd`, in git history) and the puddles' raindrop ripples are
+  gone. The ground stays wet, with still puddles
+  ([battle](../art/previews/architecture-slice-look-pass-2026-10-28/battle-no-rain.png)).
 - **Still short of the target:** not done yet: CC0 scanned
   materials, the trim sheet, decals and the OpenBrain emblem; the wet paving's reflections of the
   lit windows are weak.

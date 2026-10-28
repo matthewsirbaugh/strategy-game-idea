@@ -83,7 +83,7 @@ Scenes, `.tres` content and JSON asset records remain searchable. Read only rele
 | Fog fades and menus named after objects | [grid_view.gd](game/battle/grid_view.gd), [battle_menus.gd](game/battle/battle_menus.gd) | Request 18 findings and one-off verification scripts are [archived](ARCHIVE.md) |
 | Shader scenery silhouettes, vision ticks and startup measurements | [scenery_fog.gd](game/battle/scenery_fog.gd), [vision_tick.gd](game/rules/vision_tick.gd), [startup_timing.gd](game/battle/startup_timing.gd) | `game/tests/test_scenery_fog.gd`, `tools/profile_startup.py`; the fog repair findings and one-off probes are [archived](ARCHIVE.md) |
 | Character rendering and animation | [unit_view.gd](game/battle/unit_view.gd), [toon_model.gd](game/art/toon_model.gd) | [character_rig.gd](game/art/character_rig.gd), `preview/` |
-| Environment and device props | [level_view.gd](game/battle/level_view.gd) | `city_backdrop.gd`, `signs.gd`, `rain.gd`, `art/surfaces.gd`, `art/shaders/` |
+| Environment and device props | [level_view.gd](game/battle/level_view.gd) | `city_backdrop.gd`, `signs.gd`, `art/surfaces.gd`, `art/shaders/` |
 | Menus and saved settings | `ui/`, `autoload/` | The matching `.tscn` and `.gd` pair |
 
 ## Implementation boundaries
