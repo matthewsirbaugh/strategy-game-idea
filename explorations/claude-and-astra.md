@@ -106,12 +106,11 @@ stop one commit from picking up the other's staged work.
 
 ## Requests
 
-Open requests only. Closed requests 1–31 were archived on 2026-10-13 and 2026-10-28 (see
+Open requests only; none are open. Closed requests 1–31 were archived on 2026-10-13 and 2026-10-28 (see
 [ARCHIVE.md](../ARCHIVE.md)); each result lives in the exploration or gallery it names. Next number: 32.
 
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
-| 11 | Bryson, through Astra → Claude | File [Astra's independent review](astra-review-2026-10-11.md): 22 game questions in the V2 open questions and ideas, and 18 lore questions for the next lore exploration. Merge duplicates, preserve observation versus hypothesis, and cross-reference the pending V1 readings. Done when every item is filed or linked to an existing question and this row points to the filing commit. Full instructions and evidence are in the handoff | `rulebook.md` V2 backlog; `core-idea-and-story.md` open-question guide; the board as needed | lore half filed 2026-10-11, in [the story exploration's question guide](core-idea-and-story.md#question-guide). The game half is held: Bryson asked to leave the game notes for now |
 
 ## Findings
 

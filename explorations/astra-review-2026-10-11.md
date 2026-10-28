@@ -1,7 +1,9 @@
 # Astra's review: game and lore
 
 - Feeds: the rulebook's V2 questions and the next core-idea-and-story exploration.
-- Status: review delivered for Claude to file through Request 11; no design changes approved.
+- Status: filed; Request 11 closed 2026-10-28. Lore questions are in the story exploration's question
+  guide (2026-10-11); game questions still current are in [rulebook.md](rulebook.md#v2-after-implementation-and-playtesting)'s
+  V2 list (2026-10-28). No design changes approved.
 - Requested by Bryson, 2026-10-11: compile every substantive concern from the independent review, ask Claude to add the game concerns to V2, and preserve the lore questions for the next lore session.
 
 ## Note to Claude — Request 11

@@ -751,6 +751,41 @@ pipeline; V1 is finished after that. Bring these to the same session, raised on 
   toward the good ending) or by leaning the ending according to which goals the player
   prioritizes. [Lore](core-idea-and-story.md#s2-2026-10-12).
 
+- Balance and clarity questions from [Astra's review](astra-review-2026-10-11.md#game-questions-for-v2)
+  (2026-10-11; code observations rechecked 2026-10-28). Full wording and source pointers are in the
+  review. Astra suggests testing G01, G02, G06 and G07 together: they could make patient, permanent
+  dismantling the dominant strategy.
+  - G01. Context clamps at 100, and devices and chips stay usable at the cap, so costs stop
+    mattering there. What should paying context mean near the limit?
+  - G02. Compaction is repeatable and safe in the backpack, so waiting may undo the chips'
+    long-term tradeoff.
+  - G03. With 2 AI AP, turns may settle into move, hack, end instead of aggressive chains.
+  - G04. Multipliers and rounding mean some loadouts cross the common breach goals, earning speed
+    and a refund together. Do they dominate build choice?
+  - G05. Shared compute may funnel every AP into one specialist, making three partners one hacker.
+  - G06. Captured nodes and turrets stay captured, so the second half of a mission may collapse
+    into cleanup.
+  - G07. Three free shots before guards act, each removing a guard for three turns, may beat
+    vehicles, lures, gadgets and hacks.
+  - G10. Locate and Predict need a payoff that shared vision, cameras, cones and aim lines don't
+    already give.
+  - G11. Robot relays have no range limit, so a team parked safely may get most access through a
+    robot.
+  - G12. With identical stats and reshapeable AIs, do gear and loadouts give the three Operators
+    distinct jobs?
+  - G13. The free movement chip may be bookkeeping that could fold into baseline network
+    movement.
+  - G14. The player tracks two AP pools, the shot, context, chips, verb uses, tethers, cones, light,
+    caution and body timers, and cones, light, sound, shots and tethers each measure space
+    differently. Can players predict why without memorizing rules? Simplify before adding systems.
+  - G19. Each device should stay useful outside the yard's authored combo, and missions should
+    vary the cache objective rather than repeat it on bigger maps.
+  - G21. A phase restart keeps the entry state, so a later phase entered with downed Operators or
+    spent resources could be unwinnable.
+  - Left out as already tracked: G08 (code choice 8 in genre-basics and reading 18), G09 (repeated
+    lures and chain of command above), G15 and G16 (readings 11 and 21), G17 (the readings session
+    above), G20 (level-design question 2), G22 (downed Operators above).
+
 ## Parked for playtesting, outside V1
 
 - Injuries or permadeath. There may be good narrative reasons for some form of permadeath, or
