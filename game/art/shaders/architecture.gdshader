@@ -12,6 +12,8 @@ uniform vec3 glow_color : source_color = vec3(0.0);
 uniform float glow_energy = 0.0;
 // Faint tone drift, so long runs of white panel don't read as one flat colour.
 uniform float variation = 0.06;
+// Paver joints laid out in world metres; 0 for none.
+uniform float paving = 0.0;
 instance uniform float ghost : instance_index(2) = 0.0;
 instance uniform bool scenery : instance_index(5) = false;
 varying vec3 world_position;
@@ -29,6 +31,11 @@ void fragment() {
 	float visibility = scenery ? fog_visibility(world_position) : 1.0;
 	vec2 p = world_position.xz + world_position.yy * vec2(0.7, -0.4);
 	vec3 base = color.rgb * (1.0 - variation + variation * 2.0 * fbm(p * 0.35));
+	if (paving > 0.0 && world_normal.y > 0.5) {
+		vec2 cell = floor(world_position.xz / paving);
+		base *= 0.92 + 0.12 * hash(cell);  // each paver its own shade
+		base *= 1.0 - 0.45 * max(joint(world_position.x, paving, 0.006), joint(world_position.z, paving, 0.006));
+	}
 	ALBEDO = base * visibility;
 	METALLIC = metallic * visibility;
 	ROUGHNESS = mix(1.0, roughness, visibility);

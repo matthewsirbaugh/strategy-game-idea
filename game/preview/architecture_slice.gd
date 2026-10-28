@@ -4,8 +4,8 @@ extends Node3D
 ## Run with `godot --path game res://preview/architecture_slice.tscn`. Q and E turn, the wheel
 ## zooms, right-drag orbits, H ghosts every piece, F shows a fog of war around the Operators.
 ## Pieces between the camera and an Operator ghost, as walls do in battle.
-## `-- --capture <file.png>` saves one frame and quits; `--distance <m>`, `--fog` and `--ghost-all`
-## set the view first.
+## `-- --capture <file.png>` saves one frame and quits; `--distance <m>`, `--pitch <deg>`, `--fog`
+## and `--ghost-all` set the view first.
 
 const CELL := 1.5
 const STOREY := 4.5
@@ -50,7 +50,10 @@ func _ready() -> void:
 	var zoom := args.find("--distance")
 	if zoom >= 0 and zoom + 1 < args.size():
 		_distance = float(args[zoom + 1])
-		_update_camera()
+	var tilt := args.find("--pitch")
+	if tilt >= 0 and tilt + 1 < args.size():
+		_pitch = float(args[tilt + 1])
+	_update_camera()
 	var at := args.find("--capture")
 	if at >= 0 and at + 1 < args.size():
 		_capture(args[at + 1])
@@ -103,6 +106,12 @@ func _build_building() -> void:
 			_wall("wall_panel", "west", i, storey)
 		for corner in [Vector2(0, 0), Vector2(WIDE, 0), Vector2(0, DEEP), Vector2(WIDE, DEEP)]:
 			_piece("corner_post", Vector3(corner.x * CELL, storey * STOREY, corner.y * CELL))
+	for i in WIDE:
+		for side in ["south", "north"]:
+			_wall("accent_band", side, i, 0)
+	for i in DEEP:
+		for side in ["east", "west"]:
+			_wall("accent_band", side, i, 0)
 	for x in WIDE:
 		for z in DEEP:
 			var at := Vector3((x + 0.5) * CELL, 0, (z + 0.5) * CELL)
@@ -153,18 +162,28 @@ func _build_roof() -> void:
 		_piece("rooftop_unit", unit * Vector3(CELL, 1, CELL) + Vector3(0, top, 0), 0, PROP)
 	for i in 3:
 		_piece("solar_rack", Vector3((1.0 + i * 2.2) * CELL, top, 3.0 * CELL), 0, PROP)
+	# A low bed of planting along the south parapet, kept sparse (Bryson, 2026-10-18).
 	var green := MeshInstance3D.new()
 	var bed := BoxMesh.new()
-	bed.size = Vector3(WIDE * CELL - 1.2, 0.15, CELL)
+	bed.size = Vector3(WIDE * CELL - 3.0, 0.3, 0.9)
 	green.mesh = bed
-	var moss := StandardMaterial3D.new()
-	moss.albedo_color = Color(0.13, 0.2, 0.1)
-	moss.roughness = 0.9
-	green.material_override = moss
-	green.position = Vector3(WIDE * CELL / 2, top + 0.075, 4.5 * CELL)
+	var planting := ShaderMaterial.new()
+	planting.shader = ArchitectureKit.SOLID
+	planting.set_shader_parameter("color", Color(0.34, 0.42, 0.2))
+	planting.set_shader_parameter("roughness", 0.95)
+	planting.set_shader_parameter("variation", 0.45)
+	green.material_override = planting
+	green.position = Vector3(WIDE * CELL / 2 + 0.6, top + 0.15, DEEP * CELL - 0.75)
 	add_child(green)
-	for x in [1.0, 7.0]:
-		_piece("planter", Vector3(x * CELL, top, 5.5 * CELL), 0, PROP)
+	_piece("planter", Vector3(1.0 * CELL, top, 4.0 * CELL), 0, PROP)
+	for corner in [Vector3(0.15, 0, 0.15), Vector3(WIDE * CELL - 0.15, 0, 0.15)]:
+		_piece("beacon", corner + Vector3(0, top + 1.1, 0))
+		var glow := OmniLight3D.new()
+		glow.light_color = Color(1.0, 0.1, 0.06)
+		glow.light_energy = 0.6
+		glow.omni_range = 1.5
+		glow.position = corner + Vector3(0, top + 1.45, 0)
+		add_child(glow)
 
 
 func _build_ground() -> void:
@@ -177,12 +196,12 @@ func _build_ground() -> void:
 	ground.material_override = paving
 	ground.position = Vector3(WIDE * CELL / 2, 0, DEEP * CELL / 2)
 	add_child(ground)
-	for i in 4:
-		var x := (1.0 + i * 2.0) * CELL
+	# Two washes at the facade's ends, not a row of them: fewer lights (Bryson, 2026-10-18).
+	for x in [0.5 * CELL, (WIDE - 0.5) * CELL]:
 		_piece("uplight", Vector3(x, 0, DEEP * CELL + 0.8), 0, PROP)
 		var wash := SpotLight3D.new()
 		wash.light_color = Color(1.0, 0.72, 0.42)
-		wash.light_energy = 8.0
+		wash.light_energy = 6.0
 		wash.spot_range = 10.0
 		wash.spot_angle = 35.0
 		wash.shadow_enabled = true

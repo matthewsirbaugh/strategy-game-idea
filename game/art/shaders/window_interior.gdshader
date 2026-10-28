@@ -9,11 +9,12 @@ shader_type spatial;
 uniform float room_depth = 7.5;
 uniform float floor_height = 0.05;
 uniform float ceiling_height = 3.9;
-uniform vec3 floor_color : source_color = vec3(0.62, 0.62, 0.6);
+uniform vec3 floor_color : source_color = vec3(0.5, 0.5, 0.49);
 uniform vec3 wall_color : source_color = vec3(0.78, 0.78, 0.76);
 uniform vec3 bench_color : source_color = vec3(0.86, 0.86, 0.85);
-uniform vec3 light_color : source_color = vec3(1.0, 0.86, 0.68);
-uniform float light_energy = 1.4;
+uniform vec3 screen_color : source_color = vec3(0.35, 0.6, 1.0);
+uniform vec3 light_color : source_color = vec3(1.0, 0.92, 0.8);
+uniform float light_energy = 2.4;
 uniform vec3 tint : source_color = vec3(0.82, 0.88, 0.9);
 instance uniform float ghost : instance_index(2) = 0.0;
 instance uniform bool scenery : instance_index(5) = false;
@@ -37,9 +38,17 @@ float strip_light(float z) {
 	return light;
 }
 
-// Benches stand in rows across the room; true where (x, z) is under a bench top.
+// A monitor stands at the back of every other bench place, facing the window.
+bool screen(vec3 p) {
+	bool row = (p.z < -1.75 && p.z > -1.85) || (p.z < -4.15 && p.z > -4.25);
+	float place = fract(p.x / 1.5);
+	return row && p.y > 0.95 && p.y < 1.35 && place > 0.2 && place < 0.55 && fract(p.x / 3.0) < 0.5;
+}
+
+// Benches stand in rows across the room, the first close to the glass so the battle camera's
+// steep view still finds it; true where (x, z) is under a bench top.
 bool bench(vec2 xz) {
-	bool in_row = (xz.y < -2.2 && xz.y > -3.0) || (xz.y < -4.6 && xz.y > -5.4);
+	bool in_row = (xz.y < -1.0 && xz.y > -1.8) || (xz.y < -3.4 && xz.y > -4.2);
 	return in_row && fract(xz.x / 3.0) < 0.75;
 }
 
@@ -93,10 +102,27 @@ void fragment() {
 		vec3 top = start + ray * to_bench;
 		if (to_bench > 0.0 && to_bench < t && bench(top.xz)) {
 			room = bench_color * strip_light(top.z) * 1.15;
+			t = to_bench;
+		}
+	}
+	bool glowing = false;
+	// Monitors: vertical planes at the bench rows' back edges, in front of whatever was hit.
+	if (ray.z < 0.0) {
+		for (int row = 0; row < 2; row++) {
+			float z = row == 0 ? -1.8 : -4.2;
+			float to_screen = (z - start.z) / ray.z;
+			vec3 on = start + ray * to_screen;
+			if (to_screen > 0.0 && to_screen < t && screen(on)) {
+				room = screen_color * 1.6;
+				t = to_screen;
+				glowing = true;
+			}
 		}
 	}
 	vec3 world_hit = (MODEL_MATRIX * vec4(hit, 1.0)).xyz;
-	room *= light_color * light_energy * mix(0.55, 1.15, fbm(world_hit.xz * 0.12));
+	if (!glowing) {
+		room *= light_color * light_energy * mix(0.55, 1.15, fbm(world_hit.xz * 0.12));
+	}
 
 	float visibility = scenery ? fog_visibility(world_position) : 1.0;
 	float facing = abs(dot(normalize(NORMAL), normalize(VIEW)));

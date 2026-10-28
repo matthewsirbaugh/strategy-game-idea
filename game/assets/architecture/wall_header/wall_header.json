@@ -8,14 +8,14 @@
   "height_m": 4.5,
   "fit_to_height": false,
   "device": null,
-  "description": "Only the floor-edge band, spanning an opening, for the architecture slice's greybox.",
+  "description": "Only the floor-edge band, spanning an opening, for the architecture slice.",
   "brief": "art/briefs/architecture-slice-look.md",
-  "sources": null,
+  "sources": "art/sources/architecture/slice/",
   "made_with": {
     "tool": "blender",
     "settings": "tools/build_architecture_kit.py",
-    "date": "2026-10-18"
+    "date": "2026-10-28"
   },
   "animations": [],
-  "notes": "Greybox: shape and size to the 1.5 m grid; look comes later."
+  "notes": "Look pass against the Request 31 picks; surfaces finish in Godot's kit shaders."
 }

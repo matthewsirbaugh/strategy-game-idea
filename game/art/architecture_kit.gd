@@ -32,6 +32,8 @@ static func _material(source: Material, room_glass: bool) -> ShaderMaterial:
 		made.set_shader_parameter("color", base.albedo_color)
 		made.set_shader_parameter("roughness", base.roughness)
 		made.set_shader_parameter("metallic", base.metallic)
+		if source.resource_name == "stone":
+			made.set_shader_parameter("paving", 0.75)
 		if base.emission_enabled:
 			made.set_shader_parameter("glow_color", base.emission)
 			made.set_shader_parameter("glow_energy", base.emission_energy_multiplier * 2.0)

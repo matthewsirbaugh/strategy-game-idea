@@ -43,6 +43,9 @@ def make_materials():
     MAT["steel"] = material("dark_steel", (0.16, 0.17, 0.18), metallic=0.8, roughness=0.45)
     MAT["stone"] = material("stone", (0.56, 0.55, 0.52), roughness=0.6)
     MAT["light"] = material("warm_light", (1.0, 0.85, 0.65), emission=(1.0, 0.8, 0.58))
+    MAT["red"] = material("accent_red", (0.55, 0.03, 0.03), roughness=0.4)
+    MAT["tread"] = material("tread", (0.36, 0.36, 0.35), metallic=0.5, roughness=0.6)
+    MAT["beacon"] = material("beacon_red", (1.0, 0.1, 0.08), emission=(1.0, 0.06, 0.04))
 
 
 def clear():
@@ -91,26 +94,27 @@ def band():
 
 
 def half_mullions(z0, z1, depth=0.12):
-    for x in (-H, H - 0.04):
-        box(x, x + 0.04, -T - 0.02, -T + depth, z0, z1, "frame", bevel=0)
+    for x in (-H, H - 0.06):
+        box(x, x + 0.06, -T - 0.02, -T + depth, z0, z1, "frame", bevel=0)
 
 
 def wall_panel():
     box(-H, H, -T, T, 0, STOREY - BAND, "white")
     band()
-    for z in (1.5, 3.0):
-        box(-H, H, -T - 0.004, -T + 0.01, z - 0.01, z + 0.01, "seam", bevel=0)
-    for x in (-H, H - 0.01):
-        box(x, x + 0.01, -T - 0.004, -T + 0.01, 0, STOREY - BAND, "seam", bevel=0)
+    # Seams wide enough to read from the battle camera, about a pixel at the default zoom.
+    for z in (1.33, 2.67):
+        box(-H, H, -T - 0.004, -T + 0.01, z - 0.015, z + 0.015, "seam", bevel=0)
+    for x in (-H, H - 0.015):
+        box(x, x + 0.015, -T - 0.004, -T + 0.01, 0, STOREY - BAND, "seam", bevel=0)
 
 
 def glazing(z0, z1, transom=None):
     half_mullions(z0, z1)
-    box(-H, H, -T - 0.02, T, z0, z0 + 0.08, "frame", bevel=0)
-    box(-H, H, -T - 0.02, -T + 0.12, z1 - 0.06, z1, "frame", bevel=0)
+    box(-H, H, -T - 0.02, T, z0, z0 + 0.1, "frame", bevel=0)
+    box(-H, H, -T - 0.02, -T + 0.12, z1 - 0.08, z1, "frame", bevel=0)
     if transom:
-        box(-H, H, -T - 0.02, -T + 0.12, transom - 0.03, transom + 0.03, "frame", bevel=0)
-    box(-H + 0.04, H - 0.04, -0.01, 0.01, z0 + 0.08, z1 - 0.06, "glass", bevel=0)
+        box(-H, H, -T - 0.02, -T + 0.12, transom - 0.04, transom + 0.04, "frame", bevel=0)
+    box(-H + 0.06, H - 0.06, -0.01, 0.01, z0 + 0.1, z1 - 0.08, "glass", bevel=0)
 
 
 def wall_glass():
@@ -139,6 +143,19 @@ def wall_header():
     band()
 
 
+def accent_band():
+    # OpenBrain's red line under the first floor's band. Long enough to meet its neighbour round a
+    # corner post.
+    reach = H + T + 0.05
+    box(-reach, reach, -T - 0.05, -T, STOREY - BAND - 0.1, STOREY - BAND - 0.02, "red", bevel=0)
+
+
+def beacon():
+    # An aviation light on the roof's corner, on top of the parapet's cap.
+    box(-0.03, 0.03, -0.03, 0.03, 0, 0.18, "frame", bevel=0)
+    box(-0.06, 0.06, -0.06, 0.06, 0.18, 0.3, "beacon", bevel=0)
+
+
 def corner_post():
     box(-T, T, -T, T, 0, STOREY - BAND, "white")
     box(-T - 0.04, T + 0.04, -T - 0.04, T + 0.04, STOREY - BAND, STOREY, "white")
@@ -163,7 +180,7 @@ def stair_flight():
     y0 = -run / 2
     for i in range(steps):
         z = (i + 1) * rise
-        box(-H + 0.08, H - 0.08, y0 + i * going, y0 + (i + 1) * going, z - 0.04, z, "steel", bevel=0)
+        box(-H + 0.08, H - 0.08, y0 + i * going, y0 + (i + 1) * going, z - 0.04, z, "tread", bevel=0)
     for x in (-H + 0.04, H - 0.04):
         beam((x, y0, 0.0), (x, y0 + run, STAIR_RISE), 0.08, "steel")
         beam((x, y0, 1.0), (x, y0 + run, STAIR_RISE + 1.0), 0.04, "frame")
@@ -172,7 +189,7 @@ def stair_flight():
 
 
 def stair_landing():
-    box(-H, H, -H, H, 0, 0.1, "steel", bevel=0)
+    box(-H, H, -H, H, 0, 0.1, "tread", bevel=0)
 
 
 def stair_rail():
@@ -193,13 +210,15 @@ def skybridge_span():
     box(-w, w, -H, H, 0, 0.3, "white")
     box(-w, w, -H, H, STOREY - 0.3, STOREY, "white")
     box(-w + 0.2, w - 0.2, -H, H, 0.3, 0.32, "stone", bevel=0)
-    box(-0.15, 0.15, -H, H, STOREY - 0.34, STOREY - 0.3, "light", bevel=0)
+    for x in (-0.7, 0.7):
+        box(x - 0.06, x + 0.06, -H, H, STOREY - 0.34, STOREY - 0.3, "light", bevel=0)
     for x in (-w + 0.03, w - 0.03):
         box(x - 0.01, x + 0.01, -H, H, 0.3, STOREY - 0.3, "glass", bevel=0)
-        for y in (-H, H - 0.06):
-            box(x - 0.05, x + 0.05, y, y + 0.06, 0.3, STOREY - 0.3, "frame", bevel=0)
-        beam((x, -H, 0.35), (x, H, STOREY - 0.35), 0.05, "frame")
-        beam((x, H, 0.35), (x, -H, STOREY - 0.35), 0.05, "frame")
+        for y in (-H, H - 0.1):
+            box(x - 0.07, x + 0.07, y, y + 0.1, 0.3, STOREY - 0.3, "frame", bevel=0)
+        box(x - 0.05, x + 0.05, -H, H, STOREY / 2 - 0.03, STOREY / 2 + 0.03, "frame", bevel=0)
+        beam((x, -H, 0.35), (x, H, STOREY - 0.35), 0.07, "steel")
+        beam((x, H, 0.35), (x, -H, STOREY - 0.35), 0.07, "steel")
 
 
 PIECES = {
@@ -209,6 +228,8 @@ PIECES = {
     "wall_door": (wall_door, "Wall: glass door bay", "A glass bay with a door and an access reader"),
     "wall_ribbon": (wall_ribbon, "Wall: ribbon window bay", "A white panel bay with a long horizontal window"),
     "wall_header": (wall_header, "Wall: header over an opening", "Only the floor-edge band, spanning an opening"),
+    "accent_band": (accent_band, "Red accent band", "OpenBrain's red line under the first floor's band, one bay long"),
+    "beacon": (beacon, "Roof beacon", "A red aviation light on a short post, for the roof's corners"),
     "corner_post": (corner_post, "Corner post", "Fills the corner where two wall bays meet"),
     "floor_slab": (floor_slab, "Floor slab", "A 1.5 m square floor or roof slab, 0.3 m thick"),
     "parapet": (parapet, "Parapet with glass railing", "A roof edge 1.1 m tall: white upstand, glass railing, black cap"),
@@ -237,10 +258,11 @@ def export(piece_id):
     record = {
         "spec": 1, "id": piece_id, "name": name, "category": "architecture", "status": "proof",
         "model": piece_id + ".glb", "height_m": round(height, 3), "fit_to_height": False, "device": None,
-        "description": description + ", for the architecture slice's greybox.",
-        "brief": BRIEF, "sources": None,
-        "made_with": {"tool": "blender", "settings": "tools/build_architecture_kit.py", "date": "2026-10-18"},
-        "animations": [], "notes": "Greybox: shape and size to the 1.5 m grid; look comes later.",
+        "description": description + ", for the architecture slice.",
+        "brief": BRIEF,
+        "sources": "art/sources/architecture/slice/",
+        "made_with": {"tool": "blender", "settings": "tools/build_architecture_kit.py", "date": "2026-10-28"},
+        "animations": [], "notes": "Look pass against the Request 31 picks; surfaces finish in Godot's kit shaders.",
     }
     with open(folder + piece_id + ".json", "w") as f:
         json.dump(record, f, indent=2)

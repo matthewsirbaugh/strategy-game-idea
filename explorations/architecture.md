@@ -150,6 +150,32 @@ Built and captured; not played. Bryson asked for the parts that don't depend on 
   the battle today.
 - The project checks pass.
 
+### 2026-10-28 — Look pass, first round (Claude; Blender and Godot, no credits)
+
+Built and captured; not played. Matched to the Request 31 picks in `art/sources/architecture/slice/`.
+
+- **Kit** (`tools/build_architecture_kit.py`, now 15 pieces): seams wide enough to read at the
+  battle camera; sturdier black mullions and rails; lighter steel treads on the stair and landings;
+  the skybridge with two light strips, a mid rail, heavier posts and dark-steel X bracing. New
+  pieces: `accent_band`, OpenBrain's red line under the first floor's band, and `beacon`, a red
+  aviation light on the roof's two back corners.
+- **Surfaces:** the kit's stone takes 0.75 m paver joints and a shade per paver
+  (`architecture.gdshader`'s `paving`), so the roof reads as the terrace sheet's tiles.
+- **Lab windows** (`window_interior.gdshader`): the first bench row sits right behind the glass,
+  so the battle camera's steep view finds it; monitors glow blue at the benches' backs; the light
+  is brighter and less orange.
+- **Slice:** two wall washes at the facade's ends instead of four; the green roof is a low, sparse
+  bed along the south parapet; one planter. `--pitch <deg>` joins the capture options.
+- Captures: [before](../art/previews/architecture-slice-look-pass-2026-10-28/before.png),
+  [after, battle camera](../art/previews/architecture-slice-look-pass-2026-10-28/battle-camera.png),
+  [facade, closer and lower](../art/previews/architecture-slice-look-pass-2026-10-28/facade.png).
+- **Still short of the target:** the white walls read lavender because the battle's ambient light
+  is blue (0.5, 0.53, 0.72); the target's walls are neutral. Fixing it means changing the battle's
+  environment, which reaches every map, so it waits for Bryson. Not done yet: CC0 scanned
+  materials, the trim sheet, decals and the OpenBrain emblem; the wet paving's reflections of the
+  lit windows are weak.
+- The project checks pass.
+
 ## The slice plan (approved by Bryson, 2026-10-18)
 
 One corner of the research park, finished to final quality, shown in the battle

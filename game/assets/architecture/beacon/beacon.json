@@ -1,0 +1,21 @@
+{
+  "spec": 1,
+  "id": "beacon",
+  "name": "Roof beacon",
+  "category": "architecture",
+  "status": "proof",
+  "model": "beacon.glb",
+  "height_m": 0.3,
+  "fit_to_height": false,
+  "device": null,
+  "description": "A red aviation light on a short post, for the roof's corners, for the architecture slice.",
+  "brief": "art/briefs/architecture-slice-look.md",
+  "sources": "art/sources/architecture/slice/",
+  "made_with": {
+    "tool": "blender",
+    "settings": "tools/build_architecture_kit.py",
+    "date": "2026-10-28"
+  },
+  "animations": [],
+  "notes": "Look pass against the Request 31 picks; surfaces finish in Godot's kit shaders."
+}
