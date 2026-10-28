@@ -4,7 +4,8 @@ extends SceneTree
 # switches to the network view and the AI's menu, deployed or not; a backpacked AI deploys from that
 # menu or by clicking a ringed access point. Ending one half while the other still has AP to spend
 # moves over to it, by the end row or Space; ending both ends the turn. Every turn starts in the
-# physical view on the Operator's own menu. This broke twice (2026-10-05).
+# physical view. This broke twice (2026-10-05). The menu opens only when the player asks for it,
+# so after an action it stays closed (Bryson, 2026-10-28).
 # Run: godot --headless --path game -s tests/test_battle_flow.gd
 
 var _battle: Node3D
@@ -32,12 +33,16 @@ func _run() -> void:
 	_check(not _battle._network_shown and _title() == "ALPHA", "Operator switches back")
 	await _press("Move")
 	await _click(Vector2i(3, 13))
+	_check(not _battle._hud.is_menu_open(), "the menu stays closed after a move")
+	await _open()
 	_check(_menu().has("End Operator phase"), "next to an access point, the Operator's end row hands over to the AI: %s" % [_menu()])
 	await _key(KEY_SPACE)
+	await _open()
 	_check(_battle._network_shown and _title() == "ALPHA'S AI", "Space ends the Operator's half and moves to the AI")
 	_check(_menu().has("Deploy at A") and _menu().has("End turn"), "the AI can deploy, and ending its half now ends the turn: %s" % [_menu()])
 	await _press("Deploy at A")
-	_check(alpha.connected() and _battle._network_shown and _title() == "ALPHA'S AI", "after deploying, the AI's menu stays open in the network")
+	await _open()
+	_check(alpha.connected() and _battle._network_shown and _title() == "ALPHA'S AI", "after deploying, the AI's menu opens in the network")
 	await _press("End turn")
 	var bravo := state.active
 	_check(bravo.display_name == "Bravo" and not _battle._network_shown, "Bravo's turn starts in the physical view")
@@ -47,8 +52,10 @@ func _run() -> void:
 	await _click(Vector2i(4, 13))
 	await _press("AI")
 	await _click(state.node_cell("a"))
+	await _open()
 	_check(bravo.connected() and _title() == "BRAVO'S AI", "clicking the ringed access point under Alpha's pin sends Bravo's AI in")
 	await _press("End AI phase")
+	await _open()
 	_check(not _battle._network_shown and _title() == "BRAVO" and _menu().has("End turn"), "ending the AI's half goes back to Bravo to finish: %s" % [_menu()])
 	await _doors_and_network_options()
 	_device_menu_rules()
@@ -339,7 +346,16 @@ func _rows() -> Array:
 	return rows
 
 
+# Opens the active unit's menu the way the player does: clicking the unit, or its AI's node.
+func _open() -> void:
+	if _battle._hud.is_menu_open():
+		return
+	var unit: Unit = _battle.state.active
+	await _click(_battle.state.node_cell(unit.ai_node) if _battle._network_shown and unit.connected() else unit.cell)
+
+
 func _press(name: String) -> void:
+	await _open()
 	for row: Button in _rows():
 		if row.text == name and not row.disabled:
 			row.pressed.emit()
@@ -349,6 +365,7 @@ func _press(name: String) -> void:
 
 
 func _press_mouse(name: String) -> void:
+	await _open()
 	await process_frame
 	var row := _row(name)
 	if row == null or row.disabled:

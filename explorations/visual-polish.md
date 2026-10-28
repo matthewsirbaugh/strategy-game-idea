@@ -212,6 +212,14 @@ and the camera trailing a walk. Not played.
   to get comes first.
 - The wider look moved to [the art-direction exploration](art-direction.md).
 
+## 2026-10-28 — The menu opens only when asked for (Bryson)
+
+Bryson: the action menu is large and hides the area around the unit. The player always brings it
+up, and it never gets in the way. This replaces the 2026-10-05 choice to start each turn on the
+Operator's menu. After any action, or ending one half of a turn, the menu stays closed; clicking
+the unit, or its AI's node, opens it. A breach still opens the device's orders (2026-10-06).
+Menu navigation (groups, AI and Operator, Back) is unchanged.
+
 ## Source and art provenance
 
 - `game/art/ui/facility-title.png` is an unchanged copy of

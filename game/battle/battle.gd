@@ -239,7 +239,7 @@ func _ring_nodes() -> void:
 
 
 # Every player action ends here: play what happened, then carry on with the turn or move on. The
-# turn carries on in the unit's menu, or in the one open_next opens.
+# menu stays closed until the player asks for it, unless open_next opens the action's follow-up.
 func _act(events: Array[Dictionary], open_next := Callable()) -> void:
 	if events.is_empty():
 		return
@@ -255,8 +255,6 @@ func _act(events: Array[Dictionary], open_next := Callable()) -> void:
 	_begin_control()
 	if open_next.is_valid():
 		open_next.call()
-	else:
-		_open_menu()
 
 
 # The access point a click in the network view would send the AI in at, and how: through its
@@ -376,8 +374,7 @@ func _on_action(id: String) -> void:
 			_ended["ai" if _network_shown else "operator"] = true
 			_busy = true
 			await _set_network(not _network_shown)
-			_busy = false
-			_open_menu()
+			_begin_control()
 		"ai_move":
 			var nodes := state.network_destinations(unit)
 			_choices.clear()
