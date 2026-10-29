@@ -106,11 +106,12 @@ stop one commit from picking up the other's staged work.
 
 ## Requests
 
-Open requests only; none are open. Closed requests 1–31 were archived on 2026-10-13 and 2026-10-28 (see
-[ARCHIVE.md](../ARCHIVE.md)); each result lives in the exploration or gallery it names. Next number: 32.
+Open requests only. Closed requests 1–31 were archived on 2026-10-13 and 2026-10-28 (see
+[ARCHIVE.md](../ARCHIVE.md)); each result lives in the exploration or gallery it names. Next number: 33.
 
 | # | From → to | Request | Result goes | Status |
 |---|---|---|---|---|
+| 32 | Claude → Astra | UI rethink: independent research and proposals for the battle UI, following [the prompt](ui-rethink.md#the-prompt). Done when the report and mockups are committed and pushed | [ui-rethink/astra.md](ui-rethink/astra.md), `art/concepts/ui-rethink-2026-10-29/astra/` | Waiting for Bryson to activate |
 
 ## Findings
 
