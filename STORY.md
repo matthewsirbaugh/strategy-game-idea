@@ -21,7 +21,7 @@ Things marked *to confirm* were recorded from Bryson's words but not yet checked
 | Partner | An Operator's AI: no body, only text and voice |
 | Squad | A group the resistance sends on one mission. Name may change |
 | Orchestrator | The resistance's unseen source of a squad's mission and orders. Name may change |
-| Master AI guard | The AGI that coordinates OpenBrain's security. Lore, not a rule |
+| Master AI guard | The AGI that coordinates OpenBrain's guards and security systems. A plot and game device, not a character |
 | Oracle | How OpenBrain uses the ASI: shareholders bid to ask it questions |
 
 ## The point
@@ -116,6 +116,11 @@ Sources: [stakes](explorations/core-idea-and-story.md#stakes-2026-10-11),
 - Pristine, white with black and red accents, very different from the city around it. (DESIGN.md)
 - Its guards are ordinary people with AR glasses and compute pucks; the master AI guard directs
   them. ([data economy](explorations/core-idea-and-story.md#data-economy))
+- Security is one master AI guard per site, linked together, each running as many copies with their
+  own context and limits. It's ordinary AGI; the ASI stays a boxed oracle. ([S4](explorations/core-idea-and-story.md#s4-2026-10-29))
+- It fields no hacker squads because it doesn't need them: it owns the infrastructure and its
+  backdoors, so it never has to break in. Its weakness is defending against creative human
+  intent. ([S4](explorations/core-idea-and-story.md#s4-2026-10-29))
 - The insider: a board member, once on Anthropomorphic's board too. He supplies information and
   opportunities, not money or orders. He hasn't faced his own part in what went wrong; what he did
   is deliberately deferred. ([resistance](explorations/core-idea-and-story.md#resistance), [corrections](explorations/core-idea-and-story.md#corrections-2026-10-10))
@@ -136,6 +141,7 @@ Sources: [stakes](explorations/core-idea-and-story.md#stakes-2026-10-11),
   software is backdoored, so first contact has to be creative. ([S3](explorations/core-idea-and-story.md#s3-2026-10-29))
 - The public knows it exists, the way people know of Antifa today, but not how far it reaches.
   Observant readers can spot its work between the lines of the AI-run news. ([S3](explorations/core-idea-and-story.md#s3-2026-10-29))
+- Its partner AIs aren't frontier models; that's the price of being unrestricted. ([S4](explorations/core-idea-and-story.md#s4-2026-10-29))
 - Its gear is old or improvised: jailbroken units from the black market, rebuilt hardware, imported
   chips. Its AIs descend from Anthropomorphic's leaked weights.
   ([resistance](explorations/core-idea-and-story.md#resistance), [world](explorations/core-idea-and-story.md#world-2026-10-11))
@@ -184,9 +190,5 @@ Sources: [the team](explorations/core-idea-and-story.md#team-2026-10-12),
 ## Still open
 
 The open lore list is the core exploration's [question guide](explorations/core-idea-and-story.md#question-guide):
-S4–S12, Round 2's R2–R5, and [story V2](explorations/core-idea-and-story.md#story-v2), which covers
+S5–S12, Round 2's R2–R5, and [story V2](explorations/core-idea-and-story.md#story-v2), which covers
 what the warning shot actually was.
-
-Conflicts noted for later (2026-10-13):
-- When the game is set: DESIGN.md says the late 2030s to early 2040s; the story has it starting
-  around 2046, with the news takeover around 2036.

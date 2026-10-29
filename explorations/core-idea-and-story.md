@@ -55,6 +55,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | S2, what a mission changes: getting seen under a panopticon | [2026-10-12](#s2-2026-10-12) |
 | Round 2, the team: the tradesman, the writer and the developer | [2026-10-12](#team-2026-10-12) |
 | S3, the resistance: Orchestrator, squads, orders hidden in plain sight, AIs differ by post-training | [2026-10-29](#s3-2026-10-29) |
+| S4, OpenBrain's blind spot; the master AI guard is a device; the mid-2040s | [2026-10-29](#s4-2026-10-29) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
@@ -1206,6 +1207,23 @@ power-plant and data-center shutdowns.
 **Timeline.** The order news takeover → warning shot → UBI bill is confirmed. The decade isn't
 fixed: whatever makes sense.
 
+<a id="s4-2026-10-29"></a>
+
+### 2026-10-29 — S4, OpenBrain's blind spot: it never has to break in (Bryson)
+
+Bryson picked from Claude's options.
+- **No hacker squads, because it doesn't need them.** OpenBrain owns the infrastructure, so it has
+  backdoors and never has to break in. Its weakness is being on defense against creative human
+  intent.
+- **Security is one master AI guard per site, linked together, running as many copies**, each with
+  its own context and limits.
+- **The master AI guard is a device, not a character**: a plot and game device that explains how
+  the guards and security systems coordinate. This replaces the 2026-10-10 note that it would
+  probably be a named character.
+- **The ASI never touches site security.** It's a boxed oracle; that's the whole point.
+- **The resistance's price for unrestricted partners:** they aren't frontier models.
+- **The decade:** the game is set in the mid-2040s, starting around 2046; DESIGN.md updated.
+
 ## Open questions
 
 ### Question guide
@@ -1219,7 +1237,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 | S1 | The ASI: answered for now ([S1](#asi-2026-10-11)); what's left is in [story V2](#story-v2) | Stakes and warning-shot entries |
 | S2 | What a mission changes: answered ([2026-10-12](#s2-2026-10-12)); the revelation of futility and where the take goes are in [story V2](#story-v2) | L02, 9, 12, part of L03 |
 | S3 | The resistance as an organization: answered ([2026-10-29](#s3-2026-10-29)) | New |
-| S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
+| S4 | OpenBrain's blind spot: answered ([2026-10-29](#s4-2026-10-29)) | L05, 25, 26, 28 |
 | S5 | Politics and enforcement: what Tiel's government does day to day, who enforces the open-model ban, the foreign AIs' role and why their access points appear in an American city | L06, lore side of 27 |
 | S6 | The data economy in one person's month: basic income, ownership payment, the subscription's token bonus, the camera bonus; and what each kind of recording gives the robots | L07, L08 |
 | S7 | The insider's concrete act, who suffered, what he won't admit. Deliberately deferred by Bryson | 30, L13 |

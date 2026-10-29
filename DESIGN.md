@@ -114,7 +114,7 @@ Decided 2026-09-23 unless dated otherwise. The reasoning is in
 - No permadeath.
 - The game is 3D, and it should be good looking. The models and textures in the game now are
   alpha placeholder art, there to judge the look in play; final art comes later. (2026-09-28)
-- A city in California, not Silicon Valley, in the late 2030s to early 2040s. Visually not far
+- A city in California, not Silicon Valley, in the mid-2040s (2026-10-29). Visually not far
   from today:
   more places are the poor part of town than ever, and sleeker electric cars have largely taken
   over. Pristine OpenBrain territory, white with black and red accents, stands against a city
