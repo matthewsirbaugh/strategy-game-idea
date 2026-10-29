@@ -23,7 +23,7 @@ Every open thread on this project, one row per topic. Start or resume one in a f
 | Level design: a map that exercises everything | open | Facility yard built 2026-10-07. Next: the file's open questions | [level-design.md](explorations/level-design.md) |
 | Wall occlusion: seeing past walls | decided | Conventional ghosting adopted 2026-09-28 and built | [wall-occlusion.md](explorations/wall-occlusion.md) |
 | Map maker: Bryson lays out levels himself | parked | Prototype joined project 2026-10-13; future level-authoring tool. Claude proposes loading current game assets when resumed; not yet decided | [side-project-map-maker/README.md](side-project-map-maker/README.md) |
-| The core idea and story | open | Round 1, quick questions, S1–S4 and team backgrounds answered. Next: S5–S12 and Round 2 R2–R5 | [STORY.md](STORY.md), [core-idea-and-story.md](explorations/core-idea-and-story.md#question-guide) |
+| The core idea and story | open | Round 1, quick questions, S1–S4 and team backgrounds answered. Paused 2026-10-29: Bryson is putting the game's fun first. When resumed: S5–S12 and Round 2 R2–R5 | [STORY.md](STORY.md), [core-idea-and-story.md](explorations/core-idea-and-story.md#question-guide) |
 | How exploring connects to turn-based fights | parked | Waiting on the core idea | not started |
 | Between battles: the town | parked | Waiting on the story the town needs; starts as one neighborhood | not started |
 | Permadeath alongside an authored story | decided | Off (2026-09-23); see DESIGN.md | [battle-core.md](explorations/battle-core.md) |
