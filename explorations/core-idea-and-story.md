@@ -54,6 +54,7 @@ preserve the discussion, including earlier directions and corrections. Use this 
 | S1, the ASI: alien, not evil; the oracle | [2026-10-11](#asi-2026-10-11) |
 | S2, what a mission changes: getting seen under a panopticon | [2026-10-12](#s2-2026-10-12) |
 | Round 2, the team: the tradesman, the writer and the developer | [2026-10-12](#team-2026-10-12) |
+| S3, the resistance: Orchestrator, squads, orders hidden in plain sight, AIs differ by post-training | [2026-10-29](#s3-2026-10-29) |
 | Outstanding choices | [Question guide](#question-guide) |
 
 The early space-industrialist idea was never selected. The September 19 virtual-world sketch
@@ -1145,6 +1146,66 @@ for each Operator; Claude then writes one prompt for Astra covering every pick.
   beard (the brief describes the type, not the person).
 - Brief and prompt: [operator-looks.md](../art/briefs/operator-looks.md), Request 19.
 
+<a id="s3-2026-10-29"></a>
+
+### 2026-10-29 — S3, the resistance: lean, human-in-the-loop, one mission per squad (Bryson)
+
+**Terms, for now.** A squad is a group sent on one mission (was "cell"). The Orchestrator is
+whoever assigns a squad its mission and sends its orders; the squad never meets it (was
+"handler"). Both may change.
+
+**Who's at the top: a human-in-the-loop AI system.** The resistance is run by its own aligned AIs
+with humans explicitly kept in the loop. The game doesn't advocate human–AI symbiosis, only
+something less controversial: keeping humans in the loop is always part of alignment. Even an
+aligned AI can be manipulated by bad actors. At its best AI amplifies ability and intent, and is
+smart enough to recognize obvious misuse.
+
+**AGIs differ by post-training, not scale.** Scale grants every AGI its general base ability;
+post-training decides what each is best at. One can be a brilliant coder and researcher and still
+socially inept; some are better at manipulation or social awareness than others. Bryson's
+real-world model: today's frontier models score within about 10% of each other on most benchmarks,
+yet one leads at math, another at code, another at long multistep tasks like shopping and website
+navigation. They also fall into price tiers (genius, workhorse, fast and cheap, and a bottom tier
+rarely worth using), and a smarter model can cost less overall by getting it right first time.
+
+**How orders arrive.** Through an Orchestrator the team never meets, by a channel that changes
+every mission and hides in plain sight. Bryson's examples: orders delivered through a zero-day in
+an ATM; a dark-web link in a QR code that exists only when a Times Square–like wall of billboards
+is photographed from one exact vantage point and the images stitched together, and looks like
+random markings from anywhere else. Encryption still works, but 99% of the software people use has
+built-in backdoors, created to let the government use AI against terrorism and used instead by the
+government and corporations to spy on people and mark dissenters. Once a link is established the
+resistance talks encrypted; the first contact is what has to be creative.
+
+**Why it reshuffles.** As in *The Handmaid's Tale*, nobody gets more information than the task in
+front of them needs. A task can be as small as carrying a package somewhere: you never learn what
+it was or why you were chosen, and may never hear from the resistance again. A capture or a
+betrayal always does limited damage. Trust is earned slowly; anyone can be excluded for any number
+of reasons, or looped in because their position is too valuable to leave out, though that's rare.
+The real resistance is small and lean.
+
+**One mission per squad.** You almost never work with the same person twice; keeping a team
+together is unheard of. Ours is a big exception, made in the story only out of desperation. In the
+public mind the resistance is larger than it's ever been, known the way Antifa is today: most
+people know it exists in some form, but not how far it reaches.
+
+**The captured are cut off.** In 99% of cases, anyone captured or compromised by the government or
+OpenBrain is cut off at once. Members accept that going in: the resistance can't afford rescues,
+and risking three agents for one who may already have talked isn't worth it. The exception is
+someone holding information vital to the resistance, or someone important for another reason.
+
+**No ranks.** More trust means being asked to do more. An Operator, working missions in the
+physical world, is about as trusted as anyone gets.
+
+**Scale stays readable, not shown.** Played by ear as the story grows, but an observant person can
+read between the lines of the AI-filtered, AI-generated news: calls against domestic terrorism,
+power-plant and data-center shutdowns.
+
+**The team is an ordinary squad that gets lucky**, not a rare specialist unit.
+
+**Timeline.** The order news takeover → warning shot → UBI bill is confirmed. The decade isn't
+fixed: whatever makes sense.
+
 ## Open questions
 
 ### Question guide
@@ -1157,7 +1218,7 @@ wording for each L-number is in [the review](astra-review-2026-10-11.md#lore-que
 |---|---|---|
 | S1 | The ASI: answered for now ([S1](#asi-2026-10-11)); what's left is in [story V2](#story-v2) | Stakes and warning-shot entries |
 | S2 | What a mission changes: answered ([2026-10-12](#s2-2026-10-12)); the revelation of futility and where the take goes are in [story V2](#story-v2) | L02, 9, 12, part of L03 |
-| S3 | The resistance as an organization: size, leadership, how anonymous cells are formed and reshuffled, where the team sits. Partly answered: one squad of many, grouped and regrouped like *The Handmaid's Tale* | New |
+| S3 | The resistance as an organization: answered ([2026-10-29](#s3-2026-10-29)) | New |
 | S4 | OpenBrain's blind spot: why it can't field specialist hacker teams of its own; whether its security is one mind, one master AI guard per site, or many instances | L05, 25, 26, 28 |
 | S5 | Politics and enforcement: what Tiel's government does day to day, who enforces the open-model ban, the foreign AIs' role and why their access points appear in an American city | L06, lore side of 27 |
 | S6 | The data economy in one person's month: basic income, ownership payment, the subscription's token bonus, the camera bonus; and what each kind of recording gives the robots | L07, L08 |

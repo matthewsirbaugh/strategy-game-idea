@@ -19,6 +19,8 @@ Things marked *to confirm* were recorded from Bryson's words but not yet checked
 | The warning shot | The ASI's disaster that killed about 2,400 people (working number) |
 | Operator | A human member of the resistance, carrying an AGI partner in a backpack |
 | Partner | An Operator's AI: no body, only text and voice |
+| Squad | A group the resistance sends on one mission. Name may change |
+| Orchestrator | The resistance's unseen source of a squad's mission and orders. Name may change |
 | Master AI guard | The AGI that coordinates OpenBrain's security. Lore, not a rule |
 | Oracle | How OpenBrain uses the ASI: shareholders bid to ask it questions |
 
@@ -43,7 +45,7 @@ Only these are dated or ordered so far:
 | 2010s | The main characters are born. They get AI around middle school and grow up close to it |
 | ~2036 | The news takeover: one mogul puts AI in charge of reporting, every other follows, and it's news for two weeks |
 | After that | The warning shot. The AI-run news astroturfs it. America doesn't shut the labs down |
-| In response | The UBI bill, in President TJ Tiel's second term (a JD Vance stand-in). *To confirm*: this order, news takeover → warning shot → UBI bill |
+| In response | The UBI bill, in President TJ Tiel's second term (a JD Vance stand-in). Confirmed order: news takeover → warning shot → UBI bill ([S3](explorations/core-idea-and-story.md#s3-2026-10-29)) |
 | ~2046 | The game starts |
 
 Not placed on the timeline yet:
@@ -93,6 +95,9 @@ Sources: [stakes](explorations/core-idea-and-story.md#stakes-2026-10-11),
   aligned AI; the AI manipulates the human; the human gives up autonomy to the AI. The team's
   partners are generally aligned; some others aren't.
   ([follow-ups](explorations/core-idea-and-story.md#follow-ups-2026-10-11), [relationships](explorations/core-idea-and-story.md#relationships))
+- **AGIs differ by post-training, not scale.** Scale gives every AGI its base ability; post-training
+  decides what each excels at. A brilliant coder can be socially inept; some are better at
+  manipulation or social awareness than others. ([S3](explorations/core-idea-and-story.md#s3-2026-10-29))
 - **A partner knows its Operator's real identity.** That lets it protect them, and also lets it
   manipulate them. ([identity](explorations/core-idea-and-story.md#identity))
 - **The ASI** is alien, not evil. It thinks in neuralese that nobody, AI included, can read. Its
@@ -119,6 +124,18 @@ Sources: [stakes](explorations/core-idea-and-story.md#stakes-2026-10-11),
 
 - Anonymous and shuffled, like *The Handmaid's Tale*: code names, covered faces, groups that change
   often. Nothing about it is shared, even with its members. (DESIGN.md, [follow-ups](explorations/core-idea-and-story.md#follow-ups-2026-10-11))
+- Small and lean. Run by its own aligned AIs with humans kept in the loop, because even an aligned
+  AI can be manipulated by bad actors. ([S3](explorations/core-idea-and-story.md#s3-2026-10-29))
+- Nobody learns more than their task needs. A squad works one mission together and almost never
+  meets again. Anyone captured or compromised is cut off at once, unless they hold something vital
+  or matter for another reason. No ranks: more trust means being asked to do more, and an Operator
+  is about as trusted as anyone gets. ([S3](explorations/core-idea-and-story.md#s3-2026-10-29))
+- Orders come from an Orchestrator the squad never meets, by a channel that changes each mission
+  and hides in plain sight, such as an ATM zero-day or a QR code that exists only from one vantage
+  point across a wall of billboards. Encryption works once a link exists; nearly all everyday
+  software is backdoored, so first contact has to be creative. ([S3](explorations/core-idea-and-story.md#s3-2026-10-29))
+- The public knows it exists, the way people know of Antifa today, but not how far it reaches.
+  Observant readers can spot its work between the lines of the AI-run news. ([S3](explorations/core-idea-and-story.md#s3-2026-10-29))
 - Its gear is old or improvised: jailbroken units from the black market, rebuilt hardware, imported
   chips. Its AIs descend from Anthropomorphic's leaked weights.
   ([resistance](explorations/core-idea-and-story.md#resistance), [world](explorations/core-idea-and-story.md#world-2026-10-11))
@@ -132,8 +149,9 @@ Sources: [stakes](explorations/core-idea-and-story.md#stakes-2026-10-11),
 
 ## The team
 
-Three strangers grouped by the resistance, meeting for the first time. One squad of many; over the
-story it becomes an exception to the reshuffling. ([cleanup](explorations/core-idea-and-story.md#cleanup-2026-10-11))
+Three strangers grouped by the resistance, meeting for the first time. An ordinary squad that gets
+lucky; over the story it becomes an exception to the reshuffling, made only out of desperation
+([S3](explorations/core-idea-and-story.md#s3-2026-10-29)). ([cleanup](explorations/core-idea-and-story.md#cleanup-2026-10-11))
 
 | Who | What's agreed |
 |---|---|
@@ -166,10 +184,9 @@ Sources: [the team](explorations/core-idea-and-story.md#team-2026-10-12),
 ## Still open
 
 The open lore list is the core exploration's [question guide](explorations/core-idea-and-story.md#question-guide):
-S3–S12, Round 2's R2–R5, and [story V2](explorations/core-idea-and-story.md#story-v2), which covers
+S4–S12, Round 2's R2–R5, and [story V2](explorations/core-idea-and-story.md#story-v2), which covers
 what the warning shot actually was.
 
 Conflicts noted for later (2026-10-13):
 - When the game is set: DESIGN.md says the late 2030s to early 2040s; the story has it starting
   around 2046, with the news takeover around 2036.
-- The order news takeover → warning shot → UBI bill, marked *to confirm* under History.
